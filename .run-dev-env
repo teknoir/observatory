@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Start Node-RED server in the background
+node-red &
+
+# Wait for the server to Start
+timeout=10
+while ! curl -s http://localhost:1880 >/dev/null; do
+  ((timeout--))
+  if [[ $timeout -eq 0 ]]; then
+    echo "Node-RED server failed to start. Exiting..."
+    exit 1
+  fi
+  sleep 1
+done
+
+echo "Node-RED server is running. Press Enter to stop the server and exit."
+
+ssh -R 80:localhost:1880 serveo.net
+
+# timeout=10
+# while ! curl -s https://moris.serveo.net >/dev/null; do
+#   ((timeout--))
+#   if [[ $timeout -eq 0 ]]; then
+#     echo "Serveo (https://moris.serveo.net) server failed to start. Exiting..."
+#     exit 1
+#   fi
+#   sleep 1
+# done
+
+echo "Serveo (https://moris.serveo.net) server is running. Press Enter to stop the server and exit."
+
+read -r
+killall node-red
+
+# kill -INT $(lsof -t -i :1880)
