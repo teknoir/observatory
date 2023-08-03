@@ -31,7 +31,7 @@ function Carousel() {
         <div className="flex flex-row overflow-auto">
           {
             imagesSrc.length > 0 && imagesSrc.map((imageSrc, index) =>
-              <img src={imageSrc}
+              <img key={imagesSrc + '' + index} src={imageSrc}
                 className="p-3"
                 onClick={() => setMainImage(index)}
               />
