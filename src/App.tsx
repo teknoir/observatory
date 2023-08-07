@@ -2,9 +2,11 @@ import './App.css'
 import wsConnect from './helpers'
 import Carousel from './components/Carousel'
 import { useEffect, useState } from 'react'
-import LineChart from './components/LineChart'
+// import LineChart from './components/LineChart'
+import { LineChart } from './stories/Charts/LineChart/LineChart'
 import LineChartExample from './components/LineChartExample'
 import { isDev } from './helpers'
+import { Button2 } from './stories/Button2/Button2'
 
 function App() {
   const nodeRedWsURL = "ws://127.0.0.1:1880/ws/multiple-charts"
@@ -40,6 +42,7 @@ function App() {
   return (
     <>
       {/* <LineChart data={chartData} /> */}
+      <Button2 onClick={() => console.log("asdf")} label="hey!" />
       <LineChart data={data["ch1"]} />
       <LineChart data={data["ch2"]} />
       <LineChart data={data["ch3"]} />
