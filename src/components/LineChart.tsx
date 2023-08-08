@@ -84,4 +84,4 @@ const LineChart = ({ data = [] }) => {
   )
 }
 
-// export default LineChart
+export default LineChart

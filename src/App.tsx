@@ -27,7 +27,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-    // console.log(data)
+    console.log(data)
     // console.log(data["ch1"])
   }, [data])
 

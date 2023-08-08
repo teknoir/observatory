@@ -6,8 +6,12 @@ interface DataPoint {
   value: number
 }
 
-export const LineChart: React.FC<{ data: DataPoint[] }> = ({ data }) => {
+export const LineChart: React.FC<{ data: DataPoint[] }> = ({ data = [] }) => {
   const chartRef = useRef(null)
+
+  useEffect(() => {
+    console.log(data)
+  }, [])
 
   useEffect(() => {
     const svg = renderLineChart(data)
