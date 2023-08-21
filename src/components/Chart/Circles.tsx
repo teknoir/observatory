@@ -1,24 +1,41 @@
-import React from "react"
+import { useState } from "react"
 import PropTypes from "prop-types"
 import { accessorPropsType } from "./utils"
 
-const Circles = ({ data, keyAccessor, xAccessor, yAccessor, radius }) => (
-  <React.Fragment>
-    {
-      data.map((d, i) => (
-        <g>
-          <circle
-            className={`Circles__circle__${d.detectionType.toLowerCase()}`}
-            key={keyAccessor(d, i)}
-            cx={xAccessor(d, i)}
-            cy={yAccessor(d, i)}
-            r={typeof radius == "function" ? radius(d) : radius}
-          />
-        </g>
-      ))
-    }
-  </React.Fragment >
-)
+const Circles = ({ data, keyAccessor, xAccessor, yAccessor, radius }) => {
+  const [showTooltip, setShowTooltip] = useState({
+    state: false,
+    data: {}
+  })
+  return (
+    <>
+      {
+        data.map((d, i) => (
+          <g key={i}>
+            <circle
+              className={`Circles__circle__${d.detectionType.toLowerCase()}`}
+              key={keyAccessor(i)}
+              cx={xAccessor(d, i)}
+              cy={yAccessor(d, i)}
+              r={typeof radius == "function" ? radius(d) : radius}
+              onMouseEnter={() => setShowTooltip({ state: true, data: d })}
+              onMouseLeave={() => setShowTooltip({ state: false, data: d })}
+            />
+          </g>
+        ))
+      }
+      {
+        showTooltip.state &&
+        <text
+          x={xAccessor(showTooltip.data) + radius + 5}
+          y={yAccessor(showTooltip.data) - radius - 5}
+        >
+          {showTooltip.data.detectionType}
+        </text>
+      }
+    </>
+  )
+}
 
 Circles.propTypes = {
   data: PropTypes.array,
@@ -29,7 +46,7 @@ Circles.propTypes = {
 }
 
 Circles.defaultProps = {
-  radius: 5
+  radius: 8
 }
 
 export default Circles
