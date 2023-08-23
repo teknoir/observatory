@@ -8,6 +8,11 @@ const config: StorybookConfig = {
     "@storybook/addon-onboarding",
     "@storybook/addon-interactions",
     "storybook-dark-mode",
+    {
+      name: "@storybook/addon-styling",
+      options: {
+      }
+    }
   ],
   framework: {
     name: "@storybook/react-vite",
