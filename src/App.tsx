@@ -2,9 +2,7 @@ import './App.css'
 import wsConnect from './helpers'
 import Carousel from './components/Carousel'
 import { useEffect, useState } from 'react'
-// import LineChart from './components/LineChart'
-import { LineChart } from './stories/Charts/LineChart/LineChart'
-import LineChartExample from './components/LineChartExample'
+import { LineChart } from './components/LineChart'
 import { isDev } from './helpers'
 import { Button2 } from './stories/Button2/Button2'
 import { MovementsTimelineReact } from './components/MovementsTimelineReact'
@@ -50,11 +48,15 @@ function App() {
 
   return (
     <>
+      {/* <LineChart */}
+      {/*   data={movements} */}
+      {/*   xAccessor={dateAccessor} */}
+      {/*   yAccessor={peripheralAccessor} */}
+      {/* /> */}
       <MovementsTimelineReact
         data={movements}
         xAccessor={dateAccessor}
         yAccessor={peripheralAccessor}
-      // yAccessor={peripheralAccessor}
       />
 
       {/* WS Examples */}

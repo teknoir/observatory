@@ -10,7 +10,7 @@ const formatDateDayMonth = d3.timeFormat("%-b %-d")
 const formatDateDayMonthHour = d3.timeFormat("%H:%M, %-b %-d")
 
 export const MovementsTimelineReact = ({ data, xAccessor, yAccessor }) => {
-  const [timelapse, setTimelapse] = useState({ data: d3.extent(data, xAccessor), format: formatDateDayMonth })
+  const [timelapse, setTimelapse] = useState({ title: "Data Time", data: d3.extent(data, xAccessor), format: formatDateDayMonth })
   const [ref, dimensions] = useChartDimensions(null)
   const uniquePeripherals = [...new Set(data.map(d => d.peripheral))];
 
@@ -35,10 +35,30 @@ export const MovementsTimelineReact = ({ data, xAccessor, yAccessor }) => {
 
   return (
     <div className="Timeline" ref={ref}>
-      <button onClick={() => setTimelapse({ data: d3.extent(data, xAccessor), format: formatDateDayMonth })}>Data time</button>
-      <button onClick={() => setTimelapse({ data: [time24HoursAgo, currentTime], format: formatDateDayMonthHour })}>Last 24 hours</button>
-      <button onClick={() => setTimelapse({ data: [time1WeekAgo, currentTime], format: formatDateDayMonth })}>Last week</button>
-      <button onClick={() => setTimelapse({ data: [time1MonthAgo, currentTime], format: formatDateDayMonth })}>Last month</button>
+      {/* <button onClick={() => setTimelapse({ title: "Last Month", data: [time1MonthAgo, currentTime], format: formatDateDayMonth })}>Last month</button> */}
+      <nav className="flex justify-between items-start">
+        <div className="flex flex-col">
+          All Cameras
+          <span>{uniquePeripherals.length} Total</span>
+        </div>
+        <div className="flex gap-5">
+          Movement {timelapse.title}
+          <div className="flex items-center gap-1">
+            <div className="w-[10px] h-[10px] bg-[#F875DA] rounded-full"></div>
+            Detections
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="w-[10px] h-[10px] bg-[#9980FA] rounded-full"></div>
+            Motion
+          </div>
+        </div>
+        <div>
+          <a>Show All Cameras</a>
+          <button onClick={() => setTimelapse({ title: "Data Time", data: d3.extent(data, xAccessor), format: formatDateDayMonth })}>Data time</button>
+          <button onClick={() => setTimelapse({ title: "Last 24 Hrs", data: [time24HoursAgo, currentTime], format: formatDateDayMonthHour })}>Last 24 hours</button>
+          <button onClick={() => setTimelapse({ title: "Last Week", data: [time1WeekAgo, currentTime], format: formatDateDayMonth })}>Last week</button>
+        </div>
+      </nav>
       <Chart dimensions={dimensions}>
         <Axis
           dimension="x"

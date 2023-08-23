@@ -1,87 +1,58 @@
 import * as d3 from "d3"
-import { useEffect, useRef } from "react";
+import { useChartDimensions } from "./Chart/utils"
+import Chart from "./Chart/Chart"
+import Axis from "./Chart/Axis"
+import { useState } from "react"
+import GridLines from "./Chart/GridLines"
 
-const LineChart = ({ data = [] }) => {
-  const chartRef = useRef(null)
+const formatDateDayMonth = d3.timeFormat("%-b %-d")
+const formatDateDayMonthHour = d3.timeFormat("%H:%M, %-b %-d")
 
-  useEffect(() => {
-    const svg = renderLineChart(data)
+export const LineChart = ({ data, xAccessor, yAccessor }) => {
+  const [timelapse, setTimelapse] = useState({ data: d3.extent(data, xAccessor), format: formatDateDayMonth })
+  const [ref, dimensions] = useChartDimensions(null)
+  const uniquePeripherals = [...new Set(data.map(d => d.peripheral))];
 
-    return () => {
-      svg.remove()
-    }
-  }, [data])
+  const currentTime = new Date()
+  const time24HoursAgo = new Date(currentTime.getTime() - 24 * 60 * 60 * 1000)
+  const time1WeekAgo = new Date(currentTime.getTime() - 24 * 8 * 60 * 60 * 1000)
+  const time1MonthAgo = new Date(currentTime.getTime() - 24 * 7 * 4 * 60 * 60 * 1000)
 
-  // Function to render the line chart
-  const renderLineChart = (data: any) => {
-    const width = 800;
-    const height = 300;
+  const xScale = d3.scaleTime()
+    // .domain(d3.extent(data, xAccessor))
+    .domain(timelapse.data)
+    .range([0, dimensions.boundedWidth])
 
-    const svg = d3.select(chartRef.current)
-      .append('svg')
-      .attr('width', width)
-      .attr('height', height);
+  const yScale = d3.scalePoint()
+    .domain(uniquePeripherals)
+    .range([dimensions.boundedHeight, 0])
+    .padding(1)
 
-    const xScale = d3.scaleBand()
-      .domain(data.map((d: any) => d.name))
-      .range([0, width])
-      .padding(0.1);
-
-    const yScale = d3.scaleLinear()
-      // @ts-ignore: 
-      .domain([0, d3.max(data, (d) => d.value)])
-      .range([height, 0]);
-
-    // Create a line generator function
-    const line = d3.line()
-      .x((d: any) => xScale(d.name)! + xScale.bandwidth() / 2)
-      .y((d: any) => yScale(d.value))
-      .curve(d3.curveStep);
-
-    // Draw the initial line
-    svg.append('path')
-      .datum(data)
-      .attr('d', line)
-      .attr('fill', 'none')
-      .attr('stroke', '#779A99')
-      .attr('stroke-width', 2)
-    // .classed("path-style", true);
-
-    return svg;
-  };
-
-  // Function to update the line chart with new data point
-  // const updateLineChart = (svg:any, data:any) => {
-  //   const width = 800;
-  //   const height = 300;
-  //
-  //   const xScale = d3.scaleBand()
-  //     .domain(data.map(d => d.name))
-  //     .range([0, width])
-  //     .padding(0.1);
-  //
-  //   const yScale = d3.scaleLinear()
-  //     .domain([0, d3.max(data, d => d.value)])
-  //     .range([height, 0]);
-  //
-  //   // Create a line generator function
-  //   const line = d3.line()
-  //     .x(d => xScale(d.name) + xScale.bandwidth() / 2)
-  //     .y(d => yScale(d.value))
-  //     .curve(d3.curveStep);
-  //
-  //   // Update the line
-  //   svg.select('path')
-  //     .datum(data)
-  //     .attr('d', line);
-  //
-  //   // Remove any unnecessary data points
-  //   svg.selectAll('.data-point').remove();
-  // };
+  const xAccessorScaled = d => xScale(xAccessor(d))
+  const yAccessorScaled = d => yScale(yAccessor(d))
+  const keyAccessor = (d, i) => i
 
   return (
-    <div ref={chartRef}></div>
+    <div className="Timeline" ref={ref}>
+      <button onClick={() => setTimelapse({ data: d3.extent(data, xAccessor), format: formatDateDayMonth })}>Data time</button>
+      <button onClick={() => setTimelapse({ data: [time24HoursAgo, currentTime], format: formatDateDayMonthHour })}>Last 24 hours</button>
+      <button onClick={() => setTimelapse({ data: [time1WeekAgo, currentTime], format: formatDateDayMonth })}>Last week</button>
+      <button onClick={() => setTimelapse({ data: [time1MonthAgo, currentTime], format: formatDateDayMonth })}>Last month</button>
+      <Chart dimensions={dimensions}>
+        <Axis
+          dimension="x"
+          scale={xScale}
+          formatTick={timelapse.format}
+        />
+        <Axis
+          dimension="y"
+          scale={yScale}
+        />
+        <GridLines
+          dimension="y"
+          scale={yScale}
+        />
+      </Chart>
+    </div >
   )
 }
-
-export default LineChart

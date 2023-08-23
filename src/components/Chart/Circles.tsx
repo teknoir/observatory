@@ -16,7 +16,7 @@ const Circles = ({ data, keyAccessor, xAccessor, yAccessor, radius }) => {
               className={`Circles__circle__${d.detectionType.toLowerCase()}`}
               key={keyAccessor(i)}
               cx={xAccessor(d, i)}
-              cy={yAccessor(d, i)}
+              cy={yAccessor(d, i) + (d.detectionType === "Motion" ? 5 : 0) - (d.detectionType === "Detection" ? 5 : 0)}
               r={typeof radius == "function" ? radius(d) : radius}
               onMouseEnter={() => setShowTooltip({ state: true, data: d })}
               onMouseLeave={() => setShowTooltip({ state: false, data: d })}
@@ -30,7 +30,7 @@ const Circles = ({ data, keyAccessor, xAccessor, yAccessor, radius }) => {
           x={xAccessor(showTooltip.data) + radius + 5}
           y={yAccessor(showTooltip.data) - radius - 5}
         >
-          {showTooltip.data.detectionType}
+          {showTooltip.data.id}
         </text>
       }
     </>
