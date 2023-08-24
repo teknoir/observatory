@@ -4,7 +4,7 @@ import Carousel from './components/Carousel'
 import { useEffect, useState } from 'react'
 import { isDev } from './helpers'
 import { LineChart } from './components/LineChart'
-import { MovementsTimelineReact } from './components/MovementsTimelineReact'
+import { MovementsTimeline } from './components/MovementsTimeline'
 import movements from "../datasets/movements.json"
 import * as d3 from "d3"
 
@@ -54,7 +54,7 @@ function App() {
       {/*   yAccessor={countAccessor} */}
       {/* /> */}
 
-      <MovementsTimelineReact
+      <MovementsTimeline
         data={movements}
         xAccessor={dateAccessor}
         yAccessor={peripheralAccessor}

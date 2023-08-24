@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react"
 import * as d3 from "d3"
-import { MovementsTimelineReact } from "../../../components/MovementsTimelineReact"
+import { MovementsTimeline } from "../../../components/MovementsTimeline"
 import movements from "../../../../datasets/movements.json"
 import "../../../App.css"
 
@@ -11,7 +11,7 @@ const dateAccessor = d => timeParser(formatTime(d.timestamp))
 const peripheralAccessor = d => d.peripheral
 
 const meta = {
-  component: MovementsTimelineReact,
+  component: MovementsTimeline,
   title: "Charts/MovementsTimeline",
   tags: ["autodocs"],
   argTypes: {
@@ -22,7 +22,7 @@ const meta = {
       // }
     }
   }
-} satisfies Meta<typeof MovementsTimelineReact>
+} satisfies Meta<typeof MovementsTimeline>
 
 export default meta
 type Story = StoryObj<typeof meta>
