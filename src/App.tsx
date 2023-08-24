@@ -2,9 +2,8 @@ import './App.css'
 import wsConnect from './helpers'
 import Carousel from './components/Carousel'
 import { useEffect, useState } from 'react'
-import { LineChart } from './components/LineChart'
 import { isDev } from './helpers'
-import { Button2 } from './stories/Button2/Button2'
+import { LineChart } from './components/LineChart'
 import { MovementsTimelineReact } from './components/MovementsTimelineReact'
 import movements from "../datasets/movements.json"
 import * as d3 from "d3"
@@ -14,6 +13,7 @@ const timeParser = d3.timeParse("%m/%d/%Y")
 const formatTime = d => new Date(Number(d)).toLocaleDateString("en-US")
 const dateAccessor = d => timeParser(formatTime(d.timestamp))
 const peripheralAccessor = d => d.peripheral
+const countAccessor = d => d.count
 
 function App() {
   // WS example
@@ -51,8 +51,9 @@ function App() {
       {/* <LineChart */}
       {/*   data={movements} */}
       {/*   xAccessor={dateAccessor} */}
-      {/*   yAccessor={peripheralAccessor} */}
+      {/*   yAccessor={countAccessor} */}
       {/* /> */}
+
       <MovementsTimelineReact
         data={movements}
         xAccessor={dateAccessor}

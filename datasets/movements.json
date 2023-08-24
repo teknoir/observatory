@@ -10,7 +10,8 @@
     "peripheral": "Camera A",
     "detectionType": "Motion",
     "startTime": "1691646954000",
-    "endTime": "1691131549000"
+    "endTime": "1691131549000",
+    "count": 5
   },
   {
     "id": 2,
@@ -23,7 +24,8 @@
     "peripheral": "Camera B",
     "detectionType": "Motion",
     "startTime": "1691477747000",
-    "endTime": "1691131440000"
+    "endTime": "1691131440000",
+    "count": 3
   },
   {
     "id": 3,
@@ -36,7 +38,8 @@
     "peripheral": "Camera C",
     "detectionType": "Detection",
     "startTime": "1691313748000",
-    "endTime": "1691427504000"
+    "endTime": "1691427504000",
+    "count": 7
   },
   {
     "id": 4,
@@ -49,7 +52,8 @@
     "peripheral": "Camera C",
     "detectionType": "Motion",
     "startTime": "1691407305000",
-    "endTime": "1691290302000"
+    "endTime": "1691290302000",
+    "count": 9
   },
   {
     "id": 5,
@@ -62,7 +66,8 @@
     "peripheral": "Camera C",
     "detectionType": "Motion",
     "startTime": "1691548352000",
-    "endTime": "1691646841000"
+    "endTime": "1691646841000",
+    "count": 3
   },
   {
     "id": 6,
@@ -75,7 +80,8 @@
     "peripheral": "Camera C",
     "detectionType": "Detection",
     "startTime": "1691442923000",
-    "endTime": "1691496337000"
+    "endTime": "1691496337000",
+    "count": 2
   },
   {
     "id": 7,
@@ -88,7 +94,8 @@
     "peripheral": "Camera B",
     "detectionType": "Motion",
     "startTime": "1691683494000",
-    "endTime": "1691342518000"
+    "endTime": "1691342518000",
+    "count": 8
   },
   {
     "id": 8,
@@ -101,7 +108,8 @@
     "peripheral": "Camera C",
     "detectionType": "Detection",
     "startTime": "1691224151000",
-    "endTime": "1691128693000"
+    "endTime": "1691128693000",
+    "count": 1
   },
   {
     "id": 9,
@@ -114,7 +122,8 @@
     "peripheral": "Camera A",
     "detectionType": "Detection",
     "startTime": "1691423340000",
-    "endTime": "1691281856000"
+    "endTime": "1691281856000",
+    "count": 7
   },
   {
     "id": 10,
@@ -127,7 +136,8 @@
     "peripheral": "Camera C",
     "detectionType": "Motion",
     "startTime": "1691132985000",
-    "endTime": "1691675408000"
+    "endTime": "1691675408000",
+    "count": 6
   }
 ]
 

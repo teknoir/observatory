@@ -1,9 +1,9 @@
-import * as d3 from "d3"
-import { useChartDimensions } from "./Chart/utils"
-import Chart from "./Chart/Chart"
-import Axis from "./Chart/Axis"
 import { useState } from "react"
-import GridLines from "./Chart/GridLines"
+import * as d3 from "d3"
+import { useChartDimensions } from "./ChartUtilities/utils"
+import Axis from "./ChartUtilities/Axis"
+import Chart from "./ChartUtilities/Chart"
+import Line from "./ChartUtilities/Line"
 
 const formatDateDayMonth = d3.timeFormat("%-b %-d")
 const formatDateDayMonthHour = d3.timeFormat("%H:%M, %-b %-d")
@@ -11,7 +11,6 @@ const formatDateDayMonthHour = d3.timeFormat("%H:%M, %-b %-d")
 export const LineChart = ({ data, xAccessor, yAccessor }) => {
   const [timelapse, setTimelapse] = useState({ data: d3.extent(data, xAccessor), format: formatDateDayMonth })
   const [ref, dimensions] = useChartDimensions(null)
-  const uniquePeripherals = [...new Set(data.map(d => d.peripheral))];
 
   const currentTime = new Date()
   const time24HoursAgo = new Date(currentTime.getTime() - 24 * 60 * 60 * 1000)
@@ -23,10 +22,9 @@ export const LineChart = ({ data, xAccessor, yAccessor }) => {
     .domain(timelapse.data)
     .range([0, dimensions.boundedWidth])
 
-  const yScale = d3.scalePoint()
-    .domain(uniquePeripherals)
+  const yScale = d3.scaleLinear()
+    .domain(d3.extent(data, yAccessor))
     .range([dimensions.boundedHeight, 0])
-    .padding(1)
 
   const xAccessorScaled = d => xScale(xAccessor(d))
   const yAccessorScaled = d => yScale(yAccessor(d))
@@ -48,9 +46,10 @@ export const LineChart = ({ data, xAccessor, yAccessor }) => {
           dimension="y"
           scale={yScale}
         />
-        <GridLines
-          dimension="y"
-          scale={yScale}
+        <Line
+          data={data}
+          xAccessor={xAccessorScaled}
+          yAccessor={yAccessorScaled}
         />
       </Chart>
     </div >
