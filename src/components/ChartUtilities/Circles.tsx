@@ -30,7 +30,7 @@ const Circles = ({ data, keyAccessor, xAccessor, yAccessor, radius }) => {
           x={xAccessor(showTooltip.data) + radius + 5}
           y={yAccessor(showTooltip.data) - radius - 5}
         >
-          {showTooltip.data.id}
+          {JSON.stringify(showTooltip.data)}
         </text>
       }
     </>

@@ -1,10 +1,10 @@
-import * as d3 from "d3"
-import { useChartDimensions } from "./Chart/utils"
-import Chart from "./Chart/Chart"
-import Circles from "./Chart/Circles"
-import Axis from "./Chart/Axis"
 import { useState } from "react"
-import GridLines from "./Chart/GridLines"
+import * as d3 from "d3"
+import { useChartDimensions } from "./ChartUtilities/utils"
+import Chart from "./ChartUtilities/Chart"
+import Circles from "./ChartUtilities/Circles"
+import Axis from "./ChartUtilities/Axis"
+import GridLines from "./ChartUtilities/GridLines"
 
 const formatDateDayMonth = d3.timeFormat("%-b %-d")
 const formatDateDayMonthHour = d3.timeFormat("%H:%M, %-b %-d")
@@ -12,7 +12,7 @@ const formatDateDayMonthHour = d3.timeFormat("%H:%M, %-b %-d")
 export const MovementsTimelineReact = ({ data, xAccessor, yAccessor }) => {
   const [timelapse, setTimelapse] = useState({ title: "Data Time", data: d3.extent(data, xAccessor), format: formatDateDayMonth })
   const [ref, dimensions] = useChartDimensions(null)
-  const uniquePeripherals = [...new Set(data.map(d => d.peripheral))];
+  const uniquePeripherals = [...new Set(data.map(yAccessor))];
 
   const currentTime = new Date()
   const time24HoursAgo = new Date(currentTime.getTime() - 24 * 60 * 60 * 1000)
