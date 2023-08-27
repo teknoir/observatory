@@ -1,0 +1,326 @@
+[
+    {
+        "timestamp": 1690858800000,
+        "count": 1,
+        "event_name": "theft",
+        "context": "in"
+    },
+    {
+        "timestamp": 1690858800000,
+        "count": 5,
+        "event_name": "loitering",
+        "context": "in"
+    },
+    {
+        "timestamp": 1690858800000,
+        "count": 2,
+        "event_name": "car_mov",
+        "context": "in"
+    },
+    {
+        "timestamp": 1690858800000,
+        "count": 8,
+        "event_name": "car_mov",
+        "context": "out"
+    },
+    {
+        "timestamp": 1690858800000,
+        "count": 7,
+        "event_name": "people_mov",
+        "context": "in"
+    },
+    {
+        "timestamp": 1690858800000,
+        "count": 5,
+        "event_name": "people_mov",
+        "context": "out"
+    },
+    {
+        "timestamp": 1690945200000,
+        "count": 3,
+        "event_name": "theft",
+        "context": "in"
+    },
+    {
+        "timestamp": 1690945200000,
+        "count": 2,
+        "event_name": "loitering",
+        "context": "in"
+    },
+    {
+        "timestamp": 1690945200000,
+        "count": 3,
+        "event_name": "car_mov",
+        "context": "in"
+    },
+    {
+        "timestamp": 1690945200000,
+        "count": 7,
+        "event_name": "car_mov",
+        "context": "out"
+    },
+    {
+        "timestamp": 1690945200000,
+        "count": 2,
+        "event_name": "people_mov",
+        "context": "in"
+    },
+    {
+        "timestamp": 1690945200000,
+        "count": 1,
+        "event_name": "people_mov",
+        "context": "out"
+    },
+    {
+        "timestamp": 1691031600000,
+        "count": 4,
+        "event_name": "theft",
+        "context": "in"
+    },
+    {
+        "timestamp": 1691031600000,
+        "count": 3,
+        "event_name": "loitering",
+        "context": "in"
+    },
+    {
+        "timestamp": 1691031600000,
+        "count": 3,
+        "event_name": "car_mov",
+        "context": "in"
+    },
+    {
+        "timestamp": 1691031600000,
+        "count": 9,
+        "event_name": "car_mov",
+        "context": "out"
+    },
+    {
+        "timestamp": 1691031600000,
+        "count": 4,
+        "event_name": "people_mov",
+        "context": "in"
+    },
+    {
+        "timestamp": 1691031600000,
+        "count": 6,
+        "event_name": "people_mov",
+        "context": "out"
+    },
+    {
+        "timestamp": 1691118000000,
+        "count": 1,
+        "event_name": "theft",
+        "context": "in"
+    },
+    {
+        "timestamp": 1691118000000,
+        "count": 1,
+        "event_name": "loitering",
+        "context": "in"
+    },
+    {
+        "timestamp": 1691118000000,
+        "count": 8,
+        "event_name": "car_mov",
+        "context": "in"
+    },
+    {
+        "timestamp": 1691118000000,
+        "count": 3,
+        "event_name": "car_mov",
+        "context": "out"
+    },
+    {
+        "timestamp": 1691118000000,
+        "count": 5,
+        "event_name": "people_mov",
+        "context": "in"
+    },
+    {
+        "timestamp": 1691118000000,
+        "count": 4,
+        "event_name": "people_mov",
+        "context": "out"
+    },
+    {
+        "timestamp": 1691204400000,
+        "count": 2,
+        "event_name": "theft",
+        "context": "in"
+    },
+    {
+        "timestamp": 1691204400000,
+        "count": 1,
+        "event_name": "loitering",
+        "context": "in"
+    },
+    {
+        "timestamp": 1691204400000,
+        "count": 3,
+        "event_name": "car_mov",
+        "context": "in"
+    },
+    {
+        "timestamp": 1691204400000,
+        "count": 1,
+        "event_name": "car_mov",
+        "context": "out"
+    },
+    {
+        "timestamp": 1691204400000,
+        "count": 3,
+        "event_name": "people_mov",
+        "context": "in"
+    },
+    {
+        "timestamp": 1691204400000,
+        "count": 5,
+        "event_name": "people_mov",
+        "context": "out"
+    },
+    {
+        "timestamp": 1691290800000,
+        "count": 4,
+        "event_name": "theft",
+        "context": "in"
+    },
+    {
+        "timestamp": 1691290800000,
+        "count": 4,
+        "event_name": "loitering",
+        "context": "in"
+    },
+    {
+        "timestamp": 1691290800000,
+        "count": 8,
+        "event_name": "car_mov",
+        "context": "in"
+    },
+    {
+        "timestamp": 1691290800000,
+        "count": 8,
+        "event_name": "car_mov",
+        "context": "out"
+    },
+    {
+        "timestamp": 1691290800000,
+        "count": 6,
+        "event_name": "people_mov",
+        "context": "in"
+    },
+    {
+        "timestamp": 1691290800000,
+        "count": 6,
+        "event_name": "people_mov",
+        "context": "out"
+    },
+    {
+        "timestamp": 1691377200000,
+        "count": 8,
+        "event_name": "theft",
+        "context": "in"
+    },
+    {
+        "timestamp": 1691377200000,
+        "count": 8,
+        "event_name": "loitering",
+        "context": "in"
+    },
+    {
+        "timestamp": 1691377200000,
+        "count": 4,
+        "event_name": "car_mov",
+        "context": "in"
+    },
+    {
+        "timestamp": 1691377200000,
+        "count": 7,
+        "event_name": "car_mov",
+        "context": "out"
+    },
+    {
+        "timestamp": 1691377200000,
+        "count": 3,
+        "event_name": "people_mov",
+        "context": "in"
+    },
+    {
+        "timestamp": 1691377200000,
+        "count": 4,
+        "event_name": "people_mov",
+        "context": "out"
+    },
+    {
+        "timestamp": 1691463600000,
+        "count": 5,
+        "event_name": "theft",
+        "context": "in"
+    },
+    {
+        "timestamp": 1691463600000,
+        "count": 7,
+        "event_name": "loitering",
+        "context": "in"
+    },
+    {
+        "timestamp": 1691463600000,
+        "count": 2,
+        "event_name": "car_mov",
+        "context": "in"
+    },
+    {
+        "timestamp": 1691463600000,
+        "count": 6,
+        "event_name": "car_mov",
+        "context": "out"
+    },
+    {
+        "timestamp": 1691463600000,
+        "count": 9,
+        "event_name": "people_mov",
+        "context": "in"
+    },
+    {
+        "timestamp": 1691463600000,
+        "count": 9,
+        "event_name": "people_mov",
+        "context": "out"
+    },
+    {
+        "timestamp": 1691550000000,
+        "count": 8,
+        "event_name": "theft",
+        "context": "in"
+    },
+    {
+        "timestamp": 1691550000000,
+        "count": 2,
+        "event_name": "loitering",
+        "context": "in"
+    },
+    {
+        "timestamp": 1691550000000,
+        "count": 1,
+        "event_name": "car_mov",
+        "context": "in"
+    },
+    {
+        "timestamp": 1691550000000,
+        "count": 4,
+        "event_name": "car_mov",
+        "context": "out"
+    },
+    {
+        "timestamp": 1691550000000,
+        "count": 4,
+        "event_name": "people_mov",
+        "context": "in"
+    },
+    {
+        "timestamp": 1691550000000,
+        "count": 7,
+        "event_name": "people_mov",
+        "context": "out"
+    }
+]

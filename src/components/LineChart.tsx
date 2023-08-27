@@ -9,6 +9,7 @@ const formatDateDayMonth = d3.timeFormat("%-b %-d")
 const formatDateDayMonthHour = d3.timeFormat("%H:%M, %-b %-d")
 
 export const LineChart = ({ data, xAccessor, yAccessor }) => {
+//export const LineChart = ({ data, xAccessor, yAccessor, colorAccessor }) => { 
   const [timelapse, setTimelapse] = useState({ data: d3.extent(data, xAccessor), format: formatDateDayMonth })
   const [ref, dimensions] = useChartDimensions(null)
 
@@ -25,11 +26,20 @@ export const LineChart = ({ data, xAccessor, yAccessor }) => {
   const yScale = d3.scaleLinear()
     .domain(d3.extent(data, yAccessor))
     .range([dimensions.boundedHeight, 0])
-
+  
+  {/*
+  const colorScale = d3.scaleOrdinal()
+    .domain(["in", "out"])
+    .range(["blue", "red"]);
+   */}
   const xAccessorScaled = d => xScale(xAccessor(d))
   const yAccessorScaled = d => yScale(yAccessor(d))
   const keyAccessor = (d, i) => i
 
+  //const colorAccessorFormated = d  => colorScale(colorAccessor(d))
+
+  
+  
   return (
     <div className="Timeline" ref={ref}>
       <button onClick={() => setTimelapse({ data: d3.extent(data, xAccessor), format: formatDateDayMonth })}>Data time</button>
@@ -50,6 +60,7 @@ export const LineChart = ({ data, xAccessor, yAccessor }) => {
           data={data}
           xAccessor={xAccessorScaled}
           yAccessor={yAccessorScaled}
+          //color={colorAccessorFormated}
         />
       </Chart>
     </div >

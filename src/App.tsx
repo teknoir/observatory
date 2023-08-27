@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import { isDev } from './helpers'
 import { LineChart } from './components/LineChart'
 import { MovementsTimeline } from './components/MovementsTimeline'
-import movements from "../datasets/movements.json"
+import movements from "../datasets/movements_script.json"
 import movements2 from "../datasets/movements2.json"
 import temperature from "../datasets/temperature.json"
 import * as d3 from "d3"
@@ -16,6 +16,9 @@ const formatTime = d => new Date(Number(d)).toLocaleDateString("en-US")
 const dateAccessor = d => timeParser(formatTime(d.timestamp))
 const peripheralAccessor = d => d.peripheral
 const countAccessor = d => d.count
+
+const eventAccessor = d => d.event_name;
+const contextAccessor = d => d.context;
 
 const dateTemperatureAccessor = d => timeParser(d.date)
 const temperatureAccessor = d => d.temperature
@@ -51,6 +54,18 @@ function App() {
   //   setChartData([...chartData, newDataPoint])
   // }
 
+  const dataByEvent = Array.from(d3.group(movements, eventAccessor), ([key, value]) => ({ event_name: key, data: value }));
+  
+  {/*
+  const dataByEvent = Array.from(d3.group(movements, eventAccessor), ([event_name, eventData]) => ({
+    event_name,
+    dataByContext: Array.from(d3.group(eventData, contextAccessor), ([context, contextData]) => ({
+      context,
+      data: contextData,
+    })),
+  }));
+   */}
+
   return (
     <>
       {/* <LineChart */}
@@ -75,7 +90,8 @@ function App() {
         data={movements}
         xAccessor={dateAccessor}
         yAccessor={peripheralAccessor}
-      />
+      /> 
+      */}
 
       {/* WS Examples */}
       {/* <LineChart data={chartData} /> */}
@@ -86,6 +102,18 @@ function App() {
       {/* <button onClick={addDataPoint}>Add Data Point</button> */}
       {/* <LineChartExample /> */}
       {/* <Carousel /> */}
+
+      {dataByEvent.map(eventData => (
+        <div key={eventData.event_name}>
+          <h2>{eventData.event_name} Events</h2>
+          <LineChart
+            data={eventData.data}
+            xAccessor={dateAccessor}
+            yAccessor={countAccessor}
+            //colorAccessor= {contextAccessor}
+          />
+        </div>
+      ))}
     </>
   )
 }
