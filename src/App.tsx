@@ -6,6 +6,8 @@ import { isDev } from './helpers'
 import { LineChart } from './components/LineChart'
 import { MovementsTimeline } from './components/MovementsTimeline'
 import movements from "../datasets/movements.json"
+import movements2 from "../datasets/movements2.json"
+import temperature from "../datasets/temperature.json"
 import * as d3 from "d3"
 
 // MovementsTimelineReact settings
@@ -14,6 +16,9 @@ const formatTime = d => new Date(Number(d)).toLocaleDateString("en-US")
 const dateAccessor = d => timeParser(formatTime(d.timestamp))
 const peripheralAccessor = d => d.peripheral
 const countAccessor = d => d.count
+
+const dateTemperatureAccessor = d => timeParser(d.date)
+const temperatureAccessor = d => d.temperature
 
 function App() {
   // WS example
@@ -49,10 +54,22 @@ function App() {
   return (
     <>
       {/* <LineChart */}
+      {/*   data={temperature} */}
+      {/*   xAccessor={dateTemperatureAccessor} */}
+      {/*   yAccessor={temperatureAccessor} */}
+      {/* /> */}
+      {/**/}
+      {/* <LineChart */}
       {/*   data={movements} */}
       {/*   xAccessor={dateAccessor} */}
       {/*   yAccessor={countAccessor} */}
       {/* /> */}
+
+      <MovementsTimeline
+        data={movements2}
+        xAccessor={dateAccessor}
+        yAccessor={peripheralAccessor}
+      />
 
       <MovementsTimeline
         data={movements}
