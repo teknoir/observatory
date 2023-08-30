@@ -30,7 +30,7 @@ h1 {
 .Timeline {
     height: 300px;
     min-width: 500px;
-    width: calc(100% + 1em);
+    /* width: calc(100% + 1em); */
     margin-bottom: 2em;
 }
 
@@ -57,7 +57,7 @@ h1 {
 .Timeline,
 .ScatterPlot,
 .Histogram {
-    background: #213547;
+    background: #1B263B;
     padding: 0.6em 1em;
     margin: 0.5em;
 }

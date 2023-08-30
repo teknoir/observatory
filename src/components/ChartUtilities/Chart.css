@@ -3,7 +3,6 @@
 }
 
 .Chart text {
-    /* fill: #95a5a6; */
     fill: white;
 }
 
@@ -24,7 +23,6 @@
 }
 
 .Axis__line {
-    /* stroke: #bdc3c7; */
     stroke: white;
 }
 

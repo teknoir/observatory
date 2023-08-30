@@ -34,7 +34,9 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }) => {
   const keyAccessor = (d, i) => i
 
   return (
-    <div className="Timeline" ref={ref}>
+    <div className="bg-[#1B263B] text-white">
+      {/* TODO: Still have to figure out how to handle top menu for charts. For example this chart displays some data and has
+      a couple of buttons to change the timeframe of the x axis. At the moment these are not part of the ref (Timeline) nor Chart component*/}
       <nav className="flex justify-between items-start">
         <div className="flex flex-col">
           All Cameras
@@ -51,34 +53,36 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }) => {
             Motion
           </div>
         </div>
-        <div>
+        <div className="flex items-center gap-1">
           <a>Show All Cameras</a>
           <button onClick={() => setTimelapse({ title: "Data Time", data: d3.extent(data, xAccessor), format: formatDateDayMonth })}>Data time</button>
           <button onClick={() => setTimelapse({ title: "Last 24 Hrs", data: [time24HoursAgo, currentTime], format: formatDateDayMonthHour })}>Last 24 hours</button>
           <button onClick={() => setTimelapse({ title: "Last Week", data: [time1WeekAgo, currentTime], format: formatDateDayMonth })}>Last week</button>
         </div>
       </nav>
-      <Chart dimensions={dimensions}>
-        <Axis
-          dimension="x"
-          scale={xScale}
-          formatTick={timelapse.format}
-        />
-        <Axis
-          dimension="y"
-          scale={yScale}
-        />
-        <GridLines
-          dimension="y"
-          scale={yScale}
-        />
-        <Circles
-          data={data}
-          keyAccessor={keyAccessor}
-          xAccessor={xAccessorScaled}
-          yAccessor={yAccessorScaled}
-        />
-      </Chart>
-    </div >
+      <div className="Timeline" ref={ref}>
+        <Chart dimensions={dimensions}>
+          <Axis
+            dimension="x"
+            scale={xScale}
+            formatTick={timelapse.format}
+          />
+          <Axis
+            dimension="y"
+            scale={yScale}
+          />
+          <GridLines
+            dimension="y"
+            scale={yScale}
+          />
+          <Circles
+            data={data}
+            keyAccessor={keyAccessor}
+            xAccessor={xAccessorScaled}
+            yAccessor={yAccessorScaled}
+          />
+        </Chart>
+      </div >
+    </div>
   )
 }
