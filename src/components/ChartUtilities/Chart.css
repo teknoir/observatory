@@ -3,7 +3,8 @@
 }
 
 .Chart text {
-    fill: #95a5a6;
+    /* fill: #95a5a6; */
+    fill: white;
 }
 
 .Line {
@@ -23,7 +24,8 @@
 }
 
 .Axis__line {
-    stroke: #bdc3c7;
+    /* stroke: #bdc3c7; */
+    stroke: white;
 }
 
 .Axis__label {
@@ -46,6 +48,11 @@
     text-anchor: end;
 }
 
+.Bars__rect {
+    fill: #9980FA;
+    transition: all 0.3s ease-out;
+}
+
 .Circles__circle {
     fill: #9980FA;
     transition: all 0.3s ease-out;
@@ -61,8 +68,8 @@
     transition: all 0.3s ease-out;
 }
 
-.Bars__rect {
-    fill: #9980FA;
-    transition: all 0.3s ease-out;
+.GridLine__line {
+    stroke: white;
+    stroke-width: 1;
+    stroke-dasharray: 3;
 }
-

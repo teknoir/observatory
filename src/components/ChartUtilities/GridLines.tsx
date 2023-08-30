@@ -3,13 +3,14 @@ import * as d3 from 'd3'
 import { dimensionsPropsType } from "./utils";
 import { useChartDimensions } from "./Chart";
 
-const axisComponentsByDimension = {
-  x: AxisHorizontal,
-  y: AxisVertical,
+const gridLineComponentsByDimension = {
+  x: GridLineHorizontal,
+  y: GridLineVertical,
 }
+
 const GridLines = ({ dimension, ...props }) => {
   const dimensions = useChartDimensions()
-  const Component = axisComponentsByDimension[dimension]
+  const Component = gridLineComponentsByDimension[dimension]
   if (!Component) return null
 
   return (
@@ -36,8 +37,7 @@ GridLines.defaultProps = {
 
 export default GridLines
 
-
-function AxisHorizontal({ dimensions, label, formatTick, scale, ...props }) {
+function GridLineHorizontal({ dimensions, label, formatTick, scale, ...props }) {
   const numberOfTicks = dimensions.boundedWidth < 600
     ? dimensions.boundedWidth / 100
     : dimensions.boundedWidth / 250
@@ -46,11 +46,10 @@ function AxisHorizontal({ dimensions, label, formatTick, scale, ...props }) {
 
   return (
     <g {...props}
-      className="Axis AxisHorizontal"
       transform={`translate(0, ${dimensions.boundedHeight})`}
     >
       <line
-        className="Axis__line"
+        className="GridLine__line"
         // x1, y1, y2 are 0, so there's no need to add them.
         x2={dimensions.boundedWidth}
       />
@@ -58,7 +57,6 @@ function AxisHorizontal({ dimensions, label, formatTick, scale, ...props }) {
         ticks.map((tick, i) => (
           <text
             key={tick}
-            className="Axis__tick"
             transform={`translate(${scale(tick)}, 25)`}
           >
             {formatTick(tick)}
@@ -68,7 +66,6 @@ function AxisHorizontal({ dimensions, label, formatTick, scale, ...props }) {
       {
         label && (
           <text
-            className="Axis__label"
             transform={`translate(${dimensions.boundedWidth / 2}, 60)`}
           >
             {label}
@@ -79,24 +76,19 @@ function AxisHorizontal({ dimensions, label, formatTick, scale, ...props }) {
   )
 }
 
-function AxisVertical({ dimensions, label, formatTick, scale, ...props }) {
+function GridLineVertical({ dimensions, label, formatTick, scale, ...props }) {
   const numberOfTicks = dimensions.boundedHeight / 70
   // const ticks = scale.ticks(numberOfTicks)
 
   const ticks = scale.domain()
 
   return (
-    <g className="Axis AxisVertical" {...props}>
+    <g {...props}>
       {
         ticks.map((tick, i) => (
           <line
             key={i}
-            // className="Axis__line"
-            style={{
-              strokeWidth: 1,
-              stroke: "darkgrey",
-              strokeDasharray: 3,
-            }}
+            className="GridLine__line"
             x2={dimensions.boundedWidth}
             transform={`translate(0, ${scale(tick)})`}
           />

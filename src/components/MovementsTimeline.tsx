@@ -35,7 +35,6 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }) => {
 
   return (
     <div className="Timeline" ref={ref}>
-      {/* <button onClick={() => setTimelapse({ title: "Last Month", data: [time1MonthAgo, currentTime], format: formatDateDayMonth })}>Last month</button> */}
       <nav className="flex justify-between items-start">
         <div className="flex flex-col">
           All Cameras

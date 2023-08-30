@@ -57,7 +57,7 @@ h1 {
 .Timeline,
 .ScatterPlot,
 .Histogram {
-    background: white;
+    background: #213547;
     padding: 0.6em 1em;
     margin: 0.5em;
 }
