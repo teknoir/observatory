@@ -17,7 +17,7 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }) => {
   const [timelapse, setTimelapse] = useState({ title: "Data Time", data: d3.extent(data, xAccessor), format: formatDateDayMonthHour })
   const [ref, dimensions] = useChartDimensions(null)
   const uniquePeripherals = [...new Set(data.map(yAccessor))];
-  const scrollGroupRef = useRef(null)
+  const scrollGroupRef = useRef<SVGGElement | null>(null)
 
   const defaultTranslate = yAxisWidth + lineWidth - dimensions.width / 2
 
@@ -27,9 +27,9 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }) => {
   const time1MonthAgo = new Date(currentTime.getTime() - 24 * 7 * 4 * 60 * 60 * 1000)
 
   const xScale = d3.scaleTime()
-    // .domain(d3.extent(data, xAccessor))
-    .domain(timelapse.data)
-    .range([0, dimensions.boundedWidth * 7])
+    .domain(d3.extent(data, xAccessor))
+    // .domain(timelapse.data)
+    .range([0, dimensions.boundedWidth * 6])
 
   const yScale = d3.scalePoint()
     .domain(uniquePeripherals)
@@ -51,7 +51,10 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }) => {
     transformObjX = Math.min(transformObj.x, maxStartTranslate)
 
     let translateX = defaultTranslate + transformObjX
+    // TODO: Replace these two hardcoded translateX conditionals
     if (translateX > 0) translateX = 0
+    if (translateX < -8470) translateX = -8470
+
     scrollGroup.attr("transform", `translate(${translateX}, 0)`)
   }
 

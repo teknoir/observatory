@@ -89,6 +89,14 @@ function AxisVertical({ dimensions, label, formatTick, scale, ...props }) {
 
   return (
     <g className="Axis AxisVertical" {...props}>
+      {/* TODO: Make this fill color come from a global variable */}
+      <rect
+        x={-dimensions.marginLeft}
+        y="0"
+        width={dimensions.marginLeft}
+        height="100%"
+        fill="#1B263B"
+      ></rect>
       <line
         className="Axis__line"
         // x1, x2, y1 are 0, so there's no need to add them.
