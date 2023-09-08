@@ -123,9 +123,19 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }) => {
         </div>
         <div className="flex items-center gap-1">
           <a>Show All Cameras</a>
-          <button onClick={() => setTimelapse({ title: "Data Time", data: d3.extent(data, xAccessor), format: formatDateDayMonthHour })}>Data time</button>
-          <button onClick={() => setTimelapse({ title: "Last 24 Hrs", data: [time24HoursAgo, currentTime], format: formatDateDayMonthHour })}>Last 24 hours</button>
-          <button onClick={() => setTimelapse({ title: "Last Week", data: [time1WeekAgo, currentTime], format: formatDateDayMonth })}>Last week</button>
+          {/* <button */}
+          {/*   onClick={() => { */}
+          {/*     setTimelapse({ */}
+          {/*       title: "Data Time", */}
+          {/*       data: d3.extent(data, xAccessor), */}
+          {/*       format: formatDateDayMonthHour */}
+          {/*     }) */}
+          {/*   }} */}
+          {/* > */}
+          {/*   Data time */}
+          {/* </button> */}
+          {/* <button onClick={() => setTimelapse({ title: "Last 24 Hrs", data: [time24HoursAgo, currentTime], format: formatDateDayMonthHour })}>Last 24 hours</button> */}
+          {/* <button onClick={() => setTimelapse({ title: "Last Week", data: [time1WeekAgo, currentTime], format: formatDateDayMonth })}>Last week</button> */}
         </div>
       </nav>
       <div className="Timeline" ref={ref}>
