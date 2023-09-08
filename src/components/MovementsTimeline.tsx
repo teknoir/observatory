@@ -12,14 +12,19 @@ const formatDateDayMonthHour = d3.timeFormat("%H:%M, %-b %-d")
 export const MovementsTimeline = ({ data, xAccessor, yAccessor }) => {
   const lineWidth = 1
   const yAxisWidth = 0
-  const chartWidth = 400
 
   const [timelapse, setTimelapse] = useState({ title: "Data Time", data: d3.extent(data, xAccessor), format: formatDateDayMonthHour })
   const [ref, dimensions] = useChartDimensions(null)
+  const [defaultTranslate, setDefaultTranslate] = useState(0)
   const uniquePeripherals = [...new Set(data.map(yAccessor))];
   const scrollGroupRef = useRef<SVGGElement | null>(null)
 
-  const defaultTranslate = yAxisWidth + lineWidth - dimensions.width / 2
+  // const defaultTranslate = dimensions.boundedScrollWidth * -1
+  useEffect(() => {
+    setDefaultTranslate(-dimensions.boundedScrollWidth + dimensions.boundedWidth)
+  }, [dimensions])
+
+
 
   const currentTime = new Date()
   const time24HoursAgo = new Date(currentTime.getTime() - 24 * 60 * 60 * 1000)
@@ -40,22 +45,43 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }) => {
   const yAccessorScaled = d => yScale(yAccessor(d))
   const keyAccessor = (d, i) => i
 
+  let scrollAtLimit = false
+
   function onScroll(scrollGroup, timelineContainer) {
     const timelineContainerWidth = timelineContainer.getBoundingClientRect().width
     const marginLeft = yAxisWidth + lineWidth
-    const transformObj = d3.zoomTransform(scrollGroup.node())
-    const maxStartTranslate = chartWidth / 2
-    const maxEndTranslate = timelineContainerWidth - chartWidth / 2 - marginLeft
+    const transformObj = { ...d3.zoomTransform(scrollGroup.node()) }
+    // if (transformObj.x > 0) transformObj.x = 0
+    console.log("transformObj: ", transformObj)
+    // const maxStartTranslate = chartWidth / 2
+    const maxStartTranslate = 0
+    // const maxEndTranslate = timelineContainerWidth - chartWidth / 2 - marginLeft
+    const maxEndTranslate = dimensions.boundedScrollWidth - dimensions.boundedWidth
+    console.log(maxEndTranslate, typeof maxEndTranslate)
+    // console.log(dimensions.boundedScrollWidth)
 
-    let transformObjX = Math.max(transformObj.x, maxEndTranslate)
-    transformObjX = Math.min(transformObj.x, maxStartTranslate)
+    // transformObj.x = Math.max(transformObj.x, maxEndTranslate)
+    // transformObj.x = Math.min(transformObj.x, maxStartTranslate)
 
-    let translateX = defaultTranslate + transformObjX
-    // TODO: Replace these two hardcoded translateX conditionals
-    if (translateX > 0) translateX = 0
-    if (translateX < -8470) translateX = -8470
+    transformObj.x = Math.max(transformObj.x, maxStartTranslate)
+    transformObj.x = Math.min(transformObj.x, maxEndTranslate)
 
-    scrollGroup.attr("transform", `translate(${translateX}, 0)`)
+    // let transformObjX = Math.max(transformObj.x, maxEndTranslate)
+    // transformObjX = Math.min(transformObj.x, maxStartTranslate)
+
+    // let translateX = defaultTranslate + transformObjX
+    // console.log("translateX: ", translateX, " defaultTranslate: ", defaultTranslate)
+
+    if (transformObj.x < maxStartTranslate || transformObj.x > maxEndTranslate) {
+      scrollAtLimit = true
+    } else {
+      scrollAtLimit = false
+    }
+
+    if (!scrollAtLimit) {
+      let translateX = defaultTranslate + transformObj.x
+      scrollGroup.attr("transform", `translate(${translateX}, 0)`)
+    }
   }
 
   useEffect(() => {
@@ -73,7 +99,7 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }) => {
       .call(d3Zoom.transform, d3.zoomIdentity)
 
     scrollGroup.attr("transform", `translate(${defaultTranslate}, 0)`)
-  }, [])
+  }, [defaultTranslate])
 
   return (
     <div className="bg-[#1B263B] text-white">
