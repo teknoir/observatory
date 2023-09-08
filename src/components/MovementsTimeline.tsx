@@ -157,6 +157,7 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }) => {
           <Axis
             dimension="y"
             scale={yScale}
+            background="true"
           />
           <GridLines
             dimension="y"

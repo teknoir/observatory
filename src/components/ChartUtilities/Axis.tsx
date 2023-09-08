@@ -81,7 +81,7 @@ function AxisHorizontal({ dimensions, label, formatTick, scale, ...props }) {
   )
 }
 
-function AxisVertical({ dimensions, label, formatTick, scale, ...props }) {
+function AxisVertical({ dimensions, label, formatTick, scale, background, ...props }) {
   const numberOfTicks = dimensions.boundedHeight / 70
   // const ticks = scale.ticks(numberOfTicks)
 
@@ -90,13 +90,16 @@ function AxisVertical({ dimensions, label, formatTick, scale, ...props }) {
   return (
     <g className="Axis AxisVertical" {...props}>
       {/* TODO: Make this fill color come from a global variable */}
-      <rect
-        x={-dimensions.marginLeft}
-        y="0"
-        width={dimensions.marginLeft}
-        height="100%"
-        fill="#1C1C1C"
-      ></rect>
+      {
+        background &&
+        <rect
+          x={-dimensions.marginLeft}
+          y="0"
+          width={dimensions.marginLeft}
+          height="100%"
+          fill="#1C1C1C"
+        />
+      }
       <line
         className="Axis__line"
         // x1, x2, y1 are 0, so there's no need to add them.

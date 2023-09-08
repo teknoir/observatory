@@ -65,12 +65,6 @@ function App() {
       {/*   yAccessor={countAccessor} */}
       {/* /> */}
 
-      {/* <MovementsTimeline */}
-      {/*   data={movements2} */}
-      {/*   xAccessor={dateAccessor} */}
-      {/*   yAccessor={peripheralAccessor} */}
-      {/* /> */}
-
       <MovementsTimeline
         data={movements}
         xAccessor={dateAccessor}
