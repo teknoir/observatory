@@ -1,7 +1,11 @@
+// TODO: Replace PropTypes dependencies with TS and delete this import
 import PropTypes from 'prop-types'
 import { useEffect, useState, useRef } from "react"
 import ResizeObserver from "resize-observer-polyfill"
 
+type ElementType = HTMLElement
+
+// TODO: Change this PropType to a TS interface
 export const accessorPropsType = (
   PropTypes.oneOfType([
     PropTypes.func,
@@ -13,6 +17,7 @@ export const callAccessor = (accessor, d, i) => (
   typeof accessor === "function" ? accessor(d, i) : accessor
 )
 
+// TODO: Change this PropType to a TS interface
 export const dimensionsPropsType = (
   PropTypes.shape({
     height: PropTypes.number,
@@ -29,7 +34,7 @@ export const combineChartDimensions = dimensions => {
     marginTop: 40,
     marginRight: 30,
     marginBottom: 40,
-    marginLeft: 75,
+    marginLeft: 85,
     ...dimensions,
   }
 
@@ -37,11 +42,12 @@ export const combineChartDimensions = dimensions => {
     ...parsedDimensions,
     boundedHeight: Math.max(parsedDimensions.height - parsedDimensions.marginTop - parsedDimensions.marginBottom, 0),
     boundedWidth: Math.max(parsedDimensions.width - parsedDimensions.marginLeft - parsedDimensions.marginRight, 0),
+    boundedScrollWidth: Math.max((parsedDimensions.width - parsedDimensions.marginLeft - parsedDimensions.marginRight) * 6, 0),
   }
 }
 
 export const useChartDimensions = passedSettings => {
-  const ref = useRef()
+  const ref = useRef(null)
   const dimensions = combineChartDimensions(passedSettings)
 
   const [width, changeWidth] = useState(0)
@@ -72,7 +78,7 @@ export const useChartDimensions = passedSettings => {
     height: dimensions.height || height,
   })
 
-  return [ref, newSettings]
+  return [ref, newSettings] as const
 }
 
 let lastId = 0
