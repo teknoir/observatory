@@ -10,19 +10,12 @@ const formatDateDayMonth = d3.timeFormat("%-b %-d")
 const formatDateDayMonthHour = d3.timeFormat("%H:%M, %-b %-d")
 
 export const MovementsTimeline = ({ data, xAccessor, yAccessor }) => {
-  const lineWidth = 1
-  const yAxisWidth = 0
-
   const [timelapse, setTimelapse] = useState({ title: "Data Time", data: d3.extent(data, xAccessor), format: formatDateDayMonthHour })
   const [ref, dimensions] = useChartDimensions(null)
   const [defaultTranslate, setDefaultTranslate] = useState<number>(0)
-  const [debugTranformX, setDebugTransformX] = useState<number>(0)
   const uniquePeripherals = [...new Set(data.map(yAccessor))];
   const scrollGroupRef = useRef<SVGGElement | null>(null)
 
-  useEffect(() => {
-    setDefaultTranslate(-dimensions.boundedScrollWidth + dimensions.boundedWidth)
-  }, [dimensions])
 
   const currentTime = new Date()
   const time24HoursAgo = new Date(currentTime.getTime() - 24 * 60 * 60 * 1000)
@@ -43,31 +36,9 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }) => {
   const yAccessorScaled = d => yScale(yAccessor(d))
   const keyAccessor = (d, i) => i
 
-  function onScroll(scrollGroup, timelineContainer) {
-    // const timelineContainerWidth = timelineContainer.getBoundingClientRect().width
-    // const marginLeft = yAxisWidth + lineWidth
-
-    const trueTransform = d3.zoomTransform(scrollGroup.node())
-    // TODO: This approach is an alternative to not modify the resulting
-    // d3.zoomTransform() object, but it needs some logic to work 
-    // const transformObj = { ...d3.zoomTransform(scrollGroup.node()) }
-    const transformObj = d3.zoomTransform(scrollGroup.node())
-    setDebugTransformX(trueTransform.x)
-    const maxStartTranslate = 0
-    const maxEndTranslate = dimensions.boundedScrollWidth - dimensions.boundedWidth
-
-    // TODO: Replace these @ts-ignore comments for a different logic where is
-    // no necessary to replace the x property of transformObj (which comes from
-    // d3.zoomTransform). These properties of the object are read-only by definition
-    // and should not be modified as I'm currently doing right now:
-    // @ts-ignore
-    transformObj.x = Math.max(transformObj.x, maxStartTranslate)
-    // @ts-ignore
-    transformObj.x = Math.min(transformObj.x, maxEndTranslate)
-
-    let translateX = defaultTranslate + transformObj.x
-    scrollGroup.attr("transform", `translate(${translateX}, 0)`)
-  }
+  useEffect(() => {
+    setDefaultTranslate(-dimensions.boundedScrollWidth + dimensions.boundedWidth)
+  }, [dimensions])
 
   useEffect(() => {
     const scrollGroup = d3.select(scrollGroupRef.current)
@@ -85,6 +56,28 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }) => {
 
     scrollGroup.attr("transform", `translate(${defaultTranslate}, 0)`)
   }, [defaultTranslate])
+
+  function onScroll(scrollGroup, timelineContainer) {
+    const transformObj = d3.zoomTransform(scrollGroup.node())
+    // TODO: This approach is an alternative to not modify the resulting
+    // d3.zoomTransform() object, but it needs some logic to work 
+    // const transformObj = { ...d3.zoomTransform(scrollGroup.node()) }
+    // 
+    const maxStartTranslate = 0
+    const maxEndTranslate = dimensions.boundedScrollWidth - dimensions.boundedWidth
+
+    // TODO: Replace these @ts-ignore comments for a different logic where is
+    // no necessary to replace the x property of transformObj (which comes from
+    // d3.zoomTransform). These properties of the object are read-only by definition
+    // and should not be modified as I'm currently doing right now:
+    // @ts-ignore
+    transformObj.x = Math.max(transformObj.x, maxStartTranslate)
+    // @ts-ignore
+    transformObj.x = Math.min(transformObj.x, maxEndTranslate)
+
+    let translateX = defaultTranslate + transformObj.x
+    scrollGroup.attr("transform", `translate(${translateX}, 0)`)
+  }
 
   return (
     <div className="bg-[#1B263B] text-white">
@@ -150,8 +143,6 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }) => {
           />
         </Chart>
       </div >
-      <h3 className="text-center">Debugger</h3>
-      <p className="text-center">Scroll position: {debugTranformX}</p>
     </div>
   )
 }
