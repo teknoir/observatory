@@ -20,12 +20,9 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }) => {
   const uniquePeripherals = [...new Set(data.map(yAccessor))];
   const scrollGroupRef = useRef<SVGGElement | null>(null)
 
-  // const defaultTranslate = dimensions.boundedScrollWidth * -1
   useEffect(() => {
     setDefaultTranslate(-dimensions.boundedScrollWidth + dimensions.boundedWidth)
   }, [dimensions])
-
-
 
   const currentTime = new Date()
   const time24HoursAgo = new Date(currentTime.getTime() - 24 * 60 * 60 * 1000)
@@ -33,8 +30,8 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }) => {
   const time1MonthAgo = new Date(currentTime.getTime() - 24 * 7 * 4 * 60 * 60 * 1000)
 
   const xScale = d3.scaleTime()
-    .domain(d3.extent(data, xAccessor))
-    // .domain(timelapse.data)
+    // .domain(d3.extent(data, xAccessor))
+    .domain(timelapse.data)
     .range([0, dimensions.boundedWidth * 6])
 
   const yScale = d3.scalePoint()
@@ -46,43 +43,30 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }) => {
   const yAccessorScaled = d => yScale(yAccessor(d))
   const keyAccessor = (d, i) => i
 
-  let scrollAtLimit = false
-
   function onScroll(scrollGroup, timelineContainer) {
     // const timelineContainerWidth = timelineContainer.getBoundingClientRect().width
     // const marginLeft = yAxisWidth + lineWidth
-    const transformObj = { ...d3.zoomTransform(scrollGroup.node()) }
-    setDebugTransformX(transformObj.x)
-    // if (transformObj.x > 0) transformObj.x = 0
-    console.log("transformObj: ", transformObj)
-    // const maxStartTranslate = chartWidth / 2
+
+    const trueTransform = d3.zoomTransform(scrollGroup.node())
+    // TODO: This approach is an alternative to not modify the resulting
+    // d3.zoomTransform() object, but it needs some logic to work 
+    // const transformObj = { ...d3.zoomTransform(scrollGroup.node()) }
+    const transformObj = d3.zoomTransform(scrollGroup.node())
+    setDebugTransformX(trueTransform.x)
     const maxStartTranslate = 0
-    // const maxEndTranslate = timelineContainerWidth - chartWidth / 2 - marginLeft
     const maxEndTranslate = dimensions.boundedScrollWidth - dimensions.boundedWidth
-    // console.log(dimensions.boundedScrollWidth)
 
-    // transformObj.x = Math.max(transformObj.x, maxEndTranslate)
-    // transformObj.x = Math.min(transformObj.x, maxStartTranslate)
-
+    // TODO: Replace these @ts-ignore comments for a different logic where is
+    // no necessary to replace the x property of transformObj (which comes from
+    // d3.zoomTransform). These properties of the object are read-only by definition
+    // and should not be modified as I'm currently doing right now:
+    // @ts-ignore
     transformObj.x = Math.max(transformObj.x, maxStartTranslate)
+    // @ts-ignore
     transformObj.x = Math.min(transformObj.x, maxEndTranslate)
 
-    // let transformObjX = Math.max(transformObj.x, maxEndTranslate)
-    // transformObjX = Math.min(transformObj.x, maxStartTranslate)
-
-    // let translateX = defaultTranslate + transformObjX
-    // console.log("translateX: ", translateX, " defaultTranslate: ", defaultTranslate)
-
-    if (transformObj.x < maxStartTranslate || transformObj.x > maxEndTranslate) {
-      scrollAtLimit = true
-    } else {
-      scrollAtLimit = false
-    }
-
-    if (!scrollAtLimit) {
-      let translateX = defaultTranslate + transformObj.x
-      scrollGroup.attr("transform", `translate(${translateX}, 0)`)
-    }
+    let translateX = defaultTranslate + transformObj.x
+    scrollGroup.attr("transform", `translate(${translateX}, 0)`)
   }
 
   useEffect(() => {
@@ -124,6 +108,8 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }) => {
         </div>
         <div className="flex items-center gap-1">
           <a>Show All Cameras</a>
+          {/* TODO: Commenting the buttons until they work with
+          the scroll */}
           {/* <button */}
           {/*   onClick={() => { */}
           {/*     setTimelapse({ */}
