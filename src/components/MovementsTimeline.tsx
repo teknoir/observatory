@@ -15,7 +15,8 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }) => {
 
   const [timelapse, setTimelapse] = useState({ title: "Data Time", data: d3.extent(data, xAccessor), format: formatDateDayMonthHour })
   const [ref, dimensions] = useChartDimensions(null)
-  const [defaultTranslate, setDefaultTranslate] = useState(0)
+  const [defaultTranslate, setDefaultTranslate] = useState<number>(0)
+  const [debugTranformX, setDebugTransformX] = useState<number>(0)
   const uniquePeripherals = [...new Set(data.map(yAccessor))];
   const scrollGroupRef = useRef<SVGGElement | null>(null)
 
@@ -48,16 +49,16 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }) => {
   let scrollAtLimit = false
 
   function onScroll(scrollGroup, timelineContainer) {
-    const timelineContainerWidth = timelineContainer.getBoundingClientRect().width
-    const marginLeft = yAxisWidth + lineWidth
+    // const timelineContainerWidth = timelineContainer.getBoundingClientRect().width
+    // const marginLeft = yAxisWidth + lineWidth
     const transformObj = { ...d3.zoomTransform(scrollGroup.node()) }
+    setDebugTransformX(transformObj.x)
     // if (transformObj.x > 0) transformObj.x = 0
     console.log("transformObj: ", transformObj)
     // const maxStartTranslate = chartWidth / 2
     const maxStartTranslate = 0
     // const maxEndTranslate = timelineContainerWidth - chartWidth / 2 - marginLeft
     const maxEndTranslate = dimensions.boundedScrollWidth - dimensions.boundedWidth
-    console.log(maxEndTranslate, typeof maxEndTranslate)
     // console.log(dimensions.boundedScrollWidth)
 
     // transformObj.x = Math.max(transformObj.x, maxEndTranslate)
@@ -163,6 +164,8 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }) => {
           />
         </Chart>
       </div >
+      <h3 className="text-center">Debugger</h3>
+      <p className="text-center">Scroll position: {debugTranformX}</p>
     </div>
   )
 }
