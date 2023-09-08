@@ -83,7 +83,7 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }) => {
   }
 
   return (
-    <div className="bg-[#1B263B] text-white">
+    <div className="bg-[#1C1C1C] text-[#E0DED9]">
       {/* TODO: Still have to figure out how to handle top menu for charts. For example this chart displays some data and has
       a couple of buttons to change the timeframe of the x axis. At the moment these are not part of the ref (Timeline) nor Chart component*/}
       <nav className="flex justify-between items-center p-5">
@@ -94,16 +94,16 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }) => {
         <div className="flex gap-5">
           Movement {timelapse.title}
           <div className="flex items-center gap-1">
-            <div className="w-[10px] h-[10px] bg-[#F875DA] rounded-full"></div>
+            <div className="w-[10px] h-[10px] bg-[#3B61BF] rounded-full"></div>
             Detections
           </div>
           <div className="flex items-center gap-1">
-            <div className="w-[10px] h-[10px] bg-[#9980FA] rounded-full"></div>
+            <div className="w-[10px] h-[10px] bg-[#9B357D] rounded-full"></div>
             Motion
           </div>
         </div>
         <div className="flex items-center gap-1">
-          <a>Show All Cameras</a>
+          <a className="text-[#E0DED9]">Show All Cameras</a>
           <button
             onClick={() => {
               setTimelapse({

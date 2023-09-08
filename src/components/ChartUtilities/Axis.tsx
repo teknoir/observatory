@@ -95,7 +95,7 @@ function AxisVertical({ dimensions, label, formatTick, scale, ...props }) {
         y="0"
         width={dimensions.marginLeft}
         height="100%"
-        fill="#1B263B"
+        fill="#1C1C1C"
       ></rect>
       <line
         className="Axis__line"
