@@ -152,9 +152,14 @@ function AxisHorizontalScroll({ dimensions, label, formatTick, scale, ...props }
           <text
             key={tick}
             className="Axis__tick"
-            transform={`translate(${scale(tick)}, 25)`}
+            transform={`translate(${scale(tick)}, 20)`}
           >
-            {formatTick(tick)}
+            <tspan>
+              {formatTick(tick).split(",")[0]}
+            </tspan>
+            <tspan x={0} dy={15}>
+              {formatTick(tick).split(",")[1]}
+            </tspan>
           </text>
         ))
       }

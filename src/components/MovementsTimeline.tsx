@@ -7,7 +7,8 @@ import Axis from "./ChartUtilities/Axis"
 import GridLines from "./ChartUtilities/GridLines"
 
 const formatDateDayMonth = d3.timeFormat("%-b %-d")
-const formatDateDayMonthHour = d3.timeFormat("%H:%M, %-b %-d")
+// const formatDateDayMonthHour = d3.timeFormat("%H:%M, %-b %-d")
+const formatDateDayMonthHour = d3.timeFormat("%I %p, %-b %-d")
 
 export const MovementsTimeline = ({ data, xAccessor, yAccessor }) => {
   const [timelapse, setTimelapse] = useState({
