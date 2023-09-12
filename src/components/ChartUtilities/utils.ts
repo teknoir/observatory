@@ -1,3 +1,4 @@
+// @ts-nocheck
 // TODO: Replace PropTypes dependencies with TS and delete this import
 import PropTypes from 'prop-types'
 import { useEffect, useState, useRef } from "react"

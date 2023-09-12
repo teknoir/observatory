@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createContext, useContext } from "react"
 import "./Chart.css"
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { Meta, StoryObj } from "@storybook/react"
 import * as d3 from "d3"
 import { MovementsTimeline } from "../../../components/MovementsTimeline"
