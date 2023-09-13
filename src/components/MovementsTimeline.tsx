@@ -1,6 +1,6 @@
-// @ts-nocheck
 import { useEffect, useRef, useState } from "react"
 import * as d3 from "d3"
+import { NumberValue } from "d3"
 import { useChartDimensions } from "./ChartUtilities/utils"
 import Chart from "./ChartUtilities/Chart"
 import Circles from "./ChartUtilities/Circles"
@@ -11,35 +11,46 @@ const formatDateDayMonth = d3.timeFormat("%-b %-d")
 // const formatDateDayMonthHour = d3.timeFormat("%H:%M, %-b %-d")
 const formatDateDayMonthHour = d3.timeFormat("%I %p, %-b %-d")
 
-export const MovementsTimeline = ({ data, xAccessor, yAccessor }) => {
-  const [timelapse, setTimelapse] = useState({
+interface MovementsTimeLineParams {
+  data: Array<object>
+  xAccessor: (d: object) => Date | NumberValue
+  yAccessor: (d: object) => string
+}
+
+interface TimelapseParams {
+  title: string
+  data: Array<any>
+  format: (d: Date) => string
+}
+
+export const MovementsTimeline = ({ data, xAccessor, yAccessor }: MovementsTimeLineParams) => {
+  const [timelapse, setTimelapse] = useState<TimelapseParams>({
     title: "Data Time",
     data: d3.extent(data, xAccessor),
     format: formatDateDayMonthHour
   })
   const [ref, dimensions] = useChartDimensions(null)
   const [defaultTranslate, setDefaultTranslate] = useState<number>(0)
-  const uniquePeripherals = [...new Set(data.map(yAccessor))];
   const scrollGroupRef = useRef<SVGGElement | null>(null)
-
+  const peripherals = Array.from(new Set(data.map(yAccessor)))
   const currentTime = new Date()
   const time24HoursAgo = new Date(currentTime.getTime() - 24 * 60 * 60 * 1000)
   const time1WeekAgo = new Date(currentTime.getTime() - 24 * 8 * 60 * 60 * 1000)
-  const time1MonthAgo = new Date(currentTime.getTime() - 24 * 7 * 4 * 60 * 60 * 1000)
+  // const time1MonthAgo = new Date(currentTime.getTime() - 24 * 7 * 4 * 60 * 60 * 1000)
+
 
   const xScale = d3.scaleTime()
-    // .domain(d3.extent(data, xAccessor))
     .domain(timelapse.data)
     .range([0, dimensions.boundedWidth * 6])
 
   const yScale = d3.scalePoint()
-    .domain(uniquePeripherals)
+    .domain(peripherals)
     .range([dimensions.boundedHeight, 0])
     .padding(1)
 
-  const xAccessorScaled = d => xScale(xAccessor(d))
-  const yAccessorScaled = d => yScale(yAccessor(d))
-  const keyAccessor = (d, i) => i
+  const xAccessorScaled = (d: object) => xScale(xAccessor(d))
+  const yAccessorScaled = (d: object) => yScale(yAccessor(d))
+  const keyAccessor = (_: null, i: number) => i
 
   useEffect(() => {
     setDefaultTranslate(-dimensions.boundedScrollWidth + dimensions.boundedWidth)
@@ -51,7 +62,7 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }) => {
 
     const d3Zoom = d3.zoom()
       .scaleExtent([1, 1])
-      .on("zoom", () => onScroll(scrollGroup, timelineContainer))
+      .on("zoom", () => onScroll(scrollGroup as d3.Selection<SVGGElement, unknown, null, undefined>))
 
     d3.select(timelineContainer)
       .call(d3Zoom)
@@ -62,8 +73,8 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }) => {
     scrollGroup.attr("transform", `translate(${defaultTranslate}, 0)`)
   }, [defaultTranslate])
 
-  function onScroll(scrollGroup, timelineContainer) {
-    const transformObj = d3.zoomTransform(scrollGroup.node())
+  function onScroll(scrollGroup: d3.Selection<SVGGElement, unknown, null, undefined>) {
+    const transformObj = d3.zoomTransform(scrollGroup.node() as SVGGElement)
     // TODO: This approach is an alternative to not modify the resulting
     // d3.zoomTransform() object, but it needs some logic to work 
     // const transformObj = { ...d3.zoomTransform(scrollGroup.node()) }
@@ -80,7 +91,7 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }) => {
     // @ts-ignore
     transformObj.x = Math.min(transformObj.x, maxEndTranslate)
 
-    let translateX = defaultTranslate + transformObj.x
+    const translateX = defaultTranslate + transformObj.x
     scrollGroup.attr("transform", `translate(${translateX}, 0)`)
   }
 
@@ -91,7 +102,7 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }) => {
       <nav className="flex justify-between items-center p-5">
         <div className="flex flex-col items-end">
           All Cameras
-          <span>{uniquePeripherals.length} Total</span>
+          <span>{peripherals.length} Total</span>
         </div>
         <div className="flex gap-5">
           Movement {timelapse.title}
