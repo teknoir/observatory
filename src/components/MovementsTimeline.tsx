@@ -24,7 +24,6 @@ interface TimelapseParams {
 }
 
 export const MovementsTimeline = ({ data, xAccessor, yAccessor }: MovementsTimeLineParams) => {
-
   const [timelapse, setTimelapse] = useState<TimelapseParams>({
     title: "Data Time",
     timeRange: d3.extent(data, xAccessor) as Array<Date | NumberValue>,
@@ -57,29 +56,29 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }: MovementsTimeL
   }, [dimensions])
 
   useEffect(() => {
-    const scrollGroup = d3.select<SVGGElement, unknown>(scrollGroupRef.current!);
-    const timelineContainer = d3.select<HTMLElement, unknown>(ref.current!);
+    const scrollGroup = d3.select<SVGGElement, unknown>(scrollGroupRef.current!)
+    const timelineContainer = d3.select<HTMLElement, unknown>(ref.current!)
 
     const d3Zoom = d3.zoom<HTMLElement, unknown>()
       .scaleExtent([1, 1])
-      .on("zoom", () => onScroll(scrollGroup as d3.Selection<SVGGElement, unknown, null, undefined>));
+      .on("zoom", () => onScroll(scrollGroup as d3.Selection<SVGGElement, unknown, null, undefined>))
 
     timelineContainer
-      .call(d3Zoom);
+      .call(d3Zoom)
 
     timelineContainer
-      .call(d3Zoom.transform, d3.zoomIdentity);
+      .call(d3Zoom.transform, d3.zoomIdentity)
 
     scrollGroup
-      .attr("transform", `translate(${defaultTranslate}, 0)`);
-  }, [defaultTranslate]);
+      .attr("transform", `translate(${defaultTranslate}, 0)`)
+  }, [defaultTranslate])
 
   function onScroll(scrollGroup: d3.Selection<SVGGElement, unknown, null, undefined>) {
     const transformObj = d3.zoomTransform(scrollGroup.node() as SVGGElement)
     // TODO: This approach is an alternative to not modify the resulting
     // d3.zoomTransform() object, but it needs some logic to work 
     // const transformObj = { ...d3.zoomTransform(scrollGroup.node()) }
-    // 
+
     const maxStartTranslate = 0
     const maxEndTranslate = dimensions.boundedScrollWidth - dimensions.boundedWidth
 
@@ -87,6 +86,7 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }: MovementsTimeL
     // no necessary to replace the x property of transformObj (which comes from
     // d3.zoomTransform). These properties of the object are read-only by definition
     // and should not be modified as I'm currently doing right now:
+    // 
     // @ts-ignore
     transformObj.x = Math.max(transformObj.x, maxStartTranslate)
     // @ts-ignore
