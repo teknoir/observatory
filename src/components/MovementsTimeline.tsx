@@ -19,14 +19,15 @@ interface MovementsTimeLineParams {
 
 interface TimelapseParams {
   title: string
-  data: Array<any>
+  timeRange: Array<Date | NumberValue>
   format: (d: Date) => string
 }
 
 export const MovementsTimeline = ({ data, xAccessor, yAccessor }: MovementsTimeLineParams) => {
+
   const [timelapse, setTimelapse] = useState<TimelapseParams>({
     title: "Data Time",
-    data: d3.extent(data, xAccessor),
+    timeRange: d3.extent(data, xAccessor) as Array<Date | NumberValue>,
     format: formatDateDayMonthHour
   })
   const [ref, dimensions] = useChartDimensions(null)
@@ -38,9 +39,8 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }: MovementsTimeL
   const time1WeekAgo = new Date(currentTime.getTime() - 24 * 8 * 60 * 60 * 1000)
   // const time1MonthAgo = new Date(currentTime.getTime() - 24 * 7 * 4 * 60 * 60 * 1000)
 
-
   const xScale = d3.scaleTime()
-    .domain(timelapse.data)
+    .domain(timelapse.timeRange)
     .range([0, dimensions.boundedWidth * 6])
 
   const yScale = d3.scalePoint()
@@ -57,21 +57,22 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }: MovementsTimeL
   }, [dimensions])
 
   useEffect(() => {
-    const scrollGroup = d3.select(scrollGroupRef.current)
-    const timelineContainer = ref.current
+    const scrollGroup = d3.select<SVGGElement, unknown>(scrollGroupRef.current!);
+    const timelineContainer = d3.select<HTMLElement, unknown>(ref.current!);
 
-    const d3Zoom = d3.zoom()
+    const d3Zoom = d3.zoom<HTMLElement, unknown>()
       .scaleExtent([1, 1])
-      .on("zoom", () => onScroll(scrollGroup as d3.Selection<SVGGElement, unknown, null, undefined>))
+      .on("zoom", () => onScroll(scrollGroup as d3.Selection<SVGGElement, unknown, null, undefined>));
 
-    d3.select(timelineContainer)
-      .call(d3Zoom)
+    timelineContainer
+      .call(d3Zoom);
 
-    d3.select(timelineContainer)
-      .call(d3Zoom.transform, d3.zoomIdentity)
+    timelineContainer
+      .call(d3Zoom.transform, d3.zoomIdentity);
 
-    scrollGroup.attr("transform", `translate(${defaultTranslate}, 0)`)
-  }, [defaultTranslate])
+    scrollGroup
+      .attr("transform", `translate(${defaultTranslate}, 0)`);
+  }, [defaultTranslate]);
 
   function onScroll(scrollGroup: d3.Selection<SVGGElement, unknown, null, undefined>) {
     const transformObj = d3.zoomTransform(scrollGroup.node() as SVGGElement)
@@ -121,7 +122,7 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }: MovementsTimeL
             onClick={() => {
               setTimelapse({
                 title: "Data Time",
-                data: d3.extent(data, xAccessor),
+                timeRange: d3.extent(data, xAccessor) as Array<Date | NumberValue>,
                 format: formatDateDayMonthHour
               })
             }}
@@ -132,7 +133,7 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }: MovementsTimeL
             onClick={() => {
               setTimelapse({
                 title: "Last 24 Hrs",
-                data: [time24HoursAgo, currentTime],
+                timeRange: [time24HoursAgo, currentTime],
                 format: formatDateDayMonthHour
               })
             }}
@@ -143,7 +144,7 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }: MovementsTimeL
             onClick={() => {
               setTimelapse({
                 title: "Last Week",
-                data: [time1WeekAgo, currentTime],
+                timeRange: [time1WeekAgo, currentTime],
                 format: formatDateDayMonth
               })
             }}
