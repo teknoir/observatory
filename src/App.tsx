@@ -85,7 +85,7 @@ function App() {
       {/*   xAccessor={dateAccessor} */}
       {/*   yAccessor={peripheralAccessor} */}
       {/* /> */}
-
+      {/*
       <MovementsTimeline
         data={movements}
         xAccessor={dateAccessor}
@@ -104,15 +104,21 @@ function App() {
       {/* <Carousel /> */}
 
       {dataByEvent.map(eventData => (
-        <div key={eventData.event_name}>
-          <h2>{eventData.event_name} Events</h2>
-          <LineChart
-            data={eventData.data}
-            xAccessor={dateAccessor}
-            yAccessor={countAccessor}
-            //colorAccessor= {contextAccessor}
-          />
-        </div>
+          <div key={eventData.event_name} style={{ position: 'relative', marginTop: '4em'}}>
+            <LineChart
+              data={eventData.data}
+              xAccessor={dateAccessor}
+              yAccessor={countAccessor}
+              //colorAccessor= {contextAccessor}
+            />
+            <center>
+              <h1 style={{ marginTop: '0', position: 'absolute', top: '0', left: '50%', transform: 'translateX(-50%)' }}>
+                <span className="line-chart-title">
+                  {eventData.event_name} Detections
+                </span>
+              </h1>
+            </center>
+          </div>
       ))}
     </>
   )

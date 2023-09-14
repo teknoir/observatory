@@ -22,6 +22,11 @@ h1 {
     margin: 0.4em 0 0.6em;
 }
 
+h2 {
+    font-weight: 500;
+    margin: 0.4em 0 0.6em;
+}
+
 /* placeholders */
 .placeholder {
     background: #ecf0f1;

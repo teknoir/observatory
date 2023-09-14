@@ -27,6 +27,10 @@ export const LineChart = ({ data, xAccessor, yAccessor }) => {
     .domain(d3.extent(data, yAccessor))
     .range([dimensions.boundedHeight, 0])
   
+  const inScale = data.filter((item) => item.context == "in")
+  const outScale = data.filter((item) => item.context == "out")
+  const emptyScale = data.filter((item) => item.context == "")
+
   {/*
   const colorScale = d3.scaleOrdinal()
     .domain(["in", "out"])
@@ -42,10 +46,10 @@ export const LineChart = ({ data, xAccessor, yAccessor }) => {
   
   return (
     <div className="Timeline" ref={ref}>
-      <button onClick={() => setTimelapse({ data: d3.extent(data, xAccessor), format: formatDateDayMonth })}>Data time</button>
-      <button onClick={() => setTimelapse({ data: [time24HoursAgo, currentTime], format: formatDateDayMonthHour })}>Last 24 hours</button>
-      <button onClick={() => setTimelapse({ data: [time1WeekAgo, currentTime], format: formatDateDayMonth })}>Last week</button>
-      <button onClick={() => setTimelapse({ data: [time1MonthAgo, currentTime], format: formatDateDayMonth })}>Last month</button>
+      <button style={{ marginRight: '5px' }} onClick={() => setTimelapse({ data: d3.extent(data, xAccessor), format: formatDateDayMonth })}>Data time</button>
+      <button style={{ marginRight: '5px' }} onClick={() => setTimelapse({ data: [time24HoursAgo, currentTime], format: formatDateDayMonthHour })}>Last 24 hours</button>
+      <button style={{ marginRight: '5px' }} onClick={() => setTimelapse({ data: [time1WeekAgo, currentTime], format: formatDateDayMonth })}>Last week</button>
+      <button style={{ marginRight: '5px' }} onClick={() => setTimelapse({ data: [time1MonthAgo, currentTime], format: formatDateDayMonth })}>Last month</button>
       <Chart dimensions={dimensions}>
         <Axis
           dimension="x"
@@ -57,10 +61,16 @@ export const LineChart = ({ data, xAccessor, yAccessor }) => {
           scale={yScale}
         />
         <Line
-          data={data}
+          data={inScale}
           xAccessor={xAccessorScaled}
           yAccessor={yAccessorScaled}
-          //color={colorAccessorFormated}
+          color="blue"
+        />
+        <Line
+          data={outScale}
+          xAccessor={xAccessorScaled}
+          yAccessor={yAccessorScaled}
+          color="fuchsia"
         />
       </Chart>
     </div >
