@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useInterval } from "usehooks-ts"
 
 interface SurveillanceCarouselParams {
@@ -65,18 +65,41 @@ export const SurveillanceCarousel = ({ mode }: SurveillanceCarouselParams) => {
 }
 
 function SurveillanceCarouselGeneral({ imagesSrc, mainImage, setMainImage }: SurveillanceCarouselModeParams) {
+  const galleryRef = useRef<HTMLDivElement | null>(null)
+  const selectedImageRef = useRef<HTMLImageElement | null>(null)
+
+  useEffect(() => {
+    if (selectedImageRef.current && galleryRef.current) {
+      const selectedImageElement = selectedImageRef.current
+      const galleryElement = galleryRef.current
+      const offsetTop = selectedImageElement.offsetTop
+
+      galleryElement.scrollTop = offsetTop - galleryElement.clientHeight / 2
+    }
+  }, [mainImage])
+
   return (
     <section className="grid grid-cols-3 max-h-[100%] w-full h-[500px]">
       <img
         src={imagesSrc[mainImage]}
         className="w-full"
       />
-      <div className="grid grid-cols-2 overflow-y-scroll">
+      <div
+        ref={galleryRef}
+        className="grid grid-cols-2 overflow-y-scroll"
+      >
         {
           imagesSrc.length > 0 && imagesSrc.map((imageSrc, index) =>
-            <img key={imagesSrc + '_' + index} src={imageSrc}
+            <img
+              key={imagesSrc + '_' + index}
+              src={imageSrc}
               className={`p-3 ${mainImage === index ? "border border-red-200" : ""}`}
               onClick={() => setMainImage(index)}
+              ref={ref => {
+                if (mainImage === index) {
+                  selectedImageRef.current = ref
+                }
+              }}
             />
           )
         }
