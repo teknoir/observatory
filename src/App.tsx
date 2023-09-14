@@ -10,6 +10,7 @@ import movements from "../datasets/movements.json"
 import movements2 from "../datasets/movements2.json"
 import temperature from "../datasets/temperature.json"
 import * as d3 from "d3"
+import { SurveillanceCarousel } from './components/SurveillanceCarousel'
 
 // MovementsTimelineReact settings
 const timeParser = d3.timeParse("%m/%d/%Y")
@@ -66,11 +67,15 @@ function App() {
       {/*   yAccessor={countAccessor} */}
       {/* /> */}
 
-      <MovementsTimeline
-        data={movements}
-        xAccessor={dateAccessor}
-        yAccessor={peripheralAccessor}
+      <SurveillanceCarousel
+        mode="general"
       />
+
+      {/* <MovementsTimeline */}
+      {/*   data={movements} */}
+      {/*   xAccessor={dateAccessor} */}
+      {/*   yAccessor={peripheralAccessor} */}
+      {/* /> */}
 
       {/* WS Examples */}
       {/* <LineChart data={chartData} /> */}
