@@ -8,6 +8,7 @@ import { LineChart } from './components/LineChart'
 import { MovementsTimeline } from './components/MovementsTimeline'
 import movements from "../datasets/movements.json"
 import movements2 from "../datasets/movements2.json"
+import movements_lines from "../datasets/movements_script.json"
 import temperature from "../datasets/temperature.json"
 import * as d3 from "d3"
 
@@ -17,6 +18,9 @@ const formatTime = d => new Date(Number(d)).toLocaleDateString("en-US")
 const dateAccessor = d => timeParser(formatTime(d.timestamp))
 const peripheralAccessor = d => d.peripheral
 const countAccessor = d => d.count
+
+const eventAccessor = d => d.event_name;
+const contextAccessor = d => d.context;
 
 const dateTemperatureAccessor = d => timeParser(d.date)
 const temperatureAccessor = d => d.temperature
@@ -52,6 +56,18 @@ function App() {
   //   setChartData([...chartData, newDataPoint])
   // }
 
+  const dataByEvent = Array.from(d3.group(movements_lines, eventAccessor), ([key, value]) => ({ event_name: key, data: value }));
+  
+  {/*
+  const dataByEvent = Array.from(d3.group(movements, eventAccessor), ([event_name, eventData]) => ({
+    event_name,
+    dataByContext: Array.from(d3.group(eventData, contextAccessor), ([context, contextData]) => ({
+      context,
+      data: contextData,
+    })),
+  }));
+   */}
+
   return (
     <>
       {/* <LineChart */}
@@ -66,11 +82,19 @@ function App() {
       {/*   yAccessor={countAccessor} */}
       {/* /> */}
 
+      {/* <MovementsTimeline */}
+      {/*   data={movements2} */}
+      {/*   xAccessor={dateAccessor} */}
+      {/*   yAccessor={peripheralAccessor} */}
+      {/* /> */}
+      
+      {/*
       <MovementsTimeline
         data={movements}
         xAccessor={dateAccessor}
         yAccessor={peripheralAccessor}
-      />
+      /> 
+      */}
 
       {/* WS Examples */}
       {/* <LineChart data={chartData} /> */}
@@ -81,6 +105,24 @@ function App() {
       {/* <button onClick={addDataPoint}>Add Data Point</button> */}
       {/* <LineChartExample /> */}
       {/* <Carousel /> */}
+
+      {dataByEvent.map(eventData => (
+          <div key={eventData.event_name} style={{ position: 'relative', marginTop: '4em'}}>
+            <LineChart
+              data={eventData.data}
+              xAccessor={dateAccessor}
+              yAccessor={countAccessor}
+              //colorAccessor= {contextAccessor}
+            />
+            <center>
+              <h1 style={{ marginTop: '0', position: 'absolute', top: '0', left: '50%', transform: 'translateX(-50%)' }}>
+                <span className="line-chart-title">
+                  {eventData.event_name} Detections
+                </span>
+              </h1>
+            </center>
+          </div>
+      ))}
     </>
   )
 }

@@ -12,13 +12,26 @@
 
 .Line--type-line {
     fill: none;
-    stroke: #9980FA;
+    stroke: #9f09af;
     stroke-width: 3px;
     stroke-linecap: round;
 }
 
-.Line--type-area {
-    fill: rgba(152, 128, 250, 0.185);
+.Line--color-blue {
+    stroke: #2eb2d0;
+}
+
+.Line--color-fuchsia {
+    stroke: #9f09af;
+}
+
+.Line--type-area-blue {
+    fill: rgba(106, 202, 246, 0.246);
+    stroke-width: 0;
+}
+
+.Line--type-area-fuchsia {
+    fill: rgba(184, 54, 167, 0.297);
     stroke-width: 0;
 }
 
@@ -70,4 +83,12 @@
     stroke: #ED6D36;
     stroke-width: 1;
     stroke-dasharray: 3;
+}
+
+.line-chart-title{
+    font-size: 36px; 
+    color: white; 
+    background-color: black;
+    border-radius: 10px;
+    padding: 5px 10px;
 }

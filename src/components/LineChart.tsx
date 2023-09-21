@@ -10,6 +10,7 @@ const formatDateDayMonth = d3.timeFormat("%-b %-d")
 const formatDateDayMonthHour = d3.timeFormat("%H:%M, %-b %-d")
 
 export const LineChart = ({ data, xAccessor, yAccessor }) => {
+//export const LineChart = ({ data, xAccessor, yAccessor, colorAccessor }) => { 
   const [timelapse, setTimelapse] = useState({ data: d3.extent(data, xAccessor), format: formatDateDayMonth })
   const [ref, dimensions] = useChartDimensions(null)
 
@@ -26,17 +27,30 @@ export const LineChart = ({ data, xAccessor, yAccessor }) => {
   const yScale = d3.scaleLinear()
     .domain(d3.extent(data, yAccessor))
     .range([dimensions.boundedHeight, 0])
+  
+  const inScale = data.filter((item) => item.context == "in")
+  const outScale = data.filter((item) => item.context == "out")
+  const emptyScale = data.filter((item) => item.context == "")
 
+  {/*
+  const colorScale = d3.scaleOrdinal()
+    .domain(["in", "out"])
+    .range(["blue", "red"]);
+   */}
   const xAccessorScaled = d => xScale(xAccessor(d))
   const yAccessorScaled = d => yScale(yAccessor(d))
   const keyAccessor = (d, i) => i
 
+  //const colorAccessorFormated = d  => colorScale(colorAccessor(d))
+
+  
+  
   return (
     <div className="Timeline" ref={ref}>
-      <button onClick={() => setTimelapse({ data: d3.extent(data, xAccessor), format: formatDateDayMonth })}>Data time</button>
-      <button onClick={() => setTimelapse({ data: [time24HoursAgo, currentTime], format: formatDateDayMonthHour })}>Last 24 hours</button>
-      <button onClick={() => setTimelapse({ data: [time1WeekAgo, currentTime], format: formatDateDayMonth })}>Last week</button>
-      <button onClick={() => setTimelapse({ data: [time1MonthAgo, currentTime], format: formatDateDayMonth })}>Last month</button>
+      <button style={{ marginRight: '5px' }} onClick={() => setTimelapse({ data: d3.extent(data, xAccessor), format: formatDateDayMonth })}>Data time</button>
+      <button style={{ marginRight: '5px' }} onClick={() => setTimelapse({ data: [time24HoursAgo, currentTime], format: formatDateDayMonthHour })}>Last 24 hours</button>
+      <button style={{ marginRight: '5px' }} onClick={() => setTimelapse({ data: [time1WeekAgo, currentTime], format: formatDateDayMonth })}>Last week</button>
+      <button style={{ marginRight: '5px' }} onClick={() => setTimelapse({ data: [time1MonthAgo, currentTime], format: formatDateDayMonth })}>Last month</button>
       <Chart dimensions={dimensions}>
         <Axis
           dimension="x"
@@ -48,9 +62,16 @@ export const LineChart = ({ data, xAccessor, yAccessor }) => {
           scale={yScale}
         />
         <Line
-          data={data}
+          data={inScale}
           xAccessor={xAccessorScaled}
           yAccessor={yAccessorScaled}
+          color="blue"
+        />
+        <Line
+          data={outScale}
+          xAccessor={xAccessorScaled}
+          yAccessor={yAccessorScaled}
+          color="fuchsia"
         />
       </Chart>
     </div >
