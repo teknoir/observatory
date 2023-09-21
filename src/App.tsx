@@ -5,8 +5,9 @@ import { useEffect, useState } from 'react'
 import { isDev } from './helpers'
 import { LineChart } from './components/LineChart'
 import { MovementsTimeline } from './components/MovementsTimeline'
-import movements from "../datasets/movements_script.json"
+import movements from "../datasets/movements.json"
 import movements2 from "../datasets/movements2.json"
+import movements_lines from "../datasets/movements_script.json"
 import temperature from "../datasets/temperature.json"
 import * as d3 from "d3"
 
@@ -54,7 +55,7 @@ function App() {
   //   setChartData([...chartData, newDataPoint])
   // }
 
-  const dataByEvent = Array.from(d3.group(movements, eventAccessor), ([key, value]) => ({ event_name: key, data: value }));
+  const dataByEvent = Array.from(d3.group(movements_lines, eventAccessor), ([key, value]) => ({ event_name: key, data: value }));
   
   {/*
   const dataByEvent = Array.from(d3.group(movements, eventAccessor), ([event_name, eventData]) => ({
