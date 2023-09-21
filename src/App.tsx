@@ -1,3 +1,4 @@
+// @ts-nocheck
 import './App.css'
 import wsConnect from './helpers'
 import Carousel from './components/Carousel'
@@ -86,6 +87,7 @@ function App() {
       {/*   xAccessor={dateAccessor} */}
       {/*   yAccessor={peripheralAccessor} */}
       {/* /> */}
+      
       {/*
       <MovementsTimeline
         data={movements}

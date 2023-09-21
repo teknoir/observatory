@@ -1,9 +1,9 @@
 .Chart {
-    overflow: visible;
+    /* overflow: visible; */
 }
 
 .Chart text {
-    fill: white;
+    fill: #E0DED9;
 }
 
 .Line {
@@ -36,7 +36,7 @@
 }
 
 .Axis__line {
-    stroke: white;
+    stroke: #ED6D36;
 }
 
 .Axis__label {
@@ -70,17 +70,17 @@
 }
 
 .Circles__circle__motion {
-    fill: #9980FA;
+    fill: #9B357D;
     transition: all 0.3s ease-out;
 }
 
 .Circles__circle__detection {
-    fill: #F875DA;
+    fill: #3B61BF;
     transition: all 0.3s ease-out;
 }
 
 .GridLine__line {
-    stroke: white;
+    stroke: #ED6D36;
     stroke-width: 1;
     stroke-dasharray: 3;
 }

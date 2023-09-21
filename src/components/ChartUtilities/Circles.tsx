@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState } from "react"
 import PropTypes from "prop-types"
 import { accessorPropsType } from "./utils"
