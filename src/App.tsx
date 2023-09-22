@@ -86,11 +86,12 @@ function App() {
       <SurveillanceCarousel
         mode="general"
       />
-      {/* <MovementsTimeline */}
-      {/*   data={movements2} */}
-      {/*   xAccessor={dateAccessor} */}
-      {/*   yAccessor={peripheralAccessor} */}
-      {/* /> */}
+
+      <MovementsTimeline
+        data={movements}
+        xAccessor={dateAccessor}
+        yAccessor={peripheralAccessor}
+      />
 
       {/*
       <MovementsTimeline
