@@ -27,6 +27,7 @@ const dateTemperatureAccessor = d => timeParser(d.date)
 const temperatureAccessor = d => d.temperature
 
 function App() {
+  const [showComponent, setShowComponent] = useState(1)
   // WS example
   // const nodeRedWsURL = "ws://127.0.0.1:1880/ws/multiple-charts"
   // const initialData = [
@@ -71,6 +72,48 @@ function App() {
 
   return (
     <>
+      <nav className="w-[100%] flex justify-around absolute top-5">
+        <button onClick={() => setShowComponent(1)}>Movements Timeline</button>
+        <button onClick={() => setShowComponent(2)}>LineCharts</button>
+        <button onClick={() => setShowComponent(3)}>Surveillance Carousel</button>
+      </nav>
+
+      {
+        showComponent === 1 &&
+
+        <MovementsTimeline
+          data={movements}
+          xAccessor={dateAccessor}
+          yAccessor={peripheralAccessor}
+        />
+      }
+
+      {
+        showComponent === 2 && dataByEvent.map(eventData => (
+          <div key={eventData.event_name} style={{ position: 'relative', marginTop: '4em' }}>
+            <LineChart
+              data={eventData.data}
+              xAccessor={dateAccessor}
+              yAccessor={countAccessor}
+            //colorAccessor= {contextAccessor}
+            />
+            <center>
+              <h1 style={{ marginTop: '0', position: 'absolute', top: '0', left: '50%', transform: 'translateX(-50%)' }}>
+                <span className="line-chart-title">
+                  {eventData.event_name} Detections
+                </span>
+              </h1>
+            </center>
+          </div>
+        ))}
+
+      {
+        showComponent === 3 &&
+        <SurveillanceCarousel
+          mode="general"
+        />
+      }
+
       {/* <LineChart */}
       {/*   data={temperature} */}
       {/*   xAccessor={dateTemperatureAccessor} */}
@@ -83,15 +126,6 @@ function App() {
       {/*   yAccessor={countAccessor} */}
       {/* /> */}
 
-      <SurveillanceCarousel
-        mode="general"
-      />
-
-      <MovementsTimeline
-        data={movements}
-        xAccessor={dateAccessor}
-        yAccessor={peripheralAccessor}
-      />
 
       {/*
       <MovementsTimeline
@@ -117,23 +151,6 @@ function App() {
       {/* <LineChartExample /> */}
       {/* <Carousel /> */}
 
-      {dataByEvent.map(eventData => (
-        <div key={eventData.event_name} style={{ position: 'relative', marginTop: '4em' }}>
-          <LineChart
-            data={eventData.data}
-            xAccessor={dateAccessor}
-            yAccessor={countAccessor}
-          //colorAccessor= {contextAccessor}
-          />
-          <center>
-            <h1 style={{ marginTop: '0', position: 'absolute', top: '0', left: '50%', transform: 'translateX(-50%)' }}>
-              <span className="line-chart-title">
-                {eventData.event_name} Detections
-              </span>
-            </h1>
-          </center>
-        </div>
-      ))}
     </>
   )
 }
