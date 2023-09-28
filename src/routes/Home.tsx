@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import '../App.css'
 import { MovementsTimeline } from '../components/MovementsTimeline'
-import { SurveillanceCarousel } from '../components/SurveillanceCarousel'
+import { SurveillanceCarousel } from '../components/SurveillanceCarrousel/SurveillanceCarousel'
 import movements from "../../datasets/movements.json"
 import { dateAccessor, peripheralAccessor } from '../components/ChartUtilities/accessors'
 
