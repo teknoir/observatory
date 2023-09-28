@@ -79,7 +79,7 @@ function SurveillanceCarouselGeneral({ imagesSrc, mainImage, setMainImage }: Sur
   }, [mainImage])
 
   return (
-    <section className="grid grid-cols-3 max-h-[100%] w-full h-[500px]">
+    <section className="grid grid-cols-2 max-h-[100%] w-full h-[500px]">
       <img
         src={imagesSrc[mainImage]}
         className="w-full"
