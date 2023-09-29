@@ -1,158 +1,17 @@
-// @ts-nocheck
-import './App.css'
-import wsConnect from './helpers'
-import Carousel from './components/Carousel'
-import { useEffect, useState } from 'react'
-import { isDev } from './helpers'
-import { LineChart } from './components/LineChart'
-import { MovementsTimeline } from './components/MovementsTimeline'
-import movements from "../datasets/movements.json"
-import movements2 from "../datasets/movements2.json"
-import movements_lines from "../datasets/movements_script.json"
-import temperature from "../datasets/temperature.json"
-import * as d3 from "d3"
-import { SurveillanceCarousel } from './components/SurveillanceCarousel'
-
-// MovementsTimelineReact settings
-const timeParser = d3.timeParse("%m/%d/%Y")
-const formatTime = d => new Date(Number(d)).toLocaleDateString("en-US")
-const dateAccessor = d => timeParser(formatTime(d.timestamp))
-const peripheralAccessor = d => d.peripheral
-const countAccessor = d => d.count
-
-const eventAccessor = d => d.event_name;
-const contextAccessor = d => d.context;
-
-const dateTemperatureAccessor = d => timeParser(d.date)
-const temperatureAccessor = d => d.temperature
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./routes/Home";
+import LineCharts from "./routes/Linecharts";
 
 function App() {
-  const [showComponent, setShowComponent] = useState(1)
-  // WS example
-  // const nodeRedWsURL = "ws://127.0.0.1:1880/ws/multiple-charts"
-  // const initialData = [
-  //   { name: "A", value: 5 },
-  //   { name: "B", value: 10 },
-  //   { name: "C", value: 7 },
-  // ]
-  // const [chartData, setChartData] = useState(initialData)
-  // const loc = window.location
-  // const wsUrl =
-  //   loc.protocol === "https:" ? "wss:" : "ws:"
-  //     + "//" + loc.host + "/ws" + loc.pathname
-  // const data: any = wsConnect(isDev() ? nodeRedWsURL : wsUrl)
-  //
-  // useEffect(() => {
-  //   console.log("WS connected to: ", isDev() ? nodeRedWsURL : wsUrl)
-  // }, [])
-  //
-  // useEffect(() => {
-  //   console.log(data)
-  // }, [data])
-  //
-  // function addDataPoint() {
-  //   const newDataPoint = {
-  //     name: "newName" + Math.random() * 100,
-  //     value: Math.ceil(Math.random() * 100)
-  //   }
-  //   setChartData([...chartData, newDataPoint])
-  // }
-
-  const dataByEvent = Array.from(d3.group(movements_lines, eventAccessor), ([key, value]) => ({ event_name: key, data: value }));
-
-  {/*
-  const dataByEvent = Array.from(d3.group(movements, eventAccessor), ([event_name, eventData]) => ({
-    event_name,
-    dataByContext: Array.from(d3.group(eventData, contextAccessor), ([context, contextData]) => ({
-      context,
-      data: contextData,
-    })),
-  }));
-   */}
 
   return (
-    <>
-      <nav className="w-[100%] flex justify-around absolute top-5">
-        <button onClick={() => setShowComponent(1)}>Movements Timeline</button>
-        <button onClick={() => setShowComponent(2)}>LineCharts</button>
-        <button onClick={() => setShowComponent(3)}>Surveillance Carousel</button>
-      </nav>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/linecharts" element={<LineCharts />} />
+      </Routes>
+    </BrowserRouter>
+  );
+};
 
-      {
-        showComponent === 1 &&
-
-        <MovementsTimeline
-          data={movements}
-          xAccessor={dateAccessor}
-          yAccessor={peripheralAccessor}
-        />
-      }
-
-      {
-        showComponent === 2 && dataByEvent.map(eventData => (
-          <div key={eventData.event_name} style={{ position: 'relative', marginTop: '4em' }}>
-            <LineChart
-              data={eventData.data}
-              xAccessor={dateAccessor}
-              yAccessor={countAccessor}
-            //colorAccessor= {contextAccessor}
-            />
-            <center>
-              <h1 style={{ marginTop: '0', position: 'absolute', top: '0', left: '50%', transform: 'translateX(-50%)' }}>
-                <span className="line-chart-title">
-                  {eventData.event_name} Detections
-                </span>
-              </h1>
-            </center>
-          </div>
-        ))}
-
-      {
-        showComponent === 3 &&
-        <SurveillanceCarousel
-          mode="general"
-        />
-      }
-
-      {/* <LineChart */}
-      {/*   data={temperature} */}
-      {/*   xAccessor={dateTemperatureAccessor} */}
-      {/*   yAccessor={temperatureAccessor} */}
-      {/* /> */}
-      {/**/}
-      {/* <LineChart */}
-      {/*   data={movements} */}
-      {/*   xAccessor={dateAccessor} */}
-      {/*   yAccessor={countAccessor} */}
-      {/* /> */}
-
-
-      {/*
-      <MovementsTimeline
-        data={movements}
-        xAccessor={dateAccessor}
-        yAccessor={peripheralAccessor}
-      /> 
-      */}
-
-      {/* <MovementsTimeline */}
-      {/*   data={movements} */}
-      {/*   xAccessor={dateAccessor} */}
-      {/*   yAccessor={peripheralAccessor} */}
-      {/* /> */}
-
-      {/* WS Examples */}
-      {/* <LineChart data={chartData} /> */}
-      {/* <Button2 onClick={() => console.log("asdf")} label="hey!" /> */}
-      {/* <LineChart data={data["ch1"]} /> */}
-      {/* <LineChart data={data["ch2"]} /> */}
-      {/* <LineChart data={data["ch3"]} /> */}
-      {/* <button onClick={addDataPoint}>Add Data Point</button> */}
-      {/* <LineChartExample /> */}
-      {/* <Carousel /> */}
-
-    </>
-  )
-}
-
-export default App
+export default App;
