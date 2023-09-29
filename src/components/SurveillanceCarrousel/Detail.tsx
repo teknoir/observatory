@@ -1,5 +1,6 @@
 import { CarouselProps } from "../../ts/types"
 import CarrouselImage from "./CarrouselImage"
+import CarrouselImagePreview from "./CarrouselImagePreview"
 
 function SurveillanceCarouselDetail({ sources, mainSource, setMainSource }: CarouselProps) {
   return (
@@ -10,8 +11,9 @@ function SurveillanceCarouselDetail({ sources, mainSource, setMainSource }: Caro
         <div className="flex flex-row overflow-auto">
           {
             sources.length > 0 && sources.map((source, index) =>
-              <img key={source + '' + index} src={source}
-                className="p-3"
+              <CarrouselImagePreview
+                key={source + '' + index}
+                src={source}
                 onClick={() => setMainSource(index)}
               />
             )

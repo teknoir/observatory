@@ -1,23 +1,16 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useInterval } from "usehooks-ts"
-import { createRandomImages } from "./utils"
 import SurveillanceCarouselGeneral from "./General"
 import SurveillanceCarouselDetail from "./Detail"
-import { SurveillanceCarouselProps } from "../../ts/types"
-
+import { SurveillanceCarouselProps, CarouselMode } from "../../ts/types"
 
 const surveillanceCarouselComponentsByMode = {
-  "general": SurveillanceCarouselGeneral,
-  "detail": SurveillanceCarouselDetail,
+  [CarouselMode.General]: SurveillanceCarouselGeneral,
+  [CarouselMode.Detail]: SurveillanceCarouselDetail,
 }
 
-export const SurveillanceCarousel = ({ mode }: SurveillanceCarouselProps) => {
+export const SurveillanceCarousel = ({ mode, sources: imagesSrc }: SurveillanceCarouselProps) => {
   const [mainImage, setMainImage] = useState(0)
-  const [imagesSrc, setImagesSrc] = useState<Array<string>>([])
-
-  useEffect(() => {
-    setImagesSrc(createRandomImages(100))
-  }, [])
 
   useInterval(() => {
     if (imagesSrc && imagesSrc.length > 0) {

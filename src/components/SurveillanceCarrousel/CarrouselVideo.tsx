@@ -2,7 +2,7 @@ import { VideoProps } from "../../ts/types"
 
 function CarrouselVideo({ src }: VideoProps) {
   return (
-    < video
+    <video
       className="w-full"
       controls
       src={src}
