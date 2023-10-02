@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import * as d3 from "d3"
 import { NumberValue } from "d3"
 import { useChartDimensions } from "./ChartUtilities/utils"
-import Chart from "./ChartUtilities/Chart"
+import Chart from "./ChartUtilities/Chart/Chart"
 import Circles from "components/ChartUtilities/Circles/Circles";
 import Axis from "./ChartUtilities/Axis/Axis"
 import GridLines from "./ChartUtilities/GridLines/GridLines"

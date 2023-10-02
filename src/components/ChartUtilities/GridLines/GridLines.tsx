@@ -4,7 +4,7 @@ import { lazy } from "react";
 import PropTypes from "prop-types"
 import * as d3 from 'd3'
 import { dimensionsPropsType } from "../utils";
-import { useChartDimensions } from "../Chart";
+import { useChartDimensions } from "../Chart/Chart";
 
 const GridLineHorizontal = lazy(() => import('./GridLineHorizontal.tsx'));
 const GridLineVertical = lazy(() => import('./GridLineVertical.tsx'));
