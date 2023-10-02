@@ -5,7 +5,7 @@ import { useChartDimensions } from "./ChartUtilities/utils"
 import Chart from "./ChartUtilities/Chart"
 import Circles from "components/ChartUtilities/Circles/Circles";
 import Axis from "./ChartUtilities/Axis/Axis"
-import GridLines from "./ChartUtilities/GridLines"
+import GridLines from "./ChartUtilities/GridLines/GridLines"
 
 const formatDateDayMonth = d3.timeFormat("%-b %-d")
 // const formatDateDayMonthHour = d3.timeFormat("%H:%M, %-b %-d")

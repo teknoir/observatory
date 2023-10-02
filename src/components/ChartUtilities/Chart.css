@@ -5,15 +5,3 @@
 .Chart text {
     fill: #E0DED9;
 }
-
-.Bars__rect {
-    fill: #9980FA;
-    transition: all 0.3s ease-out;
-}
-
-.GridLine__line {
-    stroke: #ED6D36;
-    stroke-width: 1;
-    stroke-dasharray: 3;
-}
-
