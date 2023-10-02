@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react"
-import { CarouselProps, RefImage } from "../../ts/types"
+import { CarouselProps, RefImage } from "ts/types"
 import CarrouselImage from "./CarrouselImage"
 import CarrouselImagePreview from "./CarrouselImagePreview"
 

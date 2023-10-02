@@ -1,4 +1,4 @@
-import { ImageProps } from "../../ts/types"
+import { ImageProps } from "ts/types"
 
 function CarrouselImage({ src }: ImageProps) {
   return (

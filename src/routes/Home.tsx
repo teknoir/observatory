@@ -1,11 +1,11 @@
 import { useMemo } from 'react'
-import '../App.css'
-import { MovementsTimeline } from '../components/MovementsTimeline'
-import { SurveillanceCarousel } from '../components/SurveillanceCarrousel/SurveillanceCarousel'
-import { createRandomImages } from '../components/SurveillanceCarrousel/utils.ts'
+import { CarouselMode } from 'ts/types.ts'
+import { MovementsTimeline } from 'components/MovementsTimeline'
+import { SurveillanceCarousel } from 'components/SurveillanceCarrousel/SurveillanceCarousel'
+import { createRandomImages } from 'components/SurveillanceCarrousel/utils.ts'
+import { dateAccessor, peripheralAccessor } from 'components/ChartUtilities/accessors'
 import movements from "../../datasets/movements.json"
-import { dateAccessor, peripheralAccessor } from '../components/ChartUtilities/accessors'
-import { CarouselMode } from '../ts/types.ts'
+import '../App.css'
 
 function Home() {
   const carouselSources = useMemo(() => createRandomImages(100), []);

@@ -1,4 +1,4 @@
-import { CarouselProps } from "../../ts/types"
+import { CarouselProps } from "ts/types"
 import CarrouselImage from "./CarrouselImage"
 import CarrouselImagePreview from "./CarrouselImagePreview"
 
