@@ -1,14 +1,17 @@
-import { useState } from "react"
+import { createContext, useState } from "react"
 import { useInterval } from "usehooks-ts"
 import { SurveillanceCarouselProps, CarouselMode } from "ts/types"
 import SurveillanceCarouselGeneral from "./General"
 import SurveillanceCarouselDetail from "./Detail"
 import GridViewControls from "./GridViewControls"
+import GridViewProvider from "./GridViewContext"
 
 const surveillanceCarouselComponentsByMode = {
   [CarouselMode.General]: SurveillanceCarouselGeneral,
   [CarouselMode.Detail]: SurveillanceCarouselDetail,
 }
+
+export const GridViewContext = createContext("")
 
 export const SurveillanceCarousel = ({ mode, sources: imagesSrc }: SurveillanceCarouselProps) => {
   const [mainImage, setMainImage] = useState(0)
@@ -29,14 +32,14 @@ export const SurveillanceCarousel = ({ mode, sources: imagesSrc }: SurveillanceC
   if (!Component) return null
 
   return (
-    <>
+    <GridViewProvider>
       <GridViewControls />
       <Component
         sources={imagesSrc}
         mainSource={mainImage}
         setMainSource={setMainImage}
       />
-    </>
+    </GridViewProvider>
   )
 }
 
