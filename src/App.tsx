@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./routes/Home";
-import LineCharts from "./routes/Linecharts";
+import LineCharts from "./routes/LineCharts/Linecharts";
 
 function App() {
 
