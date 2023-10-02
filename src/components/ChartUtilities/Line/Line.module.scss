@@ -1,0 +1,30 @@
+@import "enums/styleVariables.module";
+
+.Line {
+  transition: all 0.3s ease-out;
+}
+
+.Line--type-line {
+  fill: none;
+  stroke: $fuchsia500;
+  stroke-width: 3px;
+  stroke-linecap: round;
+}
+
+.Line--color-blue {
+  stroke: $blue400;
+}
+
+.Line--color-fuchsia {
+  stroke: $fuchsia500;
+}
+
+.Line--type-area-blue {
+  fill: $blue900;
+  stroke-width: 0;
+}
+
+.Line--type-area-fuchsia {
+  fill: $fuchsia800;
+  stroke-width: 0;
+}

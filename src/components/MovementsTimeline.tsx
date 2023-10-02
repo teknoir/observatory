@@ -3,7 +3,7 @@ import * as d3 from "d3"
 import { NumberValue } from "d3"
 import { useChartDimensions } from "./ChartUtilities/utils"
 import Chart from "./ChartUtilities/Chart"
-import Circles from "./ChartUtilities/Circles"
+import Circles from "components/ChartUtilities/Circles/Circles";
 import Axis from "./ChartUtilities/Axis"
 import GridLines from "./ChartUtilities/GridLines"
 

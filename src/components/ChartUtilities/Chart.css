@@ -6,35 +6,6 @@
     fill: #E0DED9;
 }
 
-.Line {
-    transition: all 0.3s ease-out;
-}
-
-.Line--type-line {
-    fill: none;
-    stroke: #9f09af;
-    stroke-width: 3px;
-    stroke-linecap: round;
-}
-
-.Line--color-blue {
-    stroke: #2eb2d0;
-}
-
-.Line--color-fuchsia {
-    stroke: #9f09af;
-}
-
-.Line--type-area-blue {
-    fill: rgba(106, 202, 246, 0.246);
-    stroke-width: 0;
-}
-
-.Line--type-area-fuchsia {
-    fill: rgba(184, 54, 167, 0.297);
-    stroke-width: 0;
-}
-
 .Axis__line {
     stroke: #ED6D36;
 }
@@ -61,21 +32,6 @@
 
 .Bars__rect {
     fill: #9980FA;
-    transition: all 0.3s ease-out;
-}
-
-.Circles__circle {
-    fill: #9980FA;
-    transition: all 0.3s ease-out;
-}
-
-.Circles__circle__motion {
-    fill: #9B357D;
-    transition: all 0.3s ease-out;
-}
-
-.Circles__circle__detection {
-    fill: #3B61BF;
     transition: all 0.3s ease-out;
 }
 

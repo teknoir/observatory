@@ -4,7 +4,7 @@ import * as d3 from "d3"
 import { useChartDimensions } from "./ChartUtilities/utils"
 import Axis from "./ChartUtilities/Axis"
 import Chart from "./ChartUtilities/Chart"
-import Line from "./ChartUtilities/Line"
+import Line from "components/ChartUtilities/Line/Line";
 
 const formatDateDayMonth = d3.timeFormat("%-b %-d")
 const formatDateDayMonthHour = d3.timeFormat("%H:%M, %-b %-d")

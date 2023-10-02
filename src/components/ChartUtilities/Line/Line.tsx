@@ -2,7 +2,9 @@
 import React from "react"
 import PropTypes from "prop-types"
 import * as d3 from "d3"
-import { accessorPropsType } from "./utils";
+import classNames from 'classnames';
+import { accessorPropsType } from "../utils";
+import styles from './Line.module.scss';
 
 const Line = ({ type, data, xAccessor, yAccessor, y0Accessor, interpolation, color, ...props }) => {
   const lineGenerator = d3[type]()
@@ -17,8 +19,13 @@ const Line = ({ type, data, xAccessor, yAccessor, y0Accessor, interpolation, col
   }
 
   return (
-    <path {...props}
-      className={`Line Line--type-${type} Line--color-${color}`} // Line--type-area-${color}
+    <path
+      {...props}
+      className={classNames(
+        styles.Line,
+        styles[`Line--type-${type}`],
+        styles[`Line--color-${color}`]
+      )}
       d={lineGenerator(data)}
     />
   )
