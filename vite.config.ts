@@ -11,6 +11,7 @@ export default defineConfig({
     alias: {
       'components': path.resolve(__dirname, 'src/components'),
       'enums': path.resolve(__dirname, 'src/enums'),
+      'ts': path.resolve(__dirname, 'src/ts'),
     },
   },
 })

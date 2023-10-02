@@ -1,4 +1,4 @@
-import { VideoProps } from "../../ts/types"
+import { VideoProps } from "ts/types"
 
 function CarrouselVideo({ src }: VideoProps) {
   return (

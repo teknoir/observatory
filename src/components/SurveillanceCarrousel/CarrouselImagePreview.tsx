@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { ImagePreviewProps } from '../../ts/types';
+import { ImagePreviewProps } from 'ts/types';
 
 const CarrouselImagePreview = forwardRef<HTMLImageElement, ImagePreviewProps>(({
   src,

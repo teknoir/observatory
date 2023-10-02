@@ -1,8 +1,8 @@
 import { useState } from "react"
 import { useInterval } from "usehooks-ts"
+import { SurveillanceCarouselProps, CarouselMode } from "ts/types"
 import SurveillanceCarouselGeneral from "./General"
 import SurveillanceCarouselDetail from "./Detail"
-import { SurveillanceCarouselProps, CarouselMode } from "../../ts/types"
 
 const surveillanceCarouselComponentsByMode = {
   [CarouselMode.General]: SurveillanceCarouselGeneral,
