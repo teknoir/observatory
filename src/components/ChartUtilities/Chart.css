@@ -6,30 +6,6 @@
     fill: #E0DED9;
 }
 
-.Axis__line {
-    stroke: #ED6D36;
-}
-
-.Axis__label {
-    text-anchor: middle;
-    font-size: 0.8em;
-    letter-spacing: 0.01em;
-}
-
-.Axis__tick {
-    font-size: 0.9em;
-    transition: all 0.3s ease-out;
-}
-
-.AxisHorizontal .Axis__tick {
-    text-anchor: middle;
-}
-
-.AxisVertical .Axis__tick {
-    dominant-baseline: middle;
-    text-anchor: end;
-}
-
 .Bars__rect {
     fill: #9980FA;
     transition: all 0.3s ease-out;

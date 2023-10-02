@@ -2,7 +2,7 @@
 import { useState } from "react"
 import * as d3 from "d3"
 import { useChartDimensions } from "./ChartUtilities/utils"
-import Axis from "./ChartUtilities/Axis"
+import Axis from "./ChartUtilities/Axis/Axis"
 import Chart from "./ChartUtilities/Chart"
 import Line from "components/ChartUtilities/Line/Line";
 
