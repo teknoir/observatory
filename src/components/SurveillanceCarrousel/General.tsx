@@ -1,11 +1,13 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useContext } from "react"
 import { CarouselProps, RefImage } from "ts/types"
 import CarrouselImage from "./CarrouselImage"
 import CarrouselImagePreview from "./CarrouselImagePreview"
+import { GridViewContext } from "./GridViewContext"
 
 function SurveillanceCarouselGeneral({ sources, mainSource, setMainSource }: CarouselProps) {
   const galleryRef = useRef<HTMLDivElement | null>(null)
   const selectedImageRef = useRef<HTMLImageElement | null>(null)
+  const gridView = useContext(GridViewContext)
 
   useEffect(() => {
     if (selectedImageRef.current && galleryRef.current) {
@@ -30,7 +32,7 @@ function SurveillanceCarouselGeneral({ sources, mainSource, setMainSource }: Car
       />
       <div
         ref={galleryRef}
-        className="grid grid-cols-2 overflow-y-scroll"
+        className="grid grid-cols-5 overflow-y-scroll"
       >
         {
           sources.length > 0 && sources.map((imageSrc, index) => (
