@@ -19,7 +19,7 @@ function GridViewControls() {
       <select onChange={handleSelectChange} >
         {
           gridOptions && gridOptions.map(gridOption => (
-            <option value={gridOption.value}>{gridOption.label}</option>
+            <option value={gridOption.value} key={gridOption.value}>{gridOption.label}</option>
           ))
         }
       </select>

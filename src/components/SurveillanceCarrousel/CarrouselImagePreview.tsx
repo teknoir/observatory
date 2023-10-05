@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, memo } from 'react';
 import { ImagePreviewProps } from 'ts/types';
 
 const CarrouselImagePreview = forwardRef<HTMLImageElement, ImagePreviewProps>(({
@@ -14,4 +14,5 @@ const CarrouselImagePreview = forwardRef<HTMLImageElement, ImagePreviewProps>(({
   />
 ))
 
-export default CarrouselImagePreview;
+const CarrouselImagePreviewMemo = memo(CarrouselImagePreview)
+export default CarrouselImagePreviewMemo;

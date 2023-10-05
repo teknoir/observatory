@@ -1,13 +1,13 @@
-import { useEffect, useRef, useContext } from "react"
+import { useEffect, useRef, /* useContext */ } from "react"
 import { CarouselProps, RefImage } from "ts/types"
 import CarrouselImage from "./CarrouselImage"
 import CarrouselImagePreview from "./CarrouselImagePreview"
-import { GridViewContext } from "./GridViewContext"
+// import { GridViewContext } from "./GridViewContext"
 
 function SurveillanceCarouselGeneral({ sources, mainSource, setMainSource }: CarouselProps) {
   const galleryRef = useRef<HTMLDivElement | null>(null)
   const selectedImageRef = useRef<HTMLImageElement | null>(null)
-  const gridView = useContext(GridViewContext)
+  // const gridView = useContext(GridViewContext)
 
   useEffect(() => {
     if (selectedImageRef.current && galleryRef.current) {
@@ -19,7 +19,7 @@ function SurveillanceCarouselGeneral({ sources, mainSource, setMainSource }: Car
     }
   }, [mainSource])
 
-  const setSelectedImageRef = (element: RefImage, index: number) => {
+  const setSelectedImageRef = (element: RefImage, index: string) => {
     if (mainSource === index) {
       selectedImageRef.current = element
     }
@@ -28,22 +28,28 @@ function SurveillanceCarouselGeneral({ sources, mainSource, setMainSource }: Car
   return (
     <section className="grid grid-cols-2 max-h-[100%] w-full h-[500px]">
       <CarrouselImage
-        src={sources[mainSource]}
+        src={sources.get(mainSource)!.src}
       />
       <div
         ref={galleryRef}
         className="grid grid-cols-5 overflow-y-scroll"
       >
         {
-          sources.length > 0 && sources.map((imageSrc, index) => (
-            <CarrouselImagePreview
-              key={sources + '_' + index}
-              src={imageSrc}
-              className={`${mainSource === index ? "border border-red-200" : ""}`}
-              onClick={() => setMainSource(index)}
-              ref={(ref: HTMLImageElement) => setSelectedImageRef(ref, index)}
-            />
-          ))
+          sources.size > 0 && [...sources.keys()].map((sourceKey) => {
+            const src = sources.get(sourceKey)!.src;
+            return (
+              <div
+                key={src}
+                onClick={() => setMainSource(sourceKey)}
+                ref={(ref: HTMLImageElement) => setSelectedImageRef(ref, sourceKey)}
+              >
+                <CarrouselImagePreview
+                  src={src}
+                  className={`${mainSource === sourceKey ? "border border-red-200" : ""}`}
+                />
+              </div>
+            )
+          })
         }
       </div>
     </section>

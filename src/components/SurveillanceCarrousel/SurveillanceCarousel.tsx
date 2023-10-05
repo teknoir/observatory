@@ -1,5 +1,5 @@
 import { createContext, useState } from "react"
-import { useInterval } from "usehooks-ts"
+// import { useInterval } from "usehooks-ts"
 import { SurveillanceCarouselProps, CarouselMode } from "ts/types"
 import SurveillanceCarouselGeneral from "./General"
 import SurveillanceCarouselDetail from "./Detail"
@@ -13,20 +13,22 @@ const surveillanceCarouselComponentsByMode = {
 
 export const GridViewContext = createContext("")
 
-export const SurveillanceCarousel = ({ mode, sources: imagesSrc }: SurveillanceCarouselProps) => {
-  const [mainImage, setMainImage] = useState(0)
+const SurveillanceCarousel = ({ mode, sources: imagesSrc }: SurveillanceCarouselProps) => {
+  // TODO: use '1' as default camera ID
+  const [mainImage, setMainImage] = useState('1')
 
-  useInterval(() => {
-    if (imagesSrc && imagesSrc.length > 0) {
-      setMainImage(prevImgIndex => {
-        let newIndex = 0
-        if (prevImgIndex < imagesSrc.length) {
-          newIndex = prevImgIndex + 1
-        }
-        return newIndex
-      })
-    }
-  }, 2000)
+  // TODO: ask Rodrigo if we still need this
+  // useInterval(() => {
+  //   if (imagesSrc && imagesSrc.length > 0) {
+  //     setMainImage(prevImgIndex => {
+  //       let newIndex = 0
+  //       if (prevImgIndex < imagesSrc.length) {
+  //         newIndex = prevImgIndex + 1
+  //       }
+  //       return newIndex
+  //     })
+  //   }
+  // }, 2000)
 
   const Component = surveillanceCarouselComponentsByMode[mode]
   if (!Component) return null
@@ -43,4 +45,4 @@ export const SurveillanceCarousel = ({ mode, sources: imagesSrc }: SurveillanceC
   )
 }
 
-
+export default SurveillanceCarousel;
