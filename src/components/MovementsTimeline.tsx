@@ -3,8 +3,8 @@ import * as d3 from "d3"
 import { NumberValue } from "d3"
 import { Axis, Chart, Circles, GridLines } from "components/ChartUtilities"
 import { useChartDimensions } from "./ChartUtilities/utils"
-// import { Button } from "@mui/material"
-import CustomizedButtons from "./Button/Button"
+import ButtonMui from "./muiComponents/Button/Button"
+import { Button } from "@mui/material"
 
 const formatDateDayMonth = d3.timeFormat("%-b %-d")
 // const formatDateDayMonthHour = d3.timeFormat("%H:%M, %-b %-d")
@@ -117,7 +117,7 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }: MovementsTimeL
         </div>
         <div className="flex items-center gap-1">
           <a className="text-[#E0DED9]">Show All Cameras</a>
-          <CustomizedButtons
+          <ButtonMui
             variant="outlined"
             onClick={() => {
               setTimelapse({
@@ -128,7 +128,7 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }: MovementsTimeL
             }}
           >
             Data time
-          </CustomizedButtons>
+          </ButtonMui>
           {/* <button */}
           {/*   onClick={() => { */}
           {/*     setTimelapse({ */}
@@ -140,7 +140,8 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }: MovementsTimeL
           {/* > */}
           {/*   Data time */}
           {/* </button> */}
-          <button
+          <Button
+            variant="contained"
             onClick={() => {
               setTimelapse({
                 title: "Last 24 Hrs",
@@ -150,7 +151,7 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }: MovementsTimeL
             }}
           >
             Last 24 hours
-          </button>
+          </Button>
           <button
             onClick={() => {
               setTimelapse({
