@@ -3,6 +3,8 @@ import * as d3 from "d3"
 import { NumberValue } from "d3"
 import { Axis, Chart, Circles, GridLines } from "components/ChartUtilities"
 import { useChartDimensions } from "./ChartUtilities/utils"
+// import { Button } from "@mui/material"
+import CustomizedButtons from "./Button/Button"
 
 const formatDateDayMonth = d3.timeFormat("%-b %-d")
 // const formatDateDayMonthHour = d3.timeFormat("%H:%M, %-b %-d")
@@ -115,7 +117,8 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }: MovementsTimeL
         </div>
         <div className="flex items-center gap-1">
           <a className="text-[#E0DED9]">Show All Cameras</a>
-          <button
+          <CustomizedButtons
+            variant="outlined"
             onClick={() => {
               setTimelapse({
                 title: "Data Time",
@@ -125,7 +128,18 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }: MovementsTimeL
             }}
           >
             Data time
-          </button>
+          </CustomizedButtons>
+          {/* <button */}
+          {/*   onClick={() => { */}
+          {/*     setTimelapse({ */}
+          {/*       title: "Data Time", */}
+          {/*       timeRange: d3.extent(data, xAccessor) as Array<Date | NumberValue>, */}
+          {/*       format: formatDateDayMonthHour */}
+          {/*     }) */}
+          {/*   }} */}
+          {/* > */}
+          {/*   Data time */}
+          {/* </button> */}
           <button
             onClick={() => {
               setTimelapse({
