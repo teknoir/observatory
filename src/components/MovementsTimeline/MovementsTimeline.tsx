@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react"
 import * as d3 from "d3"
 import { NumberValue } from "d3"
 import { Axis, Chart, Circles, GridLines } from "components/ChartUtilities"
-import { useChartDimensions } from "./ChartUtilities/utils"
-import ButtonMui from "./muiComponents/Button/Button"
+import { useChartDimensions } from "../ChartUtilities/utils"
+import ButtonMui from "../muiComponents/Button/Button"
 import { Button } from "@mui/material"
 
 const formatDateDayMonth = d3.timeFormat("%-b %-d")

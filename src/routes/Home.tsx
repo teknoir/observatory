@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { CarouselMode } from 'ts/types.ts'
-import { MovementsTimeline } from 'components/MovementsTimeline'
+import { MovementsTimeline } from 'components/MovementsTimeline/MovementsTimeline'
 import { SurveillanceCarousel } from 'components/SurveillanceCarrousel/SurveillanceCarousel'
 import { createRandomImages } from 'components/SurveillanceCarrousel/utils.ts'
 import { dateAccessor, peripheralAccessor } from 'components/ChartUtilities/accessors'
