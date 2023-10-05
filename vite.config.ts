@@ -11,6 +11,7 @@ export default defineConfig({
     alias: {
       'components': path.resolve(__dirname, 'src/components'),
       'enums': path.resolve(__dirname, 'src/enums'),
+      'hooks': path.resolve(__dirname, 'src/hooks'),
       'ts': path.resolve(__dirname, 'src/ts'),
     },
   },
