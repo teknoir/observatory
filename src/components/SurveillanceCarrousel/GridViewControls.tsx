@@ -1,5 +1,7 @@
 import { useContext } from "react"
 import { GridViewContext } from "./GridViewContext"
+import Select from "../muiComponents/Select/Select"
+import styles from "./SurveillanceCarousel.module.scss"
 
 const gridOptions = [
   { label: "1 Camera", value: "one-camera" },
@@ -15,15 +17,17 @@ function GridViewControls() {
   }
 
   return (
-    <>
-      <select onChange={handleSelectChange} >
+    <div className={styles.gridViewControls}>
+      <Select>
+        {/* <select onChange={handleSelectChange} > */}
         {
           gridOptions && gridOptions.map(gridOption => (
             <option value={gridOption.value}>{gridOption.label}</option>
           ))
         }
-      </select>
-    </>
+        {/* </select> */}
+      </Select>
+    </div>
   )
 }
 
