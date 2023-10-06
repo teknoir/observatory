@@ -20,8 +20,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.16.0",
-    "resize-observer-polyfill": "^1.5.1",
-    "vite-plugin-singlefile": "^0.13.5"
+    "resize-observer-polyfill": "^1.5.1"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^7.2.1",

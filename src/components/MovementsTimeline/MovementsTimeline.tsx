@@ -3,7 +3,7 @@ import * as d3 from "d3"
 import { NumberValue } from "d3"
 import { Axis, Chart, Circles, GridLines } from "components/ChartUtilities"
 import { useChartDimensions } from "../ChartUtilities/utils"
-import Button from "../muiComponents/Button/Button"
+import Button from "muiComponents/Button/Button"
 import classNames from "classnames"
 import styles from "./MovementsTimeline.module.scss"
 

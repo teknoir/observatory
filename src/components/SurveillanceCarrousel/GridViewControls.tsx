@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import { GridViewContext } from "./GridViewContext"
-import Select from "../muiComponents/Select/Select"
+import Select from "muiComponents/Select/Select"
 import styles from "./SurveillanceCarousel.module.scss"
 
 const gridOptions = [
