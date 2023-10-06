@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./routes/Home";
+import Home from "./routes/Home/Home";
 import LineCharts from "./routes/LineCharts/Linecharts";
 import { StyledEngineProvider } from "@mui/material";
 

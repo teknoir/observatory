@@ -1,9 +1,10 @@
 import { ImageProps } from "ts/types"
+import styles from "./SurveillanceCarousel.module.scss"
 
 function CarrouselImage({ src }: ImageProps) {
   return (
     <img
-      className="w-full"
+      className={styles.carouselImage}
       src={src}
     />
   )

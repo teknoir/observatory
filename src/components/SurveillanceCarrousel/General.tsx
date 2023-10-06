@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react"
 import { CarouselProps, RefImage } from "ts/types"
 import CarrouselImage from "./CarrouselImage"
 import CarrouselImagePreview from "./CarrouselImagePreview"
+import styles from "./SurveillanceCarousel.module.scss"
 
 function SurveillanceCarouselGeneral({ sources, mainSource, setMainSource }: CarouselProps) {
   const galleryRef = useRef<HTMLDivElement | null>(null)
@@ -24,20 +25,20 @@ function SurveillanceCarouselGeneral({ sources, mainSource, setMainSource }: Car
   };
 
   return (
-    <section className="grid grid-cols-2 max-h-[100%] w-full h-[500px]">
+    <section className={styles.containerGeneral}>
       <CarrouselImage
         src={sources[mainSource]}
       />
       <div
         ref={galleryRef}
-        className="grid grid-cols-2 overflow-y-scroll"
+        className={styles.galleryScroll}
       >
         {
           sources.length > 0 && sources.map((imageSrc, index) => (
             <CarrouselImagePreview
               key={sources + '_' + index}
               src={imageSrc}
-              className={`${mainSource === index ? "border border-red-200" : ""}`}
+              className={`${mainSource === index ? styles.galleryItemBorder : ""}`}
               onClick={() => setMainSource(index)}
               ref={(ref: HTMLImageElement) => setSelectedImageRef(ref, index)}
             />
