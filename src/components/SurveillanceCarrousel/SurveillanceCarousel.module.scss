@@ -37,6 +37,17 @@
   grid-column-start: 1;
   width: fit-content;
   height: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.titleStatusIndicator {
+  background-color: $greensuccess;
+  width: 8px;
+  height: 8px;
+  border-radius: 100%;
 }
 
 .carouselImagePreview {

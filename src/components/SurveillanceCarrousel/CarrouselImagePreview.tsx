@@ -17,7 +17,8 @@ const CarrouselImagePreview = forwardRef<HTMLImageElement, ImagePreviewProps>(({
         ref={ref}
       />
       <span className={styles.carouselImagePreviewTitle}>
-        Title
+        Front Parking North
+        <div className={styles.titleStatusIndicator}></div>
       </span>
     </div>
   </>
