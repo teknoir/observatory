@@ -5,7 +5,7 @@ import CarrouselImagePreview from "./CarrouselImagePreview"
 function SurveillanceCarouselDetail({ sources, mainSource, setMainSource }: CarouselProps) {
   return (
     <section className="flex flex-col">
-      <CarrouselImage src={sources.get(mainSource)!.src} />
+      <CarrouselImage src={sources.get(mainSource)?.src || ''} />
       <div className="flex">
         <button>&lt;</button>
         <div className="flex flex-row overflow-auto">

@@ -28,7 +28,7 @@ function SurveillanceCarouselGeneral({ sources, mainSource, setMainSource }: Car
   return (
     <section className="grid grid-cols-2 max-h-[100%] w-full h-[500px]">
       <CarrouselImage
-        src={sources.get(mainSource)!.src}
+        src={sources.get(mainSource)?.src || ''}
       />
       <div
         ref={galleryRef}
