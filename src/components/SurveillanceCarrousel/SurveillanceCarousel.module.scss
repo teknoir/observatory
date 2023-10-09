@@ -18,16 +18,21 @@
   border: 1px solid white;
 }
 
-.carouselImage {
-  width: 100%;
-}
-
-.carouselImagePreviewContainer {
+.imageContainer {
   display: grid;
   grid-template-columns: 1fr;
 }
 
-.carouselImagePreviewTitle {
+.image {
+  grid-row-start: 1;
+  grid-column-start: 1;
+}
+
+.imageFullWidth {
+  width: 100%;
+}
+
+.title {
   margin-top: 0.5rem;
   margin-left: 0.5rem;
   padding: 0.25rem;
@@ -48,12 +53,6 @@
   width: 8px;
   height: 8px;
   border-radius: 100%;
-}
-
-.carouselImagePreview {
-  // padding: 0.75rem;
-  grid-row-start: 1;
-  grid-column-start: 1;
 }
 
 .gridViewControls {
