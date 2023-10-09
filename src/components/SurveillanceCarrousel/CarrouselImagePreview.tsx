@@ -10,15 +10,15 @@ const CarrouselImagePreview = forwardRef<HTMLImageElement, ImagePreviewProps>(({
 }: ImagePreviewProps, ref) => (
   <>
     <div className={styles.carouselImagePreviewContainer}>
-      <span className={styles.carouselImagePreviewTitle}>
-        asdfasdf
-      </span>
       <img
         src={src}
         className={classNames(styles.carouselImagePreview, className)}
         onClick={onClick}
         ref={ref}
       />
+      <span className={styles.carouselImagePreviewTitle}>
+        Title
+      </span>
     </div>
   </>
 ))

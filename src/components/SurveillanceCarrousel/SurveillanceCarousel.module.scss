@@ -1,3 +1,5 @@
+@import "enums/styleVariables.module.scss";
+
 .containerGeneral {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -21,17 +23,26 @@
 }
 
 .carouselImagePreviewContainer {
-  // position: relative; 
+  display: grid;
+  grid-template-columns: 1fr;
 }
 
 .carouselImagePreviewTitle {
-  position: absolute;
-  top: 0;
-  left: 0;
+  margin-top: 0.5rem;
+  margin-left: 0.5rem;
+  padding: 0.25rem;
+  background-color: $fadedblack; 
+  color: $white;
+  grid-row-start: 1;
+  grid-column-start: 1;
+  width: fit-content;
+  height: fit-content;
 }
 
 .carouselImagePreview {
-  padding: 0.75rem;
+  // padding: 0.75rem;
+  grid-row-start: 1;
+  grid-column-start: 1;
 }
 
 .gridViewControls {
