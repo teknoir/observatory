@@ -1,29 +1,30 @@
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { GridViewContext } from "./GridViewContext"
+import Select from "muiComponents/Select/Select"
+import styles from "./SurveillanceCarousel.module.scss"
 
 const gridOptions = [
-  { label: "1 Camera", value: "one-camera" },
-  { label: "2 Cameras", value: "two-camera" },
-  { label: "3 Cameras", value: "three-camera" },
+  { label: "Dynamic Carousel", value: "dynamic-carousel" },
+  { label: "Other option", value: "other-option" },
 ]
 
 function GridViewControls() {
-  const { setGridView } = useContext(GridViewContext)
+  const [selectOption, setSelectOption] = useState("dynamic-carousel")
+  // const { setGridView } = useContext(GridViewContext)
 
   function handleSelectChange(e) {
-    setGridView(e.target.value)
+    setSelectOption(e.target.value)
   }
 
   return (
-    <>
-      <select onChange={handleSelectChange} >
-        {
-          gridOptions && gridOptions.map(gridOption => (
-            <option value={gridOption.value}>{gridOption.label}</option>
-          ))
-        }
-      </select>
-    </>
+    <div className={styles.gridViewControls}>
+      <Select
+        label={selectOption}
+        value={selectOption}
+        options={gridOptions}
+        onChange={handleSelectChange}
+      />
+    </div>
   )
 }
 
