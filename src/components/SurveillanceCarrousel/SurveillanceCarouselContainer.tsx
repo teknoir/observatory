@@ -12,6 +12,7 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
   const [sources, setSources] = useState(createRandomSources(10));
   const {
     lastMessage,
+    sendMessage,
   } = useWebSocket();
 
   useEffect(() => {
@@ -29,10 +30,18 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
     setSources(map => new Map(map.set(cameraId, { src })));
   }
 
+  const onSetMainSource = (cameraId: string) => {
+    sendMessage(JSON.stringify({
+      type: 'START_IMAGES_STREAM',
+      cameraId
+    }));
+  }
+
   return (
     <SurveillanceCarousel
       mode={mode}
       sources={sources}
+      onSetMainSource={onSetMainSource}
     />
   )
 }

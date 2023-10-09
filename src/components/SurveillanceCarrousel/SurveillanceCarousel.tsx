@@ -13,7 +13,7 @@ const surveillanceCarouselComponentsByMode = {
 
 export const GridViewContext = createContext("")
 
-const SurveillanceCarousel = ({ mode, sources: imagesSrc }: SurveillanceCarouselProps) => {
+const SurveillanceCarousel = ({ mode, sources: imagesSrc, onSetMainSource }: SurveillanceCarouselProps) => {
   // TODO: use '1' as default camera ID
   const [mainImage, setMainImage] = useState('1')
 
@@ -30,6 +30,11 @@ const SurveillanceCarousel = ({ mode, sources: imagesSrc }: SurveillanceCarousel
   //   }
   // }, 2000)
 
+  const setMainSource = (cameraId: string) => {
+    setMainImage(cameraId)
+    onSetMainSource(cameraId)
+  }
+
   const Component = surveillanceCarouselComponentsByMode[mode]
   if (!Component) return null
 
@@ -39,7 +44,7 @@ const SurveillanceCarousel = ({ mode, sources: imagesSrc }: SurveillanceCarousel
       <Component
         sources={imagesSrc}
         mainSource={mainImage}
-        setMainSource={setMainImage}
+        setMainSource={setMainSource}
       />
     </GridViewProvider>
   )

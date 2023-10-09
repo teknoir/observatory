@@ -12,6 +12,7 @@ export type CameraId = string;
 export interface SurveillanceCarouselProps {
   mode: CarouselMode;
   sources: Map<CameraId, Source>;
+  onSetMainSource: (index: CameraId) => void;
 }
 
 export interface CarouselProps {
