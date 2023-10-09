@@ -40,3 +40,15 @@ export interface ImagePreviewProps {
 export interface VideoProps {
   src: string
 }
+
+export interface SelectOptions {
+  label: string
+  value: number | string
+}
+
+export interface SelectProps {
+  label?: string
+  options: Array<SelectOptions>
+  value: string | number
+  onChange: (e: EventEmitter) => void
+}

@@ -1,24 +1,34 @@
 import FormControl from "@mui/material/InputLabel"
-import InputLabel from "@mui/material/InputLabel"
 import MenuItem from "@mui/material/MenuItem"
 import Select from "@mui/material/Select"
 import styles from "./Select.module.scss"
+import { SelectProps } from "ts/types"
 
-export default function SelectMUI({ children }) {
+export default function SelectMUI({ label, value, options, onChange }: SelectProps) {
   return (
     <FormControl>
-      <InputLabel id="demo-simple-select-label">Age</InputLabel>
       <Select
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        // value={age}
-        label="Age"
-      // onChange={handleChange}
+        className={styles.select}
+        inputProps={{
+          classes: {
+            icon: styles.icon
+          },
+        }}
+        id="select"
+        label={label}
+        value={value}
+        onChange={onChange}
       >
-        {/* <MenuItem value={10}>Ten</MenuItem> */}
-        {/* <MenuItem value={20}>Twenty</MenuItem> */}
-        {/* <MenuItem value={30}>Thirty</MenuItem> */}
-        {children}
+        {
+          options && options.map(option => (
+            <MenuItem
+              key={option.value}
+              value={option.value}
+            >
+              {option.label}
+            </MenuItem>
+          ))
+        }
       </Select>
     </FormControl>
   );
