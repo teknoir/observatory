@@ -2,7 +2,8 @@ import { useEffect, useRef, /* useContext */ } from "react"
 import { CarouselProps, RefImage } from "ts/types"
 import CarrouselImage from "./CarrouselImage"
 import CarrouselImagePreview from "./CarrouselImagePreview"
-// import { GridViewContext } from "./GridViewContext"
+import styles from "./SurveillanceCarousel.module.scss"
+import { GridViewContext } from "./GridViewContext"
 
 function SurveillanceCarouselGeneral({ sources, mainSource, setMainSource }: CarouselProps) {
   const galleryRef = useRef<HTMLDivElement | null>(null)
@@ -26,13 +27,13 @@ function SurveillanceCarouselGeneral({ sources, mainSource, setMainSource }: Car
   };
 
   return (
-    <section className="grid grid-cols-2 max-h-[100%] w-full h-[500px]">
+    <section className={styles.containerGeneral}>
       <CarrouselImage
         src={sources.get(mainSource)?.src || ''}
       />
       <div
         ref={galleryRef}
-        className="grid grid-cols-5 overflow-y-scroll"
+        className={styles.galleryScroll}
       >
         {
           sources.size > 0 ?
@@ -46,7 +47,7 @@ function SurveillanceCarouselGeneral({ sources, mainSource, setMainSource }: Car
                 >
                   <CarrouselImagePreview
                     src={src}
-                    className={`${mainSource === sourceKey ? "border border-red-200" : ""}`}
+                    className={`${mainSource === sourceKey ? styles.galleryItemBorder : ""}`}
                   />
                 </div>
               )

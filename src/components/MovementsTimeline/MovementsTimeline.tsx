@@ -2,7 +2,10 @@ import { useEffect, useRef, useState } from "react"
 import * as d3 from "d3"
 import { NumberValue } from "d3"
 import { Axis, Chart, Circles, GridLines } from "components/ChartUtilities"
-import { useChartDimensions } from "./ChartUtilities/utils"
+import { useChartDimensions } from "../ChartUtilities/utils"
+import Button from "muiComponents/Button/Button"
+import classNames from "classnames"
+import styles from "./MovementsTimeline.module.scss"
 
 const formatDateDayMonth = d3.timeFormat("%-b %-d")
 // const formatDateDayMonthHour = d3.timeFormat("%H:%M, %-b %-d")
@@ -94,28 +97,30 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }: MovementsTimeL
   }
 
   return (
-    <div className="bg-[#1C1C1C] text-[#E0DED9]">
+    <div className={styles.container}>
       {/* TODO: Still have to figure out how to handle top menu for charts. For example this chart displays some data and has
       a couple of buttons to change the timeframe of the x axis. At the moment these are not part of the ref (Timeline) nor Chart component*/}
-      <nav className="flex justify-between items-center p-5">
-        <div className="flex flex-col items-end">
+      <nav className={styles.menuLayout}>
+        <div className={styles.menuItemCameras}>
           All Cameras
           <span>{peripherals.length} Total</span>
         </div>
-        <div className="flex gap-5">
+        <div className={styles.menuItemMovement}>
           Movement {timelapse.title}
-          <div className="flex items-center gap-1">
-            <div className="w-[10px] h-[10px] bg-[#3B61BF] rounded-full"></div>
+          <div className={styles.menuItem}>
+            <div className={classNames(styles.menuItemCircles, styles.menuItemCirclesDetections)}></div>
             Detections
           </div>
-          <div className="flex items-center gap-1">
-            <div className="w-[10px] h-[10px] bg-[#9B357D] rounded-full"></div>
+          <div className={styles.menuItem}>
+            <div className={classNames(styles.menuItemCircles, styles.menuItemCirclesMovements)}></div>
             Motion
           </div>
         </div>
-        <div className="flex items-center gap-1">
-          <a className="text-[#E0DED9]">Show All Cameras</a>
-          <button
+        <div className={styles.menuItem}>
+          <a className={styles.linkText}>
+            Show All Cameras
+          </a>
+          <Button
             onClick={() => {
               setTimelapse({
                 title: "Data Time",
@@ -125,8 +130,8 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }: MovementsTimeL
             }}
           >
             Data time
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => {
               setTimelapse({
                 title: "Last 24 Hrs",
@@ -136,8 +141,8 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }: MovementsTimeL
             }}
           >
             Last 24 hours
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => {
               setTimelapse({
                 title: "Last Week",
@@ -147,7 +152,7 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }: MovementsTimeL
             }}
           >
             Last week
-          </button>
+          </Button>
         </div>
       </nav>
       <div className="Timeline" ref={ref}>
