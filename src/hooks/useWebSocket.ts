@@ -1,6 +1,5 @@
 import useWebSocket from 'react-use-websocket';
 
-// const socketUrl = 'ws://localhost:8080'
 const socketUrl = import.meta.env.VITE_WS_SERVER;
 
 export const TYPES = {
@@ -19,6 +18,7 @@ const useWebSocketHook = () => {
     getWebSocket,
   } = useWebSocket(socketUrl, {
     onOpen: () => console.log('WS opened'),
+    shouldReconnect: () => true,
   });
   return {
     sendMessage,
