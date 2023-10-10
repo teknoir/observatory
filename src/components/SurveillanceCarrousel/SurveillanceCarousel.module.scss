@@ -2,11 +2,11 @@
 
 .containerGeneral {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 60% 40%;
   max-height: 100%;
-  height: 500px;
   width: 100%;
   overflow: hidden;
+  aspect-ratio: auto 136/51;
 }
 
 .galleryScroll {
