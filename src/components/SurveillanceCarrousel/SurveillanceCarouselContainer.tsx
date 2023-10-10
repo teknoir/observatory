@@ -9,7 +9,7 @@ interface Props {
 }
 
 const SurveillanceCarouselContainer = ({ mode }: Props) => {
-  const [sources, setSources] = useState(createRandomSources(1));
+  const [sources, setSources] = useState(createRandomSources(0));
   const {
     lastMessage,
     sendMessage,
@@ -18,11 +18,17 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
   useEffect(() => {
     if (lastMessage) {
       const data = JSON.parse(lastMessage.data);
-      const { type, message, meta } = data;
+      const { type, meta } = data;
       switch (type) {
         case TYPES.MESSAGE: {
-          const { peripheral: { id: cameraId }, image } = message;
-          updateSourceByCameraId(cameraId, image)
+          const { event } = data;
+          if (event) {
+            const { topic, image, peripheral_id: peripheralId } = event;
+            console.log('peripheralId', peripheralId)
+            if (topic === 'front-end-video') {
+              updateSourceByCameraId(peripheralId, image)
+            }
+          }
           break;
         }
         case TYPES.INACTIVE: {

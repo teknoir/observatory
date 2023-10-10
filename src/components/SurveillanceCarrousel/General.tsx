@@ -35,21 +35,23 @@ function SurveillanceCarouselGeneral({ sources, mainSource, setMainSource }: Car
         className="grid grid-cols-5 overflow-y-scroll"
       >
         {
-          sources.size > 0 && [...sources.keys()].map((sourceKey) => {
-            const src = sources.get(sourceKey)!.src;
-            return (
-              <div
-                key={src}
-                onClick={() => setMainSource(sourceKey)}
-                ref={(ref: HTMLImageElement) => setSelectedImageRef(ref, sourceKey)}
-              >
-                <CarrouselImagePreview
-                  src={src}
-                  className={`${mainSource === sourceKey ? "border border-red-200" : ""}`}
-                />
-              </div>
-            )
-          })
+          sources.size > 0 ?
+            [...sources.keys()].map((sourceKey) => {
+              const src = sources.get(sourceKey)!.src;
+              return (
+                <div
+                  key={src}
+                  onClick={() => setMainSource(sourceKey)}
+                  ref={(ref: HTMLImageElement) => setSelectedImageRef(ref, sourceKey)}
+                >
+                  <CarrouselImagePreview
+                    src={src}
+                    className={`${mainSource === sourceKey ? "border border-red-200" : ""}`}
+                  />
+                </div>
+              )
+            }) :
+            <div>Loading...</div>
         }
       </div>
     </section>

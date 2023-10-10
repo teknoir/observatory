@@ -10,17 +10,19 @@ function SurveillanceCarouselDetail({ sources, mainSource, setMainSource }: Caro
         <button>&lt;</button>
         <div className="flex flex-row overflow-auto">
           {
-            sources.size > 0 && [...sources.keys()].map((sourceKey) => {
-              const src = sources.get(sourceKey)!.src;
-              return (
-                <div
-                  key={src}
-                  onClick={() => setMainSource(sourceKey)}
-                >
-                  <CarrouselImagePreview src={src} />
-                </div>
-              )
-            })
+            sources.size > 0 ?
+              [...sources.keys()].map((sourceKey) => {
+                const src = sources.get(sourceKey)!.src;
+                return (
+                  <div
+                    key={src}
+                    onClick={() => setMainSource(sourceKey)}
+                  >
+                    <CarrouselImagePreview src={src} />
+                  </div>
+                )
+              }) :
+              <div>Loading...</div>
           }
         </div>
         <button>&gt;</button>
