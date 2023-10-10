@@ -19,7 +19,7 @@ function GridViewControls() {
   return (
     <div className={styles.gridViewControls}>
       <Select
-        label={selectOption}
+        label=""
         value={selectOption}
         options={gridOptions}
         onChange={handleSelectChange}

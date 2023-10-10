@@ -10,7 +10,8 @@ export default defineConfig({
       'components': path.resolve(__dirname, 'src/components'),
       'enums': path.resolve(__dirname, 'src/enums'),
       'ts': path.resolve(__dirname, 'src/ts'),
-      'muiComponents': path.resolve(__dirname, 'src/muiComponents')
+      'muiComponents': path.resolve(__dirname, 'src/muiComponents'),
+      'muiThemes': path.resolve(__dirname, 'src/muiThemes')
     },
   },
 })
