@@ -15,4 +15,8 @@ export default defineConfig({
       'muiThemes': path.resolve(__dirname, 'src/muiThemes')
     },
   },
+  server: {
+    host: true,
+    port: 5173
+  }
 })
