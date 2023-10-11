@@ -3,7 +3,7 @@ import { useInterval } from "usehooks-ts"
 import { SurveillanceCarouselProps, CarouselMode } from "ts/types"
 import SurveillanceCarouselGeneral from "./General"
 import SurveillanceCarouselDetail from "./Detail"
-import GridViewControls from "./GridViewControls"
+// import GridViewControls from "./GridViewControls"
 import GridViewProvider from "./GridViewContext"
 
 const surveillanceCarouselComponentsByMode = {
@@ -33,7 +33,7 @@ export const SurveillanceCarousel = ({ mode, sources: imagesSrc }: SurveillanceC
 
   return (
     <GridViewProvider>
-      <GridViewControls />
+      {/*<GridViewControls />*/}
       <Component
         sources={imagesSrc}
         mainSource={mainImage}
