@@ -7,7 +7,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { MainLayoutProvider } from "context/mainLayoutContext";
 import darkTheme from "muiThemes/dark.ts";
 
-export default function AppLayout() {
+export default function MainLayout() {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
