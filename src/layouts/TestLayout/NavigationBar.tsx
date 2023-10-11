@@ -11,39 +11,32 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import ListItemText from "@mui/material/ListItemText";
 import Avatar from "@mui/material/Avatar";
 import Drawer from "@mui/material/Drawer";
+import { useMainLayoutContext } from "context/mainLayoutContext";
 import { leftSideBarWidth, leftSideBarClosedWidth } from "./enums.ts";
 
-interface Props {
-  isOpen: boolean;
-  handleOpen: () => void;
-  handleClose: () => void;
-}
-const NavigationBar = ({
-  isOpen,
-  handleOpen,
-  handleClose
-}: Props) => {
+const NavigationBar = () => {
+  const { isOpenedLeft, openLeft, closeLeft } = useMainLayoutContext();
   return (
     <Drawer
       sx={{
-        width: isOpen ? leftSideBarWidth : leftSideBarClosedWidth,
+        width: isOpenedLeft ? leftSideBarWidth : leftSideBarClosedWidth,
         flexShrink: 0,
         '& .MuiDrawer-paper': {
-          width: isOpen ? leftSideBarWidth : leftSideBarClosedWidth,
+          width: isOpenedLeft ? leftSideBarWidth : leftSideBarClosedWidth,
           boxSizing: 'border-box',
-          alignItems: isOpen ? 'inherit' : 'center',
+          alignItems: isOpenedLeft ? 'inherit' : 'center',
         },
       }}
       variant="permanent"
       anchor="left"
-      open={isOpen}
+      open={isOpenedLeft}
     >
       <DrawerHeader>
-        <IconButton onClick={isOpen ? handleClose : handleOpen}>
-          {isOpen ? <FirstPageIcon /> : <LastPageIcon />}
+        <IconButton onClick={isOpenedLeft ? closeLeft : openLeft}>
+          {isOpenedLeft ? <FirstPageIcon /> : <LastPageIcon />}
         </IconButton>
       </DrawerHeader>
-      {isOpen ? (
+      {isOpenedLeft ? (
         <>
           <Divider />
           <List>

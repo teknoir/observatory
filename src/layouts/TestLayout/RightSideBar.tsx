@@ -3,20 +3,18 @@ import IconButton from "@mui/material/IconButton";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
+import { useMainLayoutContext } from "context/mainLayoutContext";
 import { rightSideBarWidth } from "./enums.ts";
 import DrawerHeader from "./components/DrawerHeader.tsx";
 
 interface Props {
-  isOpen: boolean;
-  handleClose: () => void;
   children: ReactNode;
 }
 
 const RightSideBar = ({
-  isOpen,
-  handleClose,
   children
 }: Props) => {
+  const { isOpenedRight, closeRight } = useMainLayoutContext();
   return (
     <Drawer
       sx={{
@@ -29,10 +27,10 @@ const RightSideBar = ({
       }}
       variant="persistent"
       anchor="right"
-      open={isOpen}
+      open={isOpenedRight}
     >
       <DrawerHeader direction="center">
-        <IconButton onClick={handleClose}>
+        <IconButton onClick={closeRight}>
           <LastPageIcon />
         </IconButton>
       </DrawerHeader>
