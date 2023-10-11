@@ -5,6 +5,7 @@ type MainLayoutContextValue = {
   isOpenedRight: boolean;
   openLeft: () => void;
   closeLeft: () => void;
+  openRight: () => void;
   closeRight: () => void;
 }
 
@@ -13,6 +14,7 @@ const defaultValue: MainLayoutContextValue = {
   isOpenedRight: true,
   openLeft: () => {},
   closeLeft: () => {},
+  openRight: () => {},
   closeRight: () => {}
 }
 
@@ -31,12 +33,15 @@ export const MainLayoutProvider = ({ children }: Props) => {
 
   const closeRight = () => setIsOpenedRight(false);
 
+  const openRight = () => setIsOpenedRight(true);
+
   const getContextValue = () => ({
     isOpenedLeft,
     isOpenedRight,
     openLeft,
     closeLeft,
-    closeRight
+    closeRight,
+    openRight
   })
 
   return (

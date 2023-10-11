@@ -1,4 +1,4 @@
-import { Link as RouterLink } from "react-router-dom";
+import { NavLink as RouterLink } from "react-router-dom";
 import Link from "@mui/material/Link";
 import IconButton from "@mui/material/IconButton";
 import FirstPageIcon from "@mui/icons-material/FirstPage";
@@ -25,6 +25,11 @@ const navigationItems = [
   {
     name: "Motions & Alerts",
     url: APP_URLS.motionsAlerts,
+  },
+  // TODO: this item will be removed
+  {
+    name: "1 Camera Alerts (for testing)",
+    url: APP_URLS.alerts,
   }
 ];
 const NavigationBar = () => {

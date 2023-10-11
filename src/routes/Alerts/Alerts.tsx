@@ -10,9 +10,9 @@ const Alerts = () => {
         Field Camera #1
       </AppBar>
       <MainContent>
-        <video width="640" height="480" controls>
-          <source src="movie.mp4" type="video/mp4" />
-            <source src="movie.ogg" type="video/ogg" />
+        <video width="640" height="480" controls autoPlay>
+          <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4" />
+            <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/ogg" />
               Your browser does not support the video tag.
         </video>
       </MainContent>

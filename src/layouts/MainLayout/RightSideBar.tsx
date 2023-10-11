@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import IconButton from "@mui/material/IconButton";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import Divider from "@mui/material/Divider";
@@ -14,7 +14,12 @@ interface Props {
 const RightSideBar = ({
   children
 }: Props) => {
-  const { isOpenedRight, closeRight } = useMainLayoutContext();
+  const { isOpenedRight, openRight, closeRight } = useMainLayoutContext();
+
+  useEffect(() => {
+    return () => openRight();
+  }, []);
+
   return (
     <Drawer
       sx={{
