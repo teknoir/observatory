@@ -13,4 +13,8 @@ export default defineConfig({
       'muiComponents': path.resolve(__dirname, 'src/muiComponents')
     },
   },
+  server: {
+    host: true,
+    port: 5173
+  }
 })
