@@ -6,7 +6,7 @@ function CarrouselImage({ src }: ImageProps) {
     <div className={styles.mainImageContainer}>
       <img
         src={src}
-        className={styles.mainImage}
+        className={styles.image}
       />
       <div className={styles.titleContainer}>
         <p className={styles.titleText}>
