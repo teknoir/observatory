@@ -2,15 +2,17 @@
 
 .Circles__circle {
   fill: $iris400;
+  stroke: $white;
+  stroke-width: 1px;
   transition: all 0.3s ease-out;
 }
 
 .Circles__circle__motion {
-  fill: $fuchsia400;
+  fill: $bluemotion;
   transition: all 0.3s ease-out;
 }
 
 .Circles__circle__detection {
-  fill: $blue600;
+  fill: $redalert;
   transition: all 0.3s ease-out;
 }

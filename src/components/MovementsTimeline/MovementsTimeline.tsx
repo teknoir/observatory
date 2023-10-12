@@ -157,6 +157,10 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }: MovementsTimeL
       </nav>
       <div className="Timeline" ref={ref}>
         <Chart dimensions={dimensions}>
+          <GridLines
+            dimension="y"
+            scale={yScale}
+          />
           <g ref={scrollGroupRef}>
             <Axis
               dimension="xScroll"
@@ -174,10 +178,6 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }: MovementsTimeL
             dimension="y"
             scale={yScale}
             background="true"
-          />
-          <GridLines
-            dimension="y"
-            scale={yScale}
           />
         </Chart>
       </div >
