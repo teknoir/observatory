@@ -1,24 +1,18 @@
-import { forwardRef, useState } from 'react';
-import { ImagePreviewProps } from 'ts/types';
-import classNames from 'classnames';
-import styles from "./SurveillanceCarousel.module.scss"
+import { forwardRef } from 'react';
 import { NavLink as RouterLink } from "react-router-dom";
+import classNames from 'classnames';
 import Link from "@mui/material/Link";
+import { ImagePreviewProps } from 'ts/types';
 import APP_URLS from "enums/urls";
+import styles from "./SurveillanceCarousel.module.scss"
 
 const CarrouselImagePreview = forwardRef<HTMLImageElement, ImagePreviewProps>(({
   src,
   className = '',
   onClick = () => { }
 }: ImagePreviewProps, ref) => {
-  const [isHovered, setIsHovered] = useState(false)
-
   return (
-    <div
-      className={styles.imagePreviewContainer}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
+    <div className={styles.imagePreviewContainer}>
       <img
         src={src}
         className={classNames(styles.image, className)}
@@ -31,7 +25,7 @@ const CarrouselImagePreview = forwardRef<HTMLImageElement, ImagePreviewProps>(({
         </p>
         <div className={styles.titleStatusIndicator}></div>
       </div>
-      <div className={isHovered ? styles.hoverState : styles.hoverStateHide}>
+      <div className={styles.hoverState}>
         {/* TODO: Replace url to be dynamic */}
         <Link
           component={RouterLink}

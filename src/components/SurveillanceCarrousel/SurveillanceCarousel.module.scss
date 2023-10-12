@@ -35,6 +35,12 @@
 
 .imagePreviewContainer {
   position: relative; 
+
+  &:hover {
+    .hoverState {
+      display: flex;
+    }
+  }
 }
 
 .galleryItemBorder {
