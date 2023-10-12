@@ -13,7 +13,8 @@ export default defineConfig({
       'layouts': path.resolve(__dirname, 'src/layouts'),
       'ts': path.resolve(__dirname, 'src/ts'),
       'muiComponents': path.resolve(__dirname, 'src/muiComponents'),
-      'muiThemes': path.resolve(__dirname, 'src/muiThemes')
+      'muiThemes': path.resolve(__dirname, 'src/muiThemes'),
+      'services': path.resolve(__dirname, 'src/services')
     },
   },
   server: {
