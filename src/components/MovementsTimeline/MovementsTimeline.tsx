@@ -101,21 +101,6 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }: MovementsTimeL
       {/* TODO: Still have to figure out how to handle top menu for charts. For example this chart displays some data and has
       a couple of buttons to change the timeframe of the x axis. At the moment these are not part of the ref (Timeline) nor Chart component*/}
       <nav className={styles.menuLayout}>
-        <div className={styles.menuItemCameras}>
-          All Cameras
-          <span>{peripherals.length} Total</span>
-        </div>
-        <div className={styles.menuItemMovement}>
-          Movement {timelapse.title}
-          <div className={styles.menuItem}>
-            <div className={classNames(styles.menuItemCircles, styles.menuItemCirclesDetections)}></div>
-            Detections
-          </div>
-          <div className={styles.menuItem}>
-            <div className={classNames(styles.menuItemCircles, styles.menuItemCirclesMovements)}></div>
-            Motion
-          </div>
-        </div>
         <div className={styles.menuItem}>
           <a className={styles.linkText}>
             Show All Cameras
@@ -176,6 +161,12 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }: MovementsTimeL
           </g>
           <Axis
             dimension="y"
+            scale={yScale}
+            background="true"
+          />
+          <Axis
+            dimension="y"
+            side="right"
             scale={yScale}
             background="true"
           />

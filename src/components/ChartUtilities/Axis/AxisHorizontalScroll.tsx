@@ -15,11 +15,11 @@ export default function AxisHorizontalScroll({ dimensions, label, formatTick, sc
       className={classNames(styles.Axis, styles.AxisHorizontal)}
     // transform={`translate(0, ${dimensions.boundedHeight})`}
     >
-      <line
-        // className={styles.Axis__line}
-        // x1, y1, y2 are 0, so there's no need to add them.
-        x2={dimensions.boundedScrollWidth}
-      />
+      {/* <line */}
+      {/*   className={styles.Axis__line} */}
+      {/*   // x1, y1, y2 are 0, so there's no need to add them. */}
+      {/*   x2={dimensions.boundedScrollWidth} */}
+      {/* /> */}
       {
         ticks.map((tick, i) => (
           <text

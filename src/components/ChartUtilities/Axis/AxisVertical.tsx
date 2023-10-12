@@ -3,7 +3,7 @@
 import classNames from "classnames";
 import styles from "./Axis.module.scss";
 
-export default function AxisVertical({ dimensions, label, formatTick, scale, background, ...props }) {
+export default function AxisVertical({ dimensions, label, formatTick, scale, background, side, ...props }) {
   const numberOfTicks = dimensions.boundedHeight / 70
   // const ticks = scale.ticks(numberOfTicks)
 
@@ -14,31 +14,42 @@ export default function AxisVertical({ dimensions, label, formatTick, scale, bac
       className={classNames(styles.Axis, styles.AxisVertical)}
       {...props}
     >
-      {/* TODO: Make this fill color come from a global variable */}
       {
         background &&
         <rect
-          x={-dimensions.marginLeft}
+          x={side === "right" ? dimensions.width - dimensions.marginRight * 2 : -dimensions.marginLeft}
           y="0"
-          width={dimensions.marginLeft}
+          width={dimensions.marginRight}
           height="100%"
-          fill="#1C1C1C"
+          className={styles.rectBackground}
         />
       }
-      <line
-        className={styles.Axis__line}
-        // x1, x2, y1 are 0, so there's no need to add them.
-        y2={dimensions.boundedHeight}
-      />
+      {/* Commented the line because it looks like neither the MovementsTimeline nor the LineCharts will need it. Keep it just in case. */}
+      {/* <line */}
+      {/*   className={styles.Axis__line} */}
+      {/*   // x1, x2, y1 are 0, so there's no need to add them. */}
+      {/*   y2={dimensions.boundedHeight} */}
+      {/* /> */}
       {
         ticks.map((tick, i) => (
-          <text
-            key={tick}
-            className={styles.Axis__tick}
-            transform={`translate(-16, ${scale(tick)})`}
-          >
-            {formatTick ? tick : formatTick(tick)}
-          </text>
+          side === "right" ?
+            <foreignObject
+              x={dimensions.boundedWidth + 16}
+              y={scale(tick) - 10.5}
+              width="1"
+              height="1"
+              style={{ overflow: "visible" }}
+            >
+              <button>Open</button>
+            </foreignObject>
+            :
+            <text
+              key={tick}
+              className={styles.Axis__tick}
+              transform={`translate(${side === "right" ? dimensions.width - dimensions.marginRight : -16}, ${scale(tick)})`}
+            >
+              {formatTick ? tick : formatTick(tick)}
+            </text>
         ))
       }
       {
@@ -51,6 +62,6 @@ export default function AxisVertical({ dimensions, label, formatTick, scale, bac
           </text>
         )
       }
-    </g>
+    </g >
   )
 }
