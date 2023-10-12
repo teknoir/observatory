@@ -1,18 +1,19 @@
 import { ImageProps } from "ts/types"
 import styles from "./SurveillanceCarousel.module.scss"
-import classNames from "classnames"
 
 function CarrouselImage({ src }: ImageProps) {
   return (
-    <div className={styles.imageContainer}>
+    <div className={styles.mainImageContainer}>
       <img
         src={src}
-        className={classNames(styles.image, styles.imageFullWidth)}
+        className={styles.mainImage}
       />
-      <span className={styles.title}>
-        Front Parking North
+      <div className={styles.titleContainer}>
+        <p className={styles.titleText}>
+          {src}
+        </p>
         <div className={styles.titleStatusIndicator}></div>
-      </span>
+      </div>
     </div>
   )
 }
