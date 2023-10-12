@@ -1,19 +1,12 @@
-import { ImageProps } from "ts/types"
-import styles from "./SurveillanceCarousel.module.scss"
-import { useState } from "react"
 import { NavLink as RouterLink } from "react-router-dom";
 import Link from "@mui/material/Link";
+import { ImageProps } from "ts/types"
 import APP_URLS from "enums/urls";
+import styles from "./SurveillanceCarousel.module.scss"
 
 function CarrouselImage({ src }: ImageProps) {
-  const [isHovered, setIsHovered] = useState(false)
-
   return (
-    <div
-      className={styles.mainImageContainer}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
+    <div className={styles.mainImageContainer}>
       <img
         src={src}
         className={styles.image}
@@ -24,7 +17,7 @@ function CarrouselImage({ src }: ImageProps) {
         </p>
         <div className={styles.titleStatusIndicator}></div>
       </div>
-      <div className={isHovered ? styles.hoverState : styles.hoverStateHide}>
+      <div className={styles.hoverState}>
         {/* TODO: Replace url to be dynamic */}
         <Link
           component={RouterLink}

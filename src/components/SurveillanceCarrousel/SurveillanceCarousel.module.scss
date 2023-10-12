@@ -19,6 +19,12 @@
   position: relative;
   width: 60%;
   height: inherit;
+
+  &:hover {
+    .hoverState {
+      display: flex;
+    }
+  }
 }
 
 .image {
@@ -69,14 +75,10 @@
   height: 100%;
   top: 0;
   left: 0;
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   background-color: $fadedblack; 
-}
-
-.hoverStateHide {
-  display: none;
 }
 
 .gridViewControls {
