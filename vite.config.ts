@@ -8,10 +8,17 @@ export default defineConfig({
   resolve: {
     alias: {
       'components': path.resolve(__dirname, 'src/components'),
+      'context': path.resolve(__dirname, 'src/context'),
       'enums': path.resolve(__dirname, 'src/enums'),
       'hooks': path.resolve(__dirname, 'src/hooks'),
+      'layouts': path.resolve(__dirname, 'src/layouts'),
       'ts': path.resolve(__dirname, 'src/ts'),
-      'muiComponents': path.resolve(__dirname, 'src/muiComponents')
+      'muiComponents': path.resolve(__dirname, 'src/muiComponents'),
+      'muiThemes': path.resolve(__dirname, 'src/muiThemes')
     },
   },
+  server: {
+    host: true,
+    port: 5173
+  }
 })

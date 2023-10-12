@@ -3,7 +3,7 @@ import { createContext, useState } from "react"
 import { SurveillanceCarouselProps, CarouselMode } from "ts/types"
 import SurveillanceCarouselGeneral from "./General"
 import SurveillanceCarouselDetail from "./Detail"
-import GridViewControls from "./GridViewControls"
+// import GridViewControls from "./GridViewControls"
 import GridViewProvider from "./GridViewContext"
 
 const surveillanceCarouselComponentsByMode = {
@@ -40,7 +40,7 @@ const SurveillanceCarousel = ({ mode, sources: imagesSrc, onSetMainSource }: Sur
 
   return (
     <GridViewProvider>
-      <GridViewControls />
+      {/*<GridViewControls />*/}
       <Component
         sources={imagesSrc}
         mainSource={mainImage}
