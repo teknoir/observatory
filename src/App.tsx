@@ -8,7 +8,7 @@ import MotionsAlerts from "./routes/MotionsAlerts/MotionsAlerts";
 import Alerts from "./routes/Alerts/Alerts";
 import MainLayout from "./layouts/MainLayout/MainLayout";
 
-const basename = process.env.APP_BASENAME || "/";
+const basename = import.meta.env.VITE_APP_BASENAME || "/";
 
 function App() {
   return (
