@@ -1,8 +1,12 @@
-import { createContext, useState } from "react";
+import { createContext, useState, ReactNode } from "react";
 
 export const GridViewContext = createContext({})
 
-function GridViewProvider({ children }) {
+interface Props {
+  children: ReactNode;
+}
+
+function GridViewProvider({ children }: Props) {
 
   const [gridView, setGridView] = useState("one-camera")
 
