@@ -140,7 +140,10 @@ export const MovementsTimeline = ({ dataMotions, dataAlerts, xAccessor, yAccesso
           </Button>
         </div>
       </nav>
-      <div className="Timeline" ref={ref}>
+      <div
+        className={styles.timeline}
+        ref={ref}
+      >
         <Chart dimensions={dimensions}>
           <GridLines
             dimension="y"
