@@ -64,10 +64,10 @@ export interface TimelapseParams {
 export type Accessor = Function
 
 export interface CirclesProps {
-  data: []
+  data: Array<object>
   keyAccessor: Accessor
   xAccessor: Accessor
   yAccessor: Accessor
-  radius: number
+  radius?: number
   className?: string
 }
