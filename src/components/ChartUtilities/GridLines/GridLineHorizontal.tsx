@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import styles from './GridLine.module.scss';
+import styles from './GridLines.module.scss';
 
 export default function GridLineHorizontal({ dimensions, label, formatTick, scale, ...props }) {
   const numberOfTicks = dimensions.boundedWidth < 600

@@ -1,6 +1,11 @@
 import { styled } from "@mui/material/styles";
+import { DrawerProps as MuiDrawerProps } from "@mui/material/Drawer/Drawer";
 
-const DrawerHeader = styled('div')(({ theme, direction = 'right' }) => ({
+interface DrawerHeaderProps extends MuiDrawerProps {
+  direction?: string;
+}
+
+const DrawerHeader = styled('div')<DrawerHeaderProps>(({ theme, direction = 'right' }) => ({
   display: 'flex',
   alignItems: 'center',
   padding: theme.spacing(0, 1),
