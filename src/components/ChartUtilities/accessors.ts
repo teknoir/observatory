@@ -8,7 +8,8 @@ import * as d3 from "d3"
 export const timeParser = d3.timeParse("%m/%d/%Y")
 export const formatTime = d => new Date(Number(d)).toLocaleDateString("en-US")
 export const dateAccessor = d => timeParser(formatTime(d.timestamp))
-export const peripheralAccessor = d => d.peripheral
+export const startTimeAccessor = d => d3.isoParse(d.start_time)
+export const peripheralAccessor = d => d.peripheral_id
 export const countAccessor = d => d.count
 
 export const eventAccessor = d => d.event_name;

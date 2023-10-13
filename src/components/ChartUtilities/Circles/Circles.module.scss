@@ -1,18 +1,8 @@
 @import "enums/styleVariables.module";
 
-.Circles__circle {
+.circle {
   fill: $iris400;
   stroke: $white;
   stroke-width: 1px;
-  transition: all 0.3s ease-out;
-}
-
-.Circles__circle__motion {
-  fill: $bluemotion;
-  transition: all 0.3s ease-out;
-}
-
-.Circles__circle__detection {
-  fill: $redalert;
   transition: all 0.3s ease-out;
 }

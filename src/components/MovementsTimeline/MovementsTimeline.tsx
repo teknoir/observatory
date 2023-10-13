@@ -1,42 +1,42 @@
 import { useEffect, useRef, useState } from "react"
 import * as d3 from "d3"
-import { NumberValue } from "d3"
-import { Axis, Chart, Circles, GridLines } from "components/ChartUtilities"
-import { useChartDimensions } from "../ChartUtilities/utils"
 import Button from "muiComponents/Button/Button"
-import classNames from "classnames"
+import { Axis, Chart, Circles, GridLines } from "components/ChartUtilities"
+import { useChartDimensions } from "components/ChartUtilities/utils"
+import { MovementsTimeLineParams, TimelapseParams } from "ts/types"
 import styles from "./MovementsTimeline.module.scss"
 
 const formatDateDayMonth = d3.timeFormat("%-b %-d")
-// const formatDateDayMonthHour = d3.timeFormat("%H:%M, %-b %-d")
 const formatDateDayMonthHour = d3.timeFormat("%I %p, %-b %-d")
 
-interface MovementsTimeLineParams {
-  data: Array<object>
-  xAccessor: (d: object) => Date | NumberValue
-  yAccessor: (d: object) => string
-}
-
-interface TimelapseParams {
-  title: string
-  timeRange: Array<Date | NumberValue>
-  format: (d: Date) => string
-}
-
-export const MovementsTimeline = ({ data, xAccessor, yAccessor }: MovementsTimeLineParams) => {
-  const [timelapse, setTimelapse] = useState<TimelapseParams>({
-    title: "Data Time",
-    timeRange: d3.extent(data, xAccessor) as Array<Date | NumberValue>,
-    format: formatDateDayMonthHour
-  })
+export const MovementsTimeline = ({ dataMotions, dataAlerts, xAccessor, yAccessor }: MovementsTimeLineParams) => {
   const [ref, dimensions] = useChartDimensions(null)
   const [defaultTranslate, setDefaultTranslate] = useState<number>(0)
   const scrollGroupRef = useRef<SVGGElement | null>(null)
-  const peripherals = Array.from(new Set(data.map(yAccessor)))
   const currentTime = new Date()
   const time24HoursAgo = new Date(currentTime.getTime() - 24 * 60 * 60 * 1000)
   const time1WeekAgo = new Date(currentTime.getTime() - 24 * 8 * 60 * 60 * 1000)
-  // const time1MonthAgo = new Date(currentTime.getTime() - 24 * 7 * 4 * 60 * 60 * 1000)
+  const [timelapse, setTimelapse] = useState<TimelapseParams>({
+    title: "Data Time",
+    timeRange: [0, 0],
+    format: formatDateDayMonthHour
+  })
+  const [peripherals, setPeripherals] = useState([""])
+
+  useEffect(() => {
+    // TODO: is this condition necessary?
+    if (dataMotions && dataAlerts) {
+      setTimelapse(prevTimelapse => (
+        {
+          ...prevTimelapse,
+          // TODO: fix concat
+          timeRange: d3.extent(dataMotions.concat(dataAlerts), xAccessor) as Array<Date | number>,
+        }
+      ))
+      // TODO: add dataAlerts
+      setPeripherals(Array.from(new Set(dataMotions.map(yAccessor))))
+    }
+  }, [dataMotions, dataAlerts])
 
   const xScale = d3.scaleTime()
     .domain(timelapse.timeRange)
@@ -109,7 +109,7 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }: MovementsTimeL
             onClick={() => {
               setTimelapse({
                 title: "Data Time",
-                timeRange: d3.extent(data, xAccessor) as Array<Date | NumberValue>,
+                timeRange: d3.extent(dataMotions.concat(dataAlerts), xAccessor) as Array<Date | number>,
                 format: formatDateDayMonthHour
               })
             }}
@@ -153,10 +153,18 @@ export const MovementsTimeline = ({ data, xAccessor, yAccessor }: MovementsTimeL
               formatTick={timelapse.format}
             />
             <Circles
-              data={data}
+              data={dataMotions}
               keyAccessor={keyAccessor}
               xAccessor={xAccessorScaled}
               yAccessor={yAccessorScaled}
+              className={styles.circleMotion}
+            />
+            <Circles
+              data={dataAlerts}
+              keyAccessor={keyAccessor}
+              xAccessor={xAccessorScaled}
+              yAccessor={yAccessorScaled}
+              className={styles.circleAlert}
             />
           </g>
           <Axis

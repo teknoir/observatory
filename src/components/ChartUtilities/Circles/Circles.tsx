@@ -1,11 +1,9 @@
-// @ts-nocheck
 import { useState } from "react"
-import PropTypes from "prop-types"
 import classNames from "classnames";
-import { accessorPropsType } from "../utils"
+import { CirclesProps } from "ts/types";
 import styles from './Circles.module.scss';
 
-const Circles = ({ data, keyAccessor, xAccessor, yAccessor, radius }) => {
+const Circles = ({ data, keyAccessor, xAccessor, yAccessor, radius = 8, className }: CirclesProps) => {
   const [showTooltip, setShowTooltip] = useState({
     state: false,
     data: {}
@@ -13,14 +11,14 @@ const Circles = ({ data, keyAccessor, xAccessor, yAccessor, radius }) => {
   return (
     <>
       {
-        data.map((d, i) => (
+        data && data.map((d, i) => (
           <g key={i}>
             <circle
-              className={classNames(styles.Circles__circle, styles[`Circles__circle__${d.detectionType.toLowerCase()}`])}
+              className={classNames(styles.circle, className)}
               key={keyAccessor(i)}
               cx={xAccessor(d, i)}
               cy={yAccessor(d, i)}
-              r={typeof radius == "function" ? radius(d) : radius}
+              r={radius}
               onMouseEnter={() => setShowTooltip({ state: true, data: d })}
               onMouseLeave={() => setShowTooltip({ state: false, data: d })}
             />
@@ -38,18 +36,6 @@ const Circles = ({ data, keyAccessor, xAccessor, yAccessor, radius }) => {
       }
     </>
   )
-}
-
-Circles.propTypes = {
-  data: PropTypes.array,
-  keyAccessor: accessorPropsType,
-  xAccessor: accessorPropsType,
-  yAccessor: accessorPropsType,
-  radius: accessorPropsType,
-}
-
-Circles.defaultProps = {
-  radius: 8
 }
 
 export default Circles

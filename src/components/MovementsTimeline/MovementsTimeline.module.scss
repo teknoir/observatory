@@ -1,6 +1,8 @@
+@import "enums/styleVariables.module.scss";
+
 .container {
-  background-color: #1C1C1C;
-  color: #E0DED9;
+  background-color: $black200;
+  color: $gray300;
 }
 
 .menuLayout {
@@ -33,14 +35,14 @@
   border-radius: 100%;
 }
 
-.menuItemCirclesDetections {
-  background-color: #3B61BF; 
-}
-
-.menuItemCirclesMovements {
-  background-color: #9B357D; 
-}
-
 .linkText {
-  color: #E0DED9;
+  color: $gray300;
+}
+
+.circleMotion {
+  fill: $bluemotion;
+}
+
+.circleAlert {
+  fill: $redalert;
 }

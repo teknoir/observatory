@@ -48,3 +48,26 @@ export interface SelectOptions {
 
 export type Options = Array<SelectOptions>;
 
+export interface MovementsTimeLineParams {
+  dataMotions: Array<object>
+  dataAlerts: Array<object>
+  xAccessor: (d: object) => Date | number
+  yAccessor: (d: object) => string
+}
+
+export interface TimelapseParams {
+  title: string
+  timeRange: Array<Date | number>
+  format: (d: Date) => string
+}
+
+export type Accessor = Function
+
+export interface CirclesProps {
+  data: []
+  keyAccessor: Accessor
+  xAccessor: Accessor
+  yAccessor: Accessor
+  radius: number
+  className?: string
+}

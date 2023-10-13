@@ -34,6 +34,7 @@ export default function AxisVertical({ dimensions, label, formatTick, scale, bac
         ticks.map((tick, i) => (
           side === "right" ?
             <foreignObject
+              key={tick}
               x={dimensions.boundedWidth + 16}
               y={scale(tick) - 10.5}
               width="1"
