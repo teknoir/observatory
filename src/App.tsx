@@ -10,6 +10,7 @@ import MotionsAlerts from "./routes/MotionsAlerts/MotionsAlerts";
 import Alerts from "./routes/Alerts/Alerts";
 import MainLayout from "./layouts/MainLayout/MainLayout";
 
+const basename = process.env.APP_BASENAME || "/";
 const queryClient = new QueryClient();
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
     <div>
       <QueryClientProvider client={queryClient}>
         <StyledEngineProvider injectFirst>
-          <BrowserRouter>
+          <BrowserRouter basename={basename}>
             <Routes>
               <Route element={<MainLayout />}>
                 <Route path={APP_URLS.home} element={<Home />} />
