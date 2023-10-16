@@ -1,17 +1,15 @@
 import { useState, useMemo } from "react";
-import moment from "moment/moment";
 import { useQuery } from "@tanstack/react-query";
+import moment from "moment/moment";
+import _groupBy from "lodash/groupBy";
+import _map from "lodash/map";
+import _keys from "lodash/keys";
 import { SelectChangeEvent } from '@mui/material/Select';
 import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import Collapse from '@mui/material/Collapse';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
 import InputLabel from "@mui/material/InputLabel";
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import Select from "muiComponents/Select/Select";
-import AlertItem from "components/AlertItem/AlertItem";
+import AlertsGroup from "components/AlertsGroup/AlertsGroup";
 import { fetchAlerts, fetchAlertsByPeripheralId } from "services/apiRequests";
 import { alerts, alertsById} from "enums/queryKeys";
 import styles from "./AlertsList.module.scss";
@@ -32,7 +30,6 @@ const periodOptions = [
 
 const AlertsList = ({ peripheralId = '' }: Props) => {
   const [period, setPeriod] = useState(AlertPeriod.DAYS_7);
-  const [open, setOpen] = useState(true);
 
   const isPeripheral = !!peripheralId;
   const startDate = useMemo(
@@ -61,35 +58,26 @@ const AlertsList = ({ peripheralId = '' }: Props) => {
   const data = isPeripheral ? dataAlertsByPeripheralId : dataAlerts;
   const isLoading = isPeripheral ? isLoadingAlertsByPeripheralId : isLoadingAlerts;
 
-  console.log('DATA', data)
+  const groups = useMemo(() =>
+    _groupBy(data, function (item) {
+      return moment(item.start_time).startOf('day').format();
+    }),
+  [period, peripheralId, data])
+  const groupsKeys = _keys(groups).sort((a, b) => moment(b).diff(moment(a)));
 
   const handleChangePeriod = (e: SelectChangeEvent) => setPeriod(Number(e.target.value))
-
-  const handleClick = () => {
-    setOpen(!open);
-  };
 
   const renderList = () => {
     if (isLoading || !data) return <CircularProgress />
 
     return (
       <List>
-        <ListItemButton onClick={handleClick} sx={{ pl: '20px' }}>
-          <ListItemText primary={`Today(${data.length})`} />
-          {open ? <ExpandLess /> : <ExpandMore />}
-        </ListItemButton>
-        <Collapse in={open} timeout="auto" unmountOnExit>
-          {[1,2,3,4].map((item, index) => (
-            <AlertItem
-              name={'SW Front Row Parking'}
-              severity={'Low'}
-              duration={'14:55 (14s)'}
-              hasTheft={index % 2 === 0}
-              hasComment={index === 3}
-              isVerified={index === 3}
-            />
-          ))}
-        </Collapse>
+        {_map(groupsKeys, (dayStr) => (
+          <AlertsGroup
+            group={groups[dayStr]}
+            dayStr={dayStr}
+          />
+        ))}
       </List>
     );
   }
