@@ -1,5 +1,6 @@
 // import Fetch from "services/fetch";
 // import API from "enums/api";
+import { Moment } from "moment";
 import {
   fetchAllMotionsMock,
   fetchMotionsByPeripheralIdMock,
@@ -8,12 +9,12 @@ import {
 } from "services/fetchMock";
 
 interface RequestParamsById {
-  startDate: Date;
+  startDate: Date | Moment;
   peripheralId: string;
 }
 
 interface RequestParams {
-  startDate: Date;
+  startDate: Date | Moment;
 }
 
 // TODO: use real API request in future

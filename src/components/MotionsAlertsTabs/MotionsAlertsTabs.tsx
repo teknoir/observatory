@@ -26,6 +26,7 @@ const MotionsAlertsTabs = () => {
       </Box>
       <TabPanel value={value} index={0}>
         <AlertsList />
+        {/*<AlertsList peripheralId={"parkinglot2"} />*/}
       </TabPanel>
       <TabPanel value={value} index={1}>
         <MotionsList />
