@@ -7,7 +7,11 @@ import { a11yProps } from "utils/mui";
 import AlertsList from "components/AlertsList/AlertsList";
 import MotionsList from "components/MotionsList/MotionsList";
 
-const MotionsAlertsTabs = () => {
+interface Props {
+  peripheralId?: string;
+}
+
+const MotionsAlertsTabs = ({ peripheralId = '' }: Props) => {
   const [value, setValue] = React.useState(0);
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -25,8 +29,7 @@ const MotionsAlertsTabs = () => {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <AlertsList />
-        {/*<AlertsList peripheralId={"parkinglot2"} />*/}
+        <AlertsList peripheralId={peripheralId} />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <MotionsList />
