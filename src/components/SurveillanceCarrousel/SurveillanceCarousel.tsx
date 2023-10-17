@@ -1,5 +1,5 @@
 import { createContext, useState } from "react"
-// import { useInterval } from "usehooks-ts"
+import { useInterval } from "usehooks-ts"
 import { SurveillanceCarouselProps, CarouselMode } from "ts/types"
 import SurveillanceCarouselGeneral from "./General"
 import SurveillanceCarouselDetail from "./Detail"
@@ -13,26 +13,27 @@ const surveillanceCarouselComponentsByMode = {
 
 export const GridViewContext = createContext("")
 
-const SurveillanceCarousel = ({ mode, sources: imagesSrc, onSetMainSource }: SurveillanceCarouselProps) => {
-  // TODO: use '1' as default camera ID
-  const [mainImage, setMainImage] = useState('1')
+const SurveillanceCarousel = ({ mode, sources }: SurveillanceCarouselProps) => {
+  const [mainImage, setMainImage] = useState('')
 
-  // TODO: ask Rodrigo if we still need this
-  // useInterval(() => {
-  //   if (imagesSrc && imagesSrc.length > 0) {
-  //     setMainImage(prevImgIndex => {
-  //       let newIndex = 0
-  //       if (prevImgIndex < imagesSrc.length) {
-  //         newIndex = prevImgIndex + 1
-  //       }
-  //       return newIndex
-  //     })
-  //   }
-  // }, 2000)
+  useInterval(() => {
+    if (sources.size > 0) {
+      setMainImage(prevImgIndex => {
+        const ids = [...sources.keys()];
+        let newIndex = '';
+        const mainIdx = ids.findIndex(id => id === prevImgIndex);
+        if (!mainImage) {
+          newIndex = ids[0];
+        } else {
+          newIndex = ids[mainIdx + 1] || ids[0];
+        }
+        return newIndex
+      })
+    }
+  }, 60000)
 
   const setMainSource = (cameraId: string) => {
     setMainImage(cameraId)
-    onSetMainSource(cameraId)
   }
 
   const Component = surveillanceCarouselComponentsByMode[mode]
@@ -42,7 +43,7 @@ const SurveillanceCarousel = ({ mode, sources: imagesSrc, onSetMainSource }: Sur
     <GridViewProvider>
       {/*<GridViewControls />*/}
       <Component
-        sources={imagesSrc}
+        sources={sources}
         mainSource={mainImage}
         setMainSource={setMainSource}
       />

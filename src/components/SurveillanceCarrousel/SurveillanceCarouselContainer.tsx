@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { CarouselMode } from "ts/types";
+import { CarouselMode, Source } from "ts/types";
 import useWebSocket, { TYPES } from "hooks/useWebSocket";
 import SurveillanceCarousel from "./SurveillanceCarousel";
 import { createRandomSources } from "./utils.ts";
@@ -12,7 +12,6 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
   const [sources, setSources] = useState(createRandomSources(0));
   const {
     lastMessage,
-    sendMessage,
   } = useWebSocket();
 
   useEffect(() => {
@@ -23,10 +22,14 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
         case TYPES.MESSAGE: {
           const { event } = data;
           if (event) {
-            const { topic, image, peripheral_id: peripheralId } = event;
-            console.log('peripheralId', peripheralId)
+            const { topic, image, peripheral } = event;
+            const peripheralId = peripheral?.id;
             if (topic === 'front-end-video') {
-              updateSourceByCameraId(peripheralId, image)
+              updateSourceByCameraId(peripheralId, {
+                src: image,
+                peripheralId,
+                peripheralName: peripheral?.name,
+              })
             }
           }
           break;
@@ -40,8 +43,8 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
     }
   }, [lastMessage])
 
-  const updateSourceByCameraId = (cameraId: string, src: string) => {
-    setSources(map => new Map(map.set(cameraId, { src })));
+  const updateSourceByCameraId = (cameraId: string, source: Source) => {
+    setSources(map => new Map(map.set(cameraId, source)));
   }
 
   const deleteSourcesByCameraIds = (cameraIds: string[]) => {
@@ -52,18 +55,10 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
     setSources(newSources);
   }
 
-  const onSetMainSource = (cameraId: string) => {
-    sendMessage(JSON.stringify({
-      type: 'START_IMAGES_STREAM',
-      cameraId
-    }));
-  }
-
   return (
     <SurveillanceCarousel
       mode={mode}
       sources={sources}
-      onSetMainSource={onSetMainSource}
     />
   )
 }
