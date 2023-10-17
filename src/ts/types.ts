@@ -1,3 +1,5 @@
+import { Moment } from "moment/moment";
+
 export enum CarouselMode {
   General = "general",
   Detail = "detail"
@@ -48,3 +50,44 @@ export interface SelectOptions {
 
 export type Options = Array<SelectOptions>;
 
+export interface IAlertEvent {
+  detection_id: string;
+  annotations: [],
+  branch: string;
+  count: number;
+  country: string;
+  duration: number;
+  end_time: string;
+  facility: string;
+  from_device: string;
+  group: string;
+  label: string;
+  last_modification: string;
+  message: string;
+  peripheral_id: string;
+  peripheral_name: string;
+  peripheral_type: string;
+  proof: {
+    id: string;
+  },
+  region: string;
+  sent: string;
+  severity: string;
+  site: string;
+  start_time: string;
+  type: string;
+  zone: string;
+}
+
+export interface IQuery {
+  [key: string]: string | number | boolean | IQuery | IQuery[];
+}
+
+export interface IEventsRequestParams {
+  startDate: Date | Moment;
+}
+
+export interface IEventsRequestParamsById {
+  startDate: Date | Moment;
+  peripheralId: string;
+}

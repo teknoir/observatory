@@ -16,7 +16,8 @@ export default defineConfig(({ mode }) => {
         'ts': path.resolve(__dirname, 'src/ts'),
         'muiComponents': path.resolve(__dirname, 'src/muiComponents'),
         'muiThemes': path.resolve(__dirname, 'src/muiThemes'),
-        'services': path.resolve(__dirname, 'src/services')
+        'services': path.resolve(__dirname, 'src/services'),
+        'utils': path.resolve(__dirname, 'src/utils')
       },
     },
     server: {

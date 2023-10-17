@@ -7,10 +7,18 @@ import { Options } from "ts/types"
 import styles from "./Select.module.scss"
 
 // TODO: handle id and name props in this component
-export default function SelectMUI({ label, value, options, onChange }: SelectProps & { options: Options }) {
+export default function SelectMUI({
+  label,
+  labelId,
+  value,
+  options,
+  variant = "outlined",
+  size = "small",
+  onChange,
+}: SelectProps & { options: Options }) {
   return (
-    <FormControl>
-      <InputLabel>{label}</InputLabel>
+    <FormControl variant={variant} size={size}>
+      {!!label && <InputLabel>{label}</InputLabel>}
       <Select
         className={styles.select}
         inputProps={{
@@ -19,6 +27,7 @@ export default function SelectMUI({ label, value, options, onChange }: SelectPro
           },
         }}
         label={label}
+        labelId={labelId}
         value={value}
         onChange={onChange}
       >

@@ -5,7 +5,7 @@ import NavigationBar from './NavigationBar';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { MainLayoutProvider } from "context/mainLayoutContext";
-import darkTheme from "muiThemes/dark.ts";
+import darkTheme from "muiThemes/dark";
 
 export default function MainLayout() {
   return (
