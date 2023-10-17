@@ -9,6 +9,9 @@ import MotionsAlertsTabs from "components/MotionsAlertsTabs/MotionsAlertsTabs";
 import { alerts, alertsById } from "enums/queryKeys";
 import { fetchAlerts, fetchAlertsByPeripheralId } from "services/apiRequests";
 
+const peripheralId = 'parkinglot2';
+// const peripheralId = 'boxerproperty3';
+
 const Alerts = () => {
   // TODO: for testing purpose
   const startDate = moment().startOf('day');
@@ -17,8 +20,8 @@ const Alerts = () => {
     queryFn: () => fetchAlerts({ startDate }),
   })
   const { data: dataAlertsById } = useQuery({
-    queryKey: [alertsById, startDate, 'parkinglot2'],
-    queryFn: () => fetchAlertsByPeripheralId({ startDate, peripheralId: 'parkinglot2' }),
+    queryKey: [alertsById, startDate, peripheralId],
+    queryFn: () => fetchAlertsByPeripheralId({ startDate, peripheralId }),
   })
   console.log(alerts, dataAlerts)
   console.log(alertsById, dataAlertsById)
@@ -36,7 +39,7 @@ const Alerts = () => {
         </video>
       </MainContent>
       <RightSideBar>
-        <MotionsAlertsTabs peripheralId={"parkinglot2"}/>
+        <MotionsAlertsTabs peripheralId={peripheralId}/>
       </RightSideBar>
     </>
   )

@@ -1,3 +1,5 @@
+import { Moment } from "moment/moment";
+
 export enum CarouselMode {
   General = "general",
   Detail = "detail"
@@ -75,4 +77,17 @@ export interface IAlertEvent {
   start_time: string;
   type: string;
   zone: string;
+}
+
+export interface IQuery {
+  [key: string]: string | number | boolean | IQuery | IQuery[];
+}
+
+export interface IEventsRequestParams {
+  startDate: Date | Moment;
+}
+
+export interface IEventsRequestParamsById {
+  startDate: Date | Moment;
+  peripheralId: string;
 }

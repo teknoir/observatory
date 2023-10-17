@@ -5,11 +5,12 @@ import ListItemText from "@mui/material/ListItemText";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import Collapse from "@mui/material/Collapse";
-import { isToday as isTodayFn, isYesterday } from "utils/moment";
 import AlertItem from "components/AlertItem/AlertItem";
+import { isToday as isTodayFn, isYesterday } from "utils/moment";
+import { IAlertEvent } from "ts/types";
 
 interface Props {
-  group: any[];
+  group: IAlertEvent[];
   dayStr: string;
 }
 

@@ -53,7 +53,7 @@ const AlertsListContainer = ({ peripheralId = '' }: Props) => {
 
   const handleChangePeriod = (e: SelectChangeEvent) => setPeriod(Number(e.target.value))
 
-  if (isLoading || !data) return <CircularProgress />
+  if (isLoading) return <CircularProgress />
 
   return (
     <AlertsList
