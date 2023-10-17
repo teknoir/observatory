@@ -4,7 +4,7 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import TabPanel from "muiComponents/TabPanel/TabPanel";
 import { a11yProps } from "utils/mui";
-import AlertsList from "components/AlertsList/AlertsList";
+import AlertsList from "components/AlertsList";
 import MotionsList from "components/MotionsList/MotionsList";
 
 interface Props {

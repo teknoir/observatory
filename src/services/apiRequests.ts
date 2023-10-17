@@ -1,12 +1,13 @@
 // import Fetch from "services/fetch";
 // import API from "enums/api";
-import { Moment } from "moment";
+import {Moment} from "moment";
 import {
   fetchAllMotionsMock,
   fetchMotionsByPeripheralIdMock,
   fetchAlertsByPeripheralIdMock,
   fetchAllAlertsMock
 } from "services/fetchMock";
+import {IAlertEvent} from "ts/types";
 
 interface RequestParamsById {
   startDate: Date | Moment;
@@ -19,10 +20,10 @@ interface RequestParams {
 
 // TODO: use real API request in future
 // export const fetchAlerts = () => Fetch.get(API.alerts);
-export const fetchAlerts = (params: RequestParams) => fetchAllAlertsMock(params);
+export const fetchAlerts = (params: RequestParams): Promise<IAlertEvent[]> => fetchAllAlertsMock(params);
 
 // TODO: use real API request in future
-export const fetchAlertsByPeripheralId = (params: RequestParamsById) => fetchAlertsByPeripheralIdMock(params);
+export const fetchAlertsByPeripheralId = (params: RequestParamsById): Promise<IAlertEvent[]> => fetchAlertsByPeripheralIdMock(params);
 
 
 // TODO: use real API request in future

@@ -49,6 +49,7 @@ const AlertsGroup = ({
             hasTheft={index % 2 === 0}
             hasComment={index === 3}
             isVerified={index === 3}
+            key={item.detection_id}
           />
         ))}
       </Collapse>
