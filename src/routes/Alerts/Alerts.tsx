@@ -2,12 +2,15 @@
 // @ts-nocheck
 import { useQuery } from "@tanstack/react-query";
 import moment from 'moment';
-import Typography from '@mui/material/Typography';
 import AppBar from 'components/AppBar/AppBar';
 import MainContent from 'components/MainContent/MainContent';
 import RightSideBar from "layouts/MainLayout/RightSideBar";
+import MotionsAlertsTabs from "components/MotionsAlertsTabs/MotionsAlertsTabs";
 import { alerts, alertsById } from "enums/queryKeys";
 import { fetchAlerts, fetchAlertsByPeripheralId } from "services/apiRequests";
+
+const peripheralId = 'parkinglot2';
+// const peripheralId = 'boxerproperty3';
 
 const Alerts = () => {
   // TODO: for testing purpose
@@ -17,8 +20,8 @@ const Alerts = () => {
     queryFn: () => fetchAlerts({ startDate }),
   })
   const { data: dataAlertsById } = useQuery({
-    queryKey: [alertsById, startDate, 'parkinglot2'],
-    queryFn: () => fetchAlertsByPeripheralId({ startDate, peripheralId: 'parkinglot2' }),
+    queryKey: [alertsById, startDate, peripheralId],
+    queryFn: () => fetchAlertsByPeripheralId({ startDate, peripheralId }),
   })
   console.log(alerts, dataAlerts)
   console.log(alertsById, dataAlertsById)
@@ -36,14 +39,7 @@ const Alerts = () => {
         </video>
       </MainContent>
       <RightSideBar>
-        <Typography variant="subtitle1" gutterBottom>
-          Alerts from the last 7 days
-        </Typography>
-        <ul>
-          <li>item 1</li>
-          <li>item 2</li>
-          <li>item 3</li>
-        </ul>
+        <MotionsAlertsTabs peripheralId={peripheralId}/>
       </RightSideBar>
     </>
   )

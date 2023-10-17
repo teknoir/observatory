@@ -43,7 +43,9 @@ If you feel a little bit lost, check this article about [React + D3.js](https://
 
 Run the following command from the root of the repo:
 
-> The only params that can be modified are **SHORT_SHA** and **BRANCH_NAME**. Usually these would be filled in by the build trigger, but this is a manual build and in this context they just tag the image. 
+> The only params that can be modified are **SHORT_SHA**, **BRANCH_NAME** and **BASENAME**. \
+**BASENAME** format should be /*namespace*/sdmc
+
 
 ```
 gcloud --project=teknoir-mgmt builds submit . \
@@ -55,5 +57,6 @@ SHORT_SHA="test",\
 BRANCH_NAME="dev",\
 _CLOUDSDK_COMPUTE_ZONE="us-central1-c",\
 _CLOUDSDK_CONTAINER_CLUSTER="teknoir-poc",\
+_BASENAME="/demonstrations/sdmc/",\
 _TARGET_CLUSTER_NAME="teknoir-dev-cluster"
 ```

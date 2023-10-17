@@ -1,6 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import moment from 'moment';
+import { IAlertEvent } from "ts/types";
 import { getUniqueID, dataWithDelay } from './utils';
 
 const alertsSchema = new Map<string, object>([
@@ -51,7 +52,7 @@ const getAlertsHours = () => {
 export const fetchAlertsByPeripheralIdMock = ({
   peripheralId,
   startDate,
-}) => {
+}): Promise<IAlertEvent[]> => {
   const res = [];
   const now = moment();
   const dateFrom = startDate.clone();
@@ -77,7 +78,7 @@ export const fetchAlertsByPeripheralIdMock = ({
 
 export const fetchAllAlertsMock = ({
   startDate,
-}) => {
+}): Promise<IAlertEvent[]> => {
   const res = [];
   const now = moment();
   const dateFrom = startDate.clone();
