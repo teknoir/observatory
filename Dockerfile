@@ -1,16 +1,27 @@
+# Build 
 ARG NODE_VERSION
+FROM node:${NODE_VERSION}-slim AS build
 
-FROM node:${NODE_VERSION}-slim
-
-WORKDIR /usr/src/app
+WORKDIR /app
 
 COPY . .
 
-RUN npm install
+# Routing for a specific namespace
+ARG VITE_APP_BASENAME
+ENV VITE_APP_BASENAME=${VITE_APP_BASENAME}
 
-RUN npm run build
+RUN npm install && \
+    npm run build
 
-EXPOSE 5173
+# Runtime 
+FROM nginx:stable-alpine
+COPY --from=build /app/dist /usr/share/nginx/html
+COPY nginx.conf .
+COPY entrypoint.sh ./entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-# Run the application
-CMD ["npm", "run", "dev"]
+ARG VITE_APP_BASENAME
+ENV VITE_APP_BASENAME=${VITE_APP_BASENAME}
+
+EXPOSE 80
+ENTRYPOINT ["./entrypoint.sh"]
