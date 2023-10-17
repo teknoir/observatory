@@ -3,7 +3,7 @@ import { CarouselProps, RefImage } from "ts/types"
 import CarrouselImage from "./CarrouselImage"
 import CarrouselImagePreview from "./CarrouselImagePreview"
 import styles from "./SurveillanceCarousel.module.scss"
-import { GridViewContext } from "./GridViewContext"
+// import { GridViewContext } from "./GridViewContext"
 
 function SurveillanceCarouselGeneral({ sources, mainSource, setMainSource }: CarouselProps) {
   const galleryRef = useRef<HTMLDivElement | null>(null)

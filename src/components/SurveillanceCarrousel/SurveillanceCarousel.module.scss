@@ -1,27 +1,90 @@
+@import "enums/styleVariables.module.scss";
+
 .containerGeneral {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  max-height: 100%;
-  height: 500px;
+  display: flex;
   width: 100%;
+  aspect-ratio: auto 136/51;
+  overflow-y: hidden;
 }
 
 .galleryScroll {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: 40%;
+  height: 100%;
   overflow-y: scroll;
+}
+
+.mainImageContainer {
+  position: relative;
+  width: 60%;
+  height: inherit;
+
+  &:hover {
+    .hoverState {
+      display: flex;
+    }
+  }
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imagePreviewContainer {
+  position: relative; 
+
+  &:hover {
+    .hoverState {
+      display: flex;
+    }
+  }
 }
 
 .galleryItemBorder {
   border: 1px solid white;
 }
 
-.carouselImage {
-  width: 100%;
+.titleContainer {
+  display: flex;
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  background-color: $fadedblack; 
+  color: $white;
+  max-width: calc(100% - 1rem);
 }
 
-.carouselImagePreview {
-  padding: 0.75rem;
+.titleText {
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.titleStatusIndicator {
+  background-color: $greensuccess;
+  min-width: 8px;
+  aspect-ratio: 1;
+  border-radius: 100%;
+}
+
+.hoverState {
+  position: absolute;  
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background-color: $fadedblack; 
 }
 
 .gridViewControls {

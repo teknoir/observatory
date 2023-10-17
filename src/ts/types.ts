@@ -49,9 +49,5 @@ export interface SelectOptions {
   value: number | string
 }
 
-export interface SelectProps {
-  label?: string
-  options: Array<SelectOptions>
-  value: string | number
-  onChange: (e: EventEmitter) => void
-}
+export type Options = Array<SelectOptions>;
+
