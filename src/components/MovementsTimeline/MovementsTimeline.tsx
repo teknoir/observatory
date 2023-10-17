@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import * as d3 from "d3"
 import Button from "muiComponents/Button/Button"
+import Image from "@mui/material"
 import { Axis, Chart, Circles, GridLines } from "components/ChartUtilities"
 import { useChartDimensions } from "components/ChartUtilities/utils"
 import { MovementsTimeLineParams, TimelapseParams } from "ts/types"

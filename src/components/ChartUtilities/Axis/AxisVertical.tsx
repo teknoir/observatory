@@ -2,6 +2,7 @@
 // @ts-nocheck
 import classNames from "classnames";
 import styles from "./Axis.module.scss";
+import cameraImage from 'assets/device_camera.png'
 
 export default function AxisVertical({ dimensions, label, formatTick, scale, background, side, ...props }) {
   const numberOfTicks = dimensions.boundedHeight / 70
@@ -19,7 +20,7 @@ export default function AxisVertical({ dimensions, label, formatTick, scale, bac
         <rect
           x={side === "right" ? dimensions.width - dimensions.marginRight * 2 : -dimensions.marginLeft}
           y="0"
-          width={dimensions.marginRight}
+          width={side === "right" ? dimensions.marginRight : dimensions.marginLeft}
           height="100%"
           className={styles.rectBackground}
         />
@@ -44,13 +45,45 @@ export default function AxisVertical({ dimensions, label, formatTick, scale, bac
               <button>Open</button>
             </foreignObject>
             :
-            <text
+            <foreignObject
               key={tick}
-              className={styles.Axis__tick}
-              transform={`translate(${side === "right" ? dimensions.width - dimensions.marginRight : -16}, ${scale(tick)})`}
+              x={side === "right" ? dimensions.width - dimensions.marginRight : -200}
+              y={scale(tick) - 15}
+              width="200"
+              height="50"
+            // width="1"
+            // height="1"
+            // style={{ overflow: "visible" }}
             >
-              {formatTick ? tick : formatTick(tick)}
-            </text>
+              <div
+                style={{
+                  display: "flex",
+                  justifyItems: "flex-start",
+                  alignItems: "center",
+                  gap: "4px",
+                }}
+              >
+                <img src={cameraImage} width={32} height={32} />
+                <span
+                  style={{
+                    color: "white",
+                    whiteSpace: "nowrap",
+                    overflowX: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                  title={formatTick ? tick : formatTick(tick)}
+                >
+                  {formatTick ? tick : formatTick(tick)}
+                </span>
+              </div>
+              {/* <text */}
+              {/*   key={tick} */}
+              {/*   className={styles.Axis__tick} */}
+              {/*   transform={`translate(${side === "right" ? dimensions.width - dimensions.marginRight : -16}, ${scale(tick)})`} */}
+              {/* > */}
+              {/*   {formatTick ? tick : formatTick(tick)} */}
+              {/* </text> */}
+            </foreignObject>
         ))
       }
       {
