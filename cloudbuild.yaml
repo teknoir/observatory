@@ -5,12 +5,9 @@ substitutions:
   _NAMESPACE: gcr.io
   _DEPLOY_TO_GKE_DEV: "false"
   _DEPLOY_TO_GKE_PROD: "false"
+  _BASENAME: ""
 
 steps:
-  # - id: RUN-TESTS
-  #   name: 'node:$_NODE_VERSION-slim'
-  #   entrypoint: 'npm'
-  #   args: ['test']
 
   - id: BUILD-IMAGE
     name: 'gcr.io/cloud-builders/docker'
@@ -22,6 +19,7 @@ steps:
         docker buildx build . \
           --push \
           --build-arg NODE_VERSION=$_NODE_VERSION \
+          --build-arg VITE_APP_BASENAME=$_BASENAME \
           --tag us-docker.pkg.dev/teknoir/$_NAMESPACE/sdmc:${BRANCH_NAME}-${SHORT_SHA}
     waitFor: [ '-' ]
 

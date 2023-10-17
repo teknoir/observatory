@@ -2,6 +2,7 @@
 
 # This script is used to deploy the application to GKE
 
+# Helper functions
 function get_yq() {
     apt-get -y update && apt-get -y install wget -y
     wget -q https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq && chmod +x /usr/bin/yq
