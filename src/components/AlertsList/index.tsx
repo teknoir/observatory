@@ -51,7 +51,7 @@ const AlertsListContainer = ({ peripheralId = '' }: Props) => {
   [isLoading, period, peripheralId])
   const groupsKeys = _keys(groups).sort((a, b) => moment(b).diff(moment(a)));
 
-  const handleChangePeriod = (e: SelectChangeEvent) => setPeriod(Number(e.target.value))
+  const handleChangePeriod = (e: SelectChangeEvent<unknown>) => setPeriod(Number(e.target.value))
 
   if (isLoading) return <CircularProgress />
 

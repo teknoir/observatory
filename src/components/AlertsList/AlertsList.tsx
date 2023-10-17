@@ -12,7 +12,7 @@ interface Props {
   groups: { [key: string]: IAlertEvent[] };
   groupsKeys: string[];
   period: AlertPeriod;
-  handleChangePeriod: (e: SelectChangeEvent) => void;
+  handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;
 }
 
 const periodOptions = [
