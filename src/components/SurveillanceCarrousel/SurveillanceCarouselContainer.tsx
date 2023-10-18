@@ -16,11 +16,13 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
     lastMessage,
   } = useWebSocket();
 
+  const sourcesSize = sources.size;
+
   useEffect(() => {
     if (!isLoaded && sources.size > 0) {
       setIsLoaded(true);
     }
-  }, [isLoaded, sources.size])
+  }, [isLoaded, sourcesSize])
 
   useEffect(() => {
     if (lastMessage) {

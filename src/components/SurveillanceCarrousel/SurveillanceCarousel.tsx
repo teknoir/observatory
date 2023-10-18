@@ -1,4 +1,4 @@
-import { createContext, useState } from "react"
+import { createContext, useState, useEffect } from "react"
 import { useInterval } from "usehooks-ts"
 import { SurveillanceCarouselProps, CarouselMode } from "ts/types"
 import SurveillanceCarouselGeneral from "./General"
@@ -15,6 +15,14 @@ export const GridViewContext = createContext("")
 
 const SurveillanceCarousel = ({ mode, sources }: SurveillanceCarouselProps) => {
   const [mainImage, setMainImage] = useState('')
+
+  const sourcesSize = sources.size;
+
+  useEffect(() => {
+    if (!mainImage && sources.size > 0) {
+      setMainImage(sources.keys().next().value)
+    }
+  }, [mainImage, sourcesSize])
 
   useInterval(() => {
     if (sources.size > 0) {
