@@ -12,7 +12,11 @@ import MainLayout from "./layouts/MainLayout/MainLayout";
 
 const basename = import.meta.env.VITE_APP_BASENAME || "/";
 const queryClient = new QueryClient();
-console.log('import.meta.env', import.meta.env)
+
+console.log('VITE_APP_BASENAME', import.meta.env.VITE_APP_BASENAME)
+console.log('VITE_WS_SERVER', import.meta.env.VITE_WS_SERVER)
+console.log('VITE_HISTORIAN_DB_SERVER', import.meta.env.VITE_HISTORIAN_DB_SERVER)
+
 function App() {
   return (
     <div>
