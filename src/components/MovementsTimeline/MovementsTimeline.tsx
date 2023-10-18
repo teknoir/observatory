@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react"
 import * as d3 from "d3"
-import { useInterval } from "usehooks-ts"
 import Button from "muiComponents/Button/Button"
 import { Axis, Chart, Circles, GridLines } from "components/ChartUtilities"
 import { useChartDimensions } from "components/ChartUtilities/utils"
@@ -9,7 +8,6 @@ import styles from "./MovementsTimeline.module.scss"
 
 const formatDateDayMonth = d3.timeFormat("%-b %-d")
 const formatDateDayMonthHour = d3.timeFormat("%-I:%M %p")
-const updateTimeline = 60000   // 1 minute
 
 export const MovementsTimeline = ({ dataMotions, dataAlerts, xAccessor, yAccessor }: MovementsTimeLineParams) => {
   const [ref, dimensions] = useChartDimensions(null)
@@ -26,6 +24,7 @@ export const MovementsTimeline = ({ dataMotions, dataAlerts, xAccessor, yAccesso
   const [peripherals, setPeripherals] = useState<Array<string>>([""])
 
   useEffect(() => {
+    setCurrentTime(new Date())
     if (dataMotions && dataAlerts) {
       setPeripherals(Array.from(new Set(dataMotions.concat(dataAlerts).map(yAccessor))))
     }
@@ -37,10 +36,6 @@ export const MovementsTimeline = ({ dataMotions, dataAlerts, xAccessor, yAccesso
       timeRange: [time24HoursAgo, currentTime],
     }))
   }, [currentTime])
-
-  useInterval(() => {
-    setCurrentTime(new Date())
-  }, updateTimeline)
 
   const xScale = d3.scaleTime()
     .domain(timelapse.timeRange)
