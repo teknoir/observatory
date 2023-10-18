@@ -47,9 +47,9 @@ export default function AxisVertical({ dimensions, label, formatTick, scale, bac
             :
             <foreignObject
               key={tick}
-              x={side === "right" ? dimensions.width - dimensions.marginRight : -200}
+              x={side === "right" ? dimensions.width - dimensions.marginRight : -100}
               y={scale(tick) - 15}
-              width="200"
+              width="100"
               height="50"
             // width="1"
             // height="1"

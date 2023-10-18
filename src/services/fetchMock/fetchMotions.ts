@@ -32,6 +32,30 @@ const motionsSchema = new Map<string, object>([
   ['parkinglot6', {
     minutes: [15, 20, 25],
     duration: 25,
+  }],
+  ['parkinglot7', {
+    minutes: [5, 28, 40],
+    duration: 15,
+  }],
+  ['parkinglot8', {
+    minutes: [10, 18, 55],
+    duration: 10,
+  }],
+  ['parkinglot9', {
+    minutes: [4, 12, 18, 36, 48],
+    duration: 30,
+  }],
+  ['parkinglot10', {
+    minutes: [35, 50],
+    duration: 20,
+  }],
+  ['parkinglot11', {
+    minutes: [11, 36, 43],
+    duration: 18,
+  }],
+  ['parkinglot12', {
+    minutes: [15, 20, 25],
+    duration: 25,
   }]
 ])
 

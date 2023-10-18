@@ -6,7 +6,7 @@ import styles from "./Axis.module.scss";
 export default function AxisHorizontalScroll({ dimensions, label, formatTick, scale, ...props }) {
   const numberOfTicks = dimensions.boundedScrollWidth < 600
     ? dimensions.boundedScrollWidth / 100
-    : dimensions.boundedScrollWidth / 250
+    : dimensions.boundedScrollWidth / 100
 
   const ticks = scale.ticks(numberOfTicks)
 

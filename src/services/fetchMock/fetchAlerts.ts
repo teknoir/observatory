@@ -34,6 +34,36 @@ const alertsSchema = new Map<string, object>([
     hours: [1, 4],
     minute: 42,
     duration: 1,
+  }],
+  ['parkinglot7', {
+    hours: [2, 15, 22],
+    minute: 12,
+    duration: 1,
+  }],
+  ['parkinglot8', {
+    hours: [5, 7, 10],
+    minute: 25,
+    duration: 3,
+  }],
+  ['parkinglot9', {
+    hours: [13, 16, 20, 22],
+    minute: 50,
+    duration: 2,
+  }],
+  ['parkinglot10', {
+    hours: [14, 20, 21],
+    minute: 5,
+    duration: 2,
+  }],
+  ['parkinglot11', {
+    hours: [3, 7, 11],
+    minute: 33,
+    duration: 3,
+  }],
+  ['parkinglot12', {
+    hours: [1, 4],
+    minute: 42,
+    duration: 1,
   }]
 ])
 
