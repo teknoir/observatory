@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { CarouselMode, Source } from "ts/types";
 import useWebSocket, { TYPES } from "hooks/useWebSocket";
 import SurveillanceCarousel from "./SurveillanceCarousel";
+import Skeleton from "./Skeleton/Skeleton.tsx";
 import { createRandomSources } from "./utils.ts";
 
 interface Props {
@@ -9,10 +10,17 @@ interface Props {
 }
 
 const SurveillanceCarouselContainer = ({ mode }: Props) => {
+  const [isLoaded, setIsLoaded] = useState(false);
   const [sources, setSources] = useState(createRandomSources(0));
   const {
     lastMessage,
   } = useWebSocket();
+
+  useEffect(() => {
+    if (!isLoaded && sources.size > 0) {
+      setIsLoaded(true);
+    }
+  }, [isLoaded, sources.size])
 
   useEffect(() => {
     if (lastMessage) {
@@ -54,6 +62,10 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
     })
     setSources(newSources);
   }
+
+  if (!isLoaded) return (
+    <Skeleton />
+  )
 
   return (
     <SurveillanceCarousel
