@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import { lazy } from "react";
+import { Suspense, lazy } from "react";
 import PropTypes from "prop-types"
 import * as d3 from 'd3'
 import { dimensionsPropsType } from "../utils";
@@ -20,9 +20,11 @@ const GridLines = ({ dimension, ...props }) => {
   if (!Component) return null
 
   return (
-    <Component {...props}
-      dimensions={dimensions}
-    />
+    <Suspense fallback={null}>
+      <Component {...props}
+        dimensions={dimensions}
+      />
+    </Suspense>
   )
 }
 
