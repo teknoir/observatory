@@ -31,7 +31,6 @@ export const MovementsTimeline = ({ dataMotions, dataAlerts, xAccessor, yAccesso
     }
   }, [dataMotions, dataAlerts])
 
-
   useEffect(() => {
     setTimelapse(prevTimelapse => ({
       ...prevTimelapse,
