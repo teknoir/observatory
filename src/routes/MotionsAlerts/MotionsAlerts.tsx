@@ -5,6 +5,7 @@
 import Typography from '@mui/material/Typography';
 import AppBar from 'components/AppBar/AppBar';
 import MainContent from 'components/MainContent/MainContent';
+import MovementsTimelineContainer from 'components/MovementsTimeline/MovementsTimelineContainer';
 import RightSideBar from "layouts/MainLayout/RightSideBar";
 // import { fetchMovements, fetchMovementsByPeripheralId } from "services/apiRequests";
 // import { motions, motionsById } from "enums/queryKeys";
@@ -32,6 +33,7 @@ const MotionsAlerts = () => {
         <Typography variant="h5" gutterBottom>
           Motions & Alerts
         </Typography>
+        <MovementsTimelineContainer />
       </MainContent>
       <RightSideBar>
         <AlertsMotionsTabs />
