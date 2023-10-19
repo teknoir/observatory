@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { CarouselMode, Source } from "ts/types";
 import useWebSocket, { TYPES } from "hooks/useWebSocket";
 import SurveillanceCarousel from "./SurveillanceCarousel";
-import Skeleton from "./Skeleton/Skeleton.tsx";
-import { createRandomSources } from "./utils.ts";
+import Skeleton from "./Skeleton/Skeleton";
+import { createRandomSources } from "./utils";
 
 interface Props {
   mode: CarouselMode;
@@ -17,6 +17,16 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
   } = useWebSocket();
 
   const sourcesSize = sources.size;
+
+  // TODO: only for testing, remove this later
+  useEffect(() => {
+    const useWSS = location?.search.includes('useWSS');
+    if (useWSS) {
+      setTimeout(() => {
+        setSources(createRandomSources(3));
+      }, 3000)
+    }
+  }, [])
 
   useEffect(() => {
     if (!isLoaded && sources.size > 0) {
