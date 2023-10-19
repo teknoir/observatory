@@ -20,8 +20,8 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
 
   // TODO: only for testing, remove this later
   useEffect(() => {
-    const useWSS = location?.search.includes('useWSS');
-    if (useWSS) {
+    const useTestImages = location?.search.includes('useTestImages');
+    if (useTestImages) {
       setTimeout(() => {
         setSources(createRandomSources(3));
       }, 3000)
