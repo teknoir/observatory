@@ -5,19 +5,23 @@ export enum CarouselMode {
   Detail = "detail"
 }
 
-interface Source {
-  src: string
+export interface Source {
+  src: string;
+  peripheralId: string;
+  peripheralName: string;
 }
+
+export type CameraId = string;
 
 export interface SurveillanceCarouselProps {
   mode: CarouselMode;
-  sources: Source["src"][]
+  sources: Map<CameraId, Source>;
 }
 
 export interface CarouselProps {
-  sources: Source["src"][]
-  mainSource: number
-  setMainSource: (index: number) => void
+  sources: Map<CameraId, Source>;
+  mainSource: CameraId
+  setMainSource: (index: CameraId) => void
 }
 
 export interface SurveillanceCarouselModeParams {

@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, memo } from 'react';
 import { NavLink as RouterLink } from "react-router-dom";
 import classNames from 'classnames';
 import Link from "@mui/material/Link";
@@ -40,4 +40,5 @@ const CarrouselImagePreview = forwardRef<HTMLImageElement, ImagePreviewProps>(({
   )
 })
 
-export default CarrouselImagePreview;
+const CarrouselImagePreviewMemo = memo(CarrouselImagePreview)
+export default CarrouselImagePreviewMemo;
