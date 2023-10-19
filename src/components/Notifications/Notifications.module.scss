@@ -1,3 +1,11 @@
 .root {
+  display: flex;
+  align-items: center;
   margin-left: auto;
+  cursor: pointer;
+}
+
+.text {
+  font-size: 12px;
+  line-height: 12px;
 }
