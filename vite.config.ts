@@ -4,7 +4,13 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
+  console.log('----------------env', env)
+  console.log('----------------process.env 1', process.env)
   return {
+    define: {
+      'import.meta.env.VITE_WS_SERVER': JSON.stringify(process.env.VITE_WS_SERVER || env.VITE_WS_SERVER),
+      'import.meta.env.VITE_HISTORIAN_DB_SERVER': JSON.stringify(process.env.VITE_HISTORIAN_DB_SERVER || env.VITE_HISTORIAN_DB_SERVER),
+    },
     base: env.VITE_APP_BASENAME || '/',
     plugins: [react()],
     resolve: {
@@ -17,7 +23,8 @@ export default defineConfig(({ mode }) => {
         'ts': path.resolve(__dirname, 'src/ts'),
         'muiComponents': path.resolve(__dirname, 'src/muiComponents'),
         'muiThemes': path.resolve(__dirname, 'src/muiThemes'),
-        'services': path.resolve(__dirname, 'src/services')
+        'services': path.resolve(__dirname, 'src/services'),
+        'utils': path.resolve(__dirname, 'src/utils')
       },
     },
     server: {

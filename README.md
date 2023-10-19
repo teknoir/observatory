@@ -52,11 +52,13 @@ gcloud --project=teknoir-mgmt builds submit . \
 --config=cloudbuild.yaml \
 --timeout=3600 \
 --substitutions=\
-_DEPLOY_TO_GKE_DEV="true",\
 SHORT_SHA="test",\
 BRANCH_NAME="dev",\
+_DEPLOY_TO_GKE_DEV="true",\
 _CLOUDSDK_COMPUTE_ZONE="us-central1-c",\
 _CLOUDSDK_CONTAINER_CLUSTER="teknoir-poc",\
-_BASENAME="/demonstrations/sdmc/",\
+_VITE_APP_BASENAME="/demonstrations/sdmc/",\
+_VITE_WS_SERVER="ws://localhost:8080",\
+_VITE_HISTORIAN_DB_SERVER="historian-api:8000",\
 _TARGET_CLUSTER_NAME="teknoir-dev-cluster"
 ```
