@@ -5,7 +5,7 @@ import Tab from 'muiComponents/Tab/Tab';
 import TabPanel from "muiComponents/TabPanel/TabPanel";
 import { a11yProps } from "utils/mui";
 import AlertsList from "components/AlertsList";
-import MotionsList from "components/MotionsList/MotionsList";
+import MotionsList from "components/MotionsList";
 
 interface Props {
   peripheralId?: string;
