@@ -5,7 +5,7 @@ import moment from 'moment';
 import AppBar from 'components/AppBar/AppBar';
 import MainContent from 'components/MainContent/MainContent';
 import RightSideBar from "layouts/MainLayout/RightSideBar";
-import MotionsAlertsTabs from "components/MotionsAlertsTabs/MotionsAlertsTabs";
+import AlertsPerformanceTabs from "components/AlertsPerformanceTabs/AlertsPerformanceTabs";
 import { alerts, alertsById } from "enums/queryKeys";
 import { fetchAlerts, fetchAlertsByPeripheralId } from "services/apiRequests";
 
@@ -39,7 +39,7 @@ const Alerts = () => {
         </video>
       </MainContent>
       <RightSideBar>
-        <MotionsAlertsTabs peripheralId={peripheralId}/>
+        <AlertsPerformanceTabs peripheralId={peripheralId}/>
       </RightSideBar>
     </>
   )

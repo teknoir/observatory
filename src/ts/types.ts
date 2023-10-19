@@ -91,3 +91,7 @@ export interface IEventsRequestParamsById {
   startDate: Date | Moment;
   peripheralId: string;
 }
+
+export interface IMotionsCounts {
+  [key: string]: number;
+}
