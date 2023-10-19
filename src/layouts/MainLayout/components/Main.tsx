@@ -7,6 +7,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
   open?: boolean;
   openRight?: boolean;
 }>(({ theme, open, openRight }) => ({
+  overflowX: "hidden",
   flexGrow: 1,
   paddingTop: theme.spacing(8),
   transition: theme.transitions.create('margin', {
