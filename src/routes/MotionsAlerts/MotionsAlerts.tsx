@@ -8,7 +8,7 @@ import MainContent from 'components/MainContent/MainContent';
 import RightSideBar from "layouts/MainLayout/RightSideBar";
 // import { fetchMovements, fetchMovementsByPeripheralId } from "services/apiRequests";
 // import { motions, motionsById } from "enums/queryKeys";
-import MotionsAlertsTabs from "components/MotionsAlertsTabs/MotionsAlertsTabs";
+import AlertsMotionsTabs from "components/AlertsMotionsTabs/AlertsMotionsTabs";
 
 const MotionsAlerts = () => {
   // const startDate = moment().startOf('day');
@@ -34,7 +34,7 @@ const MotionsAlerts = () => {
         </Typography>
       </MainContent>
       <RightSideBar>
-        <MotionsAlertsTabs />
+        <AlertsMotionsTabs />
       </RightSideBar>
     </>
   )

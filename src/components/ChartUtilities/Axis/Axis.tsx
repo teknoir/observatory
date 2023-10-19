@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import React, { lazy } from "react"
+import React, { Suspense, lazy } from "react"
 import PropTypes from "prop-types"
 import * as d3 from 'd3'
 import { dimensionsPropsType } from "../utils";
@@ -22,9 +22,11 @@ const Axis = ({ dimension, ...props }) => {
   if (!Component) return null
 
   return (
-    <Component {...props}
-      dimensions={dimensions}
-    />
+    <Suspense fallback={null}>
+      <Component {...props}
+        dimensions={dimensions}
+      />
+    </Suspense>
   )
 }
 

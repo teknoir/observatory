@@ -1,4 +1,4 @@
-import { createContext, useState } from "react"
+import { createContext, useState, useEffect } from "react"
 import { useInterval } from "usehooks-ts"
 import { SurveillanceCarouselProps, CarouselMode } from "ts/types"
 import SurveillanceCarouselGeneral from "./General"
@@ -13,20 +13,36 @@ const surveillanceCarouselComponentsByMode = {
 
 export const GridViewContext = createContext("")
 
-export const SurveillanceCarousel = ({ mode, sources: imagesSrc }: SurveillanceCarouselProps) => {
-  const [mainImage, setMainImage] = useState(0)
+const SurveillanceCarousel = ({ mode, sources }: SurveillanceCarouselProps) => {
+  const [mainImage, setMainImage] = useState('')
+
+  const sourcesSize = sources.size;
+
+  useEffect(() => {
+    if (!mainImage && sources.size > 0) {
+      setMainImage(sources.keys().next().value)
+    }
+  }, [mainImage, sourcesSize])
 
   useInterval(() => {
-    if (imagesSrc && imagesSrc.length > 0) {
+    if (sources.size > 0) {
       setMainImage(prevImgIndex => {
-        let newIndex = 0
-        if (prevImgIndex < imagesSrc.length) {
-          newIndex = prevImgIndex + 1
+        const ids = [...sources.keys()];
+        let newIndex = '';
+        const mainIdx = ids.findIndex(id => id === prevImgIndex);
+        if (!mainImage) {
+          newIndex = ids[0];
+        } else {
+          newIndex = ids[mainIdx + 1] || ids[0];
         }
         return newIndex
       })
     }
-  }, 2000)
+  }, 60000)
+
+  const setMainSource = (cameraId: string) => {
+    setMainImage(cameraId)
+  }
 
   const Component = surveillanceCarouselComponentsByMode[mode]
   if (!Component) return null
@@ -35,12 +51,12 @@ export const SurveillanceCarousel = ({ mode, sources: imagesSrc }: SurveillanceC
     <GridViewProvider>
       {/*<GridViewControls />*/}
       <Component
-        sources={imagesSrc}
+        sources={sources}
         mainSource={mainImage}
-        setMainSource={setMainImage}
+        setMainSource={setMainSource}
       />
     </GridViewProvider>
   )
 }
 
-
+export default SurveillanceCarousel;

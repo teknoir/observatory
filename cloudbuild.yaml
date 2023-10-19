@@ -5,7 +5,10 @@ substitutions:
   _NAMESPACE: gcr.io
   _DEPLOY_TO_GKE_DEV: "false"
   _DEPLOY_TO_GKE_PROD: "false"
-  _BASENAME: ""
+  _VITE_APP_BASENAME: ""
+  _VITE_WS_SERVER: ""
+  _VITE_HISTORIAN_DB_SERVER: ""
+
 
 steps:
 
@@ -19,7 +22,9 @@ steps:
         docker buildx build . \
           --push \
           --build-arg NODE_VERSION=$_NODE_VERSION \
-          --build-arg VITE_APP_BASENAME=$_BASENAME \
+          --build-arg VITE_APP_BASENAME=$_VITE_APP_BASENAME \
+          --build-arg VITE_WS_SERVER=$_VITE_WS_SERVER \
+          --build-arg VITE_HISTORIAN_DB_SERVER=$_VITE_HISTORIAN_DB_SERVER \
           --tag us-docker.pkg.dev/teknoir/$_NAMESPACE/sdmc:${BRANCH_NAME}-${SHORT_SHA}
     waitFor: [ '-' ]
 
