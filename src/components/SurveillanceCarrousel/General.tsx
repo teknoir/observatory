@@ -20,7 +20,7 @@ function SurveillanceCarouselGeneral({ sources, mainSource, setMainSource }: Car
     }
   }, [mainSource])
 
-  const setSelectedImageRef = (element: RefImage, index: number) => {
+  const setSelectedImageRef = (element: RefImage, index: string) => {
     if (mainSource === index) {
       selectedImageRef.current = element
     }
@@ -29,22 +29,30 @@ function SurveillanceCarouselGeneral({ sources, mainSource, setMainSource }: Car
   return (
     <section className={styles.containerGeneral}>
       <CarrouselImage
-        src={sources[mainSource]}
+        src={sources.get(mainSource)?.src || ''}
       />
       <div
         ref={galleryRef}
         className={styles.galleryScroll}
       >
         {
-          sources.length > 0 && sources.map((imageSrc, index) => (
-            <CarrouselImagePreview
-              key={sources + '_' + index}
-              src={imageSrc}
-              className={`${mainSource === index ? styles.galleryItemBorder : ""}`}
-              onClick={() => setMainSource(index)}
-              ref={(ref: HTMLImageElement) => setSelectedImageRef(ref, index)}
-            />
-          ))
+          sources.size > 0 ?
+            [...sources.keys()].map((sourceKey) => {
+              const src = sources.get(sourceKey)!.src;
+              return (
+                <div
+                  key={src}
+                  onClick={() => setMainSource(sourceKey)}
+                  ref={(ref: HTMLImageElement) => setSelectedImageRef(ref, sourceKey)}
+                >
+                  <CarrouselImagePreview
+                    src={src}
+                    className={`${mainSource === sourceKey ? styles.galleryItemBorder : ""}`}
+                  />
+                </div>
+              )
+            }) :
+            <div>Loading...</div>
         }
       </div>
     </section>

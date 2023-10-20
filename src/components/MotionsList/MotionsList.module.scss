@@ -1,0 +1,19 @@
+.selectWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 20px 20px 8px;
+}
+
+.list {
+  margin: 20px;
+}
+
+.listItem {
+  display: flex;
+  margin-bottom: 12px;
+}
+
+.icon {
+  transform: scale(0.5);
+}

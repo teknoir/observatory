@@ -1,9 +1,27 @@
-export function createRandomImages(quantity: number) {
-  const images = []
+import { Source, CameraId } from "ts/types";
+
+// export function createRandomImages(quantity: number) {
+//   const images = []
+//   for (let i = 0; i < quantity; i++) {
+//     const randomNum = generateRandomNum()
+//     const newImage = `https://picsum.photos/id/${randomNum}/400/300`
+//     images.push(newImage)
+//   }
+//   return images
+// }
+
+export function createRandomSources(quantity: number) {
+  const images: Map<CameraId, Source> = new Map();
   for (let i = 0; i < quantity; i++) {
     const randomNum = generateRandomNum()
     const newImage = `https://picsum.photos/id/${randomNum}/400/300`
-    images.push(newImage)
+    images.set(
+      String(i + 1),
+      {
+        src: newImage,
+        peripheralId: String(i + 1),
+        peripheralName: `Camera ${i + 1}` }
+    )
   }
   return images
 }
