@@ -19,6 +19,7 @@ const useWebSocketHook = () => {
     getWebSocket,
   } = useWebSocket(socketUrl, {
     onOpen: () => console.log('WS opened'),
+    onError: (event) => console.log('WS error', event),
     shouldReconnect: () => true,
   });
   return {
