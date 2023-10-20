@@ -7,7 +7,7 @@ import {
   fetchAllAlertsMock,
   fetchMotionsCountsMock
 } from "services/fetchMock";
-import { getEventsQuery} from "services/queryHistorian";
+import { getEventsQuery } from "services/queryHistorian";
 import {
   IEventsRequestParams,
   IEventsRequestParamsById,
