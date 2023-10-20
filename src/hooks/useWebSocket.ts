@@ -1,7 +1,6 @@
 import useWebSocket from 'react-use-websocket';
 
-// const socketUrl = import.meta.env.VITE_WS_SERVER;
-const socketUrl = 'wss://teknoir.dev/demonstrations/sdmc-wss-mqtt:8080';
+const socketUrl = import.meta.env.VITE_WS_SERVER;
 
 export const TYPES = {
   MESSAGE: 'MESSAGE',
