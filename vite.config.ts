@@ -21,10 +21,11 @@ export default defineConfig(({ mode }) => {
         'enums': path.resolve(__dirname, 'src/enums'),
         'hooks': path.resolve(__dirname, 'src/hooks'),
         'layouts': path.resolve(__dirname, 'src/layouts'),
-        'ts': path.resolve(__dirname, 'src/ts'),
         'muiComponents': path.resolve(__dirname, 'src/muiComponents'),
         'muiThemes': path.resolve(__dirname, 'src/muiThemes'),
+        'routes': path.resolve(__dirname, 'src/routes'),
         'services': path.resolve(__dirname, 'src/services'),
+        'ts': path.resolve(__dirname, 'src/ts'),
         'utils': path.resolve(__dirname, 'src/utils')
       },
     },

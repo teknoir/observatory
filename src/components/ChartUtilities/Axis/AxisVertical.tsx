@@ -1,10 +1,13 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import classNames from "classnames";
-import styles from "./Axis.module.scss";
+import { NavLink as RouterLink } from "react-router-dom"
+import classNames from "classnames"
+import Link from "@mui/material/Link"
 import cameraImage from 'assets/device_camera.png'
+import APP_URLS from "enums/urls"
+import styles from "./Axis.module.scss"
 
-export default function AxisVertical({ dimensions, label, formatTick, scale, background, side, ...props }) {
+export default function AxisVertical({ dimensions, label, formatTick, scale, idAccessor, background, side, ids, ...props }) {
   const numberOfTicks = dimensions.boundedHeight / 70
   // const ticks = scale.ticks(numberOfTicks)
 
@@ -42,7 +45,14 @@ export default function AxisVertical({ dimensions, label, formatTick, scale, bac
               height="1"
               style={{ overflow: "visible" }}
             >
-              <button>Open</button>
+              <Link
+                component={RouterLink}
+                to={APP_URLS.devices + "/" + ids[i]}
+                color="inherit"
+                underline="none"
+              >
+                Open
+              </Link>
             </foreignObject>
             :
             <foreignObject

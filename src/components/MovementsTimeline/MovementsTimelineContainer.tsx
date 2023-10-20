@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 import moment from "moment";
-import { startTimeAccessor, peripheralAccessor } from 'components/ChartUtilities/accessors'
+import { startTimeAccessor, peripheralNameAccessor, peripheralIdAccessor } from 'components/ChartUtilities/accessors'
 import { fetchMovements, fetchAlerts } from "services/apiRequests";
 import { motions, alerts } from "enums/queryKeys";
 import { MovementsTimeline } from "./MovementsTimeline"
@@ -35,7 +35,8 @@ function MovementsTimelineContainer() {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       xAccessor={startTimeAccessor}
-      yAccessor={peripheralAccessor}
+      yAccessor={peripheralNameAccessor}
+      idAccessor={peripheralIdAccessor}
     />
   )
 }

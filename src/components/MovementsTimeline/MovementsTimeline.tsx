@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import * as d3 from "d3"
 import Button from "muiComponents/Button/Button"
 import { Axis, Chart, Circles, GridLines } from "components/ChartUtilities"
+import { peripheralIdAccessor } from "components/ChartUtilities/accessors"
 import { useChartDimensions } from "components/ChartUtilities/utils"
 import { MovementsTimeLineParams, TimelapseParams } from "ts/types"
 import styles from "./MovementsTimeline.module.scss"
@@ -22,11 +23,13 @@ export const MovementsTimeline = ({ dataMotions, dataAlerts, xAccessor, yAccesso
     format: formatDateDayMonthHour
   })
   const [peripherals, setPeripherals] = useState<Array<string>>([""])
+  const [ids, setIds] = useState<Array<string>>([""])
 
   useEffect(() => {
     setCurrentTime(new Date())
     if (dataMotions && dataAlerts) {
       setPeripherals(Array.from(new Set(dataMotions.concat(dataAlerts).map(yAccessor))))
+      setIds(Array.from(new Set(dataMotions.concat(dataAlerts).map(peripheralIdAccessor))))
     }
   }, [dataMotions, dataAlerts])
 
@@ -181,6 +184,7 @@ export const MovementsTimeline = ({ dataMotions, dataAlerts, xAccessor, yAccesso
             dimension="y"
             side="right"
             scale={yScale}
+            ids={ids}
             background="true"
           />
         </Chart>
