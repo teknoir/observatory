@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import * as d3 from "d3"
+import _debounce from "lodash/debounce"
 import moment from "moment/moment"
 import InputLabel from "@mui/material/InputLabel"
 import { SelectChangeEvent } from "@mui/material/Select"
@@ -58,8 +59,10 @@ export const MovementsTimeline = ({
   const xAccessorScaled = (d: object) => xScale(xAccessor(d))
   const yAccessorScaled = (d: object) => yScale(yAccessor(d))
 
+  const debounceResize = _debounce(() => setDefaultTranslate(-dimensions.boundedScrollWidth + dimensions.boundedWidth), 200)
+
   useEffect(() => {
-    setDefaultTranslate(-dimensions.boundedScrollWidth + dimensions.boundedWidth)
+    debounceResize()
   }, [dimensions])
 
   useEffect(() => {
