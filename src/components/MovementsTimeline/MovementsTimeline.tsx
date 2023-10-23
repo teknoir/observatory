@@ -1,47 +1,52 @@
 import { useEffect, useRef, useState } from "react"
 import * as d3 from "d3"
-import Button from "muiComponents/Button/Button"
+import moment from "moment/moment"
+import InputLabel from "@mui/material/InputLabel"
+import { SelectChangeEvent } from "@mui/material/Select"
+import Select from "muiComponents/Select/Select"
 import { Axis, Chart, Circles, GridLines } from "components/ChartUtilities"
-import { peripheralIdAccessor } from "components/ChartUtilities/accessors"
 import { useChartDimensions } from "components/ChartUtilities/utils"
-import { MovementsTimeLineParams, TimelapseParams } from "ts/types"
+import { MovementsTimelinePeriod } from "./enums"
 import styles from "./MovementsTimeline.module.scss"
 
 const formatDateDayMonth = d3.timeFormat("%-b %-d")
-const formatDateDayMonthHour = d3.timeFormat("%-I:%M %p")
+// const formatDate = d3.timeFormat("%-I:%M %p")
 
-export const MovementsTimeline = ({ dataMotions, dataAlerts, xAccessor, yAccessor }: MovementsTimeLineParams) => {
+interface MovementsTimeLineParams {
+  startTime: Date
+  dataMotions: Array<object>
+  dataAlerts: Array<object>
+  xAccessor: (d: object) => Date | number
+  yAccessor: (d: object) => string
+  peripherals: Array<string>
+  ids: Array<string>
+  period: MovementsTimelinePeriod
+  handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;
+}
+
+const periodOptions = [
+  { value: MovementsTimelinePeriod.DAYS_1, label: "Last 24 hours" },
+  { value: MovementsTimelinePeriod.DAYS_7, label: "Last 7 days" },
+  { value: MovementsTimelinePeriod.DAYS_30, label: "Last 30 days" },
+]
+
+export const MovementsTimeline = ({
+  startTime,
+  dataMotions,
+  dataAlerts,
+  xAccessor,
+  yAccessor,
+  peripherals,
+  ids,
+  period,
+  handleChangePeriod
+}: MovementsTimeLineParams) => {
   const [ref, dimensions] = useChartDimensions(null)
   const [defaultTranslate, setDefaultTranslate] = useState<number>(0)
   const scrollGroupRef = useRef<SVGGElement | null>(null)
-  const [currentTime, setCurrentTime] = useState(new Date())
-  const time24HoursAgo = new Date(currentTime.getTime() - 24 * 60 * 60 * 1000)
-  const time1WeekAgo = new Date(currentTime.getTime() - 24 * 8 * 60 * 60 * 1000)
-  const [timelapse, setTimelapse] = useState<TimelapseParams>({
-    title: "Data Time",
-    timeRange: [time24HoursAgo, currentTime],
-    format: formatDateDayMonthHour
-  })
-  const [peripherals, setPeripherals] = useState<Array<string>>([""])
-  const [ids, setIds] = useState<Array<string>>([""])
-
-  useEffect(() => {
-    setCurrentTime(new Date())
-    if (dataMotions && dataAlerts) {
-      setPeripherals(Array.from(new Set(dataMotions.concat(dataAlerts).map(yAccessor))))
-      setIds(Array.from(new Set(dataMotions.concat(dataAlerts).map(peripheralIdAccessor))))
-    }
-  }, [dataMotions, dataAlerts])
-
-  useEffect(() => {
-    setTimelapse(prevTimelapse => ({
-      ...prevTimelapse,
-      timeRange: [time24HoursAgo, currentTime],
-    }))
-  }, [currentTime])
 
   const xScale = d3.scaleTime()
-    .domain(timelapse.timeRange)
+    .domain([startTime, moment().toDate()])
     .range([0, dimensions.boundedWidth * 6])
 
   const yScale = d3.scalePoint()
@@ -100,46 +105,18 @@ export const MovementsTimeline = ({ dataMotions, dataAlerts, xAccessor, yAccesso
 
   return (
     <div className={styles.container}>
-      {/* TODO: Still have to figure out how to handle top menu for charts. For example this chart displays some data and has
-      a couple of buttons to change the timeframe of the x axis. At the moment these are not part of the ref (Timeline) nor Chart component*/}
       <nav className={styles.menuLayout}>
         <div className={styles.menuItem}>
-          <a className={styles.linkText}>
-            Show All Cameras
-          </a>
-          <Button
-            onClick={() => {
-              setTimelapse({
-                title: "Data Time",
-                timeRange: d3.extent(dataMotions.concat(dataAlerts), xAccessor) as Array<Date | number>,
-                format: formatDateDayMonthHour
-              })
-            }}
-          >
-            Data time
-          </Button>
-          <Button
-            onClick={() => {
-              setTimelapse({
-                title: "Last 24 Hrs",
-                timeRange: [time24HoursAgo, currentTime],
-                format: formatDateDayMonthHour
-              })
-            }}
-          >
-            Last 24 hours
-          </Button>
-          <Button
-            onClick={() => {
-              setTimelapse({
-                title: "Last Week",
-                timeRange: [time1WeekAgo, currentTime],
-                format: formatDateDayMonth
-              })
-            }}
-          >
-            Last week
-          </Button>
+          <InputLabel id="movementsTimelinePeriodLabel">
+            Filter by:{' '}
+          </InputLabel>
+          <Select
+            labelId="movementsTimelinePeriodLabel"
+            variant="standard"
+            value={period}
+            options={periodOptions}
+            onChange={handleChangePeriod}
+          />
         </div>
       </nav>
       <div
@@ -158,7 +135,8 @@ export const MovementsTimeline = ({ dataMotions, dataAlerts, xAccessor, yAccesso
             <Axis
               dimension="xScroll"
               scale={xScale}
-              formatTick={timelapse.format}
+              // formatTick={formatDate}
+              formatTick={formatDateDayMonth}
             />
             <Circles
               data={dataMotions}

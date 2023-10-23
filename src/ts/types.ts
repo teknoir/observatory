@@ -54,13 +54,6 @@ export interface SelectOptions {
 
 export type Options = Array<SelectOptions>;
 
-export interface MovementsTimeLineParams {
-  dataMotions: Array<object>
-  dataAlerts: Array<object>
-  xAccessor: (d: object) => Date | number
-  yAccessor: (d: object) => string
-}
-
 export interface TimelapseParams {
   title: string
   timeRange: Array<Date | number>

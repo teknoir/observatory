@@ -1,31 +1,71 @@
+import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query"
-import moment from "moment";
+import moment from "moment/moment";
+import _uniqBy from "lodash/uniqBy";
+import { SelectChangeEvent } from "@mui/material/Select";
 import { startTimeAccessor, peripheralNameAccessor, peripheralIdAccessor } from 'components/ChartUtilities/accessors'
+import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import { fetchMovements, fetchAlerts } from "services/apiRequests";
 import { motions, alerts } from "enums/queryKeys";
 import { MovementsTimeline } from "./MovementsTimeline"
+import { MovementsTimelinePeriod } from "./enums";
 
 const refetchInterval = 60000   // 1 minute
 
 function MovementsTimelineContainer() {
-  const startDate = moment().startOf('day');
-  const { data: dataMotions } = useQuery({
+  const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1)
+  const startDate = useMemo(
+    () => moment().subtract(period, 'days').startOf('day'),
+    [period]
+  )
+  const startTime = useMemo(
+    () => moment().subtract(period, 'days').toDate(),
+    [period]
+  )
+
+  const {
+    data: dataMotions,
+    isLoading: isLoadingMotions
+  } = useQuery({
     queryKey: [motions, startDate],
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     queryFn: () => fetchMovements({ startDate }),
     refetchInterval: refetchInterval,
   })
-  const { data: dataAlerts } = useQuery({
+
+  const {
+    data: dataAlerts,
+    isLoading: isLoadingAlerts
+  } = useQuery({
     queryKey: [alerts, startDate],
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     queryFn: () => fetchAlerts({ startDate }),
     refetchInterval: refetchInterval,
   })
 
+  const peripherals = useMemo(() => {
+    if (dataMotions && dataAlerts) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      return _uniqBy(dataMotions.concat(dataAlerts), 'peripheral_name').map(peripheralNameAccessor)
+    }
+    return []
+  }, [isLoadingMotions, isLoadingAlerts, dataMotions, dataAlerts])
+
+  const ids = useMemo(() => {
+    if (dataMotions && dataAlerts) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      return _uniqBy(dataMotions.concat(dataAlerts), 'peripheral_id').map(peripheralIdAccessor)
+    }
+    return []
+  }, [isLoadingMotions, isLoadingAlerts, dataMotions, dataAlerts])
+
+  const handleChangePeriod = (e: SelectChangeEvent<unknown>) => setPeriod(Number(e.target.value))
+
+  if (isLoadingMotions || isLoadingAlerts) return <CircularProgress />
+
   return (
     <MovementsTimeline
+      startTime={startTime}
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       dataMotions={dataMotions}
@@ -37,6 +77,10 @@ function MovementsTimelineContainer() {
       xAccessor={startTimeAccessor}
       yAccessor={peripheralNameAccessor}
       idAccessor={peripheralIdAccessor}
+      peripherals={peripherals}
+      ids={ids}
+      period={period}
+      handleChangePeriod={handleChangePeriod}
     />
   )
 }
