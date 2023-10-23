@@ -5,6 +5,7 @@ import InputLabel from "@mui/material/InputLabel"
 import { SelectChangeEvent } from "@mui/material/Select"
 import Select from "muiComponents/Select/Select"
 import { Axis, Chart, Circles, GridLines } from "components/ChartUtilities"
+import { detectionIdAccessor } from "components/ChartUtilities/accessors"
 import { useChartDimensions } from "components/ChartUtilities/utils"
 import { MovementsTimelinePeriod } from "./enums"
 import styles from "./MovementsTimeline.module.scss"
@@ -56,7 +57,6 @@ export const MovementsTimeline = ({
 
   const xAccessorScaled = (d: object) => xScale(xAccessor(d))
   const yAccessorScaled = (d: object) => yScale(yAccessor(d))
-  const keyAccessor = (_: null, i: number) => i
 
   useEffect(() => {
     setDefaultTranslate(-dimensions.boundedScrollWidth + dimensions.boundedWidth)
@@ -140,14 +140,14 @@ export const MovementsTimeline = ({
             />
             <Circles
               data={dataMotions}
-              keyAccessor={keyAccessor}
+              keyAccessor={detectionIdAccessor}
               xAccessor={xAccessorScaled}
               yAccessor={yAccessorScaled}
               className={styles.circleMotion}
             />
             <Circles
               data={dataAlerts}
-              keyAccessor={keyAccessor}
+              keyAccessor={detectionIdAccessor}
               xAccessor={xAccessorScaled}
               yAccessor={yAccessorScaled}
               className={styles.circleAlert}
