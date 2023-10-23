@@ -41,22 +41,15 @@ function MovementsTimelineContainer() {
     refetchInterval: refetchInterval,
   })
 
-  const peripherals = useMemo(() => {
+  const [peripherals, ids] = useMemo(() => {
     if (dataMotions && dataAlerts) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      return _uniqBy(dataMotions.concat(dataAlerts), 'peripheral_name').map(peripheralNameAccessor)
+      const uniqueArr = _uniqBy(dataMotions.concat(dataAlerts), 'peripheral_name')
+      return [
+        uniqueArr.map(peripheralNameAccessor),
+        uniqueArr.map(peripheralIdAccessor),
+      ]
     }
-    return []
-  }, [isLoadingMotions, isLoadingAlerts, dataMotions, dataAlerts])
-
-  const ids = useMemo(() => {
-    if (dataMotions && dataAlerts) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      return _uniqBy(dataMotions.concat(dataAlerts), 'peripheral_id').map(peripheralIdAccessor)
-    }
-    return []
+    return [[], []]
   }, [isLoadingMotions, isLoadingAlerts, dataMotions, dataAlerts])
 
   const handleChangePeriod = (e: SelectChangeEvent<unknown>) => setPeriod(Number(e.target.value))
