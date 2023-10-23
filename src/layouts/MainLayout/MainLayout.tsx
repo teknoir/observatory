@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import Box from '@mui/material/Box';
-import NavigationBar from './NavigationBar';
+import NavigationBar from './NavigationBar/NavigationBar';
 
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';

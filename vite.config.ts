@@ -23,6 +23,7 @@ export default defineConfig(({ mode }) => {
         'ts': path.resolve(__dirname, 'src/ts'),
         'muiComponents': path.resolve(__dirname, 'src/muiComponents'),
         'muiThemes': path.resolve(__dirname, 'src/muiThemes'),
+        'routes': path.resolve(__dirname, 'src/routes'),
         'services': path.resolve(__dirname, 'src/services'),
         'utils': path.resolve(__dirname, 'src/utils')
       },

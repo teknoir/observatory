@@ -3,15 +3,21 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { StyledEngineProvider } from "@mui/material";
 import APP_URLS from "enums/urls";
+import { wsSources } from "enums/queryKeys";
 import Home from "./routes/Home/Home";
 import DarkTheme from "./routes/DarkTheme/DarkTheme";
 import LineCharts from "./routes/LineCharts/Linecharts";
 import MotionsAlerts from "./routes/MotionsAlerts/MotionsAlerts";
 import Alerts from "./routes/Alerts/Alerts";
+import Device from "routes/Device/Device";
 import MainLayout from "./layouts/MainLayout/MainLayout";
 
 const basename = import.meta.env.VITE_APP_BASENAME || "/";
+
 const queryClient = new QueryClient();
+queryClient.setQueryDefaults([wsSources], {
+  cacheTime: 1000 * 60,
+})
 
 console.log('VITE_APP_BASENAME', import.meta.env.VITE_APP_BASENAME)
 console.log('VITE_WS_SERVER', import.meta.env.VITE_WS_SERVER)
@@ -30,6 +36,7 @@ function App() {
                 <Route path={APP_URLS.home} element={<Home />} />
                 <Route path={APP_URLS.motionsAlerts} element={<MotionsAlerts />} />
                 <Route path="/alerts" element={<Alerts />} />
+                <Route path={APP_URLS.devices + "/:peripheralId"} element={<Device />} />
               </Route>
               <Route path="/dark-theme" element={<DarkTheme />} />
               <Route path="/linecharts" element={<LineCharts />} />
