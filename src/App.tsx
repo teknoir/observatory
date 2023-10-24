@@ -6,7 +6,6 @@ import APP_URLS from "enums/urls";
 import { wsSources } from "enums/queryKeys";
 import Alerts from "routes/Alerts/Alerts";
 import DarkTheme from "routes/DarkTheme/DarkTheme";
-// import Device from "routes/Devices/Device/Device";
 import Device from "routes/Device/Device";
 import Home from "routes/Home/Home";
 import LineCharts from "routes/LineCharts/Linecharts";
