@@ -141,6 +141,7 @@ export const MovementsTimeline = ({
             value={filter}
             options={timelineOptions}
             onChange={handleChangeFilter}
+            disableUnderline
           />
           <Select
             labelId="movementsTimelinePeriodLabel"
@@ -148,6 +149,7 @@ export const MovementsTimeline = ({
             value={period}
             options={periodOptions}
             onChange={handleChangePeriod}
+            disableUnderline
           />
           <Link
             component={RouterLink}

@@ -15,6 +15,7 @@ export default function SelectMUI({
   variant = "outlined",
   size = "small",
   onChange,
+  ...props
 }: SelectProps & { options: Options }) {
   return (
     <FormControl variant={variant} size={size}>
@@ -30,7 +31,7 @@ export default function SelectMUI({
         labelId={labelId}
         value={value}
         onChange={onChange}
-        disableUnderline
+        {...props}
       >
         {
           options && options.map(option => (
