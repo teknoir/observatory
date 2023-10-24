@@ -15,15 +15,17 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
     resolve: {
       alias: {
+        'assets': path.resolve(__dirname, 'src/assets'),
         'components': path.resolve(__dirname, 'src/components'),
         'context': path.resolve(__dirname, 'src/context'),
         'enums': path.resolve(__dirname, 'src/enums'),
         'hooks': path.resolve(__dirname, 'src/hooks'),
         'layouts': path.resolve(__dirname, 'src/layouts'),
-        'ts': path.resolve(__dirname, 'src/ts'),
         'muiComponents': path.resolve(__dirname, 'src/muiComponents'),
         'muiThemes': path.resolve(__dirname, 'src/muiThemes'),
+        'routes': path.resolve(__dirname, 'src/routes'),
         'services': path.resolve(__dirname, 'src/services'),
+        'ts': path.resolve(__dirname, 'src/ts'),
         'utils': path.resolve(__dirname, 'src/utils')
       },
     },
