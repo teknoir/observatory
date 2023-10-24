@@ -1,15 +1,20 @@
 import { useEffect, useRef, useState } from "react"
+import { NavLink as RouterLink } from "react-router-dom"
 import * as d3 from "d3"
 import _debounce from "lodash/debounce"
 import moment from "moment/moment"
 import InputLabel from "@mui/material/InputLabel"
+import Link from "@mui/material/Link"
 import { SelectChangeEvent } from "@mui/material/Select"
 import Select from "muiComponents/Select/Select"
 import { Axis, Chart, Circles, GridLines } from "components/ChartUtilities"
 import { detectionIdAccessor } from "components/ChartUtilities/accessors"
 import { useChartDimensions } from "components/ChartUtilities/utils"
+import APP_URLS from "enums/urls"
 import { MovementsTimelinePeriod, TimelineFilterBy } from "./enums"
 import styles from "./MovementsTimeline.module.scss"
+import Typography from "@mui/material/Typography"
+import Divider from "@mui/material/Divider"
 
 const formatDateDayMonth = d3.timeFormat("%-b %-d")
 // const formatDate = d3.timeFormat("%-I:%M %p")
@@ -120,6 +125,11 @@ export const MovementsTimeline = ({
     <div className={styles.container}>
       <nav className={styles.menuLayout}>
         <div className={styles.menuItem}>
+          <Typography variant="h5" gutterBottom>
+            Motions & Alerts
+          </Typography>
+        </div>
+        <div className={styles.menuItem}>
           <InputLabel id="timelineFilterByLabel">
             Filter by:{' '}
           </InputLabel>
@@ -130,8 +140,6 @@ export const MovementsTimeline = ({
             options={timelineOptions}
             onChange={handleChangeFilter}
           />
-        </div>
-        <div className={styles.menuItem}>
           <Select
             labelId="movementsTimelinePeriodLabel"
             variant="standard"
@@ -139,8 +147,16 @@ export const MovementsTimeline = ({
             options={periodOptions}
             onChange={handleChangePeriod}
           />
+          <Link
+            component={RouterLink}
+            to={APP_URLS.motionsAlerts}
+            color="inherit"
+          >
+            View all
+          </Link>
         </div>
-      </nav>
+      </nav >
+      <Divider variant="middle" />
       <div
         className={styles.timeline}
         ref={ref}
@@ -195,6 +211,6 @@ export const MovementsTimeline = ({
           />
         </Chart>
       </div >
-    </div>
+    </div >
   )
 }

@@ -2,7 +2,6 @@
 // @ts-nocheck
 // import { useQuery } from "@tanstack/react-query";
 // import moment from 'moment';
-import Typography from '@mui/material/Typography';
 import AppBar from 'components/AppBar/AppBar';
 import MainContent from 'components/MainContent/MainContent';
 import MovementsTimelineContainer from 'components/MovementsTimeline/MovementsTimelineContainer';
@@ -30,9 +29,6 @@ const MotionsAlerts = () => {
         Motions & Alerts
       </AppBar>
       <MainContent>
-        <Typography variant="h5" gutterBottom>
-          Motions & Alerts
-        </Typography>
         <MovementsTimelineContainer />
       </MainContent>
       <RightSideBar>

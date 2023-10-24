@@ -30,6 +30,7 @@ export default function SelectMUI({
         labelId={labelId}
         value={value}
         onChange={onChange}
+        disableUnderline
       >
         {
           options && options.map(option => (
