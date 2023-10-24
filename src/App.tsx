@@ -7,7 +7,7 @@ import Home from "./routes/Home/Home";
 import DarkTheme from "./routes/DarkTheme/DarkTheme";
 import LineCharts from "./routes/LineCharts/Linecharts";
 import MotionsAlerts from "./routes/MotionsAlerts/MotionsAlerts";
-import Alerts from "./routes/Alerts/Alerts";
+import Alert from "./routes/Alerts/Alert";
 import MainLayout from "./layouts/MainLayout/MainLayout";
 
 const basename = import.meta.env.VITE_APP_BASENAME || "/";
@@ -29,7 +29,7 @@ function App() {
               <Route element={<MainLayout />}>
                 <Route path={APP_URLS.home} element={<Home />} />
                 <Route path={APP_URLS.motionsAlerts} element={<MotionsAlerts />} />
-                <Route path="/alerts" element={<Alerts />} />
+                <Route path={APP_URLS.alerts + "/:detectionId"} element={<Alert />} />
               </Route>
               <Route path="/dark-theme" element={<DarkTheme />} />
               <Route path="/linecharts" element={<LineCharts />} />

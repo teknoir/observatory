@@ -92,6 +92,14 @@ export const fetchAllAlertsMock = ({
   return dataWithDelay(res)
 }
 
+export const fetchAlertMock = (detectionId) => {
+  return dataWithDelay({
+    ...alertItemBase,
+    detection_id: detectionId,
+    video_url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
+  })
+}
+
 const alertItemBase = {
   "detection_id": "651b3ef3a34a910001348126",
   "annotations": [],

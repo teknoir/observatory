@@ -54,8 +54,10 @@ export interface SelectOptions {
 
 export type Options = Array<SelectOptions>;
 
+export type DetectionId = string;
+
 export interface IAlertEvent {
-  detection_id: string;
+  detection_id: DetectionId;
   annotations: [],
   branch: string;
   count: number;

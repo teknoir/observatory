@@ -29,7 +29,7 @@ const navigationItems = [
   // TODO: this item will be removed
   {
     name: "1 Camera Alerts (for testing)",
-    url: APP_URLS.alerts,
+    url: APP_URLS.alerts + '/111111111111',
   }
 ];
 const NavigationBar = () => {

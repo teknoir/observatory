@@ -1,4 +1,16 @@
-import { IQuery, IEventsRequestParams, IEventsRequestParamsById } from 'ts/types';
+import {
+  IQuery,
+  IEventsRequestParams,
+  IEventsRequestParamsById,
+  DetectionId
+} from 'ts/types';
+
+export const getEventQuery = (detectionId: DetectionId) => {
+  const queryObj: IQuery = {
+    detection_id: detectionId
+  };
+  return encodeURIComponent(JSON.stringify(queryObj));
+}
 
 export const getEventsQuery = (params: IEventsRequestParams | IEventsRequestParamsById) => {
   const { peripheralId, startDate } = params as IEventsRequestParamsById;
