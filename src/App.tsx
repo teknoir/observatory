@@ -4,13 +4,14 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { StyledEngineProvider } from "@mui/material";
 import APP_URLS from "enums/urls";
 import { wsSources } from "enums/queryKeys";
-import Home from "./routes/Home/Home";
-import DarkTheme from "./routes/DarkTheme/DarkTheme";
-import LineCharts from "./routes/LineCharts/Linecharts";
-import MotionsAlerts from "./routes/MotionsAlerts/MotionsAlerts";
-import Alerts from "./routes/Alerts/Alerts";
+import Alerts from "routes/Alerts/Alerts";
+import DarkTheme from "routes/DarkTheme/DarkTheme";
+// import Device from "routes/Devices/Device/Device";
 import Device from "routes/Device/Device";
-import MainLayout from "./layouts/MainLayout/MainLayout";
+import Home from "routes/Home/Home";
+import LineCharts from "routes/LineCharts/Linecharts";
+import MainLayout from "layouts/MainLayout/MainLayout";
+import MotionsAlerts from "routes/MotionsAlerts/MotionsAlerts";
 
 const basename = import.meta.env.VITE_APP_BASENAME || "/";
 

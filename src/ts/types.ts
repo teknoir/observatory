@@ -54,6 +54,23 @@ export interface SelectOptions {
 
 export type Options = Array<SelectOptions>;
 
+export interface TimelapseParams {
+  title: string
+  timeRange: Array<Date | number>
+  format: (d: Date) => string
+}
+
+export type Accessor = Function
+
+export interface CirclesProps {
+  data: Array<object>
+  keyAccessor: Accessor
+  xAccessor: Accessor
+  yAccessor: Accessor
+  radius?: number
+  className?: string
+}
+
 export interface IAlertEvent {
   detection_id: string;
   annotations: [],

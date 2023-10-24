@@ -7,7 +7,7 @@ import {
   fetchAllAlertsMock,
   fetchMotionsCountsMock
 } from "services/fetchMock";
-import { getEventsQuery} from "services/queryHistorian";
+import { getEventsQuery } from "services/queryHistorian";
 import {
   IEventsRequestParams,
   IEventsRequestParamsById,
@@ -46,8 +46,21 @@ export const fetchMotionsCounts = (params: IEventsRequestParams) => {
 
 // TODO: use real API request in future
 // export const fetchMovements = () => Fetch.get(API.movements);
-export const fetchMovements = (params: IEventsRequestParams) => fetchAllMotionsMock(params);
-
+export const fetchMovements = (params: IEventsRequestParams) => {
+  // TODO: remove this condition in future
+  if (shouldUseHistorianDb()) {
+    const query = getEventsQuery(params);
+    return Fetch.get(API.movements(query)).then(({ data }) => data)
+  }
+  return fetchAllMotionsMock(params);
+};
 
 // TODO: use real API request in future
-export const fetchMovementsByPeripheralId = (params: IEventsRequestParamsById) => fetchMotionsByPeripheralIdMock(params);
+export const fetchMovementsByPeripheralId = (params: IEventsRequestParamsById) => {
+  // TODO: remove this condition in future
+  if (shouldUseHistorianDb()) {
+    const query = getEventsQuery(params);
+    return Fetch.get(API.movements(query)).then(({ data }) => data)
+  }
+  return fetchMotionsByPeripheralIdMock(params);
+}

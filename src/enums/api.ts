@@ -4,7 +4,7 @@ const API_HOST = `${API_PROTOCOL}://${API_SERVER}`;
 
 const API = {
   alerts: (query: string) => `${API_HOST}/events/retrieve?collection_name=alerts&query=${query}`,
-  movements: `${API_HOST}/events/retrieve?collection_name=movements`,
+  movements: (query: string) => `${API_HOST}/events/retrieve?collection_name=movements&query=${query}`,
 };
 
 export default API;

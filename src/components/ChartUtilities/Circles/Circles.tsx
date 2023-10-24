@@ -1,54 +1,23 @@
-// @ts-nocheck
-import { useState } from "react"
-import PropTypes from "prop-types"
-import { accessorPropsType } from "../utils"
+import classNames from "classnames";
+import { CirclesProps } from "ts/types";
 import styles from './Circles.module.scss';
 
-const Circles = ({ data, keyAccessor, xAccessor, yAccessor, radius }) => {
-  const [showTooltip, setShowTooltip] = useState({
-    state: false,
-    data: {}
-  })
+const Circles = ({ data, keyAccessor, xAccessor, yAccessor, radius = 8, className }: CirclesProps) => {
   return (
-    <>
+    <g>
       {
-        data.map((d, i) => (
-          <g key={i}>
-            <circle
-              className={styles[`Circles__circle__${d.detectionType.toLowerCase()}`]}
-              key={keyAccessor(i)}
-              cx={xAccessor(d, i)}
-              cy={yAccessor(d, i) + (d.detectionType === "Motion" ? 5 : 0) - (d.detectionType === "Detection" ? 5 : 0)}
-              r={typeof radius == "function" ? radius(d) : radius}
-              onMouseEnter={() => setShowTooltip({ state: true, data: d })}
-              onMouseLeave={() => setShowTooltip({ state: false, data: d })}
-            />
-          </g>
+        data && data.map((d) => (
+          <circle
+            className={classNames(styles.circle, className)}
+            key={keyAccessor(d)}
+            cx={xAccessor(d)}
+            cy={yAccessor(d)}
+            r={radius}
+          />
         ))
       }
-      {
-        showTooltip.state &&
-        <text
-          x={xAccessor(showTooltip.data) + radius + 5}
-          y={yAccessor(showTooltip.data) - radius - 5}
-        >
-          {JSON.stringify(showTooltip.data)}
-        </text>
-      }
-    </>
+    </g>
   )
-}
-
-Circles.propTypes = {
-  data: PropTypes.array,
-  keyAccessor: accessorPropsType,
-  xAccessor: accessorPropsType,
-  yAccessor: accessorPropsType,
-  radius: accessorPropsType,
-}
-
-Circles.defaultProps = {
-  radius: 8
 }
 
 export default Circles
