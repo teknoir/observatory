@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 // import { useParams } from 'react-router-dom';
-import useWebSocket, { TYPES } from "hooks/useWebSocket";
+import useWebSocket, { TYPES, isOpenWS } from "hooks/useWebSocket";
 // import moment from 'moment';
 import AlertsMotionsTabs from "components/AlertsMotionsTabs/AlertsMotionsTabs";
 import AppBar from 'components/AppBar/AppBar';
@@ -13,16 +13,19 @@ import ImageViewer from "./ImageViewer/ImageViewer";
 
 const Device = () => {
   // const { peripheralId = "" } = useParams();
-  const peripheralId = "6";
+  const peripheralId = "1";
   const queryClient = useQueryClient();
   const sources: {[p: string]: Source} = queryClient.getQueryData([wsSources])!;
-  console.log('source', sources)
-  // const source = sources[peripheralId];
   const [source, setSource] = useState<Source>(sources?.[peripheralId]);
+  const [isPlay, setIsPlay] = useState(false);
 
   const {
     lastMessage,
+    readyState,
+    sendMessage
   } = useWebSocket();
+
+  const isOpened = isOpenWS(readyState);
 
   useEffect(() => {
     if (lastMessage) {
@@ -47,6 +50,17 @@ const Device = () => {
       }
     }
   }, [lastMessage, peripheralId])
+
+  useEffect(() => {
+    if (!isPlay && isOpened) {
+      const messageObj = {
+        type: TYPES.START_IMAGES_STREAM,
+        peripheralId
+      };
+      sendMessage(JSON.stringify(messageObj));
+      setIsPlay(true);
+    }
+  }, [isPlay, isOpened, peripheralId])
 
   return (
     <>
