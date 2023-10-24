@@ -16,8 +16,8 @@ import styles from "./MovementsTimeline.module.scss"
 import Typography from "@mui/material/Typography"
 import Divider from "@mui/material/Divider"
 
-const formatDateDayMonth = d3.timeFormat("%-b %-d")
-// const formatDate = d3.timeFormat("%-I:%M %p")
+const formatDateByDay = d3.timeFormat("%-b %-d")
+const formatDateByTime = d3.timeFormat("%-I:%M %p")
 
 interface MovementsTimeLineParams {
   startTime: Date
@@ -75,6 +75,8 @@ export const MovementsTimeline = ({
   const yAccessorScaled = (d: object) => yScale(yAccessor(d))
 
   const debounceResize = _debounce(() => setDefaultTranslate(-dimensions.boundedScrollWidth + dimensions.boundedWidth), 200)
+
+  const formatDate = period === MovementsTimelinePeriod.DAYS_1 ? formatDateByTime : formatDateByDay
 
   useEffect(() => {
     debounceResize()
@@ -173,9 +175,8 @@ export const MovementsTimeline = ({
             <Axis
               dimension="xScroll"
               scale={xScale}
-              // FIX: Update with formatDate correctly
-              // formatTick={formatDate}
-              formatTick={formatDateDayMonth}
+              formatTick={formatDate}
+              numberOfTicks={period === MovementsTimelinePeriod.DAYS_1 ? 24 * 4 : period}
             />
             {(filter == TimelineFilterBy.MOTIONS ||
               filter == TimelineFilterBy.MOTIONS_ALERTS) &&
