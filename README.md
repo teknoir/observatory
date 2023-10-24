@@ -58,7 +58,7 @@ _DEPLOY_TO_GKE_DEV="true",\
 _CLOUDSDK_COMPUTE_ZONE="us-central1-c",\
 _CLOUDSDK_CONTAINER_CLUSTER="teknoir-poc",\
 _VITE_APP_BASENAME="/demonstrations/sdmc/",\
-_VITE_WS_SERVER="ws://localhost:8080",\
-_VITE_HISTORIAN_DB_SERVER="historian-api:8000",\
+_VITE_WS_SERVER="wss://teknoir.dev/demonstrations/ws/sdmc-wss-mqtt",\
+_VITE_HISTORIAN_DB_SERVER="teknoir.dev/demonstrations/historian-api",\
 _TARGET_CLUSTER_NAME="teknoir-dev-cluster"
 ```
