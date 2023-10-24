@@ -6,6 +6,7 @@ import useWebSocket, { TYPES, isOpenWS } from "hooks/useWebSocket";
 import AlertsMotionsTabs from "components/AlertsMotionsTabs/AlertsMotionsTabs";
 import AppBar from 'components/AppBar/AppBar';
 import MainContent from 'components/MainContent/MainContent';
+import MovementsTimeline from 'components/MovementsTimeline';
 import { Source } from "ts/types";
 import { wsSources } from "enums/queryKeys";
 import RightSideBar from "layouts/MainLayout/RightSideBar";
@@ -69,6 +70,7 @@ const Device = () => {
       </AppBar>
       <MainContent>
         <ImageViewer src={source?.src} />
+        <MovementsTimeline />
       </MainContent>
       <RightSideBar>
         <AlertsMotionsTabs peripheralId={peripheralId} />
