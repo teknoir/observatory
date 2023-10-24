@@ -22,12 +22,21 @@ interface MovementsTimeLineParams {
   yAccessor: (d: object) => string
   peripherals: Array<string>
   ids: Array<string>
+  filter: string
+  handleChangeFilter: (e: SelectChangeEvent<unknown>) => void;
   period: MovementsTimelinePeriod
   handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;
 }
 
+// FIX: update values to enums
+const timelineOptions = [
+  { value: "motions-alerts", label: "All" },
+  { value: "motions", label: "Motions" },
+  { value: "alerts", label: "Alerts" },
+]
+
 const periodOptions = [
-  { value: MovementsTimelinePeriod.DAYS_1, label: "Last 24 hours" },
+  { value: MovementsTimelinePeriod.DAYS_1, label: "Today" },
   { value: MovementsTimelinePeriod.DAYS_7, label: "Last 7 days" },
   { value: MovementsTimelinePeriod.DAYS_30, label: "Last 30 days" },
 ]
@@ -40,6 +49,8 @@ export const MovementsTimeline = ({
   yAccessor,
   peripherals,
   ids,
+  filter,
+  handleChangeFilter,
   period,
   handleChangePeriod
 }: MovementsTimeLineParams) => {
@@ -110,9 +121,18 @@ export const MovementsTimeline = ({
     <div className={styles.container}>
       <nav className={styles.menuLayout}>
         <div className={styles.menuItem}>
-          <InputLabel id="movementsTimelinePeriodLabel">
+          <InputLabel id="timelineFilterByLabel">
             Filter by:{' '}
           </InputLabel>
+          <Select
+            labelId="timelineFilterByLabel"
+            variant="standard"
+            value={filter}
+            options={timelineOptions}
+            onChange={handleChangeFilter}
+          />
+        </div>
+        <div className={styles.menuItem}>
           <Select
             labelId="movementsTimelinePeriodLabel"
             variant="standard"
@@ -138,23 +158,31 @@ export const MovementsTimeline = ({
             <Axis
               dimension="xScroll"
               scale={xScale}
+              // FIX: Update with formatDate correctly
               // formatTick={formatDate}
               formatTick={formatDateDayMonth}
             />
-            <Circles
-              data={dataMotions}
-              keyAccessor={detectionIdAccessor}
-              xAccessor={xAccessorScaled}
-              yAccessor={yAccessorScaled}
-              className={styles.circleMotion}
-            />
-            <Circles
-              data={dataAlerts}
-              keyAccessor={detectionIdAccessor}
-              xAccessor={xAccessorScaled}
-              yAccessor={yAccessorScaled}
-              className={styles.circleAlert}
-            />
+            {/* FIX: Update logic for motions-alerts and then for period */}
+            {
+              (filter == "motions" || filter == "motions-alerts") && period == 1 &&
+              <Circles
+                data={dataMotions}
+                keyAccessor={detectionIdAccessor}
+                xAccessor={xAccessorScaled}
+                yAccessor={yAccessorScaled}
+                className={styles.circleMotion}
+              />
+            }
+            {
+              (filter == "alerts" || filter == "motions-alerts") &&
+              <Circles
+                data={dataAlerts}
+                keyAccessor={detectionIdAccessor}
+                xAccessor={xAccessorScaled}
+                yAccessor={yAccessorScaled}
+                className={styles.circleAlert}
+              />
+            }
           </g>
           <Axis
             dimension="y"
