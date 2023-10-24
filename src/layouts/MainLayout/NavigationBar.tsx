@@ -28,8 +28,12 @@ const navigationItems = [
   },
   // TODO: this item will be removed
   {
-    name: "1 Camera Alerts (for testing)",
+    name: "Alert verified (for testing)",
     url: APP_URLS.alerts + '/111111111111',
+  },
+  {
+    name: "Alert not verified (for testing)",
+    url: APP_URLS.alerts + '/222222222222',
   }
 ];
 const NavigationBar = () => {
