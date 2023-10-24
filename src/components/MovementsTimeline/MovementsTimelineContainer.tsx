@@ -8,13 +8,12 @@ import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import { fetchMovements, fetchAlerts } from "services/apiRequests";
 import { motions, alerts } from "enums/queryKeys";
 import { MovementsTimeline } from "./MovementsTimeline"
-import { MovementsTimelinePeriod } from "./enums";
+import { MovementsTimelinePeriod, TimelineFilterBy } from "./enums";
 
 const refetchInterval = 60000   // 1 minute
 
 function MovementsTimelineContainer() {
-  //FIX: Update state of filter for enum
-  const [filter, setFilter] = useState("motions-alerts")
+  const [filter, setFilter] = useState<string>(TimelineFilterBy.MOTIONS_ALERTS)
   const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1)
   const startDate = useMemo(
     () => moment().subtract(period, 'days').startOf('day'),
@@ -54,15 +53,18 @@ function MovementsTimelineContainer() {
     return [[], []]
   }, [isLoadingMotions, isLoadingAlerts, dataMotions, dataAlerts])
 
-  // FIX: change this handler name
-  const handleChangeDisplay = (e: SelectChangeEvent<unknown>) => setFilter(String(e.target.value))
+  const handleChangeFilterBy = (e: SelectChangeEvent<unknown>) => {
+    const filterByValue = String(e.target.value)
+    setFilter(filterByValue)
+    if (filterByValue !== TimelineFilterBy.ALERTS) {
+      setPeriod(MovementsTimelinePeriod.DAYS_1)
+    }
+  }
   const handleChangePeriod = (e: SelectChangeEvent<unknown>) => {
-    setPeriod(Number(e.target.value))
-    if (e.target.value = 1) {
-      setFilter("motions-alerts")
-
-    } else {
-      setFilter("alerts")
+    const periodValue = Number(e.target.value)
+    setPeriod(periodValue)
+    if (periodValue !== MovementsTimelinePeriod.DAYS_1) {
+      setFilter(TimelineFilterBy.ALERTS)
     }
   }
 
@@ -85,7 +87,7 @@ function MovementsTimelineContainer() {
       peripherals={peripherals}
       ids={ids}
       filter={filter}
-      handleChangeFilter={handleChangeDisplay}
+      handleChangeFilter={handleChangeFilterBy}
       period={period}
       handleChangePeriod={handleChangePeriod}
     />

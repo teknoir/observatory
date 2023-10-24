@@ -4,3 +4,8 @@ export enum MovementsTimelinePeriod {
   DAYS_30 = 30,
 }
 
+export enum TimelineFilterBy {
+  MOTIONS_ALERTS = "motions-alerts",
+  MOTIONS = "motions",
+  ALERTS = "alerts",
+} 

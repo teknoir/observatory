@@ -8,7 +8,7 @@ import Select from "muiComponents/Select/Select"
 import { Axis, Chart, Circles, GridLines } from "components/ChartUtilities"
 import { detectionIdAccessor } from "components/ChartUtilities/accessors"
 import { useChartDimensions } from "components/ChartUtilities/utils"
-import { MovementsTimelinePeriod } from "./enums"
+import { MovementsTimelinePeriod, TimelineFilterBy } from "./enums"
 import styles from "./MovementsTimeline.module.scss"
 
 const formatDateDayMonth = d3.timeFormat("%-b %-d")
@@ -28,11 +28,10 @@ interface MovementsTimeLineParams {
   handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;
 }
 
-// FIX: update values to enums
 const timelineOptions = [
-  { value: "motions-alerts", label: "All" },
-  { value: "motions", label: "Motions" },
-  { value: "alerts", label: "Alerts" },
+  { value: TimelineFilterBy.MOTIONS_ALERTS, label: "All" },
+  { value: TimelineFilterBy.MOTIONS, label: "Motions" },
+  { value: TimelineFilterBy.ALERTS, label: "Alerts" },
 ]
 
 const periodOptions = [
@@ -162,27 +161,25 @@ export const MovementsTimeline = ({
               // formatTick={formatDate}
               formatTick={formatDateDayMonth}
             />
-            {/* FIX: Update logic for motions-alerts and then for period */}
-            {
-              (filter == "motions" || filter == "motions-alerts") && period == 1 &&
+            {(filter == TimelineFilterBy.MOTIONS ||
+              filter == TimelineFilterBy.MOTIONS_ALERTS) &&
+              period == MovementsTimelinePeriod.DAYS_1 &&
               <Circles
                 data={dataMotions}
                 keyAccessor={detectionIdAccessor}
                 xAccessor={xAccessorScaled}
                 yAccessor={yAccessorScaled}
                 className={styles.circleMotion}
-              />
-            }
-            {
-              (filter == "alerts" || filter == "motions-alerts") &&
+              />}
+            {(filter == TimelineFilterBy.ALERTS ||
+              filter == TimelineFilterBy.MOTIONS_ALERTS) &&
               <Circles
                 data={dataAlerts}
                 keyAccessor={detectionIdAccessor}
                 xAccessor={xAccessorScaled}
                 yAccessor={yAccessorScaled}
                 className={styles.circleAlert}
-              />
-            }
+              />}
           </g>
           <Axis
             dimension="y"
