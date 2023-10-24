@@ -1,11 +1,22 @@
+@import "enums/styleVariables.module.scss";
+
+.timeline {
+  height: 500px;
+  min-width: 500px;
+  width: calc(100% - 1em);
+  margin: 32px;
+  margin-top: 20px;
+  margin-bottom: 2em;
+}
+
 .container {
-  background-color: #1C1C1C;
-  color: #E0DED9;
+  background-color: $black200;
+  color: $gray300;
 }
 
 .menuLayout {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   padding: 1.25rem; 
 }
@@ -33,14 +44,14 @@
   border-radius: 100%;
 }
 
-.menuItemCirclesDetections {
-  background-color: #3B61BF; 
-}
-
-.menuItemCirclesMovements {
-  background-color: #9B357D; 
-}
-
 .linkText {
-  color: #E0DED9;
+  color: $gray300;
+}
+
+.circleMotion {
+  fill: $bluemotion;
+}
+
+.circleAlert {
+  fill: $redalert;
 }
