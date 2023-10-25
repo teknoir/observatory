@@ -8,9 +8,7 @@ import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import { fetchMovements, fetchAlerts } from "services/apiRequests";
 import { motions, alerts } from "enums/queryKeys";
 import { MovementsTimeline } from "./MovementsTimeline"
-import { MovementsTimelinePeriod } from "./enums";
-
-const refetchInterval = 60000   // 1 minute
+import { MovementsTimelinePeriod, TimelineRefetchInterval } from "./enums";
 
 function MovementsTimelineContainer() {
   const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1)
@@ -29,7 +27,7 @@ function MovementsTimelineContainer() {
   } = useQuery({
     queryKey: [motions, startDate],
     queryFn: () => fetchMovements({ startDate }),
-    refetchInterval: refetchInterval,
+    refetchInterval: TimelineRefetchInterval.ALL_DEVICES,
   })
 
   const {
@@ -38,7 +36,7 @@ function MovementsTimelineContainer() {
   } = useQuery({
     queryKey: [alerts, startDate],
     queryFn: () => fetchAlerts({ startDate }),
-    refetchInterval: refetchInterval,
+    refetchInterval: TimelineRefetchInterval.ALL_DEVICES,
   })
 
   const [peripherals, ids] = useMemo(() => {
