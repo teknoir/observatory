@@ -1,0 +1,21 @@
+@import "enums/styleVariables.module.scss";
+
+.root {
+  padding: 20px;
+}
+
+.rowRadio {
+  margin-bottom: 8px;
+}
+
+.row {
+  margin-bottom: 20px;
+}
+
+.label {
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: 400;
+  color: $white;
+  text-transform: uppercase;
+}

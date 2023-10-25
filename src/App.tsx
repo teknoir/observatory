@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { StyledEngineProvider } from "@mui/material";
 import APP_URLS from "enums/urls";
-import Alert from "./routes/Alerts/Alert";
+import Alert from "routes/Alert/Alert";
 import DarkTheme from "routes/DarkTheme/DarkTheme";
 import Device from "routes/Devices/Device/Device";
 import Home from "routes/Home/Home";
