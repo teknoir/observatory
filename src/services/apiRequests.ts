@@ -11,7 +11,6 @@ import { getEventsQuery } from "services/queryHistorian";
 import {
   IEventsRequestParams,
   IEventsRequestParamsById,
-  IAlertEvent,
 } from "ts/types";
 
 // TODO: remove this function in future
@@ -27,7 +26,7 @@ export const fetchAlerts = (params: IEventsRequestParams) => {
   return fetchAllAlertsMock(params);
 };
 
-export const fetchAlertsByPeripheralId = (params: IEventsRequestParamsById): Promise<IAlertEvent[]> => {
+export const fetchAlertsByPeripheralId = (params: IEventsRequestParamsById) => {
   // TODO: remove this condition in future
   if (shouldUseHistorianDb()) {
     const query = getEventsQuery(params);
