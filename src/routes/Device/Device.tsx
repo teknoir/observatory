@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-// import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import useWebSocket, { TYPES, isOpenWS } from "hooks/useWebSocket";
-// import moment from 'moment';
 import AlertsMotionsTabs from "components/AlertsMotionsTabs/AlertsMotionsTabs";
 import AppBar from 'components/AppBar/AppBar';
 import MainContent from 'components/MainContent/MainContent';
@@ -11,10 +10,10 @@ import { Source } from "ts/types";
 import { wsSources } from "enums/queryKeys";
 import RightSideBar from "layouts/MainLayout/RightSideBar";
 import ImageViewer from "./ImageViewer/ImageViewer";
+import styles from "./Device.module.scss";
 
 const Device = () => {
-  // const { peripheralId = "" } = useParams();
-  const peripheralId = "1";
+  const { peripheralId = "" } = useParams();
   const queryClient = useQueryClient();
   const sources: {[p: string]: Source} = queryClient.getQueryData([wsSources])!;
   const [source, setSource] = useState<Source>(sources?.[peripheralId]);
@@ -70,7 +69,9 @@ const Device = () => {
       </AppBar>
       <MainContent>
         <ImageViewer src={source?.src} />
-        <MovementsTimelineSingle peripheralId={peripheralId} />
+        <div className={styles.movementsChart}>
+          <MovementsTimelineSingle peripheralId={peripheralId} />
+        </div>
       </MainContent>
       <RightSideBar>
         <AlertsMotionsTabs peripheralId={peripheralId} />
