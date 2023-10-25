@@ -71,8 +71,10 @@ export interface CirclesProps {
   className?: string
 }
 
+export type DetectionId = string;
+
 export interface IAlertEvent {
-  detection_id: string;
+  detection_id: DetectionId;
   annotations: [],
   branch: string;
   count: number;

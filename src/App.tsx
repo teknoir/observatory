@@ -4,7 +4,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { StyledEngineProvider } from "@mui/material";
 import APP_URLS from "enums/urls";
 import { wsSources } from "enums/queryKeys";
-import Alerts from "routes/Alerts/Alerts";
+import Alert from "routes/Alert/Alert";
 import DarkTheme from "routes/DarkTheme/DarkTheme";
 import Device from "routes/Device/Device";
 import Home from "routes/Home/Home";
@@ -35,7 +35,7 @@ function App() {
               <Route element={<MainLayout />}>
                 <Route path={APP_URLS.home} element={<Home />} />
                 <Route path={APP_URLS.motionsAlerts} element={<MotionsAlerts />} />
-                <Route path="/alerts" element={<Alerts />} />
+                <Route path={APP_URLS.alerts + "/:detectionId"} element={<Alert />} />
                 <Route path={APP_URLS.devices + "/:peripheralId"} element={<Device />} />
               </Route>
               <Route path="/dark-theme" element={<DarkTheme />} />

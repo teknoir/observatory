@@ -5,17 +5,29 @@ import {
   fetchMotionsByPeripheralIdMock,
   fetchAlertsByPeripheralIdMock,
   fetchAllAlertsMock,
-  fetchMotionsCountsMock
+  fetchMotionsCountsMock,
+  fetchAlertMock,
 } from "services/fetchMock";
-import { getEventsQuery } from "services/queryHistorian";
+import { getEventQuery, getEventsQuery } from "services/queryHistorian";
 import {
   IEventsRequestParams,
   IEventsRequestParamsById,
+  DetectionId
 } from "ts/types";
 
 // TODO: remove this function in future
 const shouldUseHistorianDb = (): boolean => location?.search.includes('useHistorianDb');
 const shouldUseMotionsDb = (): boolean => false;
+
+export const fetchAlert = (detectionId: DetectionId) => {
+  // TODO: remove this condition in future
+  if (shouldUseHistorianDb()) {
+    const query = getEventQuery(detectionId);
+    // TODO: pass test video url
+    return Fetch.get(API.alerts(query)).then(({ data }) => data)
+  }
+  return fetchAlertMock(detectionId);
+};
 
 export const fetchAlerts = (params: IEventsRequestParams) => {
   // TODO: remove this condition in future
