@@ -8,4 +8,9 @@ export enum TimelineFilterBy {
   MOTIONS_ALERTS = "motions-alerts",
   MOTIONS = "motions",
   ALERTS = "alerts",
-} 
+}
+
+export enum TimelineRefetchInterval {
+  ALL_DEVICES = 60000,
+  SINGE_DEVICE = 6000
+}
