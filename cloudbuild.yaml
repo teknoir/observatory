@@ -33,6 +33,7 @@ steps:
     entrypoint: 'bash'
     env: 
       - '_DEPLOY_TO_GKE_DEV=${_DEPLOY_TO_GKE_DEV}'
+      - '_DEPLOY_TO_GKE_PROD=${_DEPLOY_TO_GKE_PROD}'
       - 'SHORT_SHA=${SHORT_SHA}'
       - 'BRANCH_NAME=${BRANCH_NAME}'
       - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'

@@ -35,17 +35,17 @@ If you feel a little bit lost, check this article about [React + D3.js](https://
 
 ## Triggers
 
-> The following triggers are configured in GCP:
-> - push to (main|dev) branch to build and deploy to the corresponding environments
-> - push to any branch to build an image and push to GCR
+The following triggers are configured in GCP:
+- push to (main|dev) branch to build and deploy to the corresponding environments
+- push to any branch to build an image and push to GCR
 
-## Build an image & deploy to DEV environment manually
+
+## Build an image & deploy to Teknoir DEV cloud
 
 Run the following command from the root of the repo:
 
 > The only params that can be modified are **SHORT_SHA**, **BRANCH_NAME** and **BASENAME**. \
 **BASENAME** format should be /*namespace*/sdmc
-
 
 ```
 gcloud --project=teknoir-mgmt builds submit . \
@@ -61,4 +61,27 @@ _VITE_APP_BASENAME="/demonstrations/sdmc/",\
 _VITE_WS_SERVER="wss://teknoir.dev/demonstrations/ws/sdmc-wss-mqtt",\
 _VITE_HISTORIAN_DB_SERVER="teknoir.dev/demonstrations/historian-api",\
 _TARGET_CLUSTER_NAME="teknoir-dev-cluster"
+```
+
+## Build an image & deploy to Teknoir cloud
+
+Run the following command from the root of the repo:
+
+> The only params that can be modified are **SHORT_SHA**, **BRANCH_NAME** and **BASENAME**. \
+**BASENAME** format should be /*namespace*/sdmc
+
+```
+gcloud --project=teknoir-mgmt builds submit . \
+--config=cloudbuild.yaml \
+--timeout=3600 \
+--substitutions=\
+SHORT_SHA="1.0.0",\
+BRANCH_NAME="main",\
+_DEPLOY_TO_GKE_PROD="true",\
+_CLOUDSDK_COMPUTE_ZONE="us-central1-c",\
+_CLOUDSDK_CONTAINER_CLUSTER="teknoir",\
+_VITE_APP_BASENAME="/teknoir-retail/sdmc/",\
+_VITE_WS_SERVER="wss://teknoir.cloud/teknoir-retail/ws/sdmc-wss-mqtt",\
+_VITE_HISTORIAN_DB_SERVER="teknoir.cloud/teknoir-retail/historian-api",\
+_TARGET_CLUSTER_NAME="teknoir-cluster"
 ```
