@@ -12,7 +12,6 @@ import { getEventQuery, getEventsQuery } from "services/queryHistorian";
 import {
   IEventsRequestParams,
   IEventsRequestParamsById,
-  IAlertEvent,
   DetectionId
 } from "ts/types";
 
