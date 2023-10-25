@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { CarouselMode, Source } from "ts/types";
 import useWebSocket, { TYPES } from "hooks/useWebSocket";
+import { wsSources } from "enums/queryKeys";
 import SurveillanceCarousel from "./SurveillanceCarousel";
 import Skeleton from "./Skeleton/Skeleton";
 import { createRandomSources } from "./utils";
@@ -10,8 +12,12 @@ interface Props {
 }
 
 const SurveillanceCarouselContainer = ({ mode }: Props) => {
+  const queryClient = useQueryClient();
+  const cachedSources = queryClient.getQueryData([wsSources]);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [sources, setSources] = useState(createRandomSources(0));
+  const [sources, setSources] = useState(
+    cachedSources ? new Map(Object.entries(cachedSources)) : createRandomSources(0)
+  );
   const {
     lastMessage,
   } = useWebSocket();
@@ -45,11 +51,19 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
             const { topic, image, peripheral } = event;
             const peripheralId = peripheral?.id;
             if (topic === 'front-end-video') {
-              updateSourceByCameraId(peripheralId, {
+              const source = {
                 src: image,
                 peripheralId,
                 peripheralName: peripheral?.name,
-              })
+              };
+              updateSourceByCameraId(peripheralId, source);
+              // Save source to queryClient
+              queryClient.setQueryData([wsSources], (oldData: {[p: string]: Source}  ) => (
+                {
+                  ...(oldData || {}),
+                  [source.peripheralId]: source,
+                }
+              ));
             }
           }
           break;
@@ -61,7 +75,7 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
         }
       }
     }
-  }, [lastMessage])
+  }, [lastMessage, queryClient])
 
   const updateSourceByCameraId = (cameraId: string, source: Source) => {
     setSources(map => new Map(map.set(cameraId, source)));

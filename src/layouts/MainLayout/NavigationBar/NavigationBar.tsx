@@ -14,8 +14,9 @@ import Avatar from "@mui/material/Avatar";
 import Drawer from "@mui/material/Drawer";
 import { useMainLayoutContext } from "context/mainLayoutContext";
 import APP_URLS from "enums/urls";
-import DrawerHeader from "./components/DrawerHeader.tsx";
-import { leftSideBarWidth, leftSideBarClosedWidth } from "./enums.ts";
+import DrawerHeader from "../components/DrawerHeader";
+import { leftSideBarWidth, leftSideBarClosedWidth } from "../enums";
+import styles from "./NavigationBar.module.scss";
 
 const navigationItems = [
   {
@@ -34,6 +35,10 @@ const navigationItems = [
   {
     name: "Alert not verified (for testing)",
     url: APP_URLS.alerts + '/222222222222',
+  },
+  {
+    name: "Device parkinglot2",
+    url: APP_URLS.devices + '/parkinglot2',
   }
 ];
 const NavigationBar = () => {
@@ -78,6 +83,7 @@ const NavigationBar = () => {
                     to={url}
                     color="inherit"
                     underline="none"
+                    className={styles.link}
                   >
                     {name}
                   </Link>

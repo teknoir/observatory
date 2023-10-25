@@ -3,16 +3,21 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { StyledEngineProvider } from "@mui/material";
 import APP_URLS from "enums/urls";
+import { wsSources } from "enums/queryKeys";
 import Alert from "routes/Alert/Alert";
 import DarkTheme from "routes/DarkTheme/DarkTheme";
-import Device from "routes/Devices/Device/Device";
+import Device from "routes/Device/Device";
 import Home from "routes/Home/Home";
 import LineCharts from "routes/LineCharts/Linecharts";
 import MainLayout from "layouts/MainLayout/MainLayout";
 import MotionsAlerts from "routes/MotionsAlerts/MotionsAlerts";
 
 const basename = import.meta.env.VITE_APP_BASENAME || "/";
+
 const queryClient = new QueryClient();
+queryClient.setQueryDefaults([wsSources], {
+  cacheTime: 1000 * 60,
+})
 
 console.log('VITE_APP_BASENAME', import.meta.env.VITE_APP_BASENAME)
 console.log('VITE_WS_SERVER', import.meta.env.VITE_WS_SERVER)

@@ -2,6 +2,7 @@
 // @ts-nocheck
 
 import moment from 'moment';
+import { IAlertEvent } from "ts/types";
 import { getUniqueID, dataWithDelay } from './utils';
 
 // const startDate = moment().subtract(1, 'days');
@@ -74,7 +75,7 @@ const getMotionMinutes = () => {
 export const fetchMotionsByPeripheralIdMock = ({
   peripheralId,
   startDate,
-}) => {
+}): Promise<IAlertEvent[]> => {
   const res = [];
   const now = moment();
   const dateFrom = startDate.clone();

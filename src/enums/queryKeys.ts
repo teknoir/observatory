@@ -6,3 +6,5 @@ export const motionsById = 'motionsById';
 export const motions = 'motions';
 
 export const motionsCounts = 'motionsCounts';
+
+export const wsSources = 'wsSources';
