@@ -24,31 +24,33 @@ function MovementsTimelineContainer() {
 
   const {
     data: dataMotions,
-    isLoading: isLoadingMotions
+    isInitialLoading: isLoadingMotions
   } = useQuery({
-    queryKey: [motions, startDate],
+    queryKey: [motions, startDate, filter],
     queryFn: () => fetchMovements({ startDate }),
     refetchInterval: TimelineRefetchInterval.ALL_DEVICES,
+    enabled: (filter == TimelineFilterBy.MOTIONS ||
+      filter == TimelineFilterBy.MOTIONS_ALERTS) &&
+      period == MovementsTimelinePeriod.DAYS_1
   })
 
   const {
     data: dataAlerts,
-    isLoading: isLoadingAlerts
+    isInitialLoading: isLoadingAlerts
   } = useQuery({
-    queryKey: [alerts, startDate],
+    queryKey: [alerts, startDate, filter],
     queryFn: () => fetchAlerts({ startDate }),
     refetchInterval: TimelineRefetchInterval.ALL_DEVICES,
+    enabled: filter == TimelineFilterBy.ALERTS ||
+      filter == TimelineFilterBy.MOTIONS_ALERTS
   })
 
   const [peripherals, ids] = useMemo(() => {
-    if (dataMotions && dataAlerts) {
-      const uniqueArr = _uniqBy(dataMotions.concat(dataAlerts), 'peripheral_name')
-      return [
-        uniqueArr.map(peripheralNameAccessor),
-        uniqueArr.map(peripheralIdAccessor),
-      ]
-    }
-    return [[], []]
+    const uniqueArr = _uniqBy(dataMotions ?? [].concat(dataAlerts ?? []), 'peripheral_name')
+    return [
+      uniqueArr.map(peripheralNameAccessor),
+      uniqueArr.map(peripheralIdAccessor),
+    ]
   }, [isLoadingMotions, isLoadingAlerts, dataMotions, dataAlerts])
 
   const handleChangeFilterBy = (e: SelectChangeEvent<unknown>) => {

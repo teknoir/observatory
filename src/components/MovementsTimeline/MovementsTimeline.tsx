@@ -185,25 +185,20 @@ export const MovementsTimeline = ({
               formatTick={formatDate}
               numberOfTicks={period === MovementsTimelinePeriod.DAYS_1 ? 24 * 4 : period}
             />
-            {(filter == TimelineFilterBy.MOTIONS ||
-              filter == TimelineFilterBy.MOTIONS_ALERTS) &&
-              period == MovementsTimelinePeriod.DAYS_1 &&
-              <Circles
-                data={dataMotions}
-                keyAccessor={detectionIdAccessor}
-                xAccessor={xAccessorScaled}
-                yAccessor={yAccessorScaled}
-                className={styles.circleMotion}
-              />}
-            {(filter == TimelineFilterBy.ALERTS ||
-              filter == TimelineFilterBy.MOTIONS_ALERTS) &&
-              <Circles
-                data={dataAlerts}
-                keyAccessor={detectionIdAccessor}
-                xAccessor={xAccessorScaled}
-                yAccessor={yAccessorScaled}
-                className={styles.circleAlert}
-              />}
+            <Circles
+              data={dataMotions}
+              keyAccessor={detectionIdAccessor}
+              xAccessor={xAccessorScaled}
+              yAccessor={yAccessorScaled}
+              className={styles.circleMotion}
+            />
+            <Circles
+              data={dataAlerts}
+              keyAccessor={detectionIdAccessor}
+              xAccessor={xAccessorScaled}
+              yAccessor={yAccessorScaled}
+              className={styles.circleAlert}
+            />
           </g>
           <Axis
             dimension="y"

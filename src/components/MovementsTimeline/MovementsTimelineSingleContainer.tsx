@@ -28,27 +28,37 @@ function MovementsTimelineSingleContainer({ peripheralId = '' }: Props) {
 
   const {
     data: dataMotionsByPeripheralId,
-    isLoading: isLoadingMotionsByPeripheralId
+    isInitialLoading: isLoadingMotionsByPeripheralId
   } = useQuery({
-    queryKey: [motionsById, startDate, peripheralId],
+    queryKey: [motionsById, startDate, filter, peripheralId],
     queryFn: () => fetchMovementsByPeripheralId({ startDate, peripheralId }),
-    enabled: !!peripheralId,
+    enabled: !!peripheralId &&
+      (filter == TimelineFilterBy.MOTIONS ||
+        filter == TimelineFilterBy.MOTIONS_ALERTS) &&
+      period == MovementsTimelinePeriod.DAYS_1,
     refetchInterval: TimelineRefetchInterval.SINGLE_DEVICE,
   })
 
   const {
     data: dataAlertsByPeripheralId,
-    isLoading: isLoadingAlertsByPeripheralId
+    isInitialLoading: isLoadingAlertsByPeripheralId
   } = useQuery({
-    queryKey: [alertsById, startDate, peripheralId],
+    queryKey: [alertsById, startDate, filter, peripheralId],
     queryFn: () => fetchAlertsByPeripheralId({ startDate, peripheralId }),
-    enabled: !!peripheralId,
+    enabled: !!peripheralId &&
+      filter == TimelineFilterBy.ALERTS ||
+      filter == TimelineFilterBy.MOTIONS_ALERTS,
     refetchInterval: TimelineRefetchInterval.SINGLE_DEVICE,
   })
 
   if (isLoadingMotionsByPeripheralId || isLoadingAlertsByPeripheralId) return <CircularProgress />
 
-  const peripheralName = dataMotionsByPeripheralId ? peripheralNameAccessor(dataMotionsByPeripheralId[0] ?? "") : ""
+  const peripheralName =
+    dataMotionsByPeripheralId
+      ? peripheralNameAccessor(dataMotionsByPeripheralId[0] ?? "")
+      : dataAlertsByPeripheralId
+        ? peripheralNameAccessor(dataAlertsByPeripheralId[0] ?? "")
+        : ""
 
   const handleChangeFilterBy = (e: SelectChangeEvent<unknown>) => {
     const filterByValue = String(e.target.value)
