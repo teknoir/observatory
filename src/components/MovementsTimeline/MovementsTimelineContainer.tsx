@@ -8,9 +8,10 @@ import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import { fetchMovements, fetchAlerts } from "services/apiRequests";
 import { motions, alerts } from "enums/queryKeys";
 import { MovementsTimeline } from "./MovementsTimeline"
-import { MovementsTimelinePeriod, TimelineRefetchInterval } from "./enums";
+import { MovementsTimelinePeriod, TimelineFilterBy, TimelineRefetchInterval } from "./enums";
 
 function MovementsTimelineContainer() {
+  const [filter, setFilter] = useState<string>(TimelineFilterBy.MOTIONS_ALERTS)
   const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1)
   const startDate = useMemo(
     () => moment().subtract(period, 'days').startOf('day'),
@@ -23,34 +24,49 @@ function MovementsTimelineContainer() {
 
   const {
     data: dataMotions,
-    isLoading: isLoadingMotions
+    isInitialLoading: isLoadingMotions
   } = useQuery({
-    queryKey: [motions, startDate],
+    queryKey: [motions, startDate, filter],
     queryFn: () => fetchMovements({ startDate }),
     refetchInterval: TimelineRefetchInterval.ALL_DEVICES,
+    enabled: (filter == TimelineFilterBy.MOTIONS ||
+      filter == TimelineFilterBy.MOTIONS_ALERTS) &&
+      period == MovementsTimelinePeriod.DAYS_1
   })
 
   const {
     data: dataAlerts,
-    isLoading: isLoadingAlerts
+    isInitialLoading: isLoadingAlerts
   } = useQuery({
-    queryKey: [alerts, startDate],
+    queryKey: [alerts, startDate, filter],
     queryFn: () => fetchAlerts({ startDate }),
     refetchInterval: TimelineRefetchInterval.ALL_DEVICES,
+    enabled: filter == TimelineFilterBy.ALERTS ||
+      filter == TimelineFilterBy.MOTIONS_ALERTS
   })
 
   const [peripherals, ids] = useMemo(() => {
-    if (dataMotions && dataAlerts) {
-      const uniqueArr = _uniqBy(dataMotions.concat(dataAlerts), 'peripheral_name')
-      return [
-        uniqueArr.map(peripheralNameAccessor),
-        uniqueArr.map(peripheralIdAccessor),
-      ]
-    }
-    return [[], []]
+    const uniqueArr = _uniqBy(dataMotions ?? [].concat(dataAlerts ?? []), 'peripheral_name')
+    return [
+      uniqueArr.map(peripheralNameAccessor),
+      uniqueArr.map(peripheralIdAccessor),
+    ]
   }, [isLoadingMotions, isLoadingAlerts, dataMotions, dataAlerts])
 
-  const handleChangePeriod = (e: SelectChangeEvent<unknown>) => setPeriod(Number(e.target.value))
+  const handleChangeFilterBy = (e: SelectChangeEvent<unknown>) => {
+    const filterByValue = String(e.target.value)
+    setFilter(filterByValue)
+    if (filterByValue !== TimelineFilterBy.ALERTS) {
+      setPeriod(MovementsTimelinePeriod.DAYS_1)
+    }
+  }
+  const handleChangePeriod = (e: SelectChangeEvent<unknown>) => {
+    const periodValue = Number(e.target.value)
+    setPeriod(periodValue)
+    if (periodValue !== MovementsTimelinePeriod.DAYS_1) {
+      setFilter(TimelineFilterBy.ALERTS)
+    }
+  }
 
   if (isLoadingMotions || isLoadingAlerts) return <CircularProgress />
 
@@ -63,6 +79,8 @@ function MovementsTimelineContainer() {
       yAccessor={peripheralNameAccessor}
       peripherals={peripherals}
       ids={ids}
+      filter={filter}
+      handleChangeFilter={handleChangeFilterBy}
       period={period}
       handleChangePeriod={handleChangePeriod}
     />

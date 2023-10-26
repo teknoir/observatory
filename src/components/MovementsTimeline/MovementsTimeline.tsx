@@ -1,19 +1,24 @@
 import { useEffect, useRef, useState } from "react"
+import { NavLink as RouterLink } from "react-router-dom"
 import * as d3 from "d3"
 import _debounce from "lodash/debounce"
 import moment from "moment/moment"
 import InputLabel from "@mui/material/InputLabel"
+import Link from "@mui/material/Link"
 import { SelectChangeEvent } from "@mui/material/Select"
 import Select from "muiComponents/Select/Select"
 import { IAlertEvent } from "ts/types";
 import { Axis, Chart, Circles, GridLines } from "components/ChartUtilities"
 import { detectionIdAccessor } from "components/ChartUtilities/accessors"
 import { useChartDimensions } from "components/ChartUtilities/utils"
-import { MovementsTimelinePeriod } from "./enums"
+import APP_URLS from "enums/urls"
+import { MovementsTimelinePeriod, TimelineFilterBy } from "./enums"
 import styles from "./MovementsTimeline.module.scss"
+import Typography from "@mui/material/Typography"
+import Divider from "@mui/material/Divider"
 
-const formatDateDayMonth = d3.timeFormat("%-b %-d")
-// const formatDate = d3.timeFormat("%-I:%M %p")
+const formatDateByDay = d3.timeFormat("%-b %-d")
+const formatDateByTime = d3.timeFormat("%-I:%M %p")
 
 interface MovementsTimeLineParams {
   startTime: Date
@@ -23,12 +28,20 @@ interface MovementsTimeLineParams {
   yAccessor: (d: object) => string
   peripherals: Array<string>
   ids: Array<string>
+  filter: string
+  handleChangeFilter: (e: SelectChangeEvent<unknown>) => void;
   period: MovementsTimelinePeriod
   handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;
 }
 
+const timelineOptions = [
+  { value: TimelineFilterBy.MOTIONS_ALERTS, label: "All" },
+  { value: TimelineFilterBy.MOTIONS, label: "Motions" },
+  { value: TimelineFilterBy.ALERTS, label: "Alerts" },
+]
+
 const periodOptions = [
-  { value: MovementsTimelinePeriod.DAYS_1, label: "Last 24 hours" },
+  { value: MovementsTimelinePeriod.DAYS_1, label: "Today" },
   { value: MovementsTimelinePeriod.DAYS_7, label: "Last 7 days" },
   { value: MovementsTimelinePeriod.DAYS_30, label: "Last 30 days" },
 ]
@@ -41,6 +54,8 @@ export const MovementsTimeline = ({
   yAccessor,
   peripherals,
   ids,
+  filter,
+  handleChangeFilter,
   period,
   handleChangePeriod
 }: MovementsTimeLineParams) => {
@@ -63,6 +78,8 @@ export const MovementsTimeline = ({
   const yAccessorScaled = (d: object) => yScale(yAccessor(d))
 
   const debounceResize = _debounce(() => setDefaultTranslate(-dimensions.boundedScrollWidth + dimensions.boundedWidth), 200)
+
+  const formatDate = period === MovementsTimelinePeriod.DAYS_1 ? formatDateByTime : formatDateByDay
 
   useEffect(() => {
     debounceResize()
@@ -115,18 +132,40 @@ export const MovementsTimeline = ({
     <div className={styles.container}>
       <nav className={styles.menuLayout}>
         <div className={styles.menuItem}>
-          <InputLabel id="movementsTimelinePeriodLabel">
+          <Typography variant="h5" gutterBottom>
+            Motions & Alerts
+          </Typography>
+        </div>
+        <div className={styles.menuItem}>
+          <InputLabel id="timelineFilterByLabel">
             Filter by:{' '}
           </InputLabel>
+          <Select
+            labelId="timelineFilterByLabel"
+            variant="standard"
+            value={filter}
+            options={timelineOptions}
+            onChange={handleChangeFilter}
+            disableUnderline
+          />
           <Select
             labelId="movementsTimelinePeriodLabel"
             variant="standard"
             value={period}
             options={periodOptions}
             onChange={handleChangePeriod}
+            disableUnderline
           />
+          <Link
+            component={RouterLink}
+            to={APP_URLS.motionsAlerts}
+            color="inherit"
+          >
+            View all
+          </Link>
         </div>
-      </nav>
+      </nav >
+      <Divider variant="middle" />
       <div
         className={styles.timeline}
         ref={ref}
@@ -143,8 +182,8 @@ export const MovementsTimeline = ({
             <Axis
               dimension="xScroll"
               scale={xScale}
-              // formatTick={formatDate}
-              formatTick={formatDateDayMonth}
+              formatTick={formatDate}
+              numberOfTicks={period === MovementsTimelinePeriod.DAYS_1 ? 24 * 4 : period}
             />
             <Circles
               data={dataMotions}
@@ -175,6 +214,6 @@ export const MovementsTimeline = ({
           />
         </Chart>
       </div >
-    </div>
+    </div >
   )
 }

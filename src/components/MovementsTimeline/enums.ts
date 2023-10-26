@@ -4,7 +4,13 @@ export enum MovementsTimelinePeriod {
   DAYS_30 = 30,
 }
 
+export enum TimelineFilterBy {
+  MOTIONS_ALERTS = "motions-alerts",
+  MOTIONS = "motions",
+  ALERTS = "alerts",
+}
+
 export enum TimelineRefetchInterval {
   ALL_DEVICES = 60000,
-  SINGE_DEVICE = 30000
+  SINGLE_DEVICE = 60000
 }

@@ -3,12 +3,12 @@
 import classNames from "classnames";
 import styles from "./Axis.module.scss";
 
-export default function AxisHorizontalScroll({ dimensions, label, formatTick, scale, ...props }) {
-  const numberOfTicks = dimensions.boundedScrollWidth < 600
+export default function AxisHorizontalScroll({ dimensions, label, formatTick, scale, numberOfTicks, ...props }) {
+  const autoNumberOfTicks = dimensions.boundedScrollWidth < 600
     ? dimensions.boundedScrollWidth / 100
     : dimensions.boundedScrollWidth / 100
 
-  const ticks = scale.ticks(numberOfTicks)
+  const ticks = scale.ticks(numberOfTicks ? numberOfTicks : autoNumberOfTicks)
 
   return (
     <g {...props}

@@ -8,9 +8,7 @@ import APP_URLS from "enums/urls"
 import styles from "./Axis.module.scss"
 
 export default function AxisVertical({ dimensions, label, formatTick, scale, idAccessor, background, side, ids, ...props }) {
-  const numberOfTicks = dimensions.boundedHeight / 70
-  // const ticks = scale.ticks(numberOfTicks)
-
+  // const numberOfTicks = dimensions.boundedHeight / 70
   const ticks = scale.domain()
 
   return (
@@ -18,6 +16,12 @@ export default function AxisVertical({ dimensions, label, formatTick, scale, idA
       className={classNames(styles.Axis, styles.AxisVertical)}
       {...props}
     >
+      <text
+        x={-dimensions.marginLeft}
+        y={dimensions.marginTop / 2}
+      >
+        Cameras ({ticks.length})
+      </text>
       {
         background &&
         <rect
@@ -28,12 +32,6 @@ export default function AxisVertical({ dimensions, label, formatTick, scale, idA
           className={styles.rectBackground}
         />
       }
-      {/* Commented the line because it looks like neither the MovementsTimeline nor the LineCharts will need it. Keep it just in case. */}
-      {/* <line */}
-      {/*   className={styles.Axis__line} */}
-      {/*   // x1, x2, y1 are 0, so there's no need to add them. */}
-      {/*   y2={dimensions.boundedHeight} */}
-      {/* /> */}
       {
         ticks.map((tick, i) => (
           side === "right" ?
@@ -61,9 +59,6 @@ export default function AxisVertical({ dimensions, label, formatTick, scale, idA
               y={scale(tick) - 15}
               width="100"
               height="50"
-            // width="1"
-            // height="1"
-            // style={{ overflow: "visible" }}
             >
               <div
                 style={{
@@ -86,13 +81,6 @@ export default function AxisVertical({ dimensions, label, formatTick, scale, idA
                   {formatTick ? tick : formatTick(tick)}
                 </span>
               </div>
-              {/* <text */}
-              {/*   key={tick} */}
-              {/*   className={styles.Axis__tick} */}
-              {/*   transform={`translate(${side === "right" ? dimensions.width - dimensions.marginRight : -16}, ${scale(tick)})`} */}
-              {/* > */}
-              {/*   {formatTick ? tick : formatTick(tick)} */}
-              {/* </text> */}
             </foreignObject>
         ))
       }
@@ -106,6 +94,6 @@ export default function AxisVertical({ dimensions, label, formatTick, scale, idA
           </text>
         )
       }
-    </g >
+    </g>
   )
 }
