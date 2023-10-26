@@ -7,13 +7,14 @@ import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import { fetchMovementsByPeripheralId, fetchAlertsByPeripheralId } from "services/apiRequests";
 import { motionsById, alertsById } from "enums/queryKeys";
 import { MovementsTimeline } from "./MovementsTimeline"
-import { MovementsTimelinePeriod, TimelineRefetchInterval } from "./enums";
+import { MovementsTimelinePeriod, TimelineFilterBy, TimelineRefetchInterval } from "./enums";
 
 interface Props {
   peripheralId?: string;
 }
 
 function MovementsTimelineSingleContainer({ peripheralId = '' }: Props) {
+  const [filter, setFilter] = useState<string>(TimelineFilterBy.MOTIONS_ALERTS)
   const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1)
 
   const startDate = useMemo(
@@ -49,7 +50,20 @@ function MovementsTimelineSingleContainer({ peripheralId = '' }: Props) {
 
   const peripheralName = dataMotionsByPeripheralId ? peripheralNameAccessor(dataMotionsByPeripheralId[0] ?? "") : ""
 
-  const handleChangePeriod = (e: SelectChangeEvent<unknown>) => setPeriod(Number(e.target.value))
+  const handleChangeFilterBy = (e: SelectChangeEvent<unknown>) => {
+    const filterByValue = String(e.target.value)
+    setFilter(filterByValue)
+    if (filterByValue !== TimelineFilterBy.ALERTS) {
+      setPeriod(MovementsTimelinePeriod.DAYS_1)
+    }
+  }
+  const handleChangePeriod = (e: SelectChangeEvent<unknown>) => {
+    const periodValue = Number(e.target.value)
+    setPeriod(periodValue)
+    if (periodValue !== MovementsTimelinePeriod.DAYS_1) {
+      setFilter(TimelineFilterBy.ALERTS)
+    }
+  }
 
   return (
     <MovementsTimeline
@@ -60,6 +74,8 @@ function MovementsTimelineSingleContainer({ peripheralId = '' }: Props) {
       yAccessor={peripheralNameAccessor}
       peripherals={[peripheralName]}
       ids={[peripheralId]}
+      filter={filter}
+      handleChangeFilter={handleChangeFilterBy}
       period={period}
       handleChangePeriod={handleChangePeriod}
     />
