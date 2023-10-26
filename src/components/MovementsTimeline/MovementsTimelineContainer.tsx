@@ -71,17 +71,10 @@ function MovementsTimelineContainer() {
   return (
     <MovementsTimeline
       startTime={startTime}
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       dataMotions={dataMotions}
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       dataAlerts={dataAlerts}
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       xAccessor={startTimeAccessor}
       yAccessor={peripheralNameAccessor}
-      idAccessor={peripheralIdAccessor}
       peripherals={peripherals}
       ids={ids}
       filter={filter}

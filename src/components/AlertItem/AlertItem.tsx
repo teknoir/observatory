@@ -4,7 +4,7 @@ import CircleIcon from '@mui/icons-material/Circle';
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import DirectionsWalkIcon from '@mui/icons-material/DirectionsWalk';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
-import VerifiedOutlinedIcon from '@mui/icons-material/VerifiedOutlined';
+import Verified, { Sizes } from "components/Verified/Verified";
 import styles from './AlertItem.module.scss';
 
 interface Props {
@@ -40,14 +40,7 @@ const AlertItem = ({
         </div>
         <div className={styles.status}>
           <div className={styles.statusIcon}></div>
-          {isVerified && (
-            <div className={styles.verified}>
-              <VerifiedOutlinedIcon className={styles.verifiedIcon} />
-              <Typography variant="body2" display="block" className={styles.verifiedText}>
-                Verified
-              </Typography>
-            </div>
-          )}
+          {isVerified && <Verified size={Sizes.small} />}
         </div>
       </div>
       <div className={styles.content}>

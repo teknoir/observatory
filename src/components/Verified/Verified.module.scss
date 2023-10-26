@@ -1,0 +1,29 @@
+@import "enums/styleVariables.module.scss";
+
+.root {
+  display: inline-flex;
+  align-items: center;
+  background-color: $greensuccess;
+}
+
+.small {
+  padding: 2px 4px;
+
+  .icon, .text {
+    font-size: 12px;
+    line-height: 12px;
+  }
+}
+
+.medium {
+  padding: 4px 8px;
+
+  .icon, .text {
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .text {
+    margin-left: 6px;
+  }
+}

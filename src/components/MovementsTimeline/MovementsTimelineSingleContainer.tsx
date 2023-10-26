@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query"
 import moment from "moment/moment";
 import { SelectChangeEvent } from "@mui/material/Select";
-import { startTimeAccessor, peripheralNameAccessor, peripheralIdAccessor } from 'components/ChartUtilities/accessors'
+import { startTimeAccessor, peripheralNameAccessor } from 'components/ChartUtilities/accessors'
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import { fetchMovementsByPeripheralId, fetchAlertsByPeripheralId } from "services/apiRequests";
 import { motionsById, alertsById } from "enums/queryKeys";
@@ -13,7 +13,7 @@ interface Props {
   peripheralId?: string;
 }
 
-function MovementsTimelineContainer({ peripheralId = '' }: Props) {
+function MovementsTimelineSingleContainer({ peripheralId = '' }: Props) {
   const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1)
 
   const startDate = useMemo(
@@ -31,6 +31,7 @@ function MovementsTimelineContainer({ peripheralId = '' }: Props) {
   } = useQuery({
     queryKey: [motionsById, startDate, peripheralId],
     queryFn: () => fetchMovementsByPeripheralId({ startDate, peripheralId }),
+    enabled: !!peripheralId,
     refetchInterval: TimelineRefetchInterval.SINGE_DEVICE,
   })
 
@@ -40,29 +41,23 @@ function MovementsTimelineContainer({ peripheralId = '' }: Props) {
   } = useQuery({
     queryKey: [alertsById, startDate, peripheralId],
     queryFn: () => fetchAlertsByPeripheralId({ startDate, peripheralId }),
+    enabled: !!peripheralId,
     refetchInterval: TimelineRefetchInterval.SINGE_DEVICE,
   })
 
-  const peripheralName = !isLoadingMotionsByPeripheralId ? peripheralNameAccessor(dataMotionsByPeripheralId[0] ?? "") : ""
+  if (isLoadingMotionsByPeripheralId || isLoadingAlertsByPeripheralId) return <CircularProgress />
+
+  const peripheralName = dataMotionsByPeripheralId ? peripheralNameAccessor(dataMotionsByPeripheralId[0] ?? "") : ""
 
   const handleChangePeriod = (e: SelectChangeEvent<unknown>) => setPeriod(Number(e.target.value))
-
-  if (isLoadingMotionsByPeripheralId || isLoadingAlertsByPeripheralId) return <CircularProgress />
 
   return (
     <MovementsTimeline
       startTime={startTime}
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       dataMotions={dataMotionsByPeripheralId}
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       dataAlerts={dataAlertsByPeripheralId}
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       xAccessor={startTimeAccessor}
       yAccessor={peripheralNameAccessor}
-      idAccessor={peripheralIdAccessor}
       peripherals={[peripheralName]}
       ids={[peripheralId]}
       period={period}
@@ -71,4 +66,4 @@ function MovementsTimelineContainer({ peripheralId = '' }: Props) {
   )
 }
 
-export default MovementsTimelineContainer
+export default MovementsTimelineSingleContainer

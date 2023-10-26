@@ -7,6 +7,7 @@ import InputLabel from "@mui/material/InputLabel"
 import Link from "@mui/material/Link"
 import { SelectChangeEvent } from "@mui/material/Select"
 import Select from "muiComponents/Select/Select"
+import { IAlertEvent } from "ts/types";
 import { Axis, Chart, Circles, GridLines } from "components/ChartUtilities"
 import { detectionIdAccessor } from "components/ChartUtilities/accessors"
 import { useChartDimensions } from "components/ChartUtilities/utils"
@@ -21,9 +22,9 @@ const formatDateByTime = d3.timeFormat("%-I:%M %p")
 
 interface MovementsTimeLineParams {
   startTime: Date
-  dataMotions: Array<object>
-  dataAlerts: Array<object>
-  xAccessor: (d: object) => Date | number
+  dataMotions: IAlertEvent[]
+  dataAlerts: IAlertEvent[]
+  xAccessor: (d: IAlertEvent) => Date | null
   yAccessor: (d: object) => string
   peripherals: Array<string>
   ids: Array<string>
@@ -71,6 +72,8 @@ export const MovementsTimeline = ({
     .range([dimensions.boundedHeight, 0])
     .padding(1)
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   const xAccessorScaled = (d: object) => xScale(xAccessor(d))
   const yAccessorScaled = (d: object) => yScale(yAccessor(d))
 
@@ -113,9 +116,11 @@ export const MovementsTimeline = ({
     // no necessary to replace the x property of transformObj (which comes from
     // d3.zoomTransform). These properties of the object are read-only by definition
     // and should not be modified as I'm currently doing right now:
-    // 
+    //
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     transformObj.x = Math.max(transformObj.x, maxStartTranslate)
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     transformObj.x = Math.min(transformObj.x, maxEndTranslate)
 
