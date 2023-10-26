@@ -1,6 +1,5 @@
 import _map from "lodash/map";
 import { SelectChangeEvent } from '@mui/material/Select';
-import List from '@mui/material/List';
 import InputLabel from "@mui/material/InputLabel";
 import Select from "muiComponents/Select/Select";
 import AlertsGroup from "components/AlertsGroup/AlertsGroup";
@@ -42,15 +41,13 @@ const AlertsList = ({
           onChange={handleChangePeriod}
         />
       </div>
-      <List>
-        {_map(groupsKeys, (dayStr) => (
-          <AlertsGroup
-            group={groups[dayStr]}
-            dayStr={dayStr}
-            key={dayStr}
-          />
-        ))}
-      </List>
+      {_map(groupsKeys, (dayStr) => (
+        <AlertsGroup
+          group={groups[dayStr]}
+          dayStr={dayStr}
+          key={dayStr}
+        />
+      ))}
     </div>
   )
 }
