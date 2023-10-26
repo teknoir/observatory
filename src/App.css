@@ -1,15 +1,5 @@
-@font-face {
-    /* font-family: 'Inter var'; */
-    /* src: url('./../../Inter.var.woff2'); */
-}
-
 body {
-    padding: 1.6em 2em 4em;
-    letter-spacing: -0.011em;
-    font-family: 'Inter var', sans-serif;
-    font-size: 16px;
-    color: #34495e;
-    background: #f1f3f5;
+    margin: 0;
 }
 
 #root,
@@ -32,13 +22,6 @@ h2 {
     background: #ecf0f1;
 }
 
-.Timeline {
-    height: 300px;
-    min-width: 500px;
-    /* width: calc(100% + 1em); */
-    margin-bottom: 2em;
-}
-
 .Histogram {
     height: 500px;
     flex: 1;
@@ -59,7 +42,6 @@ h2 {
     margin: -0.5em;
 }
 
-.Timeline,
 .ScatterPlot,
 .Histogram {
     background: #1C1C1C;

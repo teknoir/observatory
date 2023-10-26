@@ -1,0 +1,6 @@
+@import "enums/styleVariables.module";
+
+.GridLine__line {
+  stroke: $gray200;
+  stroke-width: 2px;
+}

@@ -1,130 +1,52 @@
-// @ts-nocheck
-import './App.css'
-import wsConnect from './helpers'
-import Carousel from './components/Carousel'
-import { useEffect, useState } from 'react'
-import { isDev } from './helpers'
-import { LineChart } from './components/LineChart'
-import { MovementsTimeline } from './components/MovementsTimeline'
-import movements from "../datasets/movements.json"
-import movements2 from "../datasets/movements2.json"
-import movements_lines from "../datasets/movements_script.json"
-import temperature from "../datasets/temperature.json"
-import * as d3 from "d3"
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { StyledEngineProvider } from "@mui/material";
+import APP_URLS from "enums/urls";
+import { wsSources } from "enums/queryKeys";
+import Alert from "routes/Alert/Alert";
+import DarkTheme from "routes/DarkTheme/DarkTheme";
+import Device from "routes/Device/Device";
+import Home from "routes/Home/Home";
+import LineCharts from "routes/LineCharts/Linecharts";
+import MainLayout from "layouts/MainLayout/MainLayout";
+import MotionsAlerts from "routes/MotionsAlerts/MotionsAlerts";
 
-// MovementsTimelineReact settings
-const timeParser = d3.timeParse("%m/%d/%Y")
-const formatTime = d => new Date(Number(d)).toLocaleDateString("en-US")
-const dateAccessor = d => timeParser(formatTime(d.timestamp))
-const peripheralAccessor = d => d.peripheral
-const countAccessor = d => d.count
+const basename = import.meta.env.VITE_APP_BASENAME || "/";
 
-const eventAccessor = d => d.event_name;
-const contextAccessor = d => d.context;
+const queryClient = new QueryClient();
+queryClient.setQueryDefaults([wsSources], {
+  cacheTime: 1000 * 60,
+})
 
-const dateTemperatureAccessor = d => timeParser(d.date)
-const temperatureAccessor = d => d.temperature
+console.log('VITE_APP_BASENAME', import.meta.env.VITE_APP_BASENAME)
+console.log('VITE_WS_SERVER', import.meta.env.VITE_WS_SERVER)
+console.log('VITE_HISTORIAN_DB_SERVER', import.meta.env.VITE_HISTORIAN_DB_SERVER)
+console.log('import.meta.env.DEV', import.meta.env.DEV)
+console.log('import.meta.env.PROD', import.meta.env.PROD)
 
 function App() {
-  // WS example
-  // const nodeRedWsURL = "ws://127.0.0.1:1880/ws/multiple-charts"
-  // const initialData = [
-  //   { name: "A", value: 5 },
-  //   { name: "B", value: 10 },
-  //   { name: "C", value: 7 },
-  // ]
-  // const [chartData, setChartData] = useState(initialData)
-  // const loc = window.location
-  // const wsUrl =
-  //   loc.protocol === "https:" ? "wss:" : "ws:"
-  //     + "//" + loc.host + "/ws" + loc.pathname
-  // const data: any = wsConnect(isDev() ? nodeRedWsURL : wsUrl)
-  //
-  // useEffect(() => {
-  //   console.log("WS connected to: ", isDev() ? nodeRedWsURL : wsUrl)
-  // }, [])
-  //
-  // useEffect(() => {
-  //   console.log(data)
-  // }, [data])
-  //
-  // function addDataPoint() {
-  //   const newDataPoint = {
-  //     name: "newName" + Math.random() * 100,
-  //     value: Math.ceil(Math.random() * 100)
-  //   }
-  //   setChartData([...chartData, newDataPoint])
-  // }
-
-  const dataByEvent = Array.from(d3.group(movements_lines, eventAccessor), ([key, value]) => ({ event_name: key, data: value }));
-  
-  {/*
-  const dataByEvent = Array.from(d3.group(movements, eventAccessor), ([event_name, eventData]) => ({
-    event_name,
-    dataByContext: Array.from(d3.group(eventData, contextAccessor), ([context, contextData]) => ({
-      context,
-      data: contextData,
-    })),
-  }));
-   */}
-
   return (
-    <>
-      {/* <LineChart */}
-      {/*   data={temperature} */}
-      {/*   xAccessor={dateTemperatureAccessor} */}
-      {/*   yAccessor={temperatureAccessor} */}
-      {/* /> */}
-      {/**/}
-      {/* <LineChart */}
-      {/*   data={movements} */}
-      {/*   xAccessor={dateAccessor} */}
-      {/*   yAccessor={countAccessor} */}
-      {/* /> */}
-
-      {/* <MovementsTimeline */}
-      {/*   data={movements2} */}
-      {/*   xAccessor={dateAccessor} */}
-      {/*   yAccessor={peripheralAccessor} */}
-      {/* /> */}
-      
-      {/*
-      <MovementsTimeline
-        data={movements}
-        xAccessor={dateAccessor}
-        yAccessor={peripheralAccessor}
-      /> 
-      */}
-
-      {/* WS Examples */}
-      {/* <LineChart data={chartData} /> */}
-      {/* <Button2 onClick={() => console.log("asdf")} label="hey!" /> */}
-      {/* <LineChart data={data["ch1"]} /> */}
-      {/* <LineChart data={data["ch2"]} /> */}
-      {/* <LineChart data={data["ch3"]} /> */}
-      {/* <button onClick={addDataPoint}>Add Data Point</button> */}
-      {/* <LineChartExample /> */}
-      {/* <Carousel /> */}
-
-      {dataByEvent.map(eventData => (
-          <div key={eventData.event_name} style={{ position: 'relative', marginTop: '4em'}}>
-            <LineChart
-              data={eventData.data}
-              xAccessor={dateAccessor}
-              yAccessor={countAccessor}
-              //colorAccessor= {contextAccessor}
-            />
-            <center>
-              <h1 style={{ marginTop: '0', position: 'absolute', top: '0', left: '50%', transform: 'translateX(-50%)' }}>
-                <span className="line-chart-title">
-                  {eventData.event_name} Detections
-                </span>
-              </h1>
-            </center>
-          </div>
-      ))}
-    </>
-  )
+    <div>
+      <QueryClientProvider client={queryClient}>
+        <StyledEngineProvider injectFirst>
+          <BrowserRouter basename={basename}>
+            <Routes>
+              <Route element={<MainLayout />}>
+                <Route path={APP_URLS.home} element={<Home />} />
+                <Route path={APP_URLS.motionsAlerts} element={<MotionsAlerts />} />
+                <Route path={APP_URLS.alerts + "/:detectionId"} element={<Alert />} />
+                <Route path={APP_URLS.devices + "/:peripheralId"} element={<Device />} />
+              </Route>
+              <Route path="/dark-theme" element={<DarkTheme />} />
+              <Route path="/linecharts" element={<LineCharts />} />
+            </Routes>
+          </BrowserRouter>
+        </StyledEngineProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </div>
+  );
 }
 
-export default App
+export default App;

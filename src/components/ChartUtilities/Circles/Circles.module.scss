@@ -1,0 +1,8 @@
+@import "enums/styleVariables.module";
+
+.circle {
+  fill: $iris400;
+  stroke: $white;
+  stroke-width: 1px;
+  transition: all 0.3s ease-out;
+}
