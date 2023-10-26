@@ -32,7 +32,7 @@ function MovementsTimelineSingleContainer({ peripheralId = '' }: Props) {
     queryKey: [motionsById, startDate, peripheralId],
     queryFn: () => fetchMovementsByPeripheralId({ startDate, peripheralId }),
     enabled: !!peripheralId,
-    refetchInterval: TimelineRefetchInterval.SINGE_DEVICE,
+    refetchInterval: TimelineRefetchInterval.SINGLE_DEVICE,
   })
 
   const {
@@ -42,7 +42,7 @@ function MovementsTimelineSingleContainer({ peripheralId = '' }: Props) {
     queryKey: [alertsById, startDate, peripheralId],
     queryFn: () => fetchAlertsByPeripheralId({ startDate, peripheralId }),
     enabled: !!peripheralId,
-    refetchInterval: TimelineRefetchInterval.SINGE_DEVICE,
+    refetchInterval: TimelineRefetchInterval.SINGLE_DEVICE,
   })
 
   if (isLoadingMotionsByPeripheralId || isLoadingAlertsByPeripheralId) return <CircularProgress />

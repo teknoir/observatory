@@ -12,5 +12,5 @@ export enum TimelineFilterBy {
 
 export enum TimelineRefetchInterval {
   ALL_DEVICES = 60000,
-  SINGE_DEVICE = 30000
+  SINGLE_DEVICE = 60000
 }
