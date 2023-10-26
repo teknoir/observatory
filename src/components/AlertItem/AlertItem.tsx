@@ -1,3 +1,4 @@
+import { CSSProperties } from "react";
 import moment from "moment";
 import Typography from "@mui/material/Typography";
 import CircleIcon from '@mui/icons-material/Circle';
@@ -5,34 +6,39 @@ import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import DirectionsWalkIcon from '@mui/icons-material/DirectionsWalk';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import Verified, { Sizes } from "components/Verified/Verified";
+import { IAlertEvent } from "ts/types";
 import styles from './AlertItem.module.scss';
 
 interface Props {
-  name: string;
-  startTime: string;
-  endTime: string;
-  severity: string;
-  isVerified: boolean;
-  hasComment: boolean;
-  hasTheft: boolean;
+  data: IAlertEvent[];
+  index: number;
+  style: CSSProperties;
 }
 
 const AlertItem = ({
-  name,
-  severity,
-  startTime,
-  endTime,
-  isVerified,
-  hasTheft,
-  hasComment
+  data,
+  index,
+  style
 }: Props) => {
+  const item = data[index];
+  const {
+    peripheral_name: name,
+    severity,
+    start_time: startTime,
+    end_time: endTime,
+  } = item;
+  // TODO: use real data here
+  const hasTheft = index % 2 === 0;
+  const hasComment = index % 3 === 0;
+  const isVerified = index % 4 === 0;
+
   const startDate = moment(startTime);
   const endDate = moment(endTime);
   const duration = moment.duration(endDate.diff(startDate)).seconds();
   const startDateFormat = startDate.format('HH:mm');
 
   return (
-    <div className={styles.root}>
+    <div className={styles.root} style={style}>
       <div className={styles.titleLine}>
         <div className={styles.leftTitleLine}>
           <CircleIcon color="error" className={styles.statusIcon} />

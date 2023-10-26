@@ -1,5 +1,7 @@
 import { useState } from "react";
 import moment from "moment";
+import { FixedSizeList as List } from 'react-window';
+import AutoSizer from "react-virtualized-auto-sizer";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import ExpandLess from "@mui/icons-material/ExpandLess";
@@ -8,6 +10,7 @@ import Collapse from "@mui/material/Collapse";
 import AlertItem from "components/AlertItem/AlertItem";
 import { isToday as isTodayFn, isYesterday } from "utils/moment";
 import { IAlertEvent } from "ts/types";
+import styles from './AlertsGroup.module.scss';
 
 interface Props {
   group: IAlertEvent[];
@@ -41,18 +44,24 @@ const AlertsGroup = ({
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
-        {group.map((item, index) => (
-          <AlertItem
-            name={item.peripheral_name}
-            severity={item.severity}
-            startTime={item.start_time}
-            endTime={item.end_time}
-            hasTheft={index % 2 === 0}
-            hasComment={index === 3}
-            isVerified={index === 3}
-            key={item.detection_id}
-          />
-        ))}
+        <div className={styles.list}>
+          <AutoSizer>
+            {({ height, width }) => {
+              return (
+                <List
+                  height={height}
+                  width={width}
+                  itemCount={group.length}
+                  itemSize={103}
+                  itemData={group}
+                >
+                  {AlertItem}
+                </List>
+              )
+            }
+          }
+          </AutoSizer>
+        </div>
       </Collapse>
     </>
   )
