@@ -20,9 +20,21 @@ export enum ALERT_INFO_KEYS {
   DETECTION_ID = "detection_id",
 }
 
+interface AlertInfoProps {
+  type: string,
+  duration: number,
+  start_time: string,
+  detection_id: string,
+}
+
 const Circles = ({ data, keyAccessor, xAccessor, yAccessor, radius = 8, className, popover }: CirclesProps) => {
   const [anchorEl, setAnchorEl] = useState(null)
-  const [alertInfo, setAlertInfo] = useState({})
+  const [alertInfo, setAlertInfo] = useState<AlertInfoProps>({
+    type: "",
+    duration: 0,
+    start_time: "",
+    detection_id: ""
+  })
 
   function handleClick(event: any, d: any) {
     if (popover) {
