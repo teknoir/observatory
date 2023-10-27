@@ -20,8 +20,10 @@ export const getEventsQuery = (params: IEventsRequestParams | IEventsRequestPara
   }
   if (startDate) {
     queryObj['start_time'] = {
-      $gte: startDate.toISOString()
+      // $gte: startDate.toISOString()
+      $gt: startDate.toISOString()
     };
   }
-  return encodeURIComponent(JSON.stringify(queryObj));
+  return "{\"start_time\":{\"$gt\":\"2023-10-26T22:00:00.000Z\"}}";
+  // return encodeURIComponent(JSON.stringify(queryObj));
 }

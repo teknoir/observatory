@@ -29,7 +29,7 @@ const MotionsAlerts = () => {
         Motions & Alerts
       </AppBar>
       <MainContent>
-        <MovementsTimelineContainer />
+        {/*<MovementsTimelineContainer />*/}
       </MainContent>
       <RightSideBar>
         <AlertsMotionsTabs />
