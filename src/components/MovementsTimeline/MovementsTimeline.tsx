@@ -198,6 +198,7 @@ export const MovementsTimeline = ({
               xAccessor={xAccessorScaled}
               yAccessor={yAccessorScaled}
               className={styles.circleAlert}
+              popover={true}
             />
           </g>
           <Axis

@@ -69,6 +69,7 @@ export interface CirclesProps {
   yAccessor: Accessor
   radius?: number
   className?: string
+  popover?: boolean
 }
 
 export type DetectionId = string;
