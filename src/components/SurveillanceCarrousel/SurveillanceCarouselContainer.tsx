@@ -46,25 +46,22 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
       const { type, meta } = data;
       switch (type) {
         case TYPES.MESSAGE: {
-          const { event } = data;
-          if (event) {
-            const { topic, image, peripheral } = event;
-            const peripheralId = peripheral?.id;
-            if (topic === 'front-end-video') {
-              const source = {
-                src: image,
-                peripheralId,
-                peripheralName: peripheral?.name,
-              };
-              updateSourceByCameraId(peripheralId, source);
-              // Save source to queryClient
-              queryClient.setQueryData([wsSources], (oldData: {[p: string]: Source}  ) => (
-                {
-                  ...(oldData || {}),
-                  [source.peripheralId]: source,
-                }
-              ));
-            }
+          const { topic, image, peripheral } = data;
+          const peripheralId = peripheral?.id;
+          if (topic === 'front-end-video') {
+            const source = {
+              src: image,
+              peripheralId,
+              peripheralName: peripheral?.name,
+            };
+            updateSourceByCameraId(peripheralId, source);
+            // Save source to queryClient
+            queryClient.setQueryData([wsSources], (oldData: {[p: string]: Source}  ) => (
+              {
+                ...(oldData || {}),
+                [source.peripheralId]: source,
+              }
+            ));
           }
           break;
         }

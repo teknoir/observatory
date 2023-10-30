@@ -33,17 +33,14 @@ const Device = () => {
       const { type } = data;
       switch (type) {
         case TYPES.MESSAGE: {
-          const { event } = data;
-          if (event) {
-            const { topic, image, peripheral } = event;
-            if (topic === 'front-end-video' && peripheralId === peripheral?.id) {
-              // setSource(image)
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
-              setSource({
-                src: image
-              })
-            }
+          const { topic, image, peripheral } = data;
+          if (topic === 'front-end-video' && peripheralId === peripheral?.id) {
+            // setSource(image)
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            setSource({
+              src: image
+            })
           }
           break;
         }
