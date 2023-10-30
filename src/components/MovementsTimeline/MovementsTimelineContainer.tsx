@@ -21,13 +21,14 @@ function MovementsTimelineContainer() {
     () => moment().subtract(period, 'days').toDate(),
     [period]
   )
+  const fields = ['detection_id', 'start_time', 'peripheral_id', 'peripheral_name'];
 
   const {
     data: dataMotions,
     isInitialLoading: isLoadingMotions
   } = useQuery({
-    queryKey: [motions, startDate, filter],
-    queryFn: () => fetchMovements({ startDate }),
+    queryKey: [motions, startDate, filter, fields],
+    queryFn: () => fetchMovements({ startDate }, fields),
     refetchInterval: TimelineRefetchInterval.ALL_DEVICES,
     enabled: (filter == TimelineFilterBy.MOTIONS ||
       filter == TimelineFilterBy.MOTIONS_ALERTS) &&
@@ -38,8 +39,8 @@ function MovementsTimelineContainer() {
     data: dataAlerts,
     isInitialLoading: isLoadingAlerts
   } = useQuery({
-    queryKey: [alerts, startDate, filter],
-    queryFn: () => fetchAlerts({ startDate }),
+    queryKey: [alerts, startDate, filter, fields],
+    queryFn: () => fetchAlerts({ startDate }, fields),
     refetchInterval: TimelineRefetchInterval.ALL_DEVICES,
     enabled: filter == TimelineFilterBy.ALERTS ||
       filter == TimelineFilterBy.MOTIONS_ALERTS
