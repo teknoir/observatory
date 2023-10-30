@@ -1,6 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import moment from 'moment';
+import _pick from "lodash/pick";
 import { IAlertEvent } from "ts/types";
 import { getUniqueID, dataWithDelay } from './utils';
 
@@ -82,7 +83,7 @@ const getAlertsHours = () => {
 export const fetchAlertsByPeripheralIdMock = ({
   peripheralId,
   startDate,
-}): Promise<IAlertEvent[]> => {
+}, fields: string[] = []): Promise<IAlertEvent[]> => {
   const res = [];
   const now = moment();
   const dateFrom = startDate.clone();
@@ -93,14 +94,18 @@ export const fetchAlertsByPeripheralIdMock = ({
     if (hours.includes(currentHour)) {
       const time = dateFrom.clone();
       const startTime = time.add().minute(minute)
-      res.push({
+      const item = {
         ...alertItemBase,
         detection_id: getUniqueID(),
         peripheral_id: peripheralId,
         peripheral_name: peripheralId,
         start_time: startTime.format(),
         end_time: startTime.add(duration, 'seconds').format(),
-      })
+      }
+      if (fields.length) {
+        _pick(item, fields);
+      }
+      res.push(item)
     }
   }
   return dataWithDelay(res)
@@ -108,7 +113,7 @@ export const fetchAlertsByPeripheralIdMock = ({
 
 export const fetchAllAlertsMock = ({
   startDate,
-}): Promise<IAlertEvent[]> => {
+}, fields: string[] = []): Promise<IAlertEvent[]> => {
   const res = [];
   const now = moment();
   const dateFrom = startDate.clone();
@@ -121,15 +126,19 @@ export const fetchAllAlertsMock = ({
       peripheralIds.forEach(peripheralId => {
         const { duration, minute } = alertsSchema.get(peripheralId);
         const time = dateFrom.clone();
-        const startTime = time.add().minute(minute)
-        res.push({
+        const startTime = time.add().minute(minute);
+        let item = {
           ...alertItemBase,
           detection_id: getUniqueID(),
           peripheral_id: peripheralId,
           peripheral_name: peripheralId,
           start_time: startTime.format(),
           end_time: startTime.add(duration, 'seconds').format(),
-        })
+        }
+        if (fields.length) {
+          item = _pick(item, fields);
+        }
+        res.push(item)
       })
     }
 

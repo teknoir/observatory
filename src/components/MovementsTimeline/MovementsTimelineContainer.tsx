@@ -21,29 +21,36 @@ function MovementsTimelineContainer() {
     () => moment().subtract(period, 'days').toDate(),
     [period]
   )
+  const fields = ['detection_id', 'start_time', 'peripheral_id', 'peripheral_name'];
 
-  const {
-    data: dataMotions,
-    isInitialLoading: isLoadingMotions
-  } = useQuery({
-    queryKey: [motions, startDate, filter],
-    queryFn: () => fetchMovements({ startDate }),
+  const queryMovements = useQuery({
+    queryKey: [motions, startDate, filter, fields],
+    queryFn: () => fetchMovements({ startDate }, fields),
     refetchInterval: TimelineRefetchInterval.ALL_DEVICES,
     enabled: (filter == TimelineFilterBy.MOTIONS ||
       filter == TimelineFilterBy.MOTIONS_ALERTS) &&
       period == MovementsTimelinePeriod.DAYS_1
   })
+  // TODO: temp solution for redundant data (only for Charts) - remove in future!
+  const { isInitialLoading: isLoadingMotions} = queryMovements;
+  let { data: dataMotions } = queryMovements;
+  if (dataMotions?.length > 1000) {
+    dataMotions = dataMotions.slice(-1000)
+  }
 
-  const {
-    data: dataAlerts,
-    isInitialLoading: isLoadingAlerts
-  } = useQuery({
-    queryKey: [alerts, startDate, filter],
-    queryFn: () => fetchAlerts({ startDate }),
+  const queryAlerts = useQuery({
+    queryKey: [alerts, startDate, filter, fields],
+    queryFn: () => fetchAlerts({ startDate }, fields),
     refetchInterval: TimelineRefetchInterval.ALL_DEVICES,
     enabled: filter == TimelineFilterBy.ALERTS ||
       filter == TimelineFilterBy.MOTIONS_ALERTS
   })
+  // TODO: temp solution for redundant data (only for Charts) - remove in future!
+  const { isInitialLoading: isLoadingAlerts} = queryAlerts;
+  let { data: dataAlerts } = queryAlerts;
+  if (dataAlerts?.length > 1000) {
+    dataAlerts = dataAlerts.slice(-1000)
+  }
 
   const [peripherals, ids] = useMemo(() => {
     const uniqueArr = _uniqBy(dataMotions ?? [].concat(dataAlerts ?? []), 'peripheral_name')

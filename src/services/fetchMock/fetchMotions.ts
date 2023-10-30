@@ -2,6 +2,7 @@
 // @ts-nocheck
 
 import moment from 'moment';
+import _pick from "lodash/pick";
 import { IAlertEvent } from "ts/types";
 import { getUniqueID, dataWithDelay } from './utils';
 
@@ -75,7 +76,7 @@ const getMotionMinutes = () => {
 export const fetchMotionsByPeripheralIdMock = ({
   peripheralId,
   startDate,
-}): Promise<IAlertEvent[]> => {
+}, fields: string[] = []): Promise<IAlertEvent[]> => {
   const res = [];
   const now = moment();
   const dateFrom = startDate.clone();
@@ -85,14 +86,18 @@ export const fetchMotionsByPeripheralIdMock = ({
     minutes.forEach(minute => {
       const time = dateFrom.clone();
       const startTime = time.add().minute(minute)
-      res.push({
+      let item = {
         ...motionItemBase,
         detection_id: getUniqueID(),
         peripheral_id: peripheralId,
         peripheral_name: peripheralId,
         start_time: startTime.format(),
         end_time: startTime.add(duration, 'seconds').format(),
-      })
+      }
+      if (fields.length) {
+        item = _pick(item, fields);
+      }
+      res.push(item)
     })
   }
   return dataWithDelay(res)
@@ -100,7 +105,7 @@ export const fetchMotionsByPeripheralIdMock = ({
 
 export const fetchAllMotionsMock = ({
   startDate,
-}) => {
+}, fields: string[] = []) => {
   const res = [];
   const now = moment();
   const dateFrom = startDate.clone();
@@ -112,14 +117,18 @@ export const fetchAllMotionsMock = ({
         const { duration } = motionsSchema.get(peripheralId);
         const time = dateFrom.clone();
         const startTime = time.add().minute(minute)
-        res.push({
+        let item = {
           ...motionItemBase,
           detection_id: getUniqueID(),
           peripheral_id: peripheralId,
           peripheral_name: peripheralId,
           start_time: startTime.format(),
           end_time: startTime.add(duration, 'seconds').format(),
-        })
+        };
+        if (fields.length) {
+          item = _pick(item, fields);
+        }
+        res.push(item)
       })
     })
   }

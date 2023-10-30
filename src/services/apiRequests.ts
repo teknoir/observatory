@@ -29,49 +29,49 @@ export const fetchAlert = (detectionId: DetectionId) => {
   return fetchAlertMock(detectionId);
 };
 
-export const fetchAlerts = (params: IEventsRequestParams) => {
+export const fetchAlerts = (filters: IEventsRequestParams, fields: string[] = []) => {
   // TODO: remove this condition in future
   if (shouldUseHistorianDb()) {
-    const query = getEventsQuery(params);
+    const query = getEventsQuery(filters, fields);
     return Fetch.get(API.alerts(query)).then(({ data }) => data)
   }
-  return fetchAllAlertsMock(params);
+  return fetchAllAlertsMock(filters, fields);
 };
 
-export const fetchAlertsByPeripheralId = (params: IEventsRequestParamsById) => {
+export const fetchAlertsByPeripheralId = (filters: IEventsRequestParamsById, fields: string[] = []) => {
   // TODO: remove this condition in future
   if (shouldUseHistorianDb()) {
-    const query = getEventsQuery(params);
+    const query = getEventsQuery(filters, fields);
     return Fetch.get(API.alerts(query)).then(({ data }) => data)
   }
-  return fetchAlertsByPeripheralIdMock(params);
+  return fetchAlertsByPeripheralIdMock(filters, fields);
 };
 
-export const fetchMotionsCounts = (params: IEventsRequestParams) => {
+export const fetchMotionsCounts = (filters: IEventsRequestParams) => {
   // TODO: remove this condition in future
   if (shouldUseMotionsDb()) {
     // TODO: request here
   }
-  return fetchMotionsCountsMock(params);
+  return fetchMotionsCountsMock(filters);
 };
 
 // TODO: use real API request in future
 // export const fetchMovements = () => Fetch.get(API.movements);
-export const fetchMovements = (params: IEventsRequestParams) => {
+export const fetchMovements = (filters: IEventsRequestParams, fields: string[] = []) => {
   // TODO: remove this condition in future
   if (shouldUseHistorianDb()) {
-    const query = getEventsQuery(params);
+    const query = getEventsQuery(filters, fields);
     return Fetch.get(API.movements(query)).then(({ data }) => data)
   }
-  return fetchAllMotionsMock(params);
+  return fetchAllMotionsMock(filters, fields);
 };
 
 // TODO: use real API request in future
-export const fetchMovementsByPeripheralId = (params: IEventsRequestParamsById) => {
+export const fetchMovementsByPeripheralId = (filters: IEventsRequestParamsById, fields: string[] = []) => {
   // TODO: remove this condition in future
   if (shouldUseHistorianDb()) {
-    const query = getEventsQuery(params);
+    const query = getEventsQuery(filters, fields);
     return Fetch.get(API.movements(query)).then(({ data }) => data)
   }
-  return fetchMotionsByPeripheralIdMock(params);
+  return fetchMotionsByPeripheralIdMock(filters, fields);
 }
