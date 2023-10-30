@@ -12,17 +12,23 @@ export const getEventQuery = (detectionId: DetectionId) => {
   return encodeURIComponent(JSON.stringify(queryObj));
 }
 
-export const getEventsQuery = (params: IEventsRequestParams | IEventsRequestParamsById) => {
+export const getEventsQuery = (params: IEventsRequestParams | IEventsRequestParamsById, fields: string[] = []) => {
   const { peripheralId, startDate } = params as IEventsRequestParamsById;
   const queryObj: IQuery = {};
   if (peripheralId) {
     queryObj['peripheral_id'] = peripheralId;
   }
   if (startDate) {
-    // TODO: uncomment it !!!
-    // queryObj['start_time'] = {
-    //   $gte: startDate.toISOString()
-    // };
+    queryObj['start_time'] = {
+      $gt: startDate.toISOString()
+    };
   }
-  return encodeURIComponent(JSON.stringify(queryObj));
+  const projectionObj = fields.reduce((acc, item) => (
+    { ...acc, [item]: 1 }
+  ), {})
+  // TODO: for debug purpose
+  // const query = "{\"start_time\":{\"$gt\":\"2023-10-29T22:00:00.000Z\"}}";
+  const query = encodeURIComponent(JSON.stringify(queryObj));
+  const projection = encodeURIComponent(JSON.stringify(projectionObj));
+  return `query=${query}&projection=${projection}`;
 }

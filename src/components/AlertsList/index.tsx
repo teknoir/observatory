@@ -22,13 +22,14 @@ const AlertsListContainer = ({ peripheralId = '' }: Props) => {
     () => moment().subtract(period, 'days').startOf('day'),
     [period]
   );
+  const fields = ['peripheral_name', 'severity', 'start_time', 'end_time'];
 
   const {
     data: dataAlerts,
     isLoading: isLoadingAlerts,
   } = useQuery({
-    queryKey: [alerts, startDate],
-    queryFn: () => fetchAlerts({ startDate }),
+    queryKey: [alerts, startDate, fields],
+    queryFn: () => fetchAlerts({ startDate }, fields),
     enabled: !isPeripheral
   })
 
@@ -36,8 +37,8 @@ const AlertsListContainer = ({ peripheralId = '' }: Props) => {
     data: dataAlertsByPeripheralId,
     isLoading: isLoadingAlertsByPeripheralId
   } = useQuery({
-    queryKey: [alertsById, startDate, peripheralId],
-    queryFn: () => fetchAlertsByPeripheralId({ startDate, peripheralId }),
+    queryKey: [alertsById, startDate, peripheralId, fields],
+    queryFn: () => fetchAlertsByPeripheralId({ startDate, peripheralId }, fields),
     enabled: isPeripheral
   })
 
