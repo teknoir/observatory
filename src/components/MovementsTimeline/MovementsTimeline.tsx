@@ -3,19 +3,20 @@ import { NavLink as RouterLink } from "react-router-dom"
 import * as d3 from "d3"
 import _debounce from "lodash/debounce"
 import moment from "moment/moment"
+import Divider from "@mui/material/Divider"
 import InputLabel from "@mui/material/InputLabel"
 import Link from "@mui/material/Link"
 import { SelectChangeEvent } from "@mui/material/Select"
+import Typography from "@mui/material/Typography"
 import Select from "muiComponents/Select/Select"
-import { IAlertEvent } from "ts/types";
 import { Axis, Chart, Circles, GridLines } from "components/ChartUtilities"
 import { detectionIdAccessor } from "components/ChartUtilities/accessors"
 import { useChartDimensions } from "components/ChartUtilities/utils"
+import { IAlertEvent } from "ts/types";
 import APP_URLS from "enums/urls"
+import Popover from "./Popover/Popover"
 import { MovementsTimelinePeriod, TimelineFilterBy } from "./enums"
 import styles from "./MovementsTimeline.module.scss"
-import Typography from "@mui/material/Typography"
-import Divider from "@mui/material/Divider"
 
 const formatDateByDay = d3.timeFormat("%-b %-d")
 const formatDateByTime = d3.timeFormat("%-I:%M %p")
@@ -46,6 +47,13 @@ const periodOptions = [
   { value: MovementsTimelinePeriod.DAYS_30, label: "Last 30 days" },
 ]
 
+interface PopoverInfoProps {
+  type: string,
+  duration: number,
+  start_time: string,
+  detection_id: string,
+}
+
 export const MovementsTimeline = ({
   startTime,
   dataMotions,
@@ -62,6 +70,22 @@ export const MovementsTimeline = ({
   const [ref, dimensions] = useChartDimensions(null)
   const [defaultTranslate, setDefaultTranslate] = useState<number>(0)
   const scrollGroupRef = useRef<SVGGElement | null>(null)
+  const [anchorEl, setAnchorEl] = useState(null)
+  const [alertInfo, setAlertInfo] = useState<PopoverInfoProps>({
+    type: "",
+    duration: 0,
+    start_time: "",
+    detection_id: ""
+  })
+
+  function handleCircleClick(event: any, d: any) {
+    setAnchorEl(event.currentTarget)
+    setAlertInfo(d)
+  }
+
+  function handleClose() {
+    setAnchorEl(null)
+  }
 
   const xScale = d3.scaleTime()
     .domain([startTime, moment().toDate()])
@@ -198,7 +222,12 @@ export const MovementsTimeline = ({
               xAccessor={xAccessorScaled}
               yAccessor={yAccessorScaled}
               className={styles.circleAlert}
-              popover={true}
+              onCircleClick={handleCircleClick}
+            />
+            <Popover
+              anchorEl={anchorEl}
+              alertInfo={alertInfo}
+              handleClose={handleClose}
             />
           </g>
           <Axis
