@@ -29,7 +29,9 @@ function SurveillanceCarouselGeneral({ sources, mainSource, setMainSource }: Car
   return (
     <section className={styles.containerGeneral}>
       <CarrouselImage
+        id={sources.get(mainSource)?.peripheralId || ''}
         src={sources.get(mainSource)?.src || ''}
+        title={sources.get(mainSource)?.peripheralName || ''}
       />
       <div
         ref={galleryRef}
@@ -39,6 +41,7 @@ function SurveillanceCarouselGeneral({ sources, mainSource, setMainSource }: Car
           sources.size > 0 ?
             [...sources.keys()].map((sourceKey) => {
               const src = sources.get(sourceKey)!.src;
+              const peripheralName = sources.get(sourceKey)!.peripheralName;
               return (
                 <div
                   key={src}
@@ -46,7 +49,9 @@ function SurveillanceCarouselGeneral({ sources, mainSource, setMainSource }: Car
                   ref={(ref: HTMLImageElement) => setSelectedImageRef(ref, sourceKey)}
                 >
                   <CarrouselImagePreview
+                    id={sourceKey}
                     src={src}
+                    title={peripheralName}
                     className={`${mainSource === sourceKey ? styles.galleryItemBorder : ""}`}
                   />
                 </div>
