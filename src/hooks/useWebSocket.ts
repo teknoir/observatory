@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 
 const socketUrl = import.meta.env.VITE_WS_SERVER;
@@ -19,12 +18,6 @@ const useWebSocketHook = () => {
     shouldReconnect: () => true,
     share: true,
   });
-
-  useEffect(() => {
-    return () => {
-      getWebSocket()?.close()
-    };
-  }, [getWebSocket]);
 
   return {
     sendMessage,
