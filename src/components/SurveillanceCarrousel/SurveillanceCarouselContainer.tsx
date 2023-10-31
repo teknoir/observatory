@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { CarouselMode, Source } from "ts/types";
-import useWebSocket, { TYPES } from "hooks/useWebSocket";
+import useWebSocket from "hooks/useWebSocket";
 import { wsSources } from "enums/queryKeys";
+import { TOPICS, TYPES } from "enums/wss";
 import SurveillanceCarousel from "./SurveillanceCarousel";
 import Skeleton from "./Skeleton/Skeleton";
 import { createRandomSources } from "./utils";
@@ -48,7 +49,7 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
         case TYPES.MESSAGE: {
           const { topic, image, peripheral } = data;
           const peripheralId = peripheral?.id;
-          if (topic === 'front-end-video') {
+          if (topic === TOPICS.FRONT_END_VIDEO) {
             const source = {
               src: image,
               peripheralId,

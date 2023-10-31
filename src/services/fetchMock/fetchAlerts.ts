@@ -61,7 +61,7 @@ const alertsSchema = new Map<string, object>([
     minute: 33,
     duration: 3,
   }],
-  ['parkinglot12', {
+  ['catalytic', {
     hours: [1, 4],
     minute: 42,
     duration: 1,
