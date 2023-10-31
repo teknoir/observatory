@@ -35,8 +35,8 @@ function App() {
               <Route element={<MainLayout />}>
                 <Route path={APP_URLS.home} element={<Home />} />
                 <Route path={APP_URLS.motionsAlerts} element={<MotionsAlerts />} />
-                <Route path={APP_URLS.alerts + "/:detectionId"} element={<Alert />} />
-                <Route path={APP_URLS.devices + "/:peripheralId"} element={<Device />} />
+                <Route path={APP_URLS.alerts} element={<Alert />} />
+                <Route path={APP_URLS.devices} element={<Device />} />
               </Route>
               <Route path="/dark-theme" element={<DarkTheme />} />
               <Route path="/linecharts" element={<LineCharts />} />

@@ -1,4 +1,4 @@
-import { NavLink as RouterLink } from "react-router-dom";
+import { NavLink as RouterLink, generatePath } from "react-router-dom";
 import Link from "@mui/material/Link";
 import { ImageProps } from "ts/types"
 import APP_URLS from "enums/urls";
@@ -25,7 +25,10 @@ function CarrouselImage({
         {/* TODO: Replace url to be dynamic */}
         <Link
           component={RouterLink}
-          to={APP_URLS.devices + "/" + id}
+          to={generatePath(APP_URLS.devices, {
+            peripheralId: id,
+            peripheralName: title,
+          })}
           color="inherit"
           underline="none"
         >
