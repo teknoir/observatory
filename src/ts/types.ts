@@ -31,13 +31,17 @@ export interface SurveillanceCarouselModeParams {
 }
 
 export interface ImageProps {
+  id: string
   src: string
+  title: string
 }
 
 export type RefImage = HTMLImageElement;
 
 export interface ImagePreviewProps {
+  id: string;
   src: string;
+  title: string;
   className?: string;
   onClick?: () => void;
   ref: (ref: HTMLImageElement) => void;

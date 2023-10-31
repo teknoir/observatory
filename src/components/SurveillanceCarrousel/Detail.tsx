@@ -3,22 +3,39 @@ import CarrouselImage from "./CarrouselImage"
 import CarrouselImagePreview from "./CarrouselImagePreview"
 
 function SurveillanceCarouselDetail({ sources, mainSource, setMainSource }: CarouselProps) {
+  const {
+    src: mainSrc = "",
+    peripheralName: mainPeripheralName = "",
+    peripheralId: mainPeripheralId = ""
+  } = sources.get(mainSource) ?? {}
+
   return (
     <section className="flex flex-col">
-      <CarrouselImage src={sources.get(mainSource)?.src || ''} />
+      <CarrouselImage
+        id={mainPeripheralId}
+        src={mainSrc}
+        title={mainPeripheralName}
+      />
       <div className="flex">
         <button>&lt;</button>
         <div className="flex flex-row overflow-auto">
           {
             sources.size > 0 ?
               [...sources.keys()].map((sourceKey) => {
-                const src = sources.get(sourceKey)!.src;
+                const {
+                  src = "",
+                  peripheralName = ""
+                } = sources.get(sourceKey) ?? {}
                 return (
                   <div
                     key={src}
                     onClick={() => setMainSource(sourceKey)}
                   >
-                    <CarrouselImagePreview src={src} />
+                    <CarrouselImagePreview
+                      id={sourceKey}
+                      src={src}
+                      title={peripheralName}
+                    />
                   </div>
                 )
               }) :
