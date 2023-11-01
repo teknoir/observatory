@@ -1,21 +1,23 @@
-import { useEffect, useRef, useState } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import { NavLink as RouterLink } from "react-router-dom"
 import * as d3 from "d3"
 import _debounce from "lodash/debounce"
 import moment from "moment/moment"
+import Divider from "@mui/material/Divider"
 import InputLabel from "@mui/material/InputLabel"
 import Link from "@mui/material/Link"
 import { SelectChangeEvent } from "@mui/material/Select"
+import Typography from "@mui/material/Typography"
 import Select from "muiComponents/Select/Select"
-import { IAlertEvent } from "ts/types";
 import { Axis, Chart, Circles, GridLines } from "components/ChartUtilities"
 import { detectionIdAccessor } from "components/ChartUtilities/accessors"
+import { peripheralIdAccessor } from "components/ChartUtilities/accessors"
 import { useChartDimensions } from "components/ChartUtilities/utils"
+import { mainImageCarouselContext } from "context/homeContext";
 import APP_URLS from "enums/urls"
+import { IAlertEvent, MainImageCarouselContextProps } from "ts/types";
 import { MovementsTimelinePeriod, TimelineFilterBy } from "./enums"
 import styles from "./MovementsTimeline.module.scss"
-import Typography from "@mui/material/Typography"
-import Divider from "@mui/material/Divider"
 
 const formatDateByDay = d3.timeFormat("%-b %-d")
 const formatDateByTime = d3.timeFormat("%-I:%M %p")
@@ -62,6 +64,7 @@ export const MovementsTimeline = ({
   const [ref, dimensions] = useChartDimensions(null)
   const [defaultTranslate, setDefaultTranslate] = useState<number>(0)
   const scrollGroupRef = useRef<SVGGElement | null>(null)
+  const { setMainImageCarousel } = useContext(mainImageCarouselContext) as MainImageCarouselContextProps
 
   const xScale = d3.scaleTime()
     .domain([startTime, moment().toDate()])
@@ -190,6 +193,8 @@ export const MovementsTimeline = ({
               keyAccessor={detectionIdAccessor}
               xAccessor={xAccessorScaled}
               yAccessor={yAccessorScaled}
+              onCircleClick={setMainImageCarousel}
+              onClickAccessor={peripheralIdAccessor}
               className={styles.circleMotion}
             />
             <Circles
@@ -197,6 +202,8 @@ export const MovementsTimeline = ({
               keyAccessor={detectionIdAccessor}
               xAccessor={xAccessorScaled}
               yAccessor={yAccessorScaled}
+              onCircleClick={setMainImageCarousel}
+              onClickAccessor={peripheralIdAccessor}
               className={styles.circleAlert}
             />
           </g>

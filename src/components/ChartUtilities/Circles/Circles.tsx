@@ -1,11 +1,8 @@
 import classNames from "classnames";
 import { CirclesProps } from "ts/types";
 import styles from './Circles.module.scss';
-import { mainImageCarouselContext } from "context/homeContext";
-import { useContext } from "react";
 
-const Circles = ({ data, keyAccessor, xAccessor, yAccessor, radius = 8, className }: CirclesProps) => {
-  const { setMainImageCarousel } = useContext(mainImageCarouselContext)
+const Circles = ({ data, keyAccessor, xAccessor, yAccessor, radius = 8, className, onCircleClick, onClickAccessor }: CirclesProps) => {
   return (
     <g>
       {
@@ -16,7 +13,10 @@ const Circles = ({ data, keyAccessor, xAccessor, yAccessor, radius = 8, classNam
             cx={xAccessor(d)}
             cy={yAccessor(d)}
             r={radius}
-            onClick={() => setMainImageCarousel(d.peripheral_id)}
+            onClick={() => {
+              if (onCircleClick && onClickAccessor)
+                onCircleClick(onClickAccessor(d))
+            }}
           />
         ))
       }

@@ -73,6 +73,13 @@ export interface CirclesProps {
   yAccessor: Accessor
   radius?: number
   className?: string
+  onCircleClick?: Function
+  onClickAccessor?: Accessor
+}
+
+export interface MainImageCarouselContextProps {
+  mainImageCarousel: string;
+  setMainImageCarousel: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export type DetectionId = string;
