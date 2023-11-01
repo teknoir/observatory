@@ -15,8 +15,19 @@ export enum ALERT_INFO_KEYS {
   DETECTION_ID = "detection_id",
 }
 
+// FIX: Replace any's
+interface PopoverComponentProps {
+  anchorEl: any
+  alertInfo: any
+  handleClose: any
+}
 
-function PopoverComponent({ anchorEl, alertInfo, handleClose }: { anchorEl: any, alertInfo: any, handleClose: any }) {
+function PopoverComponent({
+  anchorEl,
+  alertInfo,
+  handleClose
+}: PopoverComponentProps) {
+  console.log(anchorEl)
   return (
     <Popover
       open={!!anchorEl}

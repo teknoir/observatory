@@ -70,7 +70,7 @@ export interface CirclesProps {
   yAccessor: Accessor
   radius?: number
   className?: string
-  onCircleClick?: (event: MouseEvent<SVGCircleElement>, data: {}) => void
+  onCircleHover?: (event: MouseEvent<SVGCircleElement>, data: {}) => void
 }
 
 export type DetectionId = string;

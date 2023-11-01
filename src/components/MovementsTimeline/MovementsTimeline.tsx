@@ -78,12 +78,13 @@ export const MovementsTimeline = ({
     detection_id: ""
   })
 
-  function handleCircleClick(event: any, d: any) {
+  // FIX: Reaplce any's
+  function handlePopoverOpen(event: any, d: any) {
     setAnchorEl(event.currentTarget)
     setAlertInfo(d)
   }
 
-  function handleClose() {
+  function handlePopoverClose() {
     setAnchorEl(null)
   }
 
@@ -222,12 +223,12 @@ export const MovementsTimeline = ({
               xAccessor={xAccessorScaled}
               yAccessor={yAccessorScaled}
               className={styles.circleAlert}
-              onCircleClick={handleCircleClick}
+              onCircleHover={handlePopoverOpen}
             />
             <Popover
               anchorEl={anchorEl}
               alertInfo={alertInfo}
-              handleClose={handleClose}
+              handleClose={handlePopoverClose}
             />
           </g>
           <Axis
