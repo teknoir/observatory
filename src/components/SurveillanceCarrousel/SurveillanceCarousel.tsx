@@ -17,7 +17,7 @@ export const GridViewContext = createContext("")
 
 const SurveillanceCarousel = ({ mode, sources }: SurveillanceCarouselProps) => {
   const [mainImage, setMainImage] = useState('')
-  const { mainImageCarousel } = useContext(mainImageCarouselContext) as MainImageCarouselContextProps
+  const { mainImageCarousel, setMainImageCarousel } = useContext(mainImageCarouselContext) as MainImageCarouselContextProps
 
   const sourcesSize = sources.size;
 
@@ -30,6 +30,7 @@ const SurveillanceCarousel = ({ mode, sources }: SurveillanceCarouselProps) => {
   useEffect(() => {
     if (mainImageCarousel) {
       setMainSource(mainImageCarousel)
+      setMainImageCarousel("")
     }
   }, [mainImageCarousel])
 
