@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import NavigationBar from './NavigationBar/NavigationBar';
+import RightSideBar from "./RightSideBar";
 
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,6 +16,7 @@ export default function MainLayout() {
         <Box sx={{ display: 'flex' }}>
           <NavigationBar />
           <Outlet />
+          <RightSideBar />
         </Box>
       </MainLayoutProvider>
     </ThemeProvider>

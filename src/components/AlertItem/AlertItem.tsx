@@ -25,6 +25,7 @@ const AlertItem = ({
   const item = data[index];
   const {
     detection_id: detectionId,
+    peripheral_id: peripheralId,
     peripheral_name: name,
     severity,
     start_time: startTime,
@@ -48,7 +49,7 @@ const AlertItem = ({
   return (
     <div className={styles.root} style={style}>
       <Link
-        to={generatePath(APP_URLS.alerts, { detectionId })}
+        to={generatePath(APP_URLS.alerts, { detectionId, peripheralId })}
         className={styles.rootLink}
       >
         <div className={styles.titleLine}>
