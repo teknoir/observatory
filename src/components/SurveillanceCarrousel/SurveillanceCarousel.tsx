@@ -1,10 +1,12 @@
-import { createContext, useState, useEffect } from "react"
+import { createContext, useState, useEffect, useContext } from "react"
 import { useInterval } from "usehooks-ts"
+import { mainImageCarouselContext } from "context/homeContext"
 import { SurveillanceCarouselProps, CarouselMode } from "ts/types"
 import SurveillanceCarouselGeneral from "./General"
 import SurveillanceCarouselDetail from "./Detail"
 // import GridViewControls from "./GridViewControls"
 import GridViewProvider from "./GridViewContext"
+
 
 const surveillanceCarouselComponentsByMode = {
   [CarouselMode.General]: SurveillanceCarouselGeneral,
@@ -15,6 +17,7 @@ export const GridViewContext = createContext("")
 
 const SurveillanceCarousel = ({ mode, sources }: SurveillanceCarouselProps) => {
   const [mainImage, setMainImage] = useState('')
+  const { mainImageCarousel } = useContext(mainImageCarouselContext)
 
   const sourcesSize = sources.size;
 
@@ -23,6 +26,10 @@ const SurveillanceCarousel = ({ mode, sources }: SurveillanceCarouselProps) => {
       setMainImage(sources.keys().next().value)
     }
   }, [mainImage, sourcesSize])
+
+  useEffect(() => {
+    setMainSource(mainImageCarousel)
+  }, [mainImageCarousel])
 
   useInterval(() => {
     if (sources.size > 0) {
@@ -50,6 +57,7 @@ const SurveillanceCarousel = ({ mode, sources }: SurveillanceCarouselProps) => {
   return (
     <GridViewProvider>
       {/*<GridViewControls />*/}
+      <p>{mainImageCarousel}</p>
       <Component
         sources={sources}
         mainSource={mainImage}
