@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react"
+import { MouseEvent } from "react";
 import { NavLink as RouterLink } from "react-router-dom"
 import * as d3 from "d3"
 import _debounce from "lodash/debounce"
@@ -12,7 +13,7 @@ import Select from "muiComponents/Select/Select"
 import { Axis, Chart, Circles, GridLines } from "components/ChartUtilities"
 import { detectionIdAccessor } from "components/ChartUtilities/accessors"
 import { useChartDimensions } from "components/ChartUtilities/utils"
-import { IAlertEvent } from "ts/types";
+import { IAlertEvent, PopoverInfoProps } from "ts/types";
 import APP_URLS from "enums/urls"
 import Popover from "./Popover/Popover"
 import { MovementsTimelinePeriod, TimelineFilterBy } from "./enums"
@@ -47,12 +48,8 @@ const periodOptions = [
   { value: MovementsTimelinePeriod.DAYS_30, label: "Last 30 days" },
 ]
 
-interface PopoverInfoProps {
-  type: string,
-  duration: number,
-  start_time: string,
-  detection_id: string,
-}
+// TODO: Temporal, remove this fallback when data returns video_url
+const fallbackVideoUrl = "https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4"
 
 export const MovementsTimeline = ({
   startTime,
@@ -70,18 +67,23 @@ export const MovementsTimeline = ({
   const [ref, dimensions] = useChartDimensions(null)
   const [defaultTranslate, setDefaultTranslate] = useState<number>(0)
   const scrollGroupRef = useRef<SVGGElement | null>(null)
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [anchorEl, setAnchorEl] = useState<SVGCircleElement | null>(null)
   const [alertInfo, setAlertInfo] = useState<PopoverInfoProps>({
-    type: "",
+    detection_id: "",
     duration: 0,
+    severity: "",
     start_time: "",
-    detection_id: ""
+    type: "",
+    video_url: fallbackVideoUrl,
   })
 
-  // FIX: Reaplce any's
-  function handlePopoverOpen(event: any, d: any) {
+  // FIX: fix the info parameter type
+  function handlePopoverOpen(event: MouseEvent<SVGCircleElement>, info: any) {
     setAnchorEl(event.currentTarget)
-    setAlertInfo(d)
+    setAlertInfo(prevAlertInfo => ({
+      ...info,
+      video_url: info!.video_url ?? prevAlertInfo.video_url,
+    }))
   }
 
   function handlePopoverClose() {

@@ -1,25 +1,28 @@
-import IconButton from "@mui/material/IconButton";
-import Popover from "@mui/material/Popover";
-import Link from "@mui/material/Link"
-import CloseIcon from '@mui/icons-material/Close';
-import Skeleton from "@mui/material/Skeleton";
-import Typography from "@mui/material/Typography";
+import { NavLink as RouterLink, generatePath } from "react-router-dom"
 import moment from "moment";
+import _startCase from "lodash/startCase";
+import CloseIcon from '@mui/icons-material/Close';
+import IconButton from "@mui/material/IconButton";
+import Link from "@mui/material/Link"
+import Popover from "@mui/material/Popover";
+import Typography from "@mui/material/Typography";
+import VideoPlayer from "components/VideoPlayer/VideoPlayer";
+import { PopoverInfoProps } from "ts/types";
 import APP_URLS from "enums/urls";
-import { NavLink as RouterLink } from "react-router-dom"
 
 export enum ALERT_INFO_KEYS {
-  TYPE = "type",
-  DURATION = "duration",
-  START_TIME = "start_time",
   DETECTION_ID = "detection_id",
+  DURATION = "duration",
+  SEVERITY = "severity",
+  START_TIME = "start_time",
+  TYPE = "type",
+  VIDEO_URL = "video_url",
 }
 
-// FIX: Replace any's
 interface PopoverComponentProps {
-  anchorEl: any
-  alertInfo: any
-  handleClose: any
+  anchorEl: SVGCircleElement | null
+  alertInfo: PopoverInfoProps
+  handleClose: () => void
 }
 
 function PopoverComponent({
@@ -27,7 +30,6 @@ function PopoverComponent({
   alertInfo,
   handleClose
 }: PopoverComponentProps) {
-  console.log(anchorEl)
   return (
     <Popover
       open={!!anchorEl}
@@ -49,14 +51,16 @@ function PopoverComponent({
           borderRadius: 4,
         }}
       >
-        <Typography variant="h6">Theft alert - Low</Typography>
+        <Typography variant="h6">
+          {alertInfo[ALERT_INFO_KEYS.TYPE]} alert - {_startCase(alertInfo[ALERT_INFO_KEYS.SEVERITY]?.toLowerCase())}
+        </Typography>
         <IconButton
           aria-label="close"
           onClick={handleClose}
           sx={{
             position: 'absolute',
-            right: 8,
-            top: 8,
+            right: 0,
+            top: 0,
             color: "black",
           }}
         >
@@ -67,16 +71,15 @@ function PopoverComponent({
         <span>Duration: {Math.round(alertInfo[ALERT_INFO_KEYS.DURATION] / 1000)}s</span>
         <Link
           component={RouterLink}
-          to={APP_URLS.alerts + `/${alertInfo[ALERT_INFO_KEYS.DETECTION_ID]}`}
+          to={generatePath(APP_URLS.alerts, {
+            detectionId: alertInfo[ALERT_INFO_KEYS.DETECTION_ID],
+          })}
           color="inherit"
         >
-          <Skeleton
-            sx={{
-              bgcolor: "rgba(0, 0, 0, 0.13)",
-            }}
-            variant="rectangular"
-            width={190}
-            height={90}
+          <VideoPlayer
+            url={alertInfo[ALERT_INFO_KEYS.VIDEO_URL]}
+            width={250}
+            height="auto"
           />
         </Link>
       </div>
