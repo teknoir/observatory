@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Routes, Route, useParams } from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import LastPageIcon from "@mui/icons-material/LastPage";
@@ -15,13 +14,6 @@ import FirstPageIcon from "@mui/icons-material/FirstPage";
 const RightSideBar = () => {
   const { peripheralId } = useParams();
   const { isOpenedRight, openRight, closeRight } = useMainLayoutContext();
-
-  useEffect(() => {
-    // return () => openRight();
-    return () => {
-      console.log('RightSideBar unmounted');
-    };
-  }, []);
 
   return (
     <Drawer
