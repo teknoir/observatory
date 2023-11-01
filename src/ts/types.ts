@@ -133,3 +133,8 @@ export interface IEventsRequestParamsById {
 export interface IMotionsCounts {
   [key: string]: number;
 }
+
+export interface IAlertFormValues {
+  has_theft: boolean;
+  comment: string;
+}

@@ -1,32 +1,41 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import { useParams } from 'react-router-dom';
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import RightSideBar from "layouts/MainLayout/RightSideBar";
-import { alert } from "enums/queryKeys";
-import { fetchAlert } from "services/apiRequests";
+import { alertKey } from "enums/queryKeys";
+import { fetchAlert, verifyAlert } from "services/apiRequests";
 import AppBar from 'components/AppBar/AppBar';
 import MainContent from 'components/MainContent/MainContent';
 import AlertsPerformanceTabs from "components/AlertsPerformanceTabs/AlertsPerformanceTabs";
 import VideoPlayer from "components/VideoPlayer/VideoPlayer";
+import { IAlertEvent, IAlertFormValues} from 'ts/types';
 import Form from './Form/Form';
 import Info from './Info/Info';
 
-const peripheralId = 'parkinglot2';
-// const peripheralId = 'boxerproperty3';
-
 const Alert = () => {
   const { detectionId = "" } = useParams();
-
-  const isVerified = detectionId % 2 !== 0;
+  const queryClient = useQueryClient();
+  const queryKey = [alertKey, detectionId];
 
   const { data, isLoading } = useQuery({
-    queryKey: [alert, detectionId],
+    queryKey,
     queryFn: () => fetchAlert(detectionId),
   })
 
-  console.log(data)
+  const mutation = useMutation({
+    mutationFn: verifyAlert,
+    onSuccess: (data: IAlertFormValues)  => {
+      queryClient.setQueryData(queryKey, (oldData: IAlertEvent) => ({
+        ...oldData,
+        ...data,
+        is_verified: true
+      }))
+    }
+  })
+
+  const onSubmit = (values: IAlertFormValues) => mutation.mutate({ detectionId, values });
 
   if (isLoading) return <CircularProgress />
 
@@ -36,7 +45,24 @@ const Alert = () => {
     peripheral_name,
     start_time,
     end_time,
+    peripheral_id: peripheralId
   } = data;
+
+  // TODO: it's temporary solution, we need to use real data here
+  let {
+    name = '',
+    date = '',
+    is_verified: isVerified = false,
+    has_theft: hasTheft = false,
+    comment = ''
+  } = data;
+  if (detectionId.slice(-1).match(/[a-z]/i)) {
+    name = 'John';
+    date = '2021-10-10';
+    isVerified = true;
+    hasTheft = true;
+    comment = 'TEST: We double check this and was actually a theft, called the police at 15:42.';
+  }
 
   return (
     <>
@@ -51,17 +77,18 @@ const Alert = () => {
         />
         {isVerified ? (
           <Info
+            name={name}
+            date={date}
             type={type}
             severity={severity}
             peripheralName={peripheral_name}
             startTime={start_time}
             endTime={end_time}
-            // TODO: use real data here
-            comment={"TEST: We double check this and was actually a theft, called the police at 15:42."}
-            hasTheft
+            comment={comment}
+            hasTheft={hasTheft}
           />
         ) : (
-          <Form />
+          <Form onSubmit={onSubmit} />
         )}
       </MainContent>
       <RightSideBar>
