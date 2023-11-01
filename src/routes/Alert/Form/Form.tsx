@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
 import TextField from '@mui/material/TextField';
@@ -10,33 +10,33 @@ import FormLabel from '@mui/material/FormLabel';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import FormHelperText from '@mui/material/FormHelperText';
+import { IAlertFormValues } from 'ts/types';
 import styles from "./Form.module.scss";
 
 const schema = zod
   .object({
-    hasTheft: zod.boolean(),
+    has_theft: zod.boolean(),
     comment: zod.string().min(1, { message: "Comment is required" }),
   })
   .required()
 
-interface IFormValues {
-  hasTheft: boolean;
-  comment: string;
+interface Props {
+  onSubmit: (values: IAlertFormValues) => void
 }
 
-const Form = () => {
+const Form = ({ onSubmit }: Props) => {
   const navigate = useNavigate();
-  const { control, handleSubmit, formState: { errors } } = useForm<IFormValues>({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting }
+  } = useForm<IAlertFormValues>({
     defaultValues: {
-      hasTheft: false,
+      has_theft: false,
       comment: "",
     },
     resolver: zodResolver(schema),
   })
-
-  const onSubmit: SubmitHandler<IFormValues> = (data) => {
-    console.log(data)
-  }
 
   return (
     <div className={styles.root}>
@@ -46,7 +46,7 @@ const Form = () => {
             Was this an actual theft?
           </FormLabel>
           <Controller
-            name="hasTheft"
+            name="has_theft"
             control={control}
             render={({ field }) =>
               <RadioGroup
@@ -87,6 +87,7 @@ const Form = () => {
             color="inherit"
             fullWidth
             onClick={() => navigate(-1)}
+            disabled={isSubmitting}
           >
             Cancel
           </Button>
@@ -94,6 +95,7 @@ const Form = () => {
             variant="contained"
             fullWidth
             type="submit"
+            disabled={isSubmitting}
           >
             Confirm
           </Button>
