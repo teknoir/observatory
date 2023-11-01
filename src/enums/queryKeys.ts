@@ -1,4 +1,4 @@
-export const alert = 'alert';
+export const alertKey = 'alert';
 
 export const alerts = 'alerts';
 export const alertsById = 'alertsById';

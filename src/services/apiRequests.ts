@@ -8,11 +8,13 @@ import {
   fetchMotionsCountsMock,
   fetchAlertMock,
 } from "services/fetchMock";
+import { dataWithDelay } from "services/fetchMock/utils";
 import { getEventQuery, getEventsQuery } from "services/queryHistorian";
 import {
   IEventsRequestParams,
   IEventsRequestParamsById,
-  DetectionId
+  DetectionId,
+  IAlertFormValues
 } from "ts/types";
 
 // TODO: remove this function in future
@@ -46,6 +48,13 @@ export const fetchAlertsByPeripheralId = (filters: IEventsRequestParamsById, fie
   const query = getEventsQuery(filters, fields);
   return Fetch.get(API.alerts(query)).then(({ data }) => data)
 };
+
+// TODO: implement a real API request
+export const verifyAlert = (data: { detectionId: DetectionId, values: IAlertFormValues }) => {
+  const { detectionId, values } = data;
+  console.log('verifyAlert', detectionId, values)
+  return dataWithDelay(values);
+}
 
 export const fetchMotionsCounts = (filters: IEventsRequestParams) => {
   // TODO: remove this condition in future
