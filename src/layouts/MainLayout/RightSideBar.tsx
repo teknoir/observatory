@@ -9,7 +9,8 @@ import { useMainLayoutContext } from "context/mainLayoutContext";
 import AlertsMotionsTabs from "components/AlertsMotionsTabs/AlertsMotionsTabs";
 import AlertsPerformanceTabs from "components/AlertsPerformanceTabs/AlertsPerformanceTabs";
 import DrawerHeader from "./components/DrawerHeader.tsx";
-import { rightSideBarWidth } from "./enums.ts";
+import { rightSideBarWidth, rightSideBarClosedWidth } from "./enums.ts";
+import FirstPageIcon from "@mui/icons-material/FirstPage";
 
 const RightSideBar = () => {
   const { peripheralId } = useParams();
@@ -25,29 +26,32 @@ const RightSideBar = () => {
   return (
     <Drawer
       sx={{
-        width: rightSideBarWidth,
+        width: isOpenedRight ? rightSideBarWidth : rightSideBarClosedWidth,
         flexShrink: 0,
         '& .MuiDrawer-paper': {
-          width: rightSideBarWidth,
+          width: isOpenedRight ? rightSideBarWidth : rightSideBarClosedWidth,
           boxSizing: 'border-box',
+          alignItems: isOpenedRight ? 'inherit' : 'center',
         },
       }}
-      variant="persistent"
+      variant="permanent"
       anchor="right"
       open={isOpenedRight}
     >
       <DrawerHeader direction="center">
-        <IconButton onClick={closeRight}>
-          <LastPageIcon />
+        <IconButton onClick={isOpenedRight ? closeRight : openRight}>
+          {isOpenedRight ? <LastPageIcon /> : <FirstPageIcon />}
         </IconButton>
       </DrawerHeader>
       <Divider />
-      <Routes>
-        <Route path={APP_URLS.home} element={<AlertsMotionsTabs />} />
-        <Route path={APP_URLS.motionsAlerts} element={<AlertsMotionsTabs />} />
-        <Route path={APP_URLS.alerts} element={<AlertsPerformanceTabs peripheralId={peripheralId} />} />
-        <Route path={APP_URLS.devices} element={<AlertsMotionsTabs peripheralId={peripheralId} />} />
-      </Routes>
+      {isOpenedRight && (
+        <Routes>
+          <Route path={APP_URLS.home} element={<AlertsMotionsTabs />} />
+          <Route path={APP_URLS.motionsAlerts} element={<AlertsMotionsTabs />} />
+          <Route path={APP_URLS.alerts} element={<AlertsPerformanceTabs peripheralId={peripheralId} />} />
+          <Route path={APP_URLS.devices} element={<AlertsMotionsTabs peripheralId={peripheralId} />} />
+        </Routes>
+      )}
     </Drawer>
   )
 }

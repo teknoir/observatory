@@ -3,12 +3,13 @@ import { AppBarProps as MuiAppBarProps} from "@mui/material/AppBar/AppBar";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import { styled } from "@mui/material/styles";
-import { useMainLayoutContext } from "context/mainLayoutContext.tsx";
+import { useMainLayoutContext } from "context/mainLayoutContext";
 import Notifications from "components/Notifications";
 import {
   leftSideBarWidth,
   leftSideBarClosedWidth,
-  rightSideBarWidth
+  rightSideBarWidth,
+  rightSideBarClosedWidth
 } from "../enums";
 
 interface AppBarProps extends MuiAppBarProps {
@@ -25,9 +26,9 @@ const AppBar = styled(MuiAppBar, {
   openRight,
   hasRightSideBar
 }) => {
-  let widthDiff = leftSideBarClosedWidth;
+  let widthDiff = leftSideBarClosedWidth + rightSideBarClosedWidth;
   let marginLeft = leftSideBarClosedWidth;
-  let marginRight = 0;
+  let marginRight = rightSideBarClosedWidth;
   if (open) {
     widthDiff = leftSideBarWidth;
     marginLeft = leftSideBarWidth;
