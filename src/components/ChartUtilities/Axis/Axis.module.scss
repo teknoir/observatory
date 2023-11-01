@@ -11,8 +11,9 @@
 }
 
 .Axis__tick {
-  font-size: 0.9em;
+  font-size: 12px;
   transition: all 0.3s ease-out;
+  fill: $gray400;
 }
 
 .AxisHorizontal .Axis__tick {
@@ -26,4 +27,8 @@
 
 .rectBackground {
   fill: $black200;
+}
+
+.axisVerticalTitle {
+  fill: $white;
 }
