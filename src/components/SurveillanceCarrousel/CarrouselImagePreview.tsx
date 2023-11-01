@@ -1,5 +1,5 @@
 import { forwardRef, memo } from 'react';
-import { NavLink as RouterLink } from "react-router-dom";
+import { NavLink as RouterLink, generatePath } from "react-router-dom";
 import classNames from 'classnames';
 import Link from "@mui/material/Link";
 import { ImagePreviewProps } from 'ts/types';
@@ -7,7 +7,9 @@ import APP_URLS from "enums/urls";
 import styles from "./SurveillanceCarousel.module.scss"
 
 const CarrouselImagePreview = forwardRef<HTMLImageElement, ImagePreviewProps>(({
+  id,
   src,
+  title,
   className = '',
   onClick = () => { }
 }: ImagePreviewProps, ref) => {
@@ -21,7 +23,7 @@ const CarrouselImagePreview = forwardRef<HTMLImageElement, ImagePreviewProps>(({
       />
       <div className={styles.titleContainer}>
         <p className={styles.titleText}>
-          {src}
+          {title}
         </p>
         <div className={styles.titleStatusIndicator}></div>
       </div>
@@ -29,7 +31,10 @@ const CarrouselImagePreview = forwardRef<HTMLImageElement, ImagePreviewProps>(({
         {/* TODO: Replace url to be dynamic */}
         <Link
           component={RouterLink}
-          to={APP_URLS.alerts}
+          to={generatePath(APP_URLS.devices, {
+            peripheralId: id,
+            peripheralName: title,
+          })}
           color="inherit"
           underline="none"
         >

@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import { NavLink as RouterLink } from "react-router-dom"
+import { NavLink as RouterLink, generatePath } from "react-router-dom"
 import classNames from "classnames"
 import Link from "@mui/material/Link"
 import cameraImage from 'assets/device_camera.png'
@@ -45,7 +45,10 @@ export default function AxisVertical({ dimensions, label, formatTick, scale, idA
             >
               <Link
                 component={RouterLink}
-                to={APP_URLS.devices + "/" + ids[i]}
+                to={generatePath(APP_URLS.devices, {
+                  peripheralId: ids[i],
+                  peripheralName: tick,
+                })}
                 color="inherit"
                 underline="none"
               >

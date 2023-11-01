@@ -4,12 +4,11 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
-  console.log('----------------env', env)
-  console.log('----------------process.env 1', process.env)
   return {
     define: {
       'import.meta.env.VITE_WS_SERVER': JSON.stringify(process.env.VITE_WS_SERVER || env.VITE_WS_SERVER),
       'import.meta.env.VITE_HISTORIAN_DB_SERVER': JSON.stringify(process.env.VITE_HISTORIAN_DB_SERVER || env.VITE_HISTORIAN_DB_SERVER),
+      'import.meta.env.VITE_USE_MOCK_HISTORIAN_DB': env.VITE_USE_MOCK_HISTORIAN_DB ? JSON.parse(env.VITE_USE_MOCK_HISTORIAN_DB) : false
     },
     base: env.VITE_APP_BASENAME || '/',
     plugins: [react()],

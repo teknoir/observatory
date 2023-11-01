@@ -1,13 +1,6 @@
-import { useEffect } from "react";
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 
 const socketUrl = import.meta.env.VITE_WS_SERVER;
-
-export const TYPES = {
-  MESSAGE: 'MESSAGE',
-  INACTIVE: 'INACTIVE',
-  START_IMAGES_STREAM: 'START_IMAGES_STREAM',
-};
 
 export const isOpenWS = (readyState: ReadyState) => readyState === ReadyState.OPEN;
 
@@ -25,12 +18,6 @@ const useWebSocketHook = () => {
     shouldReconnect: () => true,
     share: true,
   });
-
-  useEffect(() => {
-    return () => {
-      getWebSocket()?.close()
-    };
-  }, [getWebSocket]);
 
   return {
     sendMessage,

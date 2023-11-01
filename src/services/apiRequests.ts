@@ -16,35 +16,35 @@ import {
 } from "ts/types";
 
 // TODO: remove this function in future
-const shouldUseHistorianDb = (): boolean => location?.search.includes('useHistorianDb');
+const shouldUseMockData = (): boolean => location?.search.includes('useMockDb') || import.meta.env.VITE_USE_MOCK_HISTORIAN_DB;
 const shouldUseMotionsDb = (): boolean => false;
 
 export const fetchAlert = (detectionId: DetectionId) => {
   // TODO: remove this condition in future
-  if (shouldUseHistorianDb()) {
-    const query = getEventQuery(detectionId);
-    // TODO: pass test video url
-    return Fetch.get(API.alerts(query)).then(({ data }) => data)
+  if (shouldUseMockData()) {
+    return fetchAlertMock(detectionId);
   }
-  return fetchAlertMock(detectionId);
+  const query = getEventQuery(detectionId);
+  // TODO: pass test video url
+  return Fetch.get(API.alerts(query)).then(({ data }) => data)
 };
 
 export const fetchAlerts = (filters: IEventsRequestParams, fields: string[] = []) => {
   // TODO: remove this condition in future
-  if (shouldUseHistorianDb()) {
-    const query = getEventsQuery(filters, fields);
-    return Fetch.get(API.alerts(query)).then(({ data }) => data)
+  if (shouldUseMockData()) {
+    return fetchAllAlertsMock(filters, fields);
   }
-  return fetchAllAlertsMock(filters, fields);
+  const query = getEventsQuery(filters, fields);
+  return Fetch.get(API.alerts(query)).then(({ data }) => data)
 };
 
 export const fetchAlertsByPeripheralId = (filters: IEventsRequestParamsById, fields: string[] = []) => {
   // TODO: remove this condition in future
-  if (shouldUseHistorianDb()) {
-    const query = getEventsQuery(filters, fields);
-    return Fetch.get(API.alerts(query)).then(({ data }) => data)
+  if (shouldUseMockData()) {
+    return fetchAlertsByPeripheralIdMock(filters, fields);
   }
-  return fetchAlertsByPeripheralIdMock(filters, fields);
+  const query = getEventsQuery(filters, fields);
+  return Fetch.get(API.alerts(query)).then(({ data }) => data)
 };
 
 export const fetchMotionsCounts = (filters: IEventsRequestParams) => {
@@ -59,19 +59,19 @@ export const fetchMotionsCounts = (filters: IEventsRequestParams) => {
 // export const fetchMovements = () => Fetch.get(API.movements);
 export const fetchMovements = (filters: IEventsRequestParams, fields: string[] = []) => {
   // TODO: remove this condition in future
-  if (shouldUseHistorianDb()) {
-    const query = getEventsQuery(filters, fields);
-    return Fetch.get(API.movements(query)).then(({ data }) => data)
+  if (shouldUseMockData()) {
+    return fetchAllMotionsMock(filters, fields);
   }
-  return fetchAllMotionsMock(filters, fields);
+  const query = getEventsQuery(filters, fields);
+  return Fetch.get(API.movements(query)).then(({ data }) => data)
 };
 
 // TODO: use real API request in future
 export const fetchMovementsByPeripheralId = (filters: IEventsRequestParamsById, fields: string[] = []) => {
   // TODO: remove this condition in future
-  if (shouldUseHistorianDb()) {
-    const query = getEventsQuery(filters, fields);
-    return Fetch.get(API.movements(query)).then(({ data }) => data)
+  if (shouldUseMockData()) {
+    return fetchMotionsByPeripheralIdMock(filters, fields);
   }
-  return fetchMotionsByPeripheralIdMock(filters, fields);
+  const query = getEventsQuery(filters, fields);
+  return Fetch.get(API.movements(query)).then(({ data }) => data)
 }

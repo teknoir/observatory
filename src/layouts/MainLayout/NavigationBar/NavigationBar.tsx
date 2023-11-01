@@ -1,4 +1,4 @@
-import { NavLink as RouterLink } from "react-router-dom";
+import { NavLink as RouterLink, generatePath } from "react-router-dom";
 import Link from "@mui/material/Link";
 import IconButton from "@mui/material/IconButton";
 import FirstPageIcon from "@mui/icons-material/FirstPage";
@@ -30,15 +30,22 @@ const navigationItems = [
   // TODO: this item will be removed
   {
     name: "Alert verified (for testing)",
-    url: APP_URLS.alerts + '/111111111111',
+    url: generatePath(APP_URLS.alerts, {
+      detectionId: '111111111111',
+    })
   },
   {
     name: "Alert not verified (for testing)",
-    url: APP_URLS.alerts + '/222222222222',
+    url: generatePath(APP_URLS.alerts, {
+      detectionId: '222222222222',
+    })
   },
   {
-    name: "Device parkinglot2",
-    url: APP_URLS.devices + '/parkinglot2',
+    name: "Device boxerproperty3 (for testing)",
+    url: generatePath(APP_URLS.devices, {
+      peripheralId: 'boxerproperty3',
+      peripheralName: 'boxerproperty3',
+    })
   }
 ];
 const NavigationBar = () => {

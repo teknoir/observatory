@@ -55,7 +55,7 @@ const motionsSchema = new Map<string, object>([
     minutes: [11, 36, 43],
     duration: 18,
   }],
-  ['parkinglot12', {
+  ['catalytic', {
     minutes: [15, 20, 25],
     duration: 25,
   }]
