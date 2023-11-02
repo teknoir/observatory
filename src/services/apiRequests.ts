@@ -27,8 +27,14 @@ export const fetchAlert = (detectionId: DetectionId) => {
     return fetchAlertMock(detectionId);
   }
   const query = getEventQuery(detectionId);
-  // TODO: pass test video url
-  return Fetch.get(API.alerts(query)).then(({ data }) => data)
+  return Fetch.get(API.alerts(query)).then(({ data }) => {
+    const res = data[0];
+    if (res) {
+      // TODO: pass test video url
+      res.video_url = 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
+    }
+    return res;
+  })
 };
 
 export const fetchAlerts = (filters: IEventsRequestParams, fields: string[] = []) => {
