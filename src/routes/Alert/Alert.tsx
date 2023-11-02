@@ -43,7 +43,6 @@ const Alert = () => {
     peripheral_name,
     start_time,
     end_time,
-    peripheral_id: peripheralId
   } = data;
 
   // TODO: it's temporary solution, we need to use real data here
