@@ -1,7 +1,7 @@
 enum APP_URLS {
   home = '/',
   motionsAlerts = '/motions-alerts',
-  alerts = '/alerts/:detectionId',
+  alerts = '/alerts/:peripheralId/:detectionId',
   devices = '/devices/:peripheralId/:peripheralName',
 }
 

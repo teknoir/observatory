@@ -56,7 +56,7 @@ const alertsSchema = new Map<string, object>([
     minute: 5,
     duration: 2,
   }],
-  ['parkinglot11', {
+  ['boxerproperty3', {
     hours: [3, 7, 11],
     minute: 33,
     duration: 3,
