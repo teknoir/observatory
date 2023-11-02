@@ -3,14 +3,12 @@ import { useInterval } from "usehooks-ts"
 import { useQueryClient } from "@tanstack/react-query";
 import { useParams } from 'react-router-dom';
 import useWebSocket, { isOpenWS } from "hooks/useWebSocket";
-import AlertsMotionsTabs from "components/AlertsMotionsTabs/AlertsMotionsTabs";
 import AppBar from 'components/AppBar/AppBar';
 import MainContent from 'components/MainContent/MainContent';
 import { MovementsTimelineSingle } from 'components/MovementsTimeline';
 import { Source } from "ts/types";
 import { wsSources } from "enums/queryKeys";
 import { TOPICS, TYPES } from "enums/wss";
-import RightSideBar from "layouts/MainLayout/RightSideBar";
 import ImageViewer from "./ImageViewer/ImageViewer";
 import styles from "./Device.module.scss";
 
@@ -83,9 +81,6 @@ const Device = () => {
           <MovementsTimelineSingle peripheralId={peripheralId} />
         </div>
       </MainContent>
-      <RightSideBar>
-        <AlertsMotionsTabs peripheralId={peripheralId} />
-      </RightSideBar>
     </>
   )
 }

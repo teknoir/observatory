@@ -22,7 +22,7 @@ const AlertsListContainer = ({ peripheralId = '' }: Props) => {
     () => moment().subtract(period, 'days').startOf('day'),
     [period]
   );
-  const fields = ['peripheral_name', 'severity', 'start_time', 'end_time'];
+  const fields = ['detection_id', 'peripheral_id', 'peripheral_name', 'severity', 'start_time', 'end_time'];
 
   const {
     data: dataAlerts,

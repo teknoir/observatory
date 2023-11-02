@@ -6,6 +6,8 @@ import Verified from "components/Verified/Verified";
 import styles from "./Info.module.scss";
 
 interface Props {
+  name: string;
+  date: string;
   endTime: string;
   severity: string;
   startTime: string;
@@ -16,6 +18,8 @@ interface Props {
 }
 
 const Info = ({
+  name,
+  date,
   severity,
   type,
   startTime,
@@ -35,7 +39,7 @@ const Info = ({
         <div className={styles.verifiedBlock}>
           <Verified />
           <Typography variant="body2" className={styles.text}>
-            This was verified by @name at @date
+            This was verified by @{name} at @{date}
           </Typography>
         </div>
       </div>
