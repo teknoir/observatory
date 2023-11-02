@@ -10,7 +10,7 @@ import styles from "./Home.module.scss"
 function Home() {
   return (
     <>
-      <AppBar hasRightSideBar={false}>
+      <AppBar>
         <GridViewControls />
       </AppBar>
       <MainContent>

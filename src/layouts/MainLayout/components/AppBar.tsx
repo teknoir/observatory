@@ -26,16 +26,22 @@ const AppBar = styled(MuiAppBar, {
   openRight,
   hasRightSideBar
 }) => {
-  let widthDiff = leftSideBarClosedWidth + rightSideBarClosedWidth;
-  let marginLeft = leftSideBarClosedWidth;
-  let marginRight = rightSideBarClosedWidth;
+  let widthDiff = 0;
+  let marginLeft = 0;
+  let marginRight = 0;
   if (open) {
-    widthDiff = leftSideBarWidth;
+    widthDiff += leftSideBarWidth;
     marginLeft = leftSideBarWidth;
+  } else {
+    widthDiff += leftSideBarClosedWidth;
+    marginLeft = leftSideBarClosedWidth;
   }
   if (hasRightSideBar && openRight) {
     widthDiff += rightSideBarWidth;
     marginRight = rightSideBarWidth;
+  } else {
+    widthDiff += rightSideBarClosedWidth;
+    marginRight = rightSideBarClosedWidth;
   }
   return {
     transition: theme.transitions.create(['margin', 'width'], {
