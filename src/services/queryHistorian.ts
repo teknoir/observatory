@@ -9,7 +9,8 @@ export const getEventQuery = (detectionId: DetectionId) => {
   const queryObj: IQuery = {
     detection_id: detectionId
   };
-  return encodeURIComponent(JSON.stringify(queryObj));
+  const query = encodeURIComponent(JSON.stringify(queryObj));
+  return `query=${query}`
 }
 
 export const getEventsQuery = (params: IEventsRequestParams | IEventsRequestParamsById, fields: string[] = []) => {

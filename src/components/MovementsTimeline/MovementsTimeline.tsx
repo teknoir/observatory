@@ -210,7 +210,7 @@ export const MovementsTimeline = ({
               dimension="xScroll"
               scale={xScale}
               formatTick={formatDate}
-              numberOfTicks={period === MovementsTimelinePeriod.DAYS_1 ? 24 * 4 : period}
+              numberOfTicks={period === MovementsTimelinePeriod.DAYS_1 ? 24 : period}
             />
             <Circles
               data={dataMotions}

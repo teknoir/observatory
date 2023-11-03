@@ -17,6 +17,7 @@ export default function AxisVertical({ dimensions, label, formatTick, scale, idA
       {...props}
     >
       <text
+        className={styles.axisVerticalTitle}
         x={-dimensions.marginLeft}
         y={dimensions.marginTop / 2}
       >
@@ -43,17 +44,19 @@ export default function AxisVertical({ dimensions, label, formatTick, scale, idA
               height="1"
               style={{ overflow: "visible" }}
             >
-              <Link
-                component={RouterLink}
-                to={generatePath(APP_URLS.devices, {
-                  peripheralId: ids[i],
-                  peripheralName: tick,
-                })}
-                color="inherit"
-                underline="none"
-              >
-                Open
-              </Link>
+              {ids[i] && tick && (
+                <Link
+                  component={RouterLink}
+                  to={generatePath(APP_URLS.devices, {
+                    peripheralId: ids[i],
+                    peripheralName: tick,
+                  })}
+                  color="inherit"
+                  underline="none"
+                >
+                  Open
+                </Link>
+              )}
             </foreignObject>
             :
             <foreignObject

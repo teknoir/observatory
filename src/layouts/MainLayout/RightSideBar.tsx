@@ -1,46 +1,49 @@
-import { ReactNode, useEffect } from "react";
+import { Routes, Route, useParams } from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
+import APP_URLS from "enums/urls";
 import { useMainLayoutContext } from "context/mainLayoutContext";
-import { rightSideBarWidth } from "./enums.ts";
+import AlertsMotionsTabs from "components/AlertsMotionsTabs/AlertsMotionsTabs";
+import AlertsPerformanceTabs from "components/AlertsPerformanceTabs/AlertsPerformanceTabs";
 import DrawerHeader from "./components/DrawerHeader.tsx";
+import { rightSideBarWidth, rightSideBarClosedWidth } from "./enums.ts";
+import FirstPageIcon from "@mui/icons-material/FirstPage";
 
-interface Props {
-  children: ReactNode;
-}
-
-const RightSideBar = ({
-  children
-}: Props) => {
+const RightSideBar = () => {
+  const { peripheralId } = useParams();
   const { isOpenedRight, openRight, closeRight } = useMainLayoutContext();
-
-  useEffect(() => {
-    return () => openRight();
-  }, []);
 
   return (
     <Drawer
       sx={{
-        width: rightSideBarWidth,
+        width: isOpenedRight ? rightSideBarWidth : rightSideBarClosedWidth,
         flexShrink: 0,
         '& .MuiDrawer-paper': {
-          width: rightSideBarWidth,
+          width: isOpenedRight ? rightSideBarWidth : rightSideBarClosedWidth,
           boxSizing: 'border-box',
+          alignItems: isOpenedRight ? 'inherit' : 'center',
         },
       }}
-      variant="persistent"
+      variant="permanent"
       anchor="right"
       open={isOpenedRight}
     >
       <DrawerHeader direction="center">
-        <IconButton onClick={closeRight}>
-          <LastPageIcon />
+        <IconButton onClick={isOpenedRight ? closeRight : openRight}>
+          {isOpenedRight ? <LastPageIcon /> : <FirstPageIcon />}
         </IconButton>
       </DrawerHeader>
       <Divider />
-      {children}
+      {isOpenedRight && (
+        <Routes>
+          <Route path={APP_URLS.home} element={<AlertsMotionsTabs />} />
+          <Route path={APP_URLS.motionsAlerts} element={<AlertsMotionsTabs />} />
+          <Route path={APP_URLS.alerts} element={<AlertsPerformanceTabs peripheralId={peripheralId} />} />
+          <Route path={APP_URLS.devices} element={<AlertsMotionsTabs peripheralId={peripheralId} />} />
+        </Routes>
+      )}
     </Drawer>
   )
 }

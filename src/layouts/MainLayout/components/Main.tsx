@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
 import { styled } from "@mui/material/styles";
-import { useMainLayoutContext } from "context/mainLayoutContext.tsx";
-import { rightSideBarWidth } from "../enums.ts";
+import { useMainLayoutContext } from "context/mainLayoutContext";
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
   open?: boolean;
@@ -20,7 +19,6 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
       duration: theme.transitions.duration.enteringScreen,
     }),
   }),
-  marginRight: `-${rightSideBarWidth}px`,
   ...(openRight && {
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.easeOut,
