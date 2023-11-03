@@ -1,0 +1,40 @@
+@import "enums/styleVariables.module";
+
+.card {
+  min-width: 250px;
+  background-color: $white;
+  color: $black;  
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 20px;
+  padding-bottom: 12px;
+}
+
+.cardActions {
+  justify-content: center;
+}
+
+.iconButton {
+  position: absolute;
+  right: 6px;
+  top: 15px;
+  color: $black;
+}
+
+.title {
+  margin-right: 12px;
+}
+
+.field {
+  color: $gray500;
+  text-decoration: underline;
+}
+
+.value {
+  margin-bottom: 12px; 
+}
+
