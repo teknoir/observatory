@@ -7,6 +7,8 @@ import GridViewControls from "components/SurveillanceCarrousel/GridViewControls"
 import '../../App.css'
 import styles from "./Home.module.scss"
 
+import { HomeDataProvider } from 'context/homeContext';
+
 function Home() {
   return (
     <>
@@ -14,12 +16,14 @@ function Home() {
         <GridViewControls />
       </AppBar>
       <MainContent>
-        <main className={styles.homeContainer}>
-          <SurveillanceCarousel
-            mode={CarouselMode.General}
-          />
-          <MovementsTimelineContainer />
-        </main>
+        <HomeDataProvider>
+          <main className={styles.homeContainer}>
+            <SurveillanceCarousel
+              mode={CarouselMode.General}
+            />
+            <MovementsTimelineContainer />
+          </main>
+        </HomeDataProvider>
       </MainContent>
     </>
   )

@@ -9,6 +9,8 @@ const Circles = ({
   yAccessor,
   radius = 8,
   className,
+  onCircleClick,
+  onClickAccessor,
   onCircleHover
 }: CirclesProps) => {
   return (
@@ -21,6 +23,10 @@ const Circles = ({
             cx={xAccessor(d)}
             cy={yAccessor(d)}
             r={radius}
+            onClick={() => {
+              if (onCircleClick && onClickAccessor)
+                onCircleClick(onClickAccessor(d))
+            }}
             onMouseEnter={(e) => onCircleHover?.(e, d)}
           />
         ))
