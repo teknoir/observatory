@@ -18,6 +18,7 @@ import styles from "./Popover.module.scss"
 export enum ALERT_INFO_KEYS {
   DETECTION_ID = "detection_id",
   DURATION = "duration",
+  PERIPHERAL_ID = "peripheral_id",
   SEVERITY = "severity",
   START_TIME = "start_time",
   TYPE = "type",
@@ -86,7 +87,8 @@ function PopoverComponent({
           <Link
             component={RouterLink}
             to={generatePath(APP_URLS.alerts, {
-              detectionId: alertInfo[ALERT_INFO_KEYS.DETECTION_ID],
+              peripheralId: alertInfo[ALERT_INFO_KEYS.PERIPHERAL_ID],
+              detectionId: alertInfo[ALERT_INFO_KEYS.DETECTION_ID]
             })}
             color="inherit"
             align="center"

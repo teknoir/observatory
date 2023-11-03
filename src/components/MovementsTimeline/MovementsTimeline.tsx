@@ -71,6 +71,7 @@ export const MovementsTimeline = ({
   const [alertInfo, setAlertInfo] = useState<PopoverInfoProps>({
     detection_id: "",
     duration: 0,
+    peripheral_id: "",
     severity: "",
     start_time: "",
     type: "",
@@ -82,6 +83,7 @@ export const MovementsTimeline = ({
     setAnchorEl(event.currentTarget)
     setAlertInfo(prevAlertInfo => ({
       ...info,
+      peripheral_id: info!.peripheral_id ?? prevAlertInfo.peripheral_id,
       video_url: info!.video_url ?? prevAlertInfo.video_url,
     }))
   }

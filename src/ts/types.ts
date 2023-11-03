@@ -80,6 +80,7 @@ export interface CirclesProps {
 export interface PopoverInfoProps {
   detection_id: string,
   duration: number,
+  peripheral_id: string,
   severity: string,
   start_time: string,
   type: string,
