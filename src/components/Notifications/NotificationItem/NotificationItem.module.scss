@@ -1,0 +1,34 @@
+@import "enums/styleVariables.module.scss";
+
+.root {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid $black200;
+}
+
+.statusIcon {
+  width: 12px;
+  height: 12px;
+  margin-right: 12px;
+}
+
+.imgWrapper {
+  width: 80px;
+  height: 40px;
+  background-color: $gray500;
+  margin-right: 12px;
+}
+
+.button {
+  width: 116px;
+  border-radius: 0;
+  margin-left: 12px;
+  text-transform: none;
+}
+
+.text {
+  font-size: 14px;
+  line-height: 20px;
+}
