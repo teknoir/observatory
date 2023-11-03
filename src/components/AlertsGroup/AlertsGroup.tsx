@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import moment from "moment";
 import { FixedSizeList as List } from 'react-window';
 import AutoSizer from "react-virtualized-auto-sizer";
@@ -12,7 +12,8 @@ import { isToday as isTodayFn, isYesterday } from "utils/moment";
 import { IAlertEvent } from "ts/types";
 import styles from './AlertsGroup.module.scss';
 
-const itemSize = 103
+const maxHeightList = 620
+const itemHeight = 103
 
 interface Props {
   group: IAlertEvent[];
@@ -39,6 +40,9 @@ const AlertsGroup = ({
   } else {
     dayName = day.format('MMMM DD, YYYY');
   }
+
+  const fullHeight = useMemo(() => itemHeight * group.length, [group.length])
+
   return (
     <>
       <ListItemButton onClick={handleClick} sx={{ pl: '20px' }}>
@@ -48,7 +52,8 @@ const AlertsGroup = ({
       <Collapse in={open} timeout="auto" unmountOnExit>
         <div className={styles.list}
           style={{
-            height: itemSize * group.length
+            height: fullHeight > maxHeightList ? maxHeightList : fullHeight,
+            maxHeight: maxHeightList,
           }}
         >
           <AutoSizer>
@@ -58,7 +63,7 @@ const AlertsGroup = ({
                   height={height}
                   width={width}
                   itemCount={group.length}
-                  itemSize={itemSize}
+                  itemSize={itemHeight}
                   itemData={group}
                 >
                   {AlertItem}
