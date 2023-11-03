@@ -64,7 +64,7 @@ export const MovementsTimeline = ({
   const [ref, dimensions] = useChartDimensions(null)
   const [defaultTranslate, setDefaultTranslate] = useState<number>(0)
   const scrollGroupRef = useRef<SVGGElement | null>(null)
-  const { setMainImageCarousel } = useContext(mainImageCarouselContext) as MainImageCarouselContextProps
+  const { setMainImageCarousel } = useContext(mainImageCarouselContext) as MainImageCarouselContextProps || ""
 
   const xScale = d3.scaleTime()
     .domain([startTime, moment().toDate()])

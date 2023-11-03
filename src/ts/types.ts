@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from "react";
 import { Moment } from "moment/moment";
 
 export enum CarouselMode {
@@ -79,7 +80,7 @@ export interface CirclesProps {
 
 export interface MainImageCarouselContextProps {
   mainImageCarousel: string;
-  setMainImageCarousel: React.Dispatch<React.SetStateAction<string>>;
+  setMainImageCarousel: Dispatch<SetStateAction<string>>;
 }
 
 export type DetectionId = string;
