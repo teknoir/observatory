@@ -41,11 +41,15 @@ function PopoverComponent({
       anchorEl={anchorEl}
       onClose={handleClose}
       anchorOrigin={{
-        vertical: 'center',
+        vertical: 'top',
+        horizontal: 'center',
+      }}
+      transformOrigin={{
+        vertical: 'bottom',
         horizontal: 'center',
       }}
     >
-      <Card className={styles.card}>
+      <Card className={styles.card} onMouseLeave={handleClose}>
         <CardContent className={styles.cardContent}>
           <Typography variant="subtitle1" align="center" className={styles.title}>
             {alertInfo[ALERT_INFO_KEYS.TYPE]} TEST - {_startCase(alertInfo[ALERT_INFO_KEYS.SEVERITY]?.toLowerCase())} TEST
