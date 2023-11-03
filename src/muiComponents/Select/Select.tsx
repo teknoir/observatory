@@ -31,6 +31,11 @@ export default function SelectMUI({
         labelId={labelId}
         value={value}
         onChange={onChange}
+        sx={{
+          '& .MuiOutlinedInput-notchedOutline': {
+            border: "none"
+          }
+        }}
         {...props}
       >
         {

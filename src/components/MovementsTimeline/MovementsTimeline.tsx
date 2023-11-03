@@ -173,7 +173,6 @@ export const MovementsTimeline = ({
           </InputLabel>
           <Select
             labelId="timelineFilterByLabel"
-            variant="standard"
             value={filter}
             options={timelineOptions}
             onChange={handleChangeFilter}
@@ -181,7 +180,6 @@ export const MovementsTimeline = ({
           />
           <Select
             labelId="movementsTimelinePeriodLabel"
-            variant="standard"
             value={period}
             options={periodOptions}
             onChange={handleChangePeriod}
