@@ -1,18 +1,20 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import { useState, MouseEvent } from "react";
+import { useState, useEffect, MouseEvent } from "react";
 import { useQuery } from "@tanstack/react-query";
+import useWebSocket from "hooks/useWebSocket";
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 import Typography from "@mui/material/Typography";
 import { fetchNotifications } from "services/apiRequests";
 import { notifications } from 'enums/queryKeys';
+import { TOPICS, TYPES } from 'enums/wss';
 import Popover from "./Popover/Popover";
 import styles from "./Notifications.module.scss";
 
 const Notifications = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
-  const [hasNotifications, setHasNotifications] = useState(false);
+  const [count, setCount] = useState(0);
 
   const isOpen = Boolean(anchorEl);
 
@@ -21,6 +23,26 @@ const Notifications = () => {
     queryFn: () => fetchNotifications(),
     enabled: isOpen
   })
+
+  const {
+    lastMessage,
+  } = useWebSocket();
+
+  useEffect(() => {
+    if (lastMessage) {
+      const data = JSON.parse(lastMessage.data);
+      const { type } = data;
+      switch (type) {
+        case TYPES.MESSAGE: {
+          const { topic } = data;
+          if (topic === TOPICS.FRONT_END_ALERT) {
+            setCount((prevCount) => prevCount + 1);
+          }
+          break;
+        }
+      }
+    }
+  }, [lastMessage, setCount])
 
   const handleClick = (event: MouseEvent<HTMLDivElement>) => {
     setAnchorEl(event.currentTarget);
@@ -33,13 +55,13 @@ const Notifications = () => {
   return (
     <div className={styles.root}>
       <div onClick={handleClick}>
-        {hasNotifications ? (
-          <>
+        {count ? (
+          <div className={styles.iconWrapper}>
             <NotificationsIcon color={"error"} />
             <Typography variant="body2" display="block" className={styles.text}>
-              +1
+              +{count}
             </Typography>
-          </>
+          </div>
         ) : (
           <NotificationsOutlinedIcon />
         )}
