@@ -1,3 +1,4 @@
+import { MouseEvent } from "react";
 import { Moment } from "moment/moment";
 
 export enum CarouselMode {
@@ -73,6 +74,17 @@ export interface CirclesProps {
   yAccessor: Accessor
   radius?: number
   className?: string
+  onCircleHover?: (event: MouseEvent<SVGCircleElement>, data: {}) => void
+}
+
+export interface PopoverInfoProps {
+  detection_id: string,
+  duration: number,
+  peripheral_id: string,
+  severity: string,
+  start_time: string,
+  type: string,
+  video_url: string,
 }
 
 export type DetectionId = string;

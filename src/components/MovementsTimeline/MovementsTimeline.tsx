@@ -1,21 +1,23 @@
 import { useEffect, useRef, useState } from "react"
+import { MouseEvent } from "react";
 import { NavLink as RouterLink } from "react-router-dom"
 import * as d3 from "d3"
 import _debounce from "lodash/debounce"
 import moment from "moment/moment"
+import Divider from "@mui/material/Divider"
 import InputLabel from "@mui/material/InputLabel"
 import Link from "@mui/material/Link"
 import { SelectChangeEvent } from "@mui/material/Select"
+import Typography from "@mui/material/Typography"
 import Select from "muiComponents/Select/Select"
-import { IAlertEvent } from "ts/types";
 import { Axis, Chart, Circles, GridLines } from "components/ChartUtilities"
 import { detectionIdAccessor } from "components/ChartUtilities/accessors"
 import { useChartDimensions } from "components/ChartUtilities/utils"
+import { IAlertEvent, PopoverInfoProps } from "ts/types";
 import APP_URLS from "enums/urls"
+import Popover from "./Popover/Popover"
 import { MovementsTimelinePeriod, TimelineFilterBy } from "./enums"
 import styles from "./MovementsTimeline.module.scss"
-import Typography from "@mui/material/Typography"
-import Divider from "@mui/material/Divider"
 
 const formatDateByDay = d3.timeFormat("%-b %-d")
 const formatDateByTime = d3.timeFormat("%-I:%M %p")
@@ -46,6 +48,9 @@ const periodOptions = [
   { value: MovementsTimelinePeriod.DAYS_30, label: "Last 30 days" },
 ]
 
+// TODO: Temporal, remove this fallback when data returns video_url
+const fallbackVideoUrl = "https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4"
+
 export const MovementsTimeline = ({
   startTime,
   dataMotions,
@@ -62,6 +67,30 @@ export const MovementsTimeline = ({
   const [ref, dimensions] = useChartDimensions(null)
   const [defaultTranslate, setDefaultTranslate] = useState<number>(0)
   const scrollGroupRef = useRef<SVGGElement | null>(null)
+  const [anchorEl, setAnchorEl] = useState<SVGCircleElement | null>(null)
+  const [alertInfo, setAlertInfo] = useState<PopoverInfoProps>({
+    detection_id: "",
+    duration: 0,
+    peripheral_id: "",
+    severity: "",
+    start_time: "",
+    type: "",
+    video_url: fallbackVideoUrl,
+  })
+
+  // FIX: fix the info parameter type
+  function handlePopoverOpen(event: MouseEvent<SVGCircleElement>, info: any) {
+    setAnchorEl(event.currentTarget)
+    setAlertInfo(prevAlertInfo => ({
+      ...info,
+      peripheral_id: info!.peripheral_id ?? prevAlertInfo.peripheral_id,
+      video_url: info!.video_url ?? prevAlertInfo.video_url,
+    }))
+  }
+
+  function handlePopoverClose() {
+    setAnchorEl(null)
+  }
 
   const xScale = d3.scaleTime()
     .domain([startTime, moment().toDate()])
@@ -198,6 +227,12 @@ export const MovementsTimeline = ({
               xAccessor={xAccessorScaled}
               yAccessor={yAccessorScaled}
               className={styles.circleAlert}
+              onCircleHover={handlePopoverOpen}
+            />
+            <Popover
+              anchorEl={anchorEl}
+              alertInfo={alertInfo}
+              handleClose={handlePopoverClose}
             />
           </g>
           <Axis
