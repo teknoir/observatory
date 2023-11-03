@@ -3,12 +3,13 @@ import { AppBarProps as MuiAppBarProps} from "@mui/material/AppBar/AppBar";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import { styled } from "@mui/material/styles";
-import { useMainLayoutContext } from "context/mainLayoutContext.tsx";
+import { useMainLayoutContext } from "context/mainLayoutContext";
 import Notifications from "components/Notifications";
 import {
   leftSideBarWidth,
   leftSideBarClosedWidth,
-  rightSideBarWidth
+  rightSideBarWidth,
+  rightSideBarClosedWidth
 } from "../enums";
 
 interface AppBarProps extends MuiAppBarProps {
@@ -25,16 +26,22 @@ const AppBar = styled(MuiAppBar, {
   openRight,
   hasRightSideBar
 }) => {
-  let widthDiff = leftSideBarClosedWidth;
-  let marginLeft = leftSideBarClosedWidth;
+  let widthDiff = 0;
+  let marginLeft = 0;
   let marginRight = 0;
   if (open) {
-    widthDiff = leftSideBarWidth;
+    widthDiff += leftSideBarWidth;
     marginLeft = leftSideBarWidth;
+  } else {
+    widthDiff += leftSideBarClosedWidth;
+    marginLeft = leftSideBarClosedWidth;
   }
   if (hasRightSideBar && openRight) {
     widthDiff += rightSideBarWidth;
     marginRight = rightSideBarWidth;
+  } else {
+    widthDiff += rightSideBarClosedWidth;
+    marginRight = rightSideBarClosedWidth;
   }
   return {
     transition: theme.transitions.create(['margin', 'width'], {

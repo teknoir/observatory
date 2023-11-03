@@ -3,12 +3,10 @@
 import { useParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
-import RightSideBar from "layouts/MainLayout/RightSideBar";
 import { alertKey } from "enums/queryKeys";
 import { fetchAlert, verifyAlert } from "services/apiRequests";
 import AppBar from 'components/AppBar/AppBar';
 import MainContent from 'components/MainContent/MainContent';
-import AlertsPerformanceTabs from "components/AlertsPerformanceTabs/AlertsPerformanceTabs";
 import VideoPlayer from "components/VideoPlayer/VideoPlayer";
 import { IAlertEvent, IAlertFormValues} from 'ts/types';
 import Form from './Form/Form';
@@ -45,7 +43,6 @@ const Alert = () => {
     peripheral_name,
     start_time,
     end_time,
-    peripheral_id: peripheralId
   } = data;
 
   // TODO: it's temporary solution, we need to use real data here
@@ -91,9 +88,6 @@ const Alert = () => {
           <Form onSubmit={onSubmit} />
         )}
       </MainContent>
-      <RightSideBar>
-        <AlertsPerformanceTabs peripheralId={peripheralId}/>
-      </RightSideBar>
     </>
   )
 }

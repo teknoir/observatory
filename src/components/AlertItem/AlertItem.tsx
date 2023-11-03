@@ -25,6 +25,7 @@ const AlertItem = ({
   const item = data[index];
   const {
     detection_id: detectionId,
+    peripheral_id: peripheralId,
     peripheral_name: name,
     severity,
     start_time: startTime,
@@ -34,7 +35,7 @@ const AlertItem = ({
   let isVerified = false;
   let hasTheft = false;
   let hasComment = false;
-  if (detectionId.slice(-1).match(/[a-z]/i)) {
+  if (detectionId && detectionId.slice(-1).match(/[a-z]/i)) {
     isVerified = true;
     hasTheft = true;
     hasComment = true;
@@ -45,42 +46,54 @@ const AlertItem = ({
   const duration = moment.duration(endDate.diff(startDate)).seconds();
   const startDateFormat = startDate.format('HH:mm');
 
+  const hasLink = detectionId && peripheralId;
+
+  const renderContent = () => (
+    <>
+      <div className={styles.titleLine}>
+        <div className={styles.leftTitleLine}>
+          <CircleIcon color="error" className={styles.statusIcon} />
+          <div className={styles.duration}>{`${startDateFormat} (${duration}s)`}</div>
+        </div>
+        <div className={styles.status}>
+          <div className={styles.statusIcon}></div>
+          {isVerified && <Verified size={Sizes.small} />}
+        </div>
+      </div>
+      <div className={styles.content}>
+        <div className={styles.imgWrapper}></div>
+        <div className={styles.details}>
+          <Typography variant="body2" display="block" gutterBottom>
+            {name}
+          </Typography>
+          <Typography variant="body2" display="block">
+            Severity: {severity}
+          </Typography>
+        </div>
+        <div className={styles.actionIcons}>
+          {hasComment && <ChatBubbleIcon />}
+          {hasTheft ? (
+            <DirectionsRunIcon />
+          ) : (
+            <DirectionsWalkIcon />
+          )}
+        </div>
+      </div>
+    </>
+  )
+
   return (
     <div className={styles.root} style={style}>
-      <Link
-        to={generatePath(APP_URLS.alerts, { detectionId })}
-        className={styles.rootLink}
-      >
-        <div className={styles.titleLine}>
-          <div className={styles.leftTitleLine}>
-            <CircleIcon color="error" className={styles.statusIcon} />
-            <div className={styles.duration}>{`${startDateFormat} (${duration}s)`}</div>
-          </div>
-          <div className={styles.status}>
-            <div className={styles.statusIcon}></div>
-            {isVerified && <Verified size={Sizes.small} />}
-          </div>
-        </div>
-        <div className={styles.content}>
-          <div className={styles.imgWrapper}></div>
-          <div className={styles.details}>
-            <Typography variant="body2" display="block" gutterBottom>
-              {name}
-            </Typography>
-            <Typography variant="body2" display="block">
-              Severity: {severity}
-            </Typography>
-          </div>
-          <div className={styles.actionIcons}>
-            {hasComment && <ChatBubbleIcon />}
-            {hasTheft ? (
-              <DirectionsRunIcon />
-            ) : (
-              <DirectionsWalkIcon />
-            )}
-          </div>
-        </div>
-      </Link>
+      {hasLink ? (
+        <Link
+          to={generatePath(APP_URLS.alerts, { detectionId, peripheralId })}
+          className={styles.rootLink}
+        >
+          {renderContent()}
+        </Link>
+      ) : (
+        renderContent()
+      )}
     </div>
   )
 }

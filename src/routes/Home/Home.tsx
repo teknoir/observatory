@@ -12,7 +12,7 @@ import { HomeDataProvider } from 'context/homeContext';
 function Home() {
   return (
     <>
-      <AppBar hasRightSideBar={false}>
+      <AppBar>
         <GridViewControls />
       </AppBar>
       <MainContent>

@@ -21,7 +21,16 @@ function MovementsTimelineContainer() {
     () => moment().subtract(period, 'days').toDate(),
     [period]
   )
-  const fields = ['detection_id', 'start_time', 'peripheral_id', 'peripheral_name'];
+  const fields = [
+    'detection_id',
+    'duration',
+    'peripheral_id',
+    'peripheral_name',
+    'severity',
+    'start_time',
+    'type',
+    'video_url'
+  ];
 
   const queryMovements = useQuery({
     queryKey: [motions, startDate, filter, fields],
@@ -32,7 +41,7 @@ function MovementsTimelineContainer() {
       period == MovementsTimelinePeriod.DAYS_1
   })
   // TODO: temp solution for redundant data (only for Charts) - remove in future!
-  const { isInitialLoading: isLoadingMotions} = queryMovements;
+  const { isInitialLoading: isLoadingMotions } = queryMovements;
   let { data: dataMotions } = queryMovements;
   if (dataMotions?.length > 1000) {
     dataMotions = dataMotions.slice(-1000)
@@ -46,7 +55,7 @@ function MovementsTimelineContainer() {
       filter == TimelineFilterBy.MOTIONS_ALERTS
   })
   // TODO: temp solution for redundant data (only for Charts) - remove in future!
-  const { isInitialLoading: isLoadingAlerts} = queryAlerts;
+  const { isInitialLoading: isLoadingAlerts } = queryAlerts;
   let { data: dataAlerts } = queryAlerts;
   if (dataAlerts?.length > 1000) {
     dataAlerts = dataAlerts.slice(-1000)
