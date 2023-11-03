@@ -17,6 +17,7 @@ export default function AxisVertical({ dimensions, label, formatTick, scale, idA
       {...props}
     >
       <text
+        className={styles.axisVerticalTitle}
         x={-dimensions.marginLeft}
         y={dimensions.marginTop / 2}
       >
