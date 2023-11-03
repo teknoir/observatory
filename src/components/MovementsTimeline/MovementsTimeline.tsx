@@ -168,7 +168,7 @@ export const MovementsTimeline = ({
           </Typography>
         </div>
         <div className={styles.menuItem}>
-          <InputLabel id="timelineFilterByLabel">
+          <InputLabel id="timelineFilterByLabel" className={styles.inputLabel}>
             Filter by:{' '}
           </InputLabel>
           <Select
