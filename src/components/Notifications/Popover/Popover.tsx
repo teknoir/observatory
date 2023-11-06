@@ -6,6 +6,7 @@ import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { IAlertEvent } from "ts/types";
+import styleVariables from "enums/styleVariables.module.scss";
 import NotificationItem from "../NotificationItem/NotificationItem";
 import styles from "./Popover.module.scss";
 
@@ -42,9 +43,9 @@ const PopoverComponent = ({ isOpen, anchorEl, handleClose, isLoading, data }: Pr
         '& .MuiPopover-paper': {
           width: 616,
           maxHeight: 472,
-          color: '#1C1C1C',
+          color: styleVariables.black200,
           borderRadius: 0,
-          background: '#FFFFFF',
+          background: styleVariables.white,
           padding: '20px'
         }
       }}
