@@ -31,6 +31,7 @@ export default function SelectMUI({
         labelId={labelId}
         value={value}
         onChange={onChange}
+        MenuProps={{ disableScrollLock: true }}
         {...props}
       >
         {
