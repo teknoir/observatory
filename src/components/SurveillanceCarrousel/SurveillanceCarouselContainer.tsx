@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { CarouselMode, Source } from "ts/types";
-import useWebSocket from "hooks/useWebSocket";
+import { useWSSContext } from "context/webSocketContext";
 import { wsSources } from "enums/queryKeys";
 import { TOPICS, TYPES } from "enums/wss";
 import SurveillanceCarousel from "./SurveillanceCarousel";
@@ -19,9 +19,7 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
   const [sources, setSources] = useState(
     cachedSources ? new Map(Object.entries(cachedSources)) : createRandomSources(0)
   );
-  const {
-    lastMessage,
-  } = useWebSocket();
+  const { lastMessage } = useWSSContext();
 
   const sourcesSize = sources.size;
 
@@ -56,13 +54,6 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
               peripheralName: peripheral?.name,
             };
             updateSourceByCameraId(peripheralId, source);
-            // Save source to queryClient
-            queryClient.setQueryData([wsSources], (oldData: {[p: string]: Source}  ) => (
-              {
-                ...(oldData || {}),
-                [source.peripheralId]: source,
-              }
-            ));
           }
           break;
         }
