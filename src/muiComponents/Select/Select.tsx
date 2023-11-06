@@ -36,6 +36,7 @@ export default function SelectMUI({
             border: "none"
           }
         }}
+        MenuProps={{ disableScrollLock: true }}
         {...props}
       >
         {
