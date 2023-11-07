@@ -7,7 +7,7 @@ import cameraImage from 'assets/device_camera.png'
 import APP_URLS from "enums/urls"
 import styles from "./Axis.module.scss"
 
-export default function AxisVertical({ dimensions, label, formatTick, scale, idAccessor, background, side, ids, ...props }) {
+export default function AxisVertical({ dimensions, label, formatTick, scale, background, side, ids, ...props }) {
   // const numberOfTicks = dimensions.boundedHeight / 70
   const ticks = scale.domain()
 

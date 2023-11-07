@@ -81,7 +81,9 @@ export const MovementsTimeline = ({
   })
 
   // FIX: fix the info parameter type
-  function handlePopoverOpen(event: MouseEvent<SVGCircleElement>, info: any) {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  function handlePopoverOpen(event: MouseEvent<SVGCircleElement>, info) {
     setAnchorEl(event.currentTarget)
     setAlertInfo(prevAlertInfo => ({
       ...info,
@@ -114,7 +116,7 @@ export const MovementsTimeline = ({
 
   useEffect(() => {
     debounceResize()
-  }, [dimensions])
+  }, [dimensions, debounceResize])
 
   useEffect(() => {
     const scrollGroup = d3.select<SVGGElement, unknown>(scrollGroupRef.current!)
@@ -132,7 +134,7 @@ export const MovementsTimeline = ({
 
     scrollGroup
       .attr("transform", `translate(${defaultTranslate}, 0)`)
-  }, [defaultTranslate])
+  }, [defaultTranslate, ref])
 
   function onScroll(scrollGroup: d3.Selection<SVGGElement, unknown, null, undefined>) {
     const transformObj = d3.zoomTransform(scrollGroup.node() as SVGGElement)

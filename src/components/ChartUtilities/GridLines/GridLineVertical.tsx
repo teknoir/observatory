@@ -2,10 +2,7 @@
 // @ts-nocheck
 import styles from './GridLines.module.scss';
 
-export default function GridLineVertical({ dimensions, label, formatTick, scale, ...props }) {
-  const numberOfTicks = dimensions.boundedHeight / 70
-  // const ticks = scale.ticks(numberOfTicks)
-
+export default function GridLineVertical({ dimensions, scale, ...props }) {
   const ticks = scale.domain()
 
   return (

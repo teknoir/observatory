@@ -11,7 +11,7 @@ export default function GridLineHorizontal({ dimensions, label, formatTick, scal
 
   return (
     <g {...props}
-       transform={`translate(0, ${dimensions.boundedHeight})`}
+      transform={`translate(0, ${dimensions.boundedHeight})`}
     >
       <line
         className={styles.GridLine__line}
@@ -19,7 +19,7 @@ export default function GridLineHorizontal({ dimensions, label, formatTick, scal
         x2={dimensions.boundedWidth}
       />
       {
-        ticks.map((tick, i) => (
+        ticks.map((tick) => (
           <text
             key={tick}
             transform={`translate(${scale(tick)}, 25)`}

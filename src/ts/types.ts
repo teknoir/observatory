@@ -76,7 +76,7 @@ export interface CirclesProps {
   className?: string
   onCircleClick?: Function
   onClickAccessor?: Accessor
-  onCircleHover?: (event: MouseEvent<SVGCircleElement>, data: {}) => void
+  onCircleHover?: (event: MouseEvent<SVGCircleElement>, data: object) => void
 }
 
 export interface MainImageCarouselContextProps {
