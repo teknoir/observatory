@@ -154,7 +154,7 @@ export const fetchAlertMock = (detectionId) => {
   })
 }
 
-const alertItemBase = {
+export const alertItemBase = {
   "detection_id": "651b3ef3a34a910001348126",
   "annotations": [],
   "branch": "texas",

@@ -5,7 +5,7 @@ import CircleIcon from "@mui/icons-material/Circle";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "muiComponents/Select/Select";
 import { IMotionsCounts } from "ts/types";
-import { MotionsPeriod} from "./enums";
+import { MotionsPeriod } from "./enums";
 import styles from "./MotionsList.module.scss";
 
 interface Props {
@@ -30,7 +30,6 @@ const MotionsList = ({ data, period, handleChangePeriod }: Props) => {
         </InputLabel>
         <Select
           labelId="motionsPeriodLabel"
-          variant="standard"
           value={period}
           options={periodOptions}
           onChange={handleChangePeriod}
@@ -42,7 +41,7 @@ const MotionsList = ({ data, period, handleChangePeriod }: Props) => {
         ) : (
           _map(data, (count, title) => (
             <div className={styles.listItem}>
-              <CircleIcon color="primary" className={styles.icon}/>
+              <CircleIcon color="primary" className={styles.icon} />
               <div>
                 {`${title}: ${count}`}
               </div>

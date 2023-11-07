@@ -7,6 +7,7 @@ import {
   fetchAllAlertsMock,
   fetchMotionsCountsMock,
   fetchAlertMock,
+  fetchNotificationsMock,
 } from "services/fetchMock";
 import { dataWithDelay } from "services/fetchMock/utils";
 import { getEventQuery, getEventsQuery } from "services/queryHistorian";
@@ -20,6 +21,7 @@ import {
 // TODO: remove this function in future
 const shouldUseMockData = (): boolean => location?.search.includes('useMockDb') || import.meta.env.VITE_USE_MOCK_HISTORIAN_DB;
 const shouldUseMotionsDb = (): boolean => false;
+const shouldUseNotificationsDb = (): boolean => false;
 
 export const fetchAlert = (detectionId: DetectionId) => {
   // TODO: remove this condition in future
@@ -90,3 +92,11 @@ export const fetchMovementsByPeripheralId = (filters: IEventsRequestParamsById, 
   const query = getEventsQuery(filters, fields);
   return Fetch.get(API.movements(query)).then(({ data }) => data)
 }
+
+export const fetchNotifications = () => {
+  // TODO: remove this condition in future
+  if (shouldUseNotificationsDb()) {
+    // TODO: request here
+  }
+  return fetchNotificationsMock();
+};
