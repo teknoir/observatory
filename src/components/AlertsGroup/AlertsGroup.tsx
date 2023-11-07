@@ -12,6 +12,9 @@ import { isToday as isTodayFn, isYesterday } from "utils/moment";
 import { IAlertEvent } from "ts/types";
 import styles from './AlertsGroup.module.scss';
 
+const itemHeight = 103
+const maxItemsCount = 6
+
 interface Props {
   group: IAlertEvent[];
   dayStr: string;
@@ -37,6 +40,7 @@ const AlertsGroup = ({
   } else {
     dayName = day.format('MMMM DD, YYYY');
   }
+
   return (
     <>
       <ListItemButton onClick={handleClick} sx={{ pl: '20px' }}>
@@ -44,7 +48,11 @@ const AlertsGroup = ({
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
-        <div className={styles.list}>
+        <div className={styles.list}
+          style={{
+            height: group.length >= maxItemsCount ? itemHeight * maxItemsCount : group.length * itemHeight
+          }}
+        >
           <AutoSizer>
             {({ height, width }) => {
               return (
@@ -52,14 +60,14 @@ const AlertsGroup = ({
                   height={height}
                   width={width}
                   itemCount={group.length}
-                  itemSize={103}
+                  itemSize={itemHeight}
                   itemData={group}
                 >
                   {AlertItem}
                 </List>
               )
             }
-          }
+            }
           </AutoSizer>
         </div>
       </Collapse>
