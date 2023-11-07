@@ -13,7 +13,7 @@ import { Axis, Chart, Circles, GridLines } from "components/ChartUtilities"
 import { detectionIdAccessor } from "components/ChartUtilities/accessors"
 import { peripheralIdAccessor } from "components/ChartUtilities/accessors"
 import { useChartDimensions } from "components/ChartUtilities/utils"
-import { mainImageCarouselContext } from "context/homeContext";
+import { mainImageCarouselContext } from 'context/HomeContext/mainImageCarouselContext';
 import APP_URLS from "enums/urls"
 import { IAlertEvent, MainImageCarouselContextProps, PopoverInfoProps } from "ts/types";
 import Popover from "./Popover/Popover"

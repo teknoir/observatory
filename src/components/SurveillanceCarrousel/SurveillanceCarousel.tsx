@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect, useContext } from "react"
 import { useInterval } from "usehooks-ts"
-import { mainImageCarouselContext } from "context/homeContext"
+import { mainImageCarouselContext } from 'context/HomeContext/mainImageCarouselContext';
 import { SurveillanceCarouselProps, CarouselMode, MainImageCarouselContextProps } from "ts/types"
 import SurveillanceCarouselGeneral from "./General"
 import SurveillanceCarouselDetail from "./Detail"
