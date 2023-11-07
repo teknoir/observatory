@@ -3,6 +3,7 @@ import { NavLink as RouterLink } from "react-router-dom"
 import * as d3 from "d3"
 import _debounce from "lodash/debounce"
 import moment from "moment/moment"
+
 import Divider from "@mui/material/Divider"
 import InputLabel from "@mui/material/InputLabel"
 import Link from "@mui/material/Link"
@@ -16,6 +17,8 @@ import { useChartDimensions } from "components/ChartUtilities/utils"
 import { mainImageCarouselContext } from "context/homeContext";
 import APP_URLS from "enums/urls"
 import { IAlertEvent, MainImageCarouselContextProps, PopoverInfoProps } from "ts/types";
+import AxisVerticalLeft from "./AxisVerticalLeft/AxisVerticalLeft"
+import AxisVerticalRight from "./AxisVerticalRight/AxisVerticalRight"
 import Popover from "./Popover/Popover"
 import { MovementsTimelinePeriod, TimelineFilterBy } from "./enums"
 import styles from "./MovementsTimeline.module.scss"
@@ -65,7 +68,10 @@ export const MovementsTimeline = ({
   period,
   handleChangePeriod
 }: MovementsTimeLineParams) => {
-  const [ref, dimensions] = useChartDimensions(null)
+  const [ref, dimensions] = useChartDimensions({
+    marginLeft: 250,
+    marginRight: 160
+  })
   const [defaultTranslate, setDefaultTranslate] = useState<number>(0)
   const scrollGroupRef = useRef<SVGGElement | null>(null)
   const { setMainImageCarousel } = useContext(mainImageCarouselContext) as MainImageCarouselContextProps || ""
@@ -241,17 +247,12 @@ export const MovementsTimeline = ({
               handleClose={handlePopoverClose}
             />
           </g>
-          <Axis
-            dimension="y"
+          <AxisVerticalLeft
             scale={yScale}
-            background="true"
           />
-          <Axis
-            dimension="y"
-            side="right"
+          <AxisVerticalRight
             scale={yScale}
             ids={ids}
-            background="true"
           />
         </Chart>
       </div >
