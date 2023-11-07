@@ -8,3 +8,5 @@ export const motions = 'motions';
 export const motionsCounts = 'motionsCounts';
 
 export const wsSources = 'wsSources';
+
+export const notifications = 'notifications';

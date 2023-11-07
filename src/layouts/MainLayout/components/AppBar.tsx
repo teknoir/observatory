@@ -4,7 +4,7 @@ import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import { styled } from "@mui/material/styles";
 import { useMainLayoutContext } from "context/mainLayoutContext";
-import Notifications from "components/Notifications";
+import Notifications from "components/Notifications/Notifications";
 import {
   leftSideBarWidth,
   leftSideBarClosedWidth,
