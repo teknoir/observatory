@@ -35,7 +35,6 @@ const AlertsList = ({
         </InputLabel>
         <Select
           labelId="alertPeriodLabel"
-          variant="standard"
           value={period}
           options={periodOptions}
           onChange={handleChangePeriod}
