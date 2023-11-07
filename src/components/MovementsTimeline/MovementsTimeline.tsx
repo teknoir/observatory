@@ -168,12 +168,11 @@ export const MovementsTimeline = ({
           </Typography>
         </div>
         <div className={styles.menuItem}>
-          <InputLabel id="timelineFilterByLabel">
+          <InputLabel id="timelineFilterByLabel" className={styles.inputLabel}>
             Filter by:{' '}
           </InputLabel>
           <Select
             labelId="timelineFilterByLabel"
-            variant="standard"
             value={filter}
             options={timelineOptions}
             onChange={handleChangeFilter}
@@ -181,7 +180,6 @@ export const MovementsTimeline = ({
           />
           <Select
             labelId="movementsTimelinePeriodLabel"
-            variant="standard"
             value={period}
             options={periodOptions}
             onChange={handleChangePeriod}
