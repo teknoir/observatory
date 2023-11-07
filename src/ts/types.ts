@@ -1,4 +1,4 @@
-import { MouseEvent } from "react";
+import { Dispatch, MouseEvent, SetStateAction } from "react";
 import { Moment } from "moment/moment";
 
 export enum CarouselMode {
@@ -74,7 +74,14 @@ export interface CirclesProps {
   yAccessor: Accessor
   radius?: number
   className?: string
+  onCircleClick?: Function
+  onClickAccessor?: Accessor
   onCircleHover?: (event: MouseEvent<SVGCircleElement>, data: {}) => void
+}
+
+export interface MainImageCarouselContextProps {
+  mainImageCarousel: string;
+  setMainImageCarousel: Dispatch<SetStateAction<string>>;
 }
 
 export interface PopoverInfoProps {

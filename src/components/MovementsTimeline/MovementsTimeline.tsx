@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState } from "react"
-import { MouseEvent } from "react";
+import { MouseEvent, useContext, useEffect, useRef, useState } from "react"
 import { NavLink as RouterLink } from "react-router-dom"
 import * as d3 from "d3"
 import _debounce from "lodash/debounce"
@@ -12,9 +11,11 @@ import Typography from "@mui/material/Typography"
 import Select from "muiComponents/Select/Select"
 import { Axis, Chart, Circles, GridLines } from "components/ChartUtilities"
 import { detectionIdAccessor } from "components/ChartUtilities/accessors"
+import { peripheralIdAccessor } from "components/ChartUtilities/accessors"
 import { useChartDimensions } from "components/ChartUtilities/utils"
-import { IAlertEvent, PopoverInfoProps } from "ts/types";
+import { mainImageCarouselContext } from "context/homeContext";
 import APP_URLS from "enums/urls"
+import { IAlertEvent, MainImageCarouselContextProps, PopoverInfoProps } from "ts/types";
 import Popover from "./Popover/Popover"
 import { MovementsTimelinePeriod, TimelineFilterBy } from "./enums"
 import styles from "./MovementsTimeline.module.scss"
@@ -67,6 +68,7 @@ export const MovementsTimeline = ({
   const [ref, dimensions] = useChartDimensions(null)
   const [defaultTranslate, setDefaultTranslate] = useState<number>(0)
   const scrollGroupRef = useRef<SVGGElement | null>(null)
+  const { setMainImageCarousel } = useContext(mainImageCarouselContext) as MainImageCarouselContextProps || ""
   const [anchorEl, setAnchorEl] = useState<SVGCircleElement | null>(null)
   const [alertInfo, setAlertInfo] = useState<PopoverInfoProps>({
     detection_id: "",
@@ -166,12 +168,11 @@ export const MovementsTimeline = ({
           </Typography>
         </div>
         <div className={styles.menuItem}>
-          <InputLabel id="timelineFilterByLabel">
+          <InputLabel id="timelineFilterByLabel" className={styles.inputLabel}>
             Filter by:{' '}
           </InputLabel>
           <Select
             labelId="timelineFilterByLabel"
-            variant="standard"
             value={filter}
             options={timelineOptions}
             onChange={handleChangeFilter}
@@ -179,7 +180,6 @@ export const MovementsTimeline = ({
           />
           <Select
             labelId="movementsTimelinePeriodLabel"
-            variant="standard"
             value={period}
             options={periodOptions}
             onChange={handleChangePeriod}
@@ -219,6 +219,8 @@ export const MovementsTimeline = ({
               keyAccessor={detectionIdAccessor}
               xAccessor={xAccessorScaled}
               yAccessor={yAccessorScaled}
+              onCircleClick={setMainImageCarousel}
+              onClickAccessor={peripheralIdAccessor}
               className={styles.circleMotion}
             />
             <Circles
@@ -226,6 +228,8 @@ export const MovementsTimeline = ({
               keyAccessor={detectionIdAccessor}
               xAccessor={xAccessorScaled}
               yAccessor={yAccessorScaled}
+              onCircleClick={setMainImageCarousel}
+              onClickAccessor={peripheralIdAccessor}
               className={styles.circleAlert}
               onCircleHover={handlePopoverOpen}
             />
