@@ -29,6 +29,7 @@ const PopoverComponent = ({ isOpen, anchorEl, handleClose, isLoading, data }: Pr
     <Popover
       id="notifications-popover"
       open={isOpen}
+      disableScrollLock
       anchorEl={anchorEl}
       onClose={handleClose}
       anchorOrigin={{
@@ -75,6 +76,7 @@ const PopoverComponent = ({ isOpen, anchorEl, handleClose, isLoading, data }: Pr
           </>
         )}
       </div>
+      {/*TODO: add onClick to this button */}
       <Button
         variant="contained"
         color="primary"
