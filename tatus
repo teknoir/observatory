@@ -1,0 +1,57 @@
+[1mdiff --git a/src/components/ChartUtilities/Axis/Axis.tsx b/src/components/ChartUtilities/Axis/Axis.tsx[m
+[1mindex acf2476..6583531 100644[m
+[1m--- a/src/components/ChartUtilities/Axis/Axis.tsx[m
+[1m+++ b/src/components/ChartUtilities/Axis/Axis.tsx[m
+[36m@@ -3,8 +3,8 @@[m
+ import React, { Suspense, lazy } from "react"[m
+ import PropTypes from "prop-types"[m
+ import * as d3 from 'd3'[m
+[32m+[m[32mimport { useChartDimensions } from "components/ChartUtilities/Chart/ChartContext";[m
+ import { dimensionsPropsType } from "../utils";[m
+[31m-import { useChartDimensions } from "../Chart/Chart";[m
+ [m
+ const AxisHorizontal = lazy(() => import('./AxisHorizontal.tsx'));[m
+ const AxisVertical = lazy(() => import('./AxisVertical.tsx'));[m
+[1mdiff --git a/src/components/ChartUtilities/Chart/Chart.tsx b/src/components/ChartUtilities/Chart/Chart.tsx[m
+[1mindex 7c2eb86..574e0fa 100644[m
+[1m--- a/src/components/ChartUtilities/Chart/Chart.tsx[m
+[1m+++ b/src/components/ChartUtilities/Chart/Chart.tsx[m
+[36m@@ -1,12 +1,8 @@[m
+ // eslint-disable-next-line @typescript-eslint/ban-ts-comment[m
+ // @ts-nocheck[m
+[31m-import { createContext, useContext } from "react"[m
+[32m+[m[32mimport ChartContext from "./ChartContext";[m
+ import styles from "./Chart.module.scss";[m
+ [m
+[31m-const ChartContext = createContext(null)[m
+[31m-[m
+[31m-export const useChartDimensions = () => useContext(ChartContext)[m
+[31m-[m
+ const Chart = ({ dimensions, children }) => ([m
+   <ChartContext.Provider value={dimensions}>[m
+     <svg[m
+[1mdiff --git a/src/components/ChartUtilities/GridLines/GridLines.tsx b/src/components/ChartUtilities/GridLines/GridLines.tsx[m
+[1mindex cfbafaa..fe79362 100644[m
+[1m--- a/src/components/ChartUtilities/GridLines/GridLines.tsx[m
+[1m+++ b/src/components/ChartUtilities/GridLines/GridLines.tsx[m
+[36m@@ -3,8 +3,8 @@[m
+ import { Suspense, lazy } from "react";[m
+ import PropTypes from "prop-types"[m
+ import * as d3 from 'd3'[m
+[32m+[m[32mimport { useChartDimensions } from "components/ChartUtilities/Chart/ChartContext";[m
+ import { dimensionsPropsType } from "../utils";[m
+[31m-import { useChartDimensions } from "../Chart/Chart";[m
+ [m
+ const GridLineHorizontal = lazy(() => import('./GridLineHorizontal.tsx'));[m
+ const GridLineVertical = lazy(() => import('./GridLineVertical.tsx'));[m
+[1mdiff --git a/src/components/ChartUtilities/index.ts b/src/components/ChartUtilities/index.ts[m
+[1mindex af22979..3d74a66 100644[m
+[1m--- a/src/components/ChartUtilities/index.ts[m
+[1m+++ b/src/components/ChartUtilities/index.ts[m
+[36m@@ -1,5 +1,6 @@[m
+ export { default as Axis } from './Axis/Axis';[m
+ export { default as Chart } from './Chart/Chart';[m
+[32m+[m[32mexport { default as ChartContext } from './Chart/ChartContext';[m
+ export { default as Circles } from './Circles/Circles';[m
+ export { default as GridLines } from './GridLines/GridLines';[m
+ export { default as Line } from './Line/Line';[m
