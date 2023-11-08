@@ -31,6 +31,7 @@ function CarrouselImage({
           })}
           color="inherit"
           underline="none"
+          className={styles.hoverStateLink}
         >
           View device
         </Link>
