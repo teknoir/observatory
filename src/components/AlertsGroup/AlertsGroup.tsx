@@ -1,26 +1,26 @@
-import { useState } from "react";
-import moment from "moment";
+import { useState } from 'react';
+import moment from 'moment';
 import { FixedSizeList as List } from 'react-window';
-import AutoSizer from "react-virtualized-auto-sizer";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import ExpandLess from "@mui/icons-material/ExpandLess";
-import ExpandMore from "@mui/icons-material/ExpandMore";
-import Collapse from "@mui/material/Collapse";
-import AlertItem from "components/AlertItem/AlertItem";
-import { isToday as isTodayFn, isYesterday } from "utils/moment";
-import { IAlertEvent } from "ts/types";
+import AutoSizer from 'react-virtualized-auto-sizer';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import Collapse from '@mui/material/Collapse';
+import AlertItem from 'components/AlertItem/AlertItem';
+import { isToday as isTodayFn, isYesterday } from 'utils/moment';
+import { IAlertEvent } from 'ts/types';
 import styles from './AlertsGroup.module.scss';
+
+const itemHeight = 103;
+const maxItemsCount = 6;
 
 interface Props {
   group: IAlertEvent[];
   dayStr: string;
 }
 
-const AlertsGroup = ({
-  group,
-  dayStr
-}: Props) => {
+const AlertsGroup = ({ group, dayStr }: Props) => {
   const day = moment(dayStr);
   const isToday = isTodayFn(day);
   const [open, setOpen] = useState(isToday);
@@ -37,6 +37,7 @@ const AlertsGroup = ({
   } else {
     dayName = day.format('MMMM DD, YYYY');
   }
+
   return (
     <>
       <ListItemButton onClick={handleClick} sx={{ pl: '20px' }}>
@@ -44,7 +45,15 @@ const AlertsGroup = ({
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
-        <div className={styles.list}>
+        <div
+          className={styles.list}
+          style={{
+            height:
+              group.length >= maxItemsCount
+                ? itemHeight * maxItemsCount
+                : group.length * itemHeight,
+          }}
+        >
           <AutoSizer>
             {({ height, width }) => {
               return (
@@ -52,19 +61,18 @@ const AlertsGroup = ({
                   height={height}
                   width={width}
                   itemCount={group.length}
-                  itemSize={103}
+                  itemSize={itemHeight}
                   itemData={group}
                 >
                   {AlertItem}
                 </List>
-              )
-            }
-          }
+              );
+            }}
           </AutoSizer>
         </div>
       </Collapse>
     </>
-  )
-}
+  );
+};
 
 export default AlertsGroup;

@@ -1,30 +1,27 @@
-import { NavLink as RouterLink } from "react-router-dom";
-import Link from "@mui/material/Link";
-import IconButton from "@mui/material/IconButton";
-import FirstPageIcon from "@mui/icons-material/FirstPage";
-import LastPageIcon from "@mui/icons-material/LastPage";
-import Divider from "@mui/material/Divider";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-// import ListItemIcon from "@mui/material/ListItemIcon";
-// import StarBorderIcon from "@mui/icons-material/StarBorder";
-import ListItemText from "@mui/material/ListItemText";
-import Avatar from "@mui/material/Avatar";
-import Drawer from "@mui/material/Drawer";
-import { useMainLayoutContext } from "context/mainLayoutContext";
-import APP_URLS from "enums/urls";
-import DrawerHeader from "../components/DrawerHeader";
-import { leftSideBarWidth, leftSideBarClosedWidth } from "../enums";
-import styles from "./NavigationBar.module.scss";
+import { NavLink as RouterLink } from 'react-router-dom';
+import Link from '@mui/material/Link';
+import IconButton from '@mui/material/IconButton';
+import FirstPageIcon from '@mui/icons-material/FirstPage';
+import LastPageIcon from '@mui/icons-material/LastPage';
+import Divider from '@mui/material/Divider';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import Avatar from '@mui/material/Avatar';
+import Drawer from '@mui/material/Drawer';
+import { useMainLayoutContext } from 'context/mainLayoutContext';
+import APP_URLS from 'enums/urls';
+import DrawerHeader from '../components/DrawerHeader';
+import { leftSideBarWidth, leftSideBarClosedWidth } from '../enums';
+import styles from './NavigationBar.module.scss';
 
 const navigationItems = [
   {
-    name: "Home",
+    name: 'Home',
     url: APP_URLS.home,
   },
   {
-    name: "Motions & Alerts",
+    name: 'Motions & Alerts',
     url: APP_URLS.motionsAlerts,
   },
 ];
@@ -54,14 +51,6 @@ const NavigationBar = () => {
         <>
           <Divider />
           <List>
-            <ListItem disablePadding>
-              <ListItemButton>
-                {/*<ListItemIcon>*/}
-                {/*  <StarBorderIcon />*/}
-                {/*</ListItemIcon>*/}
-                <ListItemText primary="Surveillance" />
-              </ListItemButton>
-            </ListItem>
             {navigationItems.map(({ name, url }) => (
               <ListItem key={url} disablePadding>
                 <ListItemButton>
@@ -84,6 +73,6 @@ const NavigationBar = () => {
       )}
     </Drawer>
   );
-}
+};
 
 export default NavigationBar;

@@ -1,10 +1,10 @@
-import { generatePath } from "react-router-dom";
-import moment from "moment/moment";
+import { Link, generatePath } from 'react-router-dom';
+import moment from 'moment';
+import classNames from 'classnames';
 import Typography from '@mui/material/Typography';
 import CircleIcon from '@mui/icons-material/Circle';
-import Button from '@mui/material/Button';
-import APP_URLS from "enums/urls";
-import styles from "./NotificationItem.module.scss";
+import APP_URLS from 'enums/urls';
+import styles from './NotificationItem.module.scss';
 
 interface Props {
   detection_id: string;
@@ -23,7 +23,7 @@ const NotificationItem = ({
   severity,
   start_time: startTime,
   end_time: endTime,
-  is_verified: isVerified
+  is_verified: isVerified,
 }: Props) => {
   const startDate = moment(startTime);
   const endDate = moment(endTime);
@@ -42,32 +42,20 @@ const NotificationItem = ({
       <div>
         <Typography variant="body2" display="block" className={styles.text}>
           {/*TODO: use real type (Theft or another)*/}
-          Theft alert in Camera: {peripheralName} - {`${startDateFormat} (${duration}s)`}. Severity: {severity}
+          Theft alert in Camera: {peripheralName} -{' '}
+          {`${startDateFormat} (${duration}s)`}. Severity: {severity}
         </Typography>
       </div>
-      {isVerified ? (
-        <Button
-          variant="outlined"
-          color="inherit"
-          size="small"
-          href={href}
-          className={styles.button}
-        >
-          Verified
-        </Button>
-      ) : (
-        <Button
-          variant="outlined"
-          color="primary"
-          size="small"
-          href={href}
-          className={styles.button}
-        >
-          View
-        </Button>
-      )}
+      <Link
+        to={href}
+        className={classNames(styles.buttonLink, {
+          [styles.buttonLinkVerified]: isVerified,
+        })}
+      >
+        {isVerified ? 'Verified' : 'View'}
+      </Link>
     </div>
-  )
-}
+  );
+};
 
 export default NotificationItem;

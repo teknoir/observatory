@@ -1,12 +1,12 @@
 import _map from 'lodash/map';
 import _isEmpty from 'lodash/isEmpty';
-import { SelectChangeEvent } from "@mui/material/Select";
-import CircleIcon from "@mui/icons-material/Circle";
-import InputLabel from "@mui/material/InputLabel";
-import Select from "muiComponents/Select/Select";
-import { IMotionsCounts } from "ts/types";
-import { MotionsPeriod} from "./enums";
-import styles from "./MotionsList.module.scss";
+import { SelectChangeEvent } from '@mui/material/Select';
+import CircleIcon from '@mui/icons-material/Circle';
+import InputLabel from '@mui/material/InputLabel';
+import Select from 'muiComponents/Select/Select';
+import { IMotionsCounts } from 'ts/types';
+import { MotionsPeriod } from './enums';
+import styles from './MotionsList.module.scss';
 
 interface Props {
   data?: IMotionsCounts;
@@ -15,22 +15,17 @@ interface Props {
 }
 
 const periodOptions = [
-  { value: MotionsPeriod.DAYS_7, label: "Last 7 days" },
-  { value: MotionsPeriod.DAYS_30, label: "Last 30 days" },
-]
+  { value: MotionsPeriod.DAYS_7, label: 'Last 7 days' },
+  { value: MotionsPeriod.DAYS_30, label: 'Last 30 days' },
+];
 
 const MotionsList = ({ data, period, handleChangePeriod }: Props) => {
   return (
     <div className={styles.root}>
       <div className={styles.selectWrapper}>
-        <InputLabel
-          id="motionsPeriodLabel"
-        >
-          Motions from:{' '}
-        </InputLabel>
+        <InputLabel id="motionsPeriodLabel">Motions from: </InputLabel>
         <Select
           labelId="motionsPeriodLabel"
-          variant="standard"
           value={period}
           options={periodOptions}
           onChange={handleChangePeriod}
@@ -42,16 +37,14 @@ const MotionsList = ({ data, period, handleChangePeriod }: Props) => {
         ) : (
           _map(data, (count, title) => (
             <div className={styles.listItem}>
-              <CircleIcon color="primary" className={styles.icon}/>
-              <div>
-                {`${title}: ${count}`}
-              </div>
+              <CircleIcon color="primary" className={styles.icon} />
+              <div>{`${title}: ${count}`}</div>
             </div>
           ))
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default MotionsList;
