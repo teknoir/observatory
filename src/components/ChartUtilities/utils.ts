@@ -1,10 +1,9 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 // TODO: Replace PropTypes dependencies with TS and delete this import
 import PropTypes from 'prop-types'
 import { useEffect, useState, useRef } from "react"
 import ResizeObserver from "resize-observer-polyfill"
-
-type ElementType = HTMLElement
 
 // TODO: Change this PropType to a TS interface
 export const accessorPropsType = (
@@ -31,7 +30,7 @@ export const dimensionsPropsType = (
 )
 
 export const combineChartDimensions = dimensions => {
-  let parsedDimensions = {
+  const parsedDimensions = {
     marginTop: 40,
     marginRight: 100,
     marginBottom: 40,

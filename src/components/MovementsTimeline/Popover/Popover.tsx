@@ -15,7 +15,7 @@ import { PopoverInfoProps } from "ts/types";
 import APP_URLS from "enums/urls";
 import styles from "./Popover.module.scss"
 
-export enum ALERT_INFO_KEYS {
+enum ALERT_INFO_KEYS {
   DETECTION_ID = "detection_id",
   DURATION = "duration",
   PERIPHERAL_ID = "peripheral_id",

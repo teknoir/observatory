@@ -3,8 +3,8 @@
 import React, { Suspense, lazy } from "react"
 import PropTypes from "prop-types"
 import * as d3 from 'd3'
+import { useChartDimensions } from 'components/ChartUtilities/Chart/ChartContext';
 import { dimensionsPropsType } from "../utils";
-import { useChartDimensions } from "../Chart/Chart";
 
 const AxisHorizontal = lazy(() => import('./AxisHorizontal.tsx'));
 const AxisVertical = lazy(() => import('./AxisVertical.tsx'));

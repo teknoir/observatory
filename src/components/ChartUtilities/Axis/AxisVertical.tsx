@@ -7,7 +7,7 @@ import cameraImage from 'assets/device_camera.png'
 import APP_URLS from "enums/urls"
 import styles from "./Axis.module.scss"
 
-export default function AxisVertical({ dimensions, label, formatTick, scale, idAccessor, background, side, ids, ...props }) {
+export default function AxisVertical({ dimensions, label, formatTick, scale, background, side, ids, ...props }) {
   // const numberOfTicks = dimensions.boundedHeight / 70
   const ticks = scale.domain()
 
@@ -26,7 +26,7 @@ export default function AxisVertical({ dimensions, label, formatTick, scale, idA
       {
         background &&
         <rect
-          x={side === "right" ? dimensions.width - dimensions.marginRight * 2 : -dimensions.marginLeft}
+          x={side === "right" ? dimensions.width - dimensions.marginRight - dimensions.marginLeft : -dimensions.marginLeft}
           y="0"
           width={side === "right" ? dimensions.marginRight : dimensions.marginLeft}
           height="100%"
@@ -61,10 +61,13 @@ export default function AxisVertical({ dimensions, label, formatTick, scale, idA
             :
             <foreignObject
               key={tick}
-              x={side === "right" ? dimensions.width - dimensions.marginRight : -100}
+              x={side === "right" ? dimensions.width - dimensions.marginRight : -250}
               y={scale(tick) - 15}
-              width="100"
+              // width="100%"
               height="50"
+              style={{
+                width: 250
+              }}
             >
               <div
                 style={{

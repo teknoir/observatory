@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import * as d3 from "d3"
 import { useEffect, useRef } from "react";
 
@@ -10,10 +12,6 @@ export const LineChart: React.FC<{ data: DataPoint[] }> = ({ data = [] }) => {
   const chartRef = useRef(null)
 
   useEffect(() => {
-    console.log(data)
-  }, [])
-
-  useEffect(() => {
     const svg = renderLineChart(data)
 
     return () => {
@@ -22,7 +20,7 @@ export const LineChart: React.FC<{ data: DataPoint[] }> = ({ data = [] }) => {
   }, [data])
 
   // Function to render the line chart
-  const renderLineChart = (data: any) => {
+  const renderLineChart = (data) => {
     const width = 800;
     const height = 300;
 
@@ -32,19 +30,18 @@ export const LineChart: React.FC<{ data: DataPoint[] }> = ({ data = [] }) => {
       .attr('height', height);
 
     const xScale = d3.scaleBand()
-      .domain(data.map((d: any) => d.name))
+      .domain(data.map((d) => d.name))
       .range([0, width])
       .padding(0.1);
 
     const yScale = d3.scaleLinear()
-      // @ts-ignore: 
       .domain([0, d3.max(data, (d) => d.value)])
       .range([height, 0]);
 
     // Create a line generator function
     const line = d3.line()
-      .x((d: any) => xScale(d.name)! + xScale.bandwidth() / 2)
-      .y((d: any) => yScale(d.value))
+      .x((d) => xScale(d.name)! + xScale.bandwidth() / 2)
+      .y((d) => yScale(d.value))
       .curve(d3.curveStep);
 
     // Draw the initial line

@@ -21,7 +21,7 @@ export default function AxisHorizontalScroll({ dimensions, label, formatTick, sc
       {/*   x2={dimensions.boundedScrollWidth} */}
       {/* /> */}
       {
-        ticks.map((tick, i) => (
+        ticks.map((tick) => (
           <text
             key={tick}
             className={styles.Axis__tick}
