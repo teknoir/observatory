@@ -1,11 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import { createContext, useContext } from "react"
+import ChartContext from './ChartContext';
 import styles from "./Chart.module.scss";
-
-const ChartContext = createContext(null)
-
-export const useChartDimensions = () => useContext(ChartContext)
 
 const Chart = ({ dimensions, children }) => (
   <ChartContext.Provider value={dimensions}>

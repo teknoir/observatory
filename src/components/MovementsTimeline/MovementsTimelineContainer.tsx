@@ -67,7 +67,7 @@ function MovementsTimelineContainer() {
       uniqueArr.map(peripheralNameAccessor),
       uniqueArr.map(peripheralIdAccessor),
     ]
-  }, [isLoadingMotions, isLoadingAlerts, dataMotions, dataAlerts])
+  }, [dataMotions, dataAlerts])
 
   const handleChangeFilterBy = (e: SelectChangeEvent<unknown>) => {
     const filterByValue = String(e.target.value)

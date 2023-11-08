@@ -65,7 +65,7 @@ export interface TimelapseParams {
   format: (d: Date) => string
 }
 
-export type Accessor = Function
+export type Accessor = (d: object) => number | undefined
 
 export interface CirclesProps {
   data: Array<object>
@@ -74,9 +74,12 @@ export interface CirclesProps {
   yAccessor: Accessor
   radius?: number
   className?: string
-  onCircleClick?: Function
+  // TODO: Use correct type for onCircleClick
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  onCircleClick?: (d) => void
   onClickAccessor?: Accessor
-  onCircleHover?: (event: MouseEvent<SVGCircleElement>, data: {}) => void
+  onCircleHover?: (event: MouseEvent<SVGCircleElement>, data: object) => void
 }
 
 export interface MainImageCarouselContextProps {

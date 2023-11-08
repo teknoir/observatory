@@ -1,4 +1,4 @@
-import { MouseEvent, useContext, useEffect, useRef, useState } from "react"
+import { MouseEvent, useCallback, useContext, useEffect, useRef, useState } from "react"
 import { NavLink as RouterLink } from "react-router-dom"
 import * as d3 from "d3"
 import _debounce from "lodash/debounce"
@@ -14,7 +14,7 @@ import { Axis, Chart, Circles, GridLines } from "components/ChartUtilities"
 import { detectionIdAccessor } from "components/ChartUtilities/accessors"
 import { peripheralIdAccessor } from "components/ChartUtilities/accessors"
 import { useChartDimensions } from "components/ChartUtilities/utils"
-import { mainImageCarouselContext } from "context/homeContext";
+import { mainImageCarouselContext } from 'context/HomeContext/mainImageCarouselContext';
 import APP_URLS from "enums/urls"
 import { IAlertEvent, MainImageCarouselContextProps, PopoverInfoProps } from "ts/types";
 import AxisVerticalLeft from "./AxisVerticalLeft/AxisVerticalLeft"
@@ -87,7 +87,9 @@ export const MovementsTimeline = ({
   })
 
   // FIX: fix the info parameter type
-  function handlePopoverOpen(event: MouseEvent<SVGCircleElement>, info: any) {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  function handlePopoverOpen(event: MouseEvent<SVGCircleElement>, info) {
     setAnchorEl(event.currentTarget)
     setAlertInfo(prevAlertInfo => ({
       ...info,
@@ -118,29 +120,7 @@ export const MovementsTimeline = ({
 
   const formatDate = period === MovementsTimelinePeriod.DAYS_1 ? formatDateByTime : formatDateByDay
 
-  useEffect(() => {
-    debounceResize()
-  }, [dimensions])
-
-  useEffect(() => {
-    const scrollGroup = d3.select<SVGGElement, unknown>(scrollGroupRef.current!)
-    const timelineContainer = d3.select<HTMLElement, unknown>(ref.current!)
-
-    const d3Zoom = d3.zoom<HTMLElement, unknown>()
-      .scaleExtent([1, 1])
-      .on("zoom", () => onScroll(scrollGroup as d3.Selection<SVGGElement, unknown, null, undefined>))
-
-    timelineContainer
-      .call(d3Zoom)
-
-    timelineContainer
-      .call(d3Zoom.transform, d3.zoomIdentity)
-
-    scrollGroup
-      .attr("transform", `translate(${defaultTranslate}, 0)`)
-  }, [defaultTranslate])
-
-  function onScroll(scrollGroup: d3.Selection<SVGGElement, unknown, null, undefined>) {
+  const onScroll = useCallback((scrollGroup: d3.Selection<SVGGElement, unknown, null, undefined>) => {
     const transformObj = d3.zoomTransform(scrollGroup.node() as SVGGElement)
     // TODO: This approach is an alternative to not modify the resulting
     // d3.zoomTransform() object, but it needs some logic to work 
@@ -163,7 +143,29 @@ export const MovementsTimeline = ({
 
     const translateX = defaultTranslate + transformObj.x
     scrollGroup.attr("transform", `translate(${translateX}, 0)`)
-  }
+  }, [defaultTranslate, dimensions.boundedScrollWidth, dimensions.boundedWidth])
+
+  useEffect(() => {
+    debounceResize()
+  }, [dimensions, debounceResize])
+
+  useEffect(() => {
+    const scrollGroup = d3.select<SVGGElement, unknown>(scrollGroupRef.current!)
+    const timelineContainer = d3.select<HTMLElement, unknown>(ref.current!)
+
+    const d3Zoom = d3.zoom<HTMLElement, unknown>()
+      .scaleExtent([1, 1])
+      .on("zoom", () => onScroll(scrollGroup as d3.Selection<SVGGElement, unknown, null, undefined>))
+
+    timelineContainer
+      .call(d3Zoom)
+
+    timelineContainer
+      .call(d3Zoom.transform, d3.zoomIdentity)
+
+    scrollGroup
+      .attr("transform", `translate(${defaultTranslate}, 0)`)
+  }, [defaultTranslate, ref, onScroll])
 
   return (
     <div className={styles.container}>

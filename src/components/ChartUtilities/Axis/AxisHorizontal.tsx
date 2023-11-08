@@ -12,8 +12,8 @@ export default function AxisHorizontal({ dimensions, label, formatTick, scale, .
 
   return (
     <g {...props}
-       className={classNames(styles.Axis, styles.AxisHorizontal)}
-       transform={`translate(0, ${dimensions.boundedHeight})`}
+      className={classNames(styles.Axis, styles.AxisHorizontal)}
+      transform={`translate(0, ${dimensions.boundedHeight})`}
     >
       <line
         className={styles.Axis__line}
@@ -21,7 +21,7 @@ export default function AxisHorizontal({ dimensions, label, formatTick, scale, .
         x2={dimensions.boundedWidth}
       />
       {
-        ticks.map((tick, i) => (
+        ticks.map((tick) => (
           <text
             key={tick}
             className={styles.Axis__tick}

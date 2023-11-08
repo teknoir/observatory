@@ -7,7 +7,7 @@ import GridViewControls from "components/SurveillanceCarrousel/GridViewControls"
 import '../../App.css'
 import styles from "./Home.module.scss"
 
-import { HomeDataProvider } from 'context/homeContext';
+import { HomeDataProvider } from 'context/HomeContext/homeContext';
 
 function Home() {
   return (

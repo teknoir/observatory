@@ -10,7 +10,7 @@ export enum TimelineFilterBy {
   ALERTS = "alerts",
 }
 
-export enum TimelineRefetchInterval {
-  ALL_DEVICES = 60000,
-  SINGLE_DEVICE = 60000
+export const TimelineRefetchInterval = {
+  ALL_DEVICES: 60000,
+  SINGLE_DEVICE: 60000
 }
