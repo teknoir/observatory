@@ -25,11 +25,17 @@
 .menuItem {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 6px;
+}
+
+.menuItemBox {
+  display: flex;
+  align-items: center;
 }
 
 .inputLabel {
   color: $white;
+  margin-right: 6px;
 }
 
 .menuItemCameras {
