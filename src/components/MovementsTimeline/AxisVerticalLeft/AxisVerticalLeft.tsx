@@ -37,7 +37,7 @@ export default function AxisVerticalLeft({ scale, ...props }: AxisVerticalLeftPr
         ticks.map((tick: string) => (
           <foreignObject
             key={tick}
-            x={-250}
+            x={-dimensions.marginLeft}
             y={scale(tick) - 15}
             // width="100%"
             height="50"
@@ -60,6 +60,7 @@ export default function AxisVerticalLeft({ scale, ...props }: AxisVerticalLeftPr
                   whiteSpace: "nowrap",
                   overflowX: "hidden",
                   textOverflow: "ellipsis",
+                  maxWidth: "14ch",
                 }}
                 title={tick}
               >

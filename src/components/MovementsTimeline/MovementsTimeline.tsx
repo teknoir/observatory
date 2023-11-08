@@ -69,7 +69,7 @@ export const MovementsTimeline = ({
   handleChangePeriod
 }: MovementsTimeLineParams) => {
   const [ref, dimensions] = useChartDimensions({
-    marginLeft: 250,
+    marginLeft: 180,
     marginRight: 160
   })
   const [defaultTranslate, setDefaultTranslate] = useState<number>(0)
