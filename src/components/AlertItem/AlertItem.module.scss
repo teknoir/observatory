@@ -1,8 +1,12 @@
-@import "enums/styleVariables.module.scss";
+@import 'enums/styleVariables.module.scss';
 
 .root {
   border-bottom: 1px solid $gray500;
   padding: 8px 16px;
+}
+
+.selected {
+  border: 1px solid red;
 }
 
 .rootLink {
@@ -16,7 +20,7 @@
 }
 
 .leftTitleLine {
-  display: flex;;
+  display: flex;
 }
 
 .statusIcon {
