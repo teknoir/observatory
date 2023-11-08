@@ -1,0 +1,47 @@
+@import 'enums/styleVariables.module.scss';
+
+.root {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid $black200;
+}
+
+.statusIcon {
+  width: 12px;
+  height: 12px;
+  margin-right: 12px;
+}
+
+.imgWrapper {
+  width: 80px;
+  height: 40px;
+  flex-shrink: 0;
+  background-color: $gray500;
+  margin-right: 12px;
+}
+
+.buttonLink {
+  width: 116px;
+  flex-shrink: 0;
+  font-size: 14px;
+  line-height: 20px;
+  color: $blue600;
+  border: 1px solid $blue600;
+  border-radius: 0;
+  margin-left: 12px;
+  padding: 6px 24px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.buttonLinkVerified {
+  color: $black200;
+  border: 1px solid $black200;
+}
+
+.text {
+  font-size: 14px;
+  line-height: 20px;
+}

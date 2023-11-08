@@ -5,7 +5,7 @@ module.exports = {
     es2020: true
   },
   extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:react-hooks/recommended', 'plugin:storybook/recommended'],
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
+  ignorePatterns: ['dist', '.eslintrc.cjs', "**/*.scss"],
   parser: '@typescript-eslint/parser',
   plugins: ['react-refresh'],
   rules: {
