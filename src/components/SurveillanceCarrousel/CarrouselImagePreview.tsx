@@ -28,7 +28,6 @@ const CarrouselImagePreview = forwardRef<HTMLImageElement, ImagePreviewProps>(({
         <div className={styles.titleStatusIndicator}></div>
       </div>
       <div className={styles.hoverState}>
-        {/* TODO: Replace url to be dynamic */}
         <Link
           component={RouterLink}
           to={generatePath(APP_URLS.devices, {
