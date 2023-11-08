@@ -25,14 +25,14 @@ const SurveillanceCarousel = ({ mode, sources }: SurveillanceCarouselProps) => {
     if (!mainImage && sources.size > 0) {
       setMainImage(sources.keys().next().value)
     }
-  }, [mainImage, sourcesSize])
+  }, [mainImage, sourcesSize, sources])
 
   useEffect(() => {
     if (mainImageCarousel) {
       setMainSource(mainImageCarousel)
       setMainImageCarousel("")
     }
-  }, [mainImageCarousel])
+  }, [mainImageCarousel, setMainImageCarousel])
 
   useInterval(() => {
     if (sources.size > 0) {

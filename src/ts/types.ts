@@ -65,7 +65,7 @@ export interface TimelapseParams {
   format: (d: Date) => string
 }
 
-export type Accessor = Function
+export type Accessor = () => void
 
 export interface CirclesProps {
   data: Array<object>
@@ -74,7 +74,7 @@ export interface CirclesProps {
   yAccessor: Accessor
   radius?: number
   className?: string
-  onCircleClick?: Function
+  onCircleClick?: () => void
   onClickAccessor?: Accessor
   onCircleHover?: (event: MouseEvent<SVGCircleElement>, data: object) => void
 }
