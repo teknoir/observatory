@@ -1,7 +1,7 @@
-import { useState } from "react"
+import { ReactNode, useState } from "react"
 import { mainImageCarouselContext } from './mainImageCarouselContext';
 
-export const HomeDataProvider = ({ children }: { children: any }) => {
+export const HomeDataProvider = ({ children }: { children: ReactNode }) => {
   const [mainImageCarousel, setMainImageCarousel] = useState("")
 
   return (
