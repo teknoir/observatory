@@ -4,7 +4,6 @@ import MovementsTimelineContainer from 'components/MovementsTimeline/MovementsTi
 import SurveillanceCarousel from 'components/SurveillanceCarrousel';
 import { HomeDataProvider } from 'context/HomeContext/homeContext';
 import { CarouselMode } from 'ts/types.ts';
-import '../../App.css';
 import styles from './Home.module.scss';
 
 function Home() {
