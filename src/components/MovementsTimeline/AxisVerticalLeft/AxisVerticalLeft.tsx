@@ -3,7 +3,8 @@
 import { ScalePoint } from "d3"
 import classNames from "classnames"
 import cameraImage from 'assets/device_camera.png'
-import { useChartDimensions } from "components/ChartUtilities/Chart/Chart"
+// import { useChartDimensions } from "components/ChartUtilities/Chart/Chart"
+import { useChartDimensions } from "components/ChartUtilities/Chart/ChartContext"
 import styles from "./AxisVerticalLeft.module.scss"
 
 interface AxisVerticalLeftProps {

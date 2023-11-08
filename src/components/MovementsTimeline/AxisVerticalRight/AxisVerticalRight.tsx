@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import { generatePath } from "react-router-dom"
-import { useChartDimensions } from "components/ChartUtilities/Chart/Chart"
+import { useChartDimensions } from "components/ChartUtilities/Chart/ChartContext"
 import DeviceLink from "components/MovementsTimeline/DeviceLink/DeviceLink"
 import APP_URLS from "enums/urls"
 import styles from "./AxisVerticalRight.module.scss"
