@@ -42,6 +42,9 @@ function SurveillanceCarouselGeneral({ sources, mainSource, setMainSource }: Car
       <div
         ref={galleryRef}
         className={styles.galleryScroll}
+        style={{
+          gridTemplateRows: `repeat(${sources.size}, 1fr)`
+        }}
       >
         {
           sources.size > 0 ?
@@ -55,6 +58,7 @@ function SurveillanceCarouselGeneral({ sources, mainSource, setMainSource }: Car
                   key={src}
                   onClick={() => setMainSource(sourceKey)}
                   ref={(ref: HTMLImageElement) => setSelectedImageRef(ref, sourceKey)}
+                  className={styles.imagePreviewContainer}
                 >
                   <CarrouselImagePreview
                     id={sourceKey}
