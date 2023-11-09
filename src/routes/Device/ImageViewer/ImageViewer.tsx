@@ -1,4 +1,4 @@
-import styles from "./ImageViewer.module.scss";
+import styles from './ImageViewer.module.scss';
 
 interface Props {
   src: string;
@@ -7,12 +7,9 @@ interface Props {
 const ImageViewer = ({ src }: Props) => {
   return (
     <div className={styles.root}>
-      <img
-        src={src}
-        className={styles.image}
-      />
+      <img src={src} className={styles.image} />
     </div>
-  )
-}
+  );
+};
 
-export default ImageViewer
+export default ImageViewer;

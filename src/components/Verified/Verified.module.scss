@@ -1,4 +1,4 @@
-@import "enums/styleVariables.module.scss";
+@import 'enums/styleVariables.module.scss';
 
 .root {
   display: inline-flex;
@@ -9,7 +9,8 @@
 .small {
   padding: 2px 4px;
 
-  .icon, .text {
+  .icon,
+  .text {
     font-size: 12px;
     line-height: 12px;
   }
@@ -18,7 +19,8 @@
 .medium {
   padding: 4px 8px;
 
-  .icon, .text {
+  .icon,
+  .text {
     font-size: 14px;
     line-height: 20px;
   }

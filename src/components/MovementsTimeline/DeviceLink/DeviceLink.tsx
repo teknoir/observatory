@@ -1,9 +1,9 @@
-import { NavLink as RouterLink } from "react-router-dom"
-import Link from "@mui/material/Link"
-import styles from "./DeviceLink.module.scss"
+import { NavLink as RouterLink } from 'react-router-dom';
+import Link from '@mui/material/Link';
+import styles from './DeviceLink.module.scss';
 
 interface DeviceLinkProps {
-  link: string
+  link: string;
 }
 
 const DeviceLink = ({ link }: DeviceLinkProps) => {
@@ -17,7 +17,7 @@ const DeviceLink = ({ link }: DeviceLinkProps) => {
     >
       Open
     </Link>
-  )
-}
+  );
+};
 
-export default DeviceLink
+export default DeviceLink;

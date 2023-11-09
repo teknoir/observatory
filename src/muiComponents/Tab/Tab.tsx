@@ -5,10 +5,10 @@ interface StyledTabProps {
   label: string;
 }
 
-const TabComponent = styled((props: StyledTabProps) => <Tab disableRipple {...props} />)(
-  () => ({
-    textTransform: 'none',
-  }),
-);
+const TabComponent = styled((props: StyledTabProps) => (
+  <Tab disableRipple {...props} />
+))(() => ({
+  textTransform: 'none',
+}));
 
 export default TabComponent;

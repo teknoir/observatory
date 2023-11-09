@@ -1,5 +1,5 @@
-import classNames from "classnames";
-import { CirclesProps } from "ts/types";
+import classNames from 'classnames';
+import { CirclesProps } from 'ts/types';
 import styles from './Circles.module.scss';
 
 const Circles = ({
@@ -11,12 +11,12 @@ const Circles = ({
   className,
   onCircleClick,
   onClickAccessor,
-  onCircleHover
+  onCircleHover,
 }: CirclesProps) => {
   return (
     <g>
-      {
-        data && data.map((d) => (
+      {data &&
+        data.map((d) => (
           <circle
             className={classNames(styles.circle, className)}
             key={keyAccessor(d)}
@@ -25,14 +25,13 @@ const Circles = ({
             r={radius}
             onClick={() => {
               if (onCircleClick && onClickAccessor)
-                onCircleClick(onClickAccessor(d))
+                onCircleClick(onClickAccessor(d));
             }}
             onMouseEnter={(e) => onCircleHover?.(e, d)}
           />
-        ))
-      }
+        ))}
     </g>
-  )
-}
+  );
+};
 
-export default Circles
+export default Circles;

@@ -1,4 +1,3 @@
-
 import { createContext, useContext } from 'react';
 
 const ChartContext = createContext(null);
