@@ -1,6 +1,7 @@
 import { CSSProperties } from 'react';
-import { Link, generatePath } from 'react-router-dom';
+import { Link, generatePath, useParams } from 'react-router-dom';
 import moment from 'moment';
+import classNames from 'classnames';
 import Typography from '@mui/material/Typography';
 import CircleIcon from '@mui/icons-material/Circle';
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
@@ -18,6 +19,7 @@ interface Props {
 }
 
 const AlertItem = ({ data, index, style }: Props) => {
+  const { detectionId: detectionIdUrl } = useParams();
   const item = data[index];
   const {
     detection_id: detectionId,
@@ -43,6 +45,7 @@ const AlertItem = ({ data, index, style }: Props) => {
   const startDateFormat = startDate.format('HH:mm');
 
   const hasLink = detectionId && peripheralId;
+  const isSelected = detectionIdUrl === detectionId;
 
   const renderContent = () => (
     <>
@@ -77,7 +80,12 @@ const AlertItem = ({ data, index, style }: Props) => {
   );
 
   return (
-    <div className={styles.root} style={style}>
+    <div
+      className={classNames(styles.root, {
+        [styles.selected]: isSelected,
+      })}
+      style={style}
+    >
       {hasLink ? (
         <Link
           to={generatePath(APP_URLS.alerts, { detectionId, peripheralId })}
