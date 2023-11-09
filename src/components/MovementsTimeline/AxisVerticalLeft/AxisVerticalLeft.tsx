@@ -1,25 +1,25 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import { ScalePoint } from "d3"
-import classNames from "classnames"
-import cameraImage from 'assets/device_camera.png'
+import { ScalePoint } from 'd3';
+import classNames from 'classnames';
+import cameraImage from 'assets/device_camera.png';
 // import { useChartDimensions } from "components/ChartUtilities/Chart/Chart"
-import { useChartDimensions } from "components/ChartUtilities/Chart/ChartContext"
-import styles from "./AxisVerticalLeft.module.scss"
+import { useChartDimensions } from 'components/ChartUtilities/Chart/ChartContext';
+import styles from './AxisVerticalLeft.module.scss';
 
 interface AxisVerticalLeftProps {
-  scale: ScalePoint<string>,
+  scale: ScalePoint<string>;
 }
 
-export default function AxisVerticalLeft({ scale, ...props }: AxisVerticalLeftProps) {
-  const dimensions = useChartDimensions()
-  const ticks = scale.domain()
+export default function AxisVerticalLeft({
+  scale,
+  ...props
+}: AxisVerticalLeftProps) {
+  const dimensions = useChartDimensions();
+  const ticks = scale.domain();
 
   return (
-    <g
-      className={classNames(styles.Axis, styles.AxisVertical)}
-      {...props}
-    >
+    <g className={classNames(styles.Axis, styles.AxisVertical)} {...props}>
       <rect
         x={-dimensions.marginLeft}
         y="0"
@@ -34,43 +34,41 @@ export default function AxisVerticalLeft({ scale, ...props }: AxisVerticalLeftPr
       >
         Cameras ({ticks.length})
       </text>
-      {
-        ticks.map((tick: string) => (
-          <foreignObject
-            key={tick}
-            x={-dimensions.marginLeft}
-            y={scale(tick) - 15}
-            // width="100%"
-            height="50"
+      {ticks.map((tick: string) => (
+        <foreignObject
+          key={tick}
+          x={-dimensions.marginLeft}
+          y={scale(tick) - 15}
+          // width="100%"
+          height="50"
+          style={{
+            width: 250,
+          }}
+        >
+          <div
             style={{
-              width: 250
+              display: 'flex',
+              justifyItems: 'flex-start',
+              alignItems: 'center',
+              gap: '4px',
             }}
           >
-            <div
+            <img src={cameraImage} width={32} height={32} />
+            <span
               style={{
-                display: "flex",
-                justifyItems: "flex-start",
-                alignItems: "center",
-                gap: "4px",
+                color: 'white',
+                whiteSpace: 'nowrap',
+                overflowX: 'hidden',
+                textOverflow: 'ellipsis',
+                maxWidth: '14ch',
               }}
+              title={tick}
             >
-              <img src={cameraImage} width={32} height={32} />
-              <span
-                style={{
-                  color: "white",
-                  whiteSpace: "nowrap",
-                  overflowX: "hidden",
-                  textOverflow: "ellipsis",
-                  maxWidth: "14ch",
-                }}
-                title={tick}
-              >
-                {tick}
-              </span>
-            </div>
-          </foreignObject>
-        ))
-      }
+              {tick}
+            </span>
+          </div>
+        </foreignObject>
+      ))}
     </g>
-  )
+  );
 }

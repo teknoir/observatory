@@ -1,9 +1,9 @@
-@import "enums/styleVariables.module.scss";
+@import 'enums/styleVariables.module.scss';
 
 .verifiedBlock {
   display: flex;
   align-items: center;
-  gap: 12px
+  gap: 12px;
 }
 
 .item {
@@ -11,7 +11,8 @@
   padding: 20px;
 }
 
-.title, .label {
+.title,
+.label {
   font-size: 16px;
   line-height: 16px;
   font-weight: 400;
@@ -22,7 +23,8 @@
   margin-bottom: 12px;
 }
 
-.text, .valueItem {
+.text,
+.valueItem {
   font-size: 16px;
   line-height: 24px;
 }
@@ -39,5 +41,5 @@
   display: flex;
   align-items: center;
   margin-right: 16px;
-  gap: 8px
+  gap: 8px;
 }
