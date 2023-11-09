@@ -34,6 +34,7 @@ function SurveillanceCarouselGeneral({
     src: mainSrc = '',
     peripheralName: mainPeripheralName = '',
     peripheralId: mainPeripheralId = '',
+    status = 0,
   } = sources.get(mainSource) ?? {};
 
   return (
@@ -42,12 +43,16 @@ function SurveillanceCarouselGeneral({
         id={mainPeripheralId}
         src={mainSrc}
         title={mainPeripheralName}
+        status={status}
       />
       <div ref={galleryRef} className={styles.galleryScroll}>
         {sources.size > 0 ? (
           [...sources.keys()].map((sourceKey) => {
-            const { src = '', peripheralName = '' } =
-              sources.get(sourceKey) ?? {};
+            const {
+              src = '',
+              peripheralName = '',
+              status = 0,
+            } = sources.get(sourceKey) ?? {};
             return (
               <div
                 key={src}
@@ -60,6 +65,7 @@ function SurveillanceCarouselGeneral({
                   id={sourceKey}
                   src={src}
                   title={peripheralName}
+                  status={status}
                   className={`${
                     mainSource === sourceKey ? styles.galleryItemBorder : ''
                   }`}

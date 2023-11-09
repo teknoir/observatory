@@ -11,6 +11,7 @@ function SurveillanceCarouselDetail({
     src: mainSrc = '',
     peripheralName: mainPeripheralName = '',
     peripheralId: mainPeripheralId = '',
+    status = 0,
   } = sources.get(mainSource) ?? {};
 
   return (
@@ -19,20 +20,25 @@ function SurveillanceCarouselDetail({
         id={mainPeripheralId}
         src={mainSrc}
         title={mainPeripheralName}
+        status={status}
       />
       <div className="flex">
         <button>&lt;</button>
         <div className="flex flex-row overflow-auto">
           {sources.size > 0 ? (
             [...sources.keys()].map((sourceKey) => {
-              const { src = '', peripheralName = '' } =
-                sources.get(sourceKey) ?? {};
+              const {
+                src = '',
+                peripheralName = '',
+                status = 0,
+              } = sources.get(sourceKey) ?? {};
               return (
                 <div key={src} onClick={() => setMainSource(sourceKey)}>
                   <CarrouselImagePreview
                     id={sourceKey}
                     src={src}
                     title={peripheralName}
+                    status={status}
                   />
                 </div>
               );
