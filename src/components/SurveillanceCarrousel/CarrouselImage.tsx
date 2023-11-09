@@ -2,16 +2,14 @@ import { NavLink as RouterLink, generatePath } from 'react-router-dom';
 import Link from '@mui/material/Link';
 import { ImageProps } from 'ts/types';
 import APP_URLS from 'enums/urls';
+import TitleContainer from './TitleContainer';
 import styles from './SurveillanceCarousel.module.scss';
 
-function CarrouselImage({ id, src, title }: ImageProps) {
+function CarrouselImage({ id, src, title, status }: ImageProps) {
   return (
     <div className={styles.mainImageContainer}>
       <img src={src} className={styles.image} />
-      <div className={styles.titleContainer}>
-        <p className={styles.titleText}>{title}</p>
-        <div className={styles.titleStatusIndicator}></div>
-      </div>
+      <TitleContainer title={title} status={status} />
       <div className={styles.hoverState}>
         {/* TODO: Replace url to be dynamic */}
         <Link

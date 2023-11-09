@@ -6,10 +6,16 @@ export enum CarouselMode {
   Detail = 'detail',
 }
 
+export enum SourceStatus {
+  Active = 1,
+  Inactive = 0,
+}
+
 export interface Source {
   src: string;
   peripheralId: string;
   peripheralName: string;
+  status: SourceStatus;
 }
 
 export type CameraId = string;
@@ -35,6 +41,7 @@ export interface ImageProps {
   id: string;
   src: string;
   title: string;
+  status: SourceStatus;
 }
 
 export type RefImage = HTMLImageElement;
@@ -43,6 +50,7 @@ export interface ImagePreviewProps {
   id: string;
   src: string;
   title: string;
+  status: SourceStatus;
   className?: string;
   onClick?: () => void;
   ref: (ref: HTMLImageElement) => void;
