@@ -5,14 +5,12 @@ import MovementsTimelineContainer from 'components/MovementsTimeline/MovementsTi
 const MotionsAlerts = () => {
   return (
     <>
-      <AppBar>
-        Motions & Alerts
-      </AppBar>
+      <AppBar>Motions & Alerts</AppBar>
       <MainContent>
         <MovementsTimelineContainer />
       </MainContent>
     </>
-  )
-}
+  );
+};
 
 export default MotionsAlerts;

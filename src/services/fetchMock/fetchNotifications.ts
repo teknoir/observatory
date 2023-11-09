@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import moment from 'moment';
-import { IAlertEvent } from "ts/types";
+import { IAlertEvent } from 'ts/types';
 import { getUniqueID, dataWithDelay } from './utils';
 import { alertItemBase } from './fetchAlerts';
 
@@ -14,7 +14,7 @@ export const fetchNotificationsMock = (): IAlertEvent[] => {
     dateFrom.add(1, 'hour');
     const isVerified = i <= 7;
     const uniqueId = getUniqueID();
-    const detectionId = uniqueId + (isVerified ? 'a' : '1')
+    const detectionId = uniqueId + (isVerified ? 'a' : '1');
     const item = {
       ...alertItemBase,
       detection_id: detectionId,
@@ -22,9 +22,9 @@ export const fetchNotificationsMock = (): IAlertEvent[] => {
       peripheral_name: peripheralId,
       start_time: dateFrom.format(),
       end_time: dateFrom.add(duration, 'seconds').format(),
-      is_verified: isVerified
-    }
+      is_verified: isVerified,
+    };
     res.push(item);
   }
   return dataWithDelay(res);
-}
+};

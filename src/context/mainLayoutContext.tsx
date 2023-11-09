@@ -7,7 +7,7 @@ type MainLayoutContextValue = {
   closeLeft: () => void;
   openRight: () => void;
   closeRight: () => void;
-}
+};
 
 const defaultValue: MainLayoutContextValue = {
   isOpenedLeft: true,
@@ -15,13 +15,13 @@ const defaultValue: MainLayoutContextValue = {
   openLeft: () => {},
   closeLeft: () => {},
   openRight: () => {},
-  closeRight: () => {}
-}
+  closeRight: () => {},
+};
 
 const MainLayoutContext = createContext(defaultValue);
 
 interface Props {
-  children: React.ReactElement
+  children: React.ReactElement;
 }
 export const MainLayoutProvider = ({ children }: Props) => {
   const [isOpenedLeft, setIsOpenedLeft] = useState(true);
@@ -41,15 +41,15 @@ export const MainLayoutProvider = ({ children }: Props) => {
     openLeft,
     closeLeft,
     closeRight,
-    openRight
-  })
+    openRight,
+  });
 
   return (
     <MainLayoutContext.Provider value={getContextValue()}>
       {children}
     </MainLayoutContext.Provider>
-  )
-}
+  );
+};
 export const useMainLayoutContext = () => {
-  return useContext(MainLayoutContext)
-}
+  return useContext(MainLayoutContext);
+};

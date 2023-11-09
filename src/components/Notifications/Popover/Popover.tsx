@@ -5,10 +5,10 @@ import Popover from '@mui/material/Popover';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { IAlertEvent } from "ts/types";
-import styleVariables from "enums/styleVariables.module.scss";
-import NotificationItem from "../NotificationItem/NotificationItem";
-import styles from "./Popover.module.scss";
+import { IAlertEvent } from 'ts/types';
+import styleVariables from 'enums/styleVariables.module.scss';
+import NotificationItem from '../NotificationItem/NotificationItem';
+import styles from './Popover.module.scss';
 
 interface Props {
   isOpen: boolean;
@@ -23,7 +23,13 @@ enum GroupKeys {
   notVerified = 'false',
 }
 
-const PopoverComponent = ({ isOpen, anchorEl, handleClose, isLoading, data }: Props) => {
+const PopoverComponent = ({
+  isOpen,
+  anchorEl,
+  handleClose,
+  isLoading,
+  data,
+}: Props) => {
   const dataGrouped = _groupBy(data, 'is_verified');
   return (
     <Popover
@@ -47,31 +53,37 @@ const PopoverComponent = ({ isOpen, anchorEl, handleClose, isLoading, data }: Pr
           color: styleVariables.black200,
           borderRadius: 0,
           background: styleVariables.white,
-          padding: '20px'
-        }
+          padding: '20px',
+        },
       }}
     >
       <Typography variant="body2" display="block" className={styles.title}>
         Notifications
       </Typography>
       <div className={styles.list}>
-        {isLoading ? <CircularProgress /> : (
+        {isLoading ? (
+          <CircularProgress />
+        ) : (
           <>
-            <Typography variant="body2" display="block" className={styles.subTitle}>
+            <Typography
+              variant="body2"
+              display="block"
+              className={styles.subTitle}
+            >
               New
             </Typography>
             {dataGrouped[GroupKeys.notVerified]?.map((item) => (
-              <NotificationItem
-                {...item}
-              />
+              <NotificationItem {...item} />
             ))}
-            <Typography variant="body2" display="block" className={styles.subTitle}>
+            <Typography
+              variant="body2"
+              display="block"
+              className={styles.subTitle}
+            >
               This week
             </Typography>
             {dataGrouped[GroupKeys.verified]?.map((item) => (
-              <NotificationItem
-                {...item}
-              />
+              <NotificationItem {...item} />
             ))}
           </>
         )}
@@ -86,7 +98,7 @@ const PopoverComponent = ({ isOpen, anchorEl, handleClose, isLoading, data }: Pr
         See All Notifications
       </Button>
     </Popover>
-  )
-}
+  );
+};
 
 export default PopoverComponent;

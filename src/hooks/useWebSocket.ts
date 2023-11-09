@@ -2,7 +2,8 @@ import useWebSocket, { ReadyState } from 'react-use-websocket';
 
 const socketUrl = import.meta.env.VITE_WS_SERVER;
 
-export const isOpenWS = (readyState: ReadyState) => readyState === ReadyState.OPEN;
+export const isOpenWS = (readyState: ReadyState) =>
+  readyState === ReadyState.OPEN;
 
 const useWebSocketHook = () => {
   const {
@@ -25,8 +26,8 @@ const useWebSocketHook = () => {
     lastMessage,
     lastJsonMessage,
     readyState,
-    getWebSocket
-  }
-}
+    getWebSocket,
+  };
+};
 
 export default useWebSocketHook;
