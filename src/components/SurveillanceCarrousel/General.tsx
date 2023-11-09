@@ -43,9 +43,13 @@ function SurveillanceCarouselGeneral({
         title={mainPeripheralName}
         status={status}
       />
-      <div ref={galleryRef} className={styles.galleryScroll} style={{
-          gridTemplateRows: `repeat(${sources.size}, 1fr)`
-        }}>
+      <div
+        ref={galleryRef}
+        className={styles.galleryScroll}
+        style={{
+          gridTemplateRows: `repeat(${sources.size}, 1fr)`,
+        }}
+      >
         {sources.size > 0 ? (
           [...sources.keys()].map((sourceKey) => {
             const {
