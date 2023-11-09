@@ -10,7 +10,7 @@ import { NavLink as RouterLink } from 'react-router-dom';
 import * as d3 from 'd3';
 import _debounce from 'lodash/debounce';
 import moment from 'moment/moment';
-
+import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import InputLabel from '@mui/material/InputLabel';
 import Link from '@mui/material/Link';
@@ -209,22 +209,42 @@ export const MovementsTimeline = ({
           </Typography>
         </div>
         <div className={styles.menuItem}>
-          <InputLabel id="timelineFilterByLabel" className={styles.inputLabel}>
-            Filter by:{' '}
-          </InputLabel>
-          <Select
-            labelId="timelineFilterByLabel"
-            value={filter}
-            options={timelineOptions}
-            onChange={handleChangeFilter}
-            disableUnderline
-          />
+          <Box className={styles.menuItemBox}>
+            <InputLabel
+              id="timelineFilterByLabel"
+              className={styles.inputLabel}
+            >
+              Filter by:{' '}
+            </InputLabel>
+            <Select
+              labelId="timelineFilterByLabel"
+              value={filter}
+              options={timelineOptions}
+              onChange={handleChangeFilter}
+              sx={{
+                '& .MuiSelect-select.MuiInputBase-input.MuiOutlinedInput-input':
+                  {
+                    paddingLeft: 0,
+                  },
+                '& .MuiOutlinedInput-notchedOutline': {
+                  border: 'none',
+                },
+              }}
+            />
+          </Box>
           <Select
             labelId="movementsTimelinePeriodLabel"
             value={period}
             options={periodOptions}
             onChange={handleChangePeriod}
-            disableUnderline
+            sx={{
+              '& .MuiSelect-select.MuiInputBase-input.MuiOutlinedInput-input': {
+                paddingLeft: 0,
+              },
+              '& .MuiOutlinedInput-notchedOutline': {
+                border: 'none',
+              },
+            }}
           />
           <Link
             component={RouterLink}
