@@ -1,9 +1,8 @@
-import { useEffect, useRef /* useContext */ } from 'react';
+import { useEffect, useRef } from 'react';
 import { CarouselProps, RefImage } from 'ts/types';
 import CarrouselImage from './CarrouselImage';
 import CarrouselImagePreview from './CarrouselImagePreview';
 import styles from './SurveillanceCarousel.module.scss';
-// import { GridViewContext } from "./GridViewContext"
 
 function SurveillanceCarouselGeneral({
   sources,
@@ -12,7 +11,6 @@ function SurveillanceCarouselGeneral({
 }: CarouselProps) {
   const galleryRef = useRef<HTMLDivElement | null>(null);
   const selectedImageRef = useRef<HTMLImageElement | null>(null);
-  // const gridView = useContext(GridViewContext)
 
   useEffect(() => {
     if (selectedImageRef.current && galleryRef.current) {
@@ -45,7 +43,13 @@ function SurveillanceCarouselGeneral({
         title={mainPeripheralName}
         status={status}
       />
-      <div ref={galleryRef} className={styles.galleryScroll}>
+      <div
+        ref={galleryRef}
+        className={styles.galleryScroll}
+        style={{
+          gridTemplateRows: `repeat(${sources.size}, 1fr)`,
+        }}
+      >
         {sources.size > 0 ? (
           [...sources.keys()].map((sourceKey) => {
             const {
@@ -60,6 +64,7 @@ function SurveillanceCarouselGeneral({
                 ref={(ref: HTMLImageElement) =>
                   setSelectedImageRef(ref, sourceKey)
                 }
+                className={styles.imagePreviewContainer}
               >
                 <CarrouselImagePreview
                   id={sourceKey}
