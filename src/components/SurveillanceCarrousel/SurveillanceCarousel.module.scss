@@ -92,6 +92,12 @@
   background-color: $fadedblack;
 }
 
+.hoverStateLink {
+  padding: 10px 24px;
+  color: $black;
+  background-color: $gray300;
+}
+
 .gridViewControls {
   display: flex;
   justify-content: flex-end;

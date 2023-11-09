@@ -11,7 +11,6 @@ function CarrouselImage({ id, src, title, status }: ImageProps) {
       <img src={src} className={styles.image} />
       <TitleContainer title={title} status={status} />
       <div className={styles.hoverState}>
-        {/* TODO: Replace url to be dynamic */}
         <Link
           component={RouterLink}
           to={generatePath(APP_URLS.devices, {
@@ -20,6 +19,7 @@ function CarrouselImage({ id, src, title, status }: ImageProps) {
           })}
           color="inherit"
           underline="none"
+          className={styles.hoverStateLink}
         >
           View device
         </Link>

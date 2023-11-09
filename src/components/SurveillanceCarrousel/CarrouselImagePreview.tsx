@@ -38,6 +38,7 @@ const CarrouselImagePreview = forwardRef<HTMLImageElement, ImagePreviewProps>(
             })}
             color="inherit"
             underline="none"
+            className={styles.hoverStateLink}
           >
             View device
           </Link>
