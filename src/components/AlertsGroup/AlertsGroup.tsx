@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
+import { useParams } from 'react-router-dom';
 import moment from 'moment';
-import { FixedSizeList as List } from 'react-window';
+import { FixedSizeList } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
@@ -21,9 +22,10 @@ interface Props {
 }
 
 const AlertsGroup = ({ group, dayStr }: Props) => {
+  const { detectionId: detectionIdUrl } = useParams();
   const day = moment(dayStr);
   const isToday = isTodayFn(day);
-  const [open, setOpen] = useState(isToday);
+  const [open, setOpen] = useState(false);
 
   const handleClick = () => {
     setOpen(!open);
@@ -37,6 +39,30 @@ const AlertsGroup = ({ group, dayStr }: Props) => {
   } else {
     dayName = day.format('MMMM DD, YYYY');
   }
+
+  const selectedIdx = useMemo(() => {
+    if (!detectionIdUrl) {
+      return -1;
+    }
+    return group.findIndex((item) => item.detection_id === detectionIdUrl);
+  }, [group, detectionIdUrl]);
+
+  const initialScrollOffset = useMemo(() => {
+    if (selectedIdx < 0) {
+      return 0;
+    }
+    return selectedIdx * itemHeight;
+  }, [selectedIdx]);
+
+  useEffect(() => {
+    if (detectionIdUrl) {
+      if (selectedIdx >= 0) {
+        setOpen(true);
+      }
+    } else if (isToday) {
+      setOpen(true);
+    }
+  }, [detectionIdUrl, selectedIdx, isToday]);
 
   return (
     <>
@@ -57,15 +83,16 @@ const AlertsGroup = ({ group, dayStr }: Props) => {
           <AutoSizer>
             {({ height, width }) => {
               return (
-                <List
+                <FixedSizeList
                   height={height}
                   width={width}
                   itemCount={group.length}
                   itemSize={itemHeight}
                   itemData={group}
+                  initialScrollOffset={initialScrollOffset}
                 >
                   {AlertItem}
-                </List>
+                </FixedSizeList>
               );
             }}
           </AutoSizer>

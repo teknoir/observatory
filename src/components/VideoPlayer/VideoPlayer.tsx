@@ -1,10 +1,6 @@
-import ReactPlayer, { ReactPlayerProps } from "react-player";
+import ReactPlayer, { ReactPlayerProps } from 'react-player';
 
-const VideoPlayer = ({
-  url,
-  autoPlay = false,
-  ...rest
-}: ReactPlayerProps) => (
+const VideoPlayer = ({ url, autoPlay = false, ...rest }: ReactPlayerProps) => (
   <ReactPlayer
     url={url}
     controls
@@ -12,6 +8,6 @@ const VideoPlayer = ({
     muted={autoPlay}
     {...rest}
   />
-)
+);
 
 export default VideoPlayer;

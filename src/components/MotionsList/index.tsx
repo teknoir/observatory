@@ -1,12 +1,12 @@
-import { useState, useMemo } from "react";
-import { useQuery } from "@tanstack/react-query";
-import moment from "moment/moment";
-import { SelectChangeEvent } from "@mui/material/Select";
+import { useState, useMemo } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import moment from 'moment/moment';
+import { SelectChangeEvent } from '@mui/material/Select';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
-import { fetchMotionsCounts } from "services/apiRequests";
-import { motionsCounts } from "enums/queryKeys";
+import { fetchMotionsCounts } from 'services/apiRequests';
+import { motionsCounts } from 'enums/queryKeys';
 import MotionsList from './MotionsList';
-import { MotionsPeriod } from "./enums";
+import { MotionsPeriod } from './enums';
 
 const MotionsListContainer = () => {
   const [period, setPeriod] = useState(MotionsPeriod.DAYS_7);
@@ -19,11 +19,12 @@ const MotionsListContainer = () => {
   const { data, isLoading } = useQuery({
     queryKey: [motionsCounts, startDate],
     queryFn: () => fetchMotionsCounts({ startDate }),
-  })
+  });
 
-  const handleChangePeriod = (e: SelectChangeEvent<unknown>) => setPeriod(Number(e.target.value))
+  const handleChangePeriod = (e: SelectChangeEvent<unknown>) =>
+    setPeriod(Number(e.target.value));
 
-  if (isLoading) return <CircularProgress />
+  if (isLoading) return <CircularProgress />;
 
   return (
     <MotionsList
@@ -32,6 +33,6 @@ const MotionsListContainer = () => {
       handleChangePeriod={handleChangePeriod}
     />
   );
-}
+};
 
 export default MotionsListContainer;

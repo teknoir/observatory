@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import { useForm, Controller } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as zod from "zod";
+import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as zod from 'zod';
 import TextField from '@mui/material/TextField';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -11,17 +11,17 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import FormHelperText from '@mui/material/FormHelperText';
 import { IAlertFormValues } from 'ts/types';
-import styles from "./Form.module.scss";
+import styles from './Form.module.scss';
 
 const schema = zod
   .object({
     has_theft: zod.boolean(),
-    comment: zod.string().min(1, { message: "Comment is required" }),
+    comment: zod.string().min(1, { message: 'Comment is required' }),
   })
-  .required()
+  .required();
 
 interface Props {
-  onSubmit: (values: IAlertFormValues) => void
+  onSubmit: (values: IAlertFormValues) => void;
 }
 
 const Form = ({ onSubmit }: Props) => {
@@ -29,26 +29,29 @@ const Form = ({ onSubmit }: Props) => {
   const {
     control,
     handleSubmit,
-    formState: { errors, isSubmitting }
+    formState: { errors, isSubmitting },
   } = useForm<IAlertFormValues>({
     defaultValues: {
       has_theft: false,
-      comment: "",
+      comment: '',
     },
     resolver: zodResolver(schema),
-  })
+  });
 
   return (
     <div className={styles.root}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.rowRadio}>
-          <FormLabel id="demo-row-radio-buttons-group-label" className={styles.label}>
+          <FormLabel
+            id="demo-row-radio-buttons-group-label"
+            className={styles.label}
+          >
             Was this an actual theft?
           </FormLabel>
           <Controller
             name="has_theft"
             control={control}
-            render={({ field }) =>
+            render={({ field }) => (
               <RadioGroup
                 {...field}
                 row
@@ -59,17 +62,25 @@ const Form = ({ onSubmit }: Props) => {
                   field.onChange(value);
                 }}
               >
-                <FormControlLabel value={true} control={<Radio />} label="YES" />
-                <FormControlLabel value={false} control={<Radio />} label="NO" />
+                <FormControlLabel
+                  value={true}
+                  control={<Radio />}
+                  label="YES"
+                />
+                <FormControlLabel
+                  value={false}
+                  control={<Radio />}
+                  label="NO"
+                />
               </RadioGroup>
-            }
+            )}
           />
         </div>
         <div className={styles.row}>
           <Controller
             name="comment"
             control={control}
-            render={({ field }) =>
+            render={({ field }) => (
               <TextField
                 {...field}
                 label="Comment"
@@ -77,7 +88,7 @@ const Form = ({ onSubmit }: Props) => {
                 multiline
                 fullWidth
               />
-            }
+            )}
           />
           <FormHelperText error>{errors.comment?.message}</FormHelperText>
         </div>
@@ -103,6 +114,6 @@ const Form = ({ onSubmit }: Props) => {
       </form>
     </div>
   );
-}
+};
 
 export default Form;

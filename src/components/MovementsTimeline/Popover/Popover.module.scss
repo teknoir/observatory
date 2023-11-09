@@ -1,9 +1,9 @@
-@import "enums/styleVariables.module";
+@import 'enums/styleVariables.module';
 
 .card {
   min-width: 250px;
   background-color: $white;
-  color: $black;  
+  color: $black;
 }
 
 .cardContent {
@@ -35,6 +35,5 @@
 }
 
 .value {
-  margin-bottom: 12px; 
+  margin-bottom: 12px;
 }
-
