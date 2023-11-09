@@ -1,26 +1,34 @@
-import { useMemo, useState } from "react";
-import { useQuery } from "@tanstack/react-query"
-import moment from "moment/moment";
-import _uniqBy from "lodash/uniqBy";
-import { SelectChangeEvent } from "@mui/material/Select";
-import { startTimeAccessor, peripheralNameAccessor, peripheralIdAccessor } from 'components/ChartUtilities/accessors'
+import { useMemo, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import moment from 'moment/moment';
+import _uniqBy from 'lodash/uniqBy';
+import { SelectChangeEvent } from '@mui/material/Select';
+import {
+  startTimeAccessor,
+  peripheralNameAccessor,
+  peripheralIdAccessor,
+} from 'components/ChartUtilities/accessors';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
-import { fetchMovements, fetchAlerts } from "services/apiRequests";
-import { motions, alerts } from "enums/queryKeys";
-import { MovementsTimeline } from "./MovementsTimeline"
-import { MovementsTimelinePeriod, TimelineFilterBy, TimelineRefetchInterval } from "./enums";
+import { fetchMovements, fetchAlerts } from 'services/apiRequests';
+import { motions, alerts } from 'enums/queryKeys';
+import { MovementsTimeline } from './MovementsTimeline';
+import {
+  MovementsTimelinePeriod,
+  TimelineFilterBy,
+  TimelineRefetchInterval,
+} from './enums';
 
 function MovementsTimelineContainer() {
-  const [filter, setFilter] = useState<string>(TimelineFilterBy.MOTIONS_ALERTS)
-  const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1)
+  const [filter, setFilter] = useState<string>(TimelineFilterBy.MOTIONS_ALERTS);
+  const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1);
   const startDate = useMemo(
     () => moment().subtract(period, 'days').startOf('day'),
     [period]
-  )
+  );
   const startTime = useMemo(
     () => moment().subtract(period, 'days').toDate(),
     [period]
-  )
+  );
   const fields = [
     'detection_id',
     'duration',
@@ -29,62 +37,67 @@ function MovementsTimelineContainer() {
     'severity',
     'start_time',
     'type',
-    'video_url'
+    'video_url',
   ];
 
   const queryMovements = useQuery({
     queryKey: [motions, startDate, filter, fields],
     queryFn: () => fetchMovements({ startDate }, fields),
     refetchInterval: TimelineRefetchInterval.ALL_DEVICES,
-    enabled: (filter == TimelineFilterBy.MOTIONS ||
-      filter == TimelineFilterBy.MOTIONS_ALERTS) &&
-      period == MovementsTimelinePeriod.DAYS_1
-  })
+    enabled:
+      (filter == TimelineFilterBy.MOTIONS ||
+        filter == TimelineFilterBy.MOTIONS_ALERTS) &&
+      period == MovementsTimelinePeriod.DAYS_1,
+  });
   // TODO: temp solution for redundant data (only for Charts) - remove in future!
   const { isInitialLoading: isLoadingMotions } = queryMovements;
   let { data: dataMotions } = queryMovements;
   if (dataMotions?.length > 1000) {
-    dataMotions = dataMotions.slice(-1000)
+    dataMotions = dataMotions.slice(-1000);
   }
 
   const queryAlerts = useQuery({
     queryKey: [alerts, startDate, filter, fields],
     queryFn: () => fetchAlerts({ startDate }, fields),
     refetchInterval: TimelineRefetchInterval.ALL_DEVICES,
-    enabled: filter == TimelineFilterBy.ALERTS ||
-      filter == TimelineFilterBy.MOTIONS_ALERTS
-  })
+    enabled:
+      filter == TimelineFilterBy.ALERTS ||
+      filter == TimelineFilterBy.MOTIONS_ALERTS,
+  });
   // TODO: temp solution for redundant data (only for Charts) - remove in future!
   const { isInitialLoading: isLoadingAlerts } = queryAlerts;
   let { data: dataAlerts } = queryAlerts;
   if (dataAlerts?.length > 1000) {
-    dataAlerts = dataAlerts.slice(-1000)
+    dataAlerts = dataAlerts.slice(-1000);
   }
 
   const [peripherals, ids] = useMemo(() => {
-    const uniqueArr = _uniqBy(dataMotions ?? [].concat(dataAlerts ?? []), 'peripheral_name')
+    const uniqueArr = _uniqBy(
+      dataMotions ?? [].concat(dataAlerts ?? []),
+      'peripheral_name'
+    );
     return [
       uniqueArr.map(peripheralNameAccessor),
       uniqueArr.map(peripheralIdAccessor),
-    ]
-  }, [dataMotions, dataAlerts])
+    ];
+  }, [dataMotions, dataAlerts]);
 
   const handleChangeFilterBy = (e: SelectChangeEvent<unknown>) => {
-    const filterByValue = String(e.target.value)
-    setFilter(filterByValue)
+    const filterByValue = String(e.target.value);
+    setFilter(filterByValue);
     if (filterByValue !== TimelineFilterBy.ALERTS) {
-      setPeriod(MovementsTimelinePeriod.DAYS_1)
+      setPeriod(MovementsTimelinePeriod.DAYS_1);
     }
-  }
+  };
   const handleChangePeriod = (e: SelectChangeEvent<unknown>) => {
-    const periodValue = Number(e.target.value)
-    setPeriod(periodValue)
+    const periodValue = Number(e.target.value);
+    setPeriod(periodValue);
     if (periodValue !== MovementsTimelinePeriod.DAYS_1) {
-      setFilter(TimelineFilterBy.ALERTS)
+      setFilter(TimelineFilterBy.ALERTS);
     }
-  }
+  };
 
-  if (isLoadingMotions || isLoadingAlerts) return <CircularProgress />
+  if (isLoadingMotions || isLoadingAlerts) return <CircularProgress />;
 
   return (
     <MovementsTimeline
@@ -100,7 +113,7 @@ function MovementsTimelineContainer() {
       period={period}
       handleChangePeriod={handleChangePeriod}
     />
-  )
+  );
 }
 
-export default MovementsTimelineContainer
+export default MovementsTimelineContainer;

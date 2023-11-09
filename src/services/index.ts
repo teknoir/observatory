@@ -1,7 +1,7 @@
-// 
+//
 // import wsConnect from './helpers'
 // import { isDev } from './helpers'
-// 
+//
 // WS example
 // const nodeRedWsURL = "ws://127.0.0.1:1880/ws/multiple-charts"
 // const initialData = [
@@ -32,15 +32,32 @@
 //   setChartData([...chartData, newDataPoint])
 // }
 //
-// 
+//
 // WS example on component
-{/* WS Examples */ }
-{/* <LineChart data={chartData} /> */ }
-{/* <Button2 onClick={() => console.log("asdf")} label="hey!" /> */ }
-{/* <LineChart data={data["ch1"]} /> */ }
-{/* <LineChart data={data["ch2"]} /> */ }
-{/* <LineChart data={data["ch3"]} /> */ }
-{/* <button onClick={addDataPoint}>Add Data Point</button> */ }
-{/* <LineChartExample /> */ }
-{/* <Carousel /> */ }
-
+{
+  /* WS Examples */
+}
+{
+  /* <LineChart data={chartData} /> */
+}
+{
+  /* <Button2 onClick={() => console.log("asdf")} label="hey!" /> */
+}
+{
+  /* <LineChart data={data["ch1"]} /> */
+}
+{
+  /* <LineChart data={data["ch2"]} /> */
+}
+{
+  /* <LineChart data={data["ch3"]} /> */
+}
+{
+  /* <button onClick={addDataPoint}>Add Data Point</button> */
+}
+{
+  /* <LineChartExample /> */
+}
+{
+  /* <Carousel /> */
+}
