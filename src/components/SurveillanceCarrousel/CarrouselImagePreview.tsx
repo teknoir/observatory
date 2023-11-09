@@ -4,11 +4,19 @@ import classNames from 'classnames';
 import Link from '@mui/material/Link';
 import { ImagePreviewProps } from 'ts/types';
 import APP_URLS from 'enums/urls';
+import TitleContainer from './TitleContainer';
 import styles from './SurveillanceCarousel.module.scss';
 
 const CarrouselImagePreview = forwardRef<HTMLImageElement, ImagePreviewProps>(
   (
-    { id, src, title, className = '', onClick = () => {} }: ImagePreviewProps,
+    {
+      id,
+      src,
+      title,
+      status,
+      className = '',
+      onClick = () => {},
+    }: ImagePreviewProps,
     ref
   ) => {
     return (
@@ -19,10 +27,7 @@ const CarrouselImagePreview = forwardRef<HTMLImageElement, ImagePreviewProps>(
           onClick={onClick}
           ref={ref}
         />
-        <div className={styles.titleContainer}>
-          <p className={styles.titleText}>{title}</p>
-          <div className={styles.titleStatusIndicator}></div>
-        </div>
+        <TitleContainer title={title} status={status} />
         <div className={styles.hoverState}>
           {/* TODO: Replace url to be dynamic */}
           <Link

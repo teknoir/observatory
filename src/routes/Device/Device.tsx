@@ -2,11 +2,11 @@ import { useEffect, useState, useCallback } from 'react';
 import { useInterval } from 'usehooks-ts';
 import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
-import useWebSocket, { isOpenWS } from 'hooks/useWebSocket';
 import AppBar from 'components/AppBar/AppBar';
 import MainContent from 'components/MainContent/MainContent';
 import { MovementsTimelineSingle } from 'components/MovementsTimeline';
-import { Source } from 'ts/types';
+import { Source, SourceStatus } from 'ts/types';
+import { useWSSContext } from 'context/webSocketContext';
 import { wsSources } from 'enums/queryKeys';
 import { TOPICS, TYPES } from 'enums/wss';
 import ImageViewer from './ImageViewer/ImageViewer';
@@ -23,9 +23,7 @@ const Device = () => {
   ])!;
   const [source, setSource] = useState<Source>(sources?.[peripheralId]);
 
-  const { lastMessage, readyState, sendMessage } = useWebSocket();
-
-  const isOpened = isOpenWS(readyState);
+  const { lastMessage, sendMessage, isOpened } = useWSSContext();
 
   const playVideo = useCallback(() => {
     if (isOpened && peripheralName) {
@@ -63,6 +61,7 @@ const Device = () => {
               src: image,
               peripheralId: peripheral?.id,
               peripheralName: peripheral?.name,
+              status: SourceStatus.Active,
             });
           }
           break;

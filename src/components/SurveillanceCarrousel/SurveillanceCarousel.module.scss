@@ -75,6 +75,11 @@
   border-radius: 100%;
 }
 
+.titleStatusIndicatorInactive {
+  composes: titleStatusIndicator;
+  background-color: $redalert;
+}
+
 .hoverState {
   position: absolute;
   width: 100%;
