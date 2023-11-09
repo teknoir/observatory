@@ -1,9 +1,9 @@
-import moment from "moment";
-import Typography from "@mui/material/Typography";
+import moment from 'moment';
+import Typography from '@mui/material/Typography';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
-import Verified from "components/Verified/Verified";
-import styles from "./Info.module.scss";
+import Verified from 'components/Verified/Verified';
+import styles from './Info.module.scss';
 
 interface Props {
   name: string;
@@ -26,7 +26,7 @@ const Info = ({
   endTime,
   peripheralName,
   comment,
-  hasTheft
+  hasTheft,
 }: Props) => {
   const startDate = moment(startTime);
   const endDate = moment(endTime);
@@ -49,13 +49,21 @@ const Info = ({
         </Typography>
         <div className={styles.status}>
           <div className={styles.statusItem}>
-            {hasTheft ? <CheckCircleOutlineIcon /> : <RadioButtonUncheckedIcon />}
+            {hasTheft ? (
+              <CheckCircleOutlineIcon />
+            ) : (
+              <RadioButtonUncheckedIcon />
+            )}
             <Typography variant="body2" className={styles.label}>
               Yes
             </Typography>
           </div>
           <div className={styles.statusItem}>
-            {hasTheft ? <RadioButtonUncheckedIcon /> : <CheckCircleOutlineIcon />}
+            {hasTheft ? (
+              <RadioButtonUncheckedIcon />
+            ) : (
+              <CheckCircleOutlineIcon />
+            )}
             <Typography variant="body2" className={styles.label}>
               No
             </Typography>
@@ -85,7 +93,7 @@ const Info = ({
         </Typography>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Info;

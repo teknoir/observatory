@@ -1,17 +1,17 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import { useState, useEffect, MouseEvent } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import useWebSocket from "hooks/useWebSocket";
+import { useState, useEffect, MouseEvent } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import useWebSocket from 'hooks/useWebSocket';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
-import Typography from "@mui/material/Typography";
+import Typography from '@mui/material/Typography';
 import { IAlertEvent } from 'ts/types';
-import { fetchNotifications } from "services/apiRequests";
+import { fetchNotifications } from 'services/apiRequests';
 import { notifications } from 'enums/queryKeys';
 import { TOPICS, TYPES } from 'enums/wss';
-import Popover from "./Popover/Popover";
-import styles from "./Notifications.module.scss";
+import Popover from './Popover/Popover';
+import styles from './Notifications.module.scss';
 
 const Notifications = () => {
   const queryClient = useQueryClient();
@@ -24,12 +24,10 @@ const Notifications = () => {
   const { data, isLoading } = useQuery({
     queryKey,
     queryFn: () => fetchNotifications(),
-    enabled: isOpen
-  })
+    enabled: isOpen,
+  });
 
-  const {
-    lastMessage,
-  } = useWebSocket();
+  const { lastMessage } = useWebSocket();
 
   useEffect(() => {
     if (lastMessage) {
@@ -40,16 +38,16 @@ const Notifications = () => {
           const { topic } = data;
           if (topic === TOPICS.FRONT_END_ALERT) {
             setCount((prevCount) => prevCount + 1);
-            queryClient.setQueryData(queryKey, (oldData: IAlertEvent) => ([
+            queryClient.setQueryData(queryKey, (oldData: IAlertEvent) => [
               ...(oldData || []),
-              event
-            ]))
+              event,
+            ]);
           }
           break;
         }
       }
     }
-  }, [lastMessage, setCount])
+  }, [lastMessage, setCount]);
 
   const handleClick = (event: MouseEvent<HTMLDivElement>) => {
     setAnchorEl(event.currentTarget);
@@ -64,7 +62,7 @@ const Notifications = () => {
       <div onClick={handleClick}>
         {count ? (
           <div className={styles.iconWrapper}>
-            <NotificationsIcon color={"error"} />
+            <NotificationsIcon color={'error'} />
             <Typography variant="body2" display="block" className={styles.text}>
               +{count}
             </Typography>
@@ -81,7 +79,7 @@ const Notifications = () => {
         data={data}
       />
     </div>
-  )
-}
+  );
+};
 
 export default Notifications;

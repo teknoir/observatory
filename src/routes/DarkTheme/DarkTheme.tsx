@@ -1,16 +1,16 @@
 import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
 import { ThemeProvider } from '@mui/material/styles';
-import Button from "muiComponents/Button/Button";
-import Select from "muiComponents/Select/Select";
-import darkTheme from "muiThemes/dark";
-import Box from "./Box";
-import Buttons from "./Buttons";
-import Menu from "./Menu";
-import SelectMUI from "./Select";
-import Tabs  from "./Tabs";
-import Dialog  from "./Dialog";
-import TypographyComponent  from "./Typography";
+import Button from 'muiComponents/Button/Button';
+import Select from 'muiComponents/Select/Select';
+import darkTheme from 'muiThemes/dark';
+import Box from './Box';
+import Buttons from './Buttons';
+import Menu from './Menu';
+import SelectMUI from './Select';
+import Tabs from './Tabs';
+import Dialog from './Dialog';
+import TypographyComponent from './Typography';
 
 const DarkTheme = () => {
   return (
@@ -29,9 +29,7 @@ const DarkTheme = () => {
           <Typography variant="h6" gutterBottom>
             Buttons
           </Typography>
-          <Button onClick={() => {}}>
-            Text
-          </Button>
+          <Button onClick={() => {}}>Text</Button>
         </Box>
 
         <Box>
@@ -42,8 +40,8 @@ const DarkTheme = () => {
             label="Select"
             value={10}
             options={[
-              { value: 10, label: "Ten" },
-              { value: 20, label: "Twenty" },
+              { value: 10, label: 'Ten' },
+              { value: 20, label: 'Twenty' },
             ]}
             onChange={() => {}}
           />
@@ -103,7 +101,7 @@ const DarkTheme = () => {
         {/*</Box>*/}
       </div>
     </ThemeProvider>
-  )
-}
+  );
+};
 
-export default DarkTheme
+export default DarkTheme;

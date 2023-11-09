@@ -51,16 +51,15 @@ export const Small: Story = {
 
 export const Other: Story = {
   args: {
-    size: "large",
-    label: "hey!"
-  }
-}
+    size: 'large',
+    label: 'hey!',
+  },
+};
 
 export const Other2: Story = {
   args: {
     primary: true,
-    label: "asdf",
-    backgroundColor: "red"
-
-  }
-}
+    label: 'asdf',
+    backgroundColor: 'red',
+  },
+};
