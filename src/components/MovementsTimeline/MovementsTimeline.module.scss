@@ -1,4 +1,4 @@
-@import "enums/styleVariables.module.scss";
+@import 'enums/styleVariables.module.scss';
 
 .timeline {
   height: 500px;
@@ -19,17 +19,23 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.25rem; 
+  padding: 1.25rem;
 }
 
 .menuItem {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 6px;
+}
+
+.menuItemBox {
+  display: flex;
+  align-items: center;
 }
 
 .inputLabel {
   color: $white;
+  margin-right: 6px;
 }
 
 .menuItemCameras {

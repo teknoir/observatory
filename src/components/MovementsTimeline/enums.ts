@@ -5,12 +5,12 @@ export enum MovementsTimelinePeriod {
 }
 
 export enum TimelineFilterBy {
-  MOTIONS_ALERTS = "motions-alerts",
-  MOTIONS = "motions",
-  ALERTS = "alerts",
+  MOTIONS_ALERTS = 'motions-alerts',
+  MOTIONS = 'motions',
+  ALERTS = 'alerts',
 }
 
-export enum TimelineRefetchInterval {
-  ALL_DEVICES = 60000,
-  SINGLE_DEVICE = 60000
-}
+export const TimelineRefetchInterval = {
+  ALL_DEVICES: 60000,
+  SINGLE_DEVICE: 60000,
+};

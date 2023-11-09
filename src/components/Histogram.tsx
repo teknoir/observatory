@@ -1,59 +1,95 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import * as d3 from "d3"
-import { useChartDimensions } from "./Chart/utils"
-import Chart from "./Chart/Chart"
-import Circles from "./Chart/Circles"
-import Axis from "./Chart/Axis"
-import { useState } from "react"
-import GridLines from "./Chart/GridLines"
+import * as d3 from 'd3';
+import { useChartDimensions } from './Chart/utils';
+import Chart from './Chart/Chart';
+import Circles from './Chart/Circles';
+import Axis from './Chart/Axis';
+import { useState } from 'react';
+import GridLines from './Chart/GridLines';
 
-const formatDateDayMonth = d3.timeFormat("%-b %-d")
-const formatDateDayMonthHour = d3.timeFormat("%H:%M, %-b %-d")
+const formatDateDayMonth = d3.timeFormat('%-b %-d');
+const formatDateDayMonthHour = d3.timeFormat('%H:%M, %-b %-d');
 
 export const MovementsTimelineReact = ({ data, xAccessor, yAccessor }) => {
-  const [timelapse, setTimelapse] = useState({ data: d3.extent(data, xAccessor), format: formatDateDayMonth })
-  const [ref, dimensions] = useChartDimensions(null)
-  const uniquePeripherals = [...new Set(data.map(d => d.peripheral))];
+  const [timelapse, setTimelapse] = useState({
+    data: d3.extent(data, xAccessor),
+    format: formatDateDayMonth,
+  });
+  const [ref, dimensions] = useChartDimensions(null);
+  const uniquePeripherals = [...new Set(data.map((d) => d.peripheral))];
 
-  const currentTime = new Date()
-  const time24HoursAgo = new Date(currentTime.getTime() - 24 * 60 * 60 * 1000)
-  const time1WeekAgo = new Date(currentTime.getTime() - 24 * 8 * 60 * 60 * 1000)
-  const time1MonthAgo = new Date(currentTime.getTime() - 24 * 7 * 4 * 60 * 60 * 1000)
+  const currentTime = new Date();
+  const time24HoursAgo = new Date(currentTime.getTime() - 24 * 60 * 60 * 1000);
+  const time1WeekAgo = new Date(
+    currentTime.getTime() - 24 * 8 * 60 * 60 * 1000
+  );
+  const time1MonthAgo = new Date(
+    currentTime.getTime() - 24 * 7 * 4 * 60 * 60 * 1000
+  );
 
-  const xScale = d3.scaleTime()
+  const xScale = d3
+    .scaleTime()
     // .domain(d3.extent(data, xAccessor))
     .domain(timelapse.data)
-    .range([0, dimensions.boundedWidth])
+    .range([0, dimensions.boundedWidth]);
 
-  const yScale = d3.scalePoint()
+  const yScale = d3
+    .scalePoint()
     .domain(uniquePeripherals)
     .range([dimensions.boundedHeight, 0])
-    .padding(1)
+    .padding(1);
 
-  const xAccessorScaled = d => xScale(xAccessor(d))
-  const yAccessorScaled = d => yScale(yAccessor(d))
-  const keyAccessor = (d, i) => i
+  const xAccessorScaled = (d) => xScale(xAccessor(d));
+  const yAccessorScaled = (d) => yScale(yAccessor(d));
+  const keyAccessor = (d, i) => i;
 
   return (
     <div className="Timeline" ref={ref}>
-      <button onClick={() => setTimelapse({ data: d3.extent(data, xAccessor), format: formatDateDayMonth })}>Data time</button>
-      <button onClick={() => setTimelapse({ data: [time24HoursAgo, currentTime], format: formatDateDayMonthHour })}>Last 24 hours</button>
-      <button onClick={() => setTimelapse({ data: [time1WeekAgo, currentTime], format: formatDateDayMonth })}>Last week</button>
-      <button onClick={() => setTimelapse({ data: [time1MonthAgo, currentTime], format: formatDateDayMonth })}>Last month</button>
+      <button
+        onClick={() =>
+          setTimelapse({
+            data: d3.extent(data, xAccessor),
+            format: formatDateDayMonth,
+          })
+        }
+      >
+        Data time
+      </button>
+      <button
+        onClick={() =>
+          setTimelapse({
+            data: [time24HoursAgo, currentTime],
+            format: formatDateDayMonthHour,
+          })
+        }
+      >
+        Last 24 hours
+      </button>
+      <button
+        onClick={() =>
+          setTimelapse({
+            data: [time1WeekAgo, currentTime],
+            format: formatDateDayMonth,
+          })
+        }
+      >
+        Last week
+      </button>
+      <button
+        onClick={() =>
+          setTimelapse({
+            data: [time1MonthAgo, currentTime],
+            format: formatDateDayMonth,
+          })
+        }
+      >
+        Last month
+      </button>
       <Chart dimensions={dimensions}>
-        <Axis
-          dimension="x"
-          scale={xScale}
-          formatTick={timelapse.format}
-        />
-        <Axis
-          dimension="y"
-          scale={yScale}
-        />
-        <GridLines
-          dimension="y"
-          scale={yScale}
-        />
+        <Axis dimension="x" scale={xScale} formatTick={timelapse.format} />
+        <Axis dimension="y" scale={yScale} />
+        <GridLines dimension="y" scale={yScale} />
         <Circles
           data={data}
           keyAccessor={keyAccessor}
@@ -61,6 +97,6 @@ export const MovementsTimelineReact = ({ data, xAccessor, yAccessor }) => {
           yAccessor={yAccessorScaled}
         />
       </Chart>
-    </div >
-  )
-}
+    </div>
+  );
+};
