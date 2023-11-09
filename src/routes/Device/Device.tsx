@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import AppBar from 'components/AppBar/AppBar';
 import MainContent from 'components/MainContent/MainContent';
 import { MovementsTimelineSingle } from 'components/MovementsTimeline';
-import { Source } from 'ts/types';
+import { Source, SourceStatus } from 'ts/types';
 import { useWSSContext } from 'context/webSocketContext';
 import { wsSources } from 'enums/queryKeys';
 import { TOPICS, TYPES } from 'enums/wss';
@@ -61,6 +61,7 @@ const Device = () => {
               src: image,
               peripheralId: peripheral?.id,
               peripheralName: peripheral?.name,
+              status: SourceStatus.Active,
             });
           }
           break;

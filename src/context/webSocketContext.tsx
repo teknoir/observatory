@@ -1,40 +1,35 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import React, { createContext, useContext, useEffect } from 'react';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from '@tanstack/react-query';
 import { IAlertEvent, Source } from 'ts/types';
 import { TOPICS, TYPES } from 'enums/wss';
 import { wsSources, notifications } from 'enums/queryKeys';
 
 const socketUrl = import.meta.env.VITE_WS_SERVER;
 
-export const isOpenWS = (readyState: ReadyState) => readyState === ReadyState.OPEN;
+export const isOpenWS = (readyState: ReadyState) =>
+  readyState === ReadyState.OPEN;
 
 type WSSContextValue = {
   isOpened: boolean;
-  lastMessage?: MessageEvent;
+  lastMessage: MessageEvent | null;
   sendMessage: (message: string) => void;
-}
+};
 
 const defaultValue: WSSContextValue = {
   isOpened: false,
-  lastMessage: undefined,
-  sendMessage: () => {}
-}
+  lastMessage: null,
+  sendMessage: () => {},
+};
 
 const WSSContext = createContext(defaultValue);
 
 interface Props {
-  children: React.ReactElement
+  children: React.ReactElement;
 }
 export const WSSProvider = ({ children }: Props) => {
   const queryClient = useQueryClient();
-  const {
-    sendMessage,
-    lastMessage,
-    readyState
-  } = useWebSocket(socketUrl, {
+  const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl, {
     onOpen: () => console.log('WS opened CONTEXT'),
     onError: (event) => console.log('WS error', event),
     shouldReconnect: () => true,
@@ -56,38 +51,39 @@ export const WSSProvider = ({ children }: Props) => {
               peripheralName: peripheral?.name,
             };
             // Save source to queryClient
-            queryClient.setQueryData([wsSources], (oldData: {[p: string]: Source}  ) => (
-              {
+            queryClient.setQueryData(
+              [wsSources],
+              (oldData: { [p: string]: Source }) => ({
                 ...(oldData || {}),
                 [source.peripheralId]: source,
-              }
-            ));
+              })
+            );
           }
           if (topic === TOPICS.FRONT_END_ALERT) {
-            queryClient.setQueryData([notifications], (oldData: IAlertEvent) => ([
-              ...(oldData || []),
-              event
-            ]))
+            queryClient.setQueryData<IAlertEvent[]>(
+              [notifications],
+              (oldData) => [...(oldData || []), event]
+            );
           }
           break;
         }
       }
     }
-  }, [lastMessage, queryClient])
+  }, [lastMessage, queryClient]);
 
   const getContextValue = () => ({
     lastMessage,
     sendMessage,
-    isOpened: isOpenWS(readyState)
-  })
+    isOpened: isOpenWS(readyState),
+  });
 
   return (
     <WSSContext.Provider value={getContextValue()}>
       {children}
     </WSSContext.Provider>
-  )
-}
+  );
+};
 
 export const useWSSContext = () => {
-  return useContext(WSSContext)
-}
+  return useContext(WSSContext);
+};
