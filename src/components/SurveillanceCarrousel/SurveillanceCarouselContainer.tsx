@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import { CarouselMode, Source } from 'ts/types';
-import useWebSocket from 'hooks/useWebSocket';
+import { CarouselMode, Source, SourceStatus } from 'ts/types';
+import { useWSSContext } from 'context/webSocketContext';
 import { wsSources } from 'enums/queryKeys';
 import { TOPICS, TYPES } from 'enums/wss';
 import SurveillanceCarousel from './SurveillanceCarousel';
@@ -21,7 +21,7 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
       ? new Map(Object.entries(cachedSources))
       : createRandomSources(0)
   );
-  const { lastMessage } = useWebSocket();
+  const { lastMessage } = useWSSContext();
 
   const sourcesSize = sources.size;
 
@@ -54,22 +54,15 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
               src: image,
               peripheralId,
               peripheralName: peripheral?.name,
+              status: SourceStatus.Active,
             };
             updateSourceByCameraId(peripheralId, source);
-            // Save source to queryClient
-            queryClient.setQueryData(
-              [wsSources],
-              (oldData: { [p: string]: Source }) => ({
-                ...(oldData || {}),
-                [source.peripheralId]: source,
-              })
-            );
           }
           break;
         }
         case TYPES.INACTIVE: {
           const { ids } = meta;
-          deleteSourcesByCameraIds(ids);
+          inactiveSourcesByCameraId(ids);
           break;
         }
       }
@@ -80,13 +73,31 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
     setSources((map) => new Map(map.set(cameraId, source)));
   };
 
-  const deleteSourcesByCameraIds = (cameraIds: string[]) => {
-    const newSources = new Map(sources);
-    cameraIds.forEach((cameraId) => {
-      newSources.delete(cameraId);
-    });
-    setSources(newSources);
-  };
+  const inactiveSourcesByCameraId = useCallback(
+    (cameraIds: string[]) => {
+      const newSources = new Map(sources);
+      cameraIds.forEach((cameraId) => {
+        const source = newSources.get(cameraId);
+        if (source) {
+          newSources.set(cameraId, {
+            ...source,
+            status: SourceStatus.Inactive,
+          });
+        }
+      });
+      setSources(newSources);
+    },
+    [sources]
+  );
+
+  // TODO: remove in future when we have clear vision of this feature
+  // const deleteSourcesByCameraIds = (cameraIds: string[]) => {
+  //   const newSources = new Map(sources);
+  //   cameraIds.forEach((cameraId) => {
+  //     newSources.delete(cameraId);
+  //   });
+  //   setSources(newSources);
+  // };
 
   if (!isLoaded) return <Skeleton />;
 
