@@ -100,7 +100,7 @@ const Form = ({ onSubmit }: Props) => {
             onClick={() => navigate(-1)}
             disabled={isSubmitting}
           >
-            Cancel
+            Dismiss
           </Button>
           <Button
             variant="contained"
@@ -108,7 +108,7 @@ const Form = ({ onSubmit }: Props) => {
             type="submit"
             disabled={isSubmitting}
           >
-            Confirm
+            Verify
           </Button>
         </Stack>
       </form>
