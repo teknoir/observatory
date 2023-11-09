@@ -7,7 +7,9 @@ export default function BasicButtons() {
       <Button variant="text">Text</Button>
       <Button variant="contained">Contained</Button>
       <Button variant="outlined">Outlined</Button>
-      <Button variant="contained" disabled>Disabled</Button>
+      <Button variant="contained" disabled>
+        Disabled
+      </Button>
     </Stack>
   );
 }

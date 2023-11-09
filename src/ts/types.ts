@@ -1,15 +1,21 @@
-import { Dispatch, MouseEvent, SetStateAction } from "react";
-import { Moment } from "moment/moment";
+import { Dispatch, MouseEvent, SetStateAction } from 'react';
+import { Moment } from 'moment/moment';
 
 export enum CarouselMode {
-  General = "general",
-  Detail = "detail"
+  General = 'general',
+  Detail = 'detail',
+}
+
+export enum SourceStatus {
+  Active = 1,
+  Inactive = 0,
 }
 
 export interface Source {
   src: string;
   peripheralId: string;
   peripheralName: string;
+  status: SourceStatus;
 }
 
 export type CameraId = string;
@@ -21,20 +27,21 @@ export interface SurveillanceCarouselProps {
 
 export interface CarouselProps {
   sources: Map<CameraId, Source>;
-  mainSource: CameraId
-  setMainSource: (index: CameraId) => void
+  mainSource: CameraId;
+  setMainSource: (index: CameraId) => void;
 }
 
 export interface SurveillanceCarouselModeParams {
-  imagesSrc: Array<string>
-  mainImage: number
-  setMainImage: (idx: number) => number
+  imagesSrc: Array<string>;
+  mainImage: number;
+  setMainImage: (idx: number) => number;
 }
 
 export interface ImageProps {
-  id: string
-  src: string
-  title: string
+  id: string;
+  src: string;
+  title: string;
+  status: SourceStatus;
 }
 
 export type RefImage = HTMLImageElement;
@@ -43,43 +50,44 @@ export interface ImagePreviewProps {
   id: string;
   src: string;
   title: string;
+  status: SourceStatus;
   className?: string;
   onClick?: () => void;
   ref: (ref: HTMLImageElement) => void;
 }
 
 export interface VideoProps {
-  src: string
+  src: string;
 }
 
 export interface SelectOptions {
-  label: string
-  value: number | string
+  label: string;
+  value: number | string;
 }
 
 export type Options = Array<SelectOptions>;
 
 export interface TimelapseParams {
-  title: string
-  timeRange: Array<Date | number>
-  format: (d: Date) => string
+  title: string;
+  timeRange: Array<Date | number>;
+  format: (d: Date) => string;
 }
 
-export type Accessor = (d: object) => number | undefined
+export type Accessor = (d: object) => number | undefined;
 
 export interface CirclesProps {
-  data: Array<object>
-  keyAccessor: Accessor
-  xAccessor: Accessor
-  yAccessor: Accessor
-  radius?: number
-  className?: string
+  data: Array<object>;
+  keyAccessor: Accessor;
+  xAccessor: Accessor;
+  yAccessor: Accessor;
+  radius?: number;
+  className?: string;
   // TODO: Use correct type for onCircleClick
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  onCircleClick?: (d) => void
-  onClickAccessor?: Accessor
-  onCircleHover?: (event: MouseEvent<SVGCircleElement>, data: object) => void
+  onCircleClick?: (d) => void;
+  onClickAccessor?: Accessor;
+  onCircleHover?: (event: MouseEvent<SVGCircleElement>, data: object) => void;
 }
 
 export interface MainImageCarouselContextProps {
@@ -88,20 +96,20 @@ export interface MainImageCarouselContextProps {
 }
 
 export interface PopoverInfoProps {
-  detection_id: string,
-  duration: number,
-  peripheral_id: string,
-  severity: string,
-  start_time: string,
-  type: string,
-  video_url: string,
+  detection_id: string;
+  duration: number;
+  peripheral_id: string;
+  severity: string;
+  start_time: string;
+  type: string;
+  video_url: string;
 }
 
 export type DetectionId = string;
 
 export interface IAlertEvent {
   detection_id: DetectionId;
-  annotations: [],
+  annotations: [];
   branch: string;
   count: number;
   country: string;
@@ -118,7 +126,7 @@ export interface IAlertEvent {
   peripheral_type: string;
   proof: {
     id: string;
-  },
+  };
   region: string;
   sent: string;
   severity: string;

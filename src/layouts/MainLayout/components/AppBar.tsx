@@ -1,16 +1,16 @@
-import { ReactNode } from "react";
-import { AppBarProps as MuiAppBarProps} from "@mui/material/AppBar/AppBar";
-import MuiAppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import { styled } from "@mui/material/styles";
-import { useMainLayoutContext } from "context/mainLayoutContext";
-import Notifications from "components/Notifications/Notifications";
+import { ReactNode } from 'react';
+import { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar/AppBar';
+import MuiAppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import { styled } from '@mui/material/styles';
+import { useMainLayoutContext } from 'context/mainLayoutContext';
+import Notifications from 'components/Notifications/Notifications';
 import {
   leftSideBarWidth,
   leftSideBarClosedWidth,
   rightSideBarWidth,
-  rightSideBarClosedWidth
-} from "../enums";
+  rightSideBarClosedWidth,
+} from '../enums';
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -20,12 +20,7 @@ interface AppBarProps extends MuiAppBarProps {
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
-})<AppBarProps>(({
-  theme,
-  open,
-  openRight,
-  hasRightSideBar
-}) => {
+})<AppBarProps>(({ theme, open, openRight, hasRightSideBar }) => {
   let widthDiff = 0;
   let marginLeft = 0;
   let marginRight = 0;
@@ -62,7 +57,7 @@ const AppBar = styled(MuiAppBar, {
 
 const AppBarComponent = ({
   hasRightSideBar = true,
-  children
+  children,
 }: {
   hasRightSideBar?: boolean;
   children: ReactNode;
@@ -80,7 +75,7 @@ const AppBarComponent = ({
         <Notifications />
       </Toolbar>
     </AppBar>
-  )
-}
+  );
+};
 
 export default AppBarComponent;
