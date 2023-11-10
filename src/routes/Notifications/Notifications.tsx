@@ -6,41 +6,53 @@ import Box from '@mui/material/Box';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import AppBar from 'components/AppBar/AppBar';
 import MainContent from 'components/MainContent/MainContent';
-// import { fetchNotifications } from 'services/apiRequests';
-import { fetchNotificationsTEST } from 'services/apiRequests';
+import { fetchNotificationsPaginated } from 'services/apiRequests';
 import { notificationsByPage } from 'enums/queryKeys';
 import Pagination from './Pagination/Pagination';
-import styles from './Notifications.module.scss';
 import NotificationsContent from './NotificationsContent/NotificationsContent';
+import styles from './Notifications.module.scss';
+
+enum NotificationKeys {
+  data = 'data',
+  totalPages = 'total_pages',
+}
 
 const Notifications = () => {
   const [searchParams] = useSearchParams();
   const page = Number(searchParams.get('page')) || 1;
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isPreviousData, error } = useQuery({
     queryKey: [notificationsByPage, page],
-    queryFn: () => fetchNotificationsTEST(page, 10),
+    queryFn: () => fetchNotificationsPaginated(page, 10),
+    keepPreviousData: true,
   });
+
+  // TODO: Placeholder for error handling
+  if (error) return <div>Something went wrong...</div>;
 
   // TODO: We need to double check how we want to handle data.
   // We are currently filtering out verified notifications, and grouping by seen/not-seen.
   // We probably also need to sort by most recent.
-  console.log(data);
-  const dataUnverified = _filter(data, ['is_verified', false]);
+  const totalPages = data?.[NotificationKeys.totalPages] ?? 0;
+  const dataByPage = data?.[NotificationKeys.data] ?? [];
+  const dataUnverified = _filter(dataByPage, ['is_verified', false]);
   const dataGrouped = _groupBy(dataUnverified, 'is_seen');
   return (
     <>
       <AppBar>Notifications</AppBar>
       <MainContent>
         <Box className={styles.wrapper}>
-          {isLoading ? (
+          {isLoading || isPreviousData ? (
             <CircularProgress />
           ) : (
             <NotificationsContent data={dataGrouped} />
           )}
           <Box>
-            {/* TODO: Change count to be dynamic */}
-            <Pagination page={page} count={5} />
+            {!dataByPage || dataByPage.length == 0 ? (
+              <CircularProgress />
+            ) : (
+              <Pagination page={page} count={totalPages} />
+            )}
           </Box>
         </Box>
       </MainContent>

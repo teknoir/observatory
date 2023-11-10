@@ -5,11 +5,25 @@ import { IAlertEvent } from 'ts/types';
 import { getUniqueID, dataWithDelay } from './utils';
 import { alertItemBase } from './fetchAlerts';
 
-export const fetchNotificationsTESTMock = (
+interface fetchNotificationsPaginatedProps {
+  current_page: number;
+  total_pages: number;
+  total_items: number;
+  page_size: number;
+  data: IAlertEvent[];
+}
+
+export const fetchNotificationsPaginatedMock = (
   page: number = 1,
   pageSize: number = 10
-): IAlertEvent[] => {
-  const res = [];
+): fetchNotificationsPaginatedProps => {
+  const res = {
+    current_page: 1,
+    total_pages: 10,
+    total_items: 100,
+    page_size: 10,
+    data: [],
+  };
   const peripheralId = 'parkinglot1';
   const duration = 14;
   const dateFrom = moment().subtract(1, 'days').startOf('day');
@@ -19,7 +33,7 @@ export const fetchNotificationsTESTMock = (
 
   for (let i = startIndex; i < endIndex; i++) {
     dateFrom.add(1, 'hour');
-    const isVerified = i % 2 == 0;
+    const isVerified = false; // TODO: Can we assume that all alerts from this notifications payload are unverified?
     const isSeen = i % 3 == 0;
     const uniqueId = getUniqueID();
     const detectionId = uniqueId + (isVerified ? 'a' : '1');
@@ -33,7 +47,7 @@ export const fetchNotificationsTESTMock = (
       is_verified: isVerified,
       is_seen: isSeen,
     };
-    res.push(item);
+    res.data.push(item);
   }
   return dataWithDelay(res);
 };
