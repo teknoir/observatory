@@ -2,6 +2,7 @@ import { useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import _filter from 'lodash/filter';
 import _groupBy from 'lodash/groupBy';
+import Box from '@mui/material/Box';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import AppBar from 'components/AppBar/AppBar';
 import MainContent from 'components/MainContent/MainContent';
@@ -23,22 +24,26 @@ const Notifications = () => {
     queryFn: () => fetchNotificationsTEST(page, 10),
   });
 
+  // TODO: We need to double check how we want to handle data.
+  // We are currently filtering out verified notifications, and grouping by seen/not-seen.
+  // We probably also need to sort by most recent.
   console.log(data);
-
   const dataUnverified = _filter(data, ['is_verified', false]);
   const dataGrouped = _groupBy(dataUnverified, 'is_seen');
   return (
     <>
       <AppBar>Notifications</AppBar>
       <MainContent>
-        <div className={styles.wrapper}>
+        <Box className={styles.wrapper}>
           {isLoading ? (
             <CircularProgress />
           ) : (
             <NotificationsContent data={dataGrouped} />
           )}
-          <Pagination page={page} count={10} />
-        </div>
+          <Box>
+            <Pagination page={page} count={10} />
+          </Box>
+        </Box>
       </MainContent>
     </>
   );

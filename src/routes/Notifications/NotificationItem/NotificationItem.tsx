@@ -15,6 +15,7 @@ interface Props {
   start_time: string;
   end_time: string;
   is_verified?: boolean;
+  is_seen?: boolean;
 }
 
 const NotificationItem = ({
@@ -25,6 +26,7 @@ const NotificationItem = ({
   start_time: startTime,
   end_time: endTime,
   is_verified: isVerified,
+  is_seen: isSeen,
 }: Props) => {
   const startDate = moment(startTime);
   const endDate = moment(endTime);
@@ -37,7 +39,7 @@ const NotificationItem = ({
   return (
     <div className={styles.root}>
       <Box className={styles.generalInfoContainer}>
-        {<CircleIcon color="error" className={styles.statusIcon} />}
+        {!isSeen && <CircleIcon color="error" className={styles.statusIcon} />}
         <div className={styles.imgWrapper}></div>
         <div>
           <Typography variant="body2" display="block" className={styles.text}>
@@ -46,7 +48,7 @@ const NotificationItem = ({
             {`${startDateFormat} (${duration}s)`}. Severity: {severity}
           </Typography>
         </div>
-        TEST!: {isVerified ? 'Verified' : 'Unverified'}
+        . TEST!: {isVerified ? 'Verified' : 'Unverified'}
       </Box>
       <Link
         to={href}
