@@ -13,6 +13,7 @@ import Home from 'routes/Home/Home';
 import LineCharts from 'routes/LineCharts/Linecharts';
 import MainLayout from 'layouts/MainLayout/MainLayout';
 import MotionsAlerts from 'routes/MotionsAlerts/MotionsAlerts';
+import './App.scss';
 
 const basename = import.meta.env.VITE_APP_BASENAME || '/';
 

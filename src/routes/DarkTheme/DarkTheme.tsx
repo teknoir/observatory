@@ -11,6 +11,7 @@ import SelectMUI from './Select';
 import Tabs from './Tabs';
 import Dialog from './Dialog';
 import TypographyComponent from './Typography';
+import TypographyCustomComponent from './TypographyCustom';
 
 const DarkTheme = () => {
   return (
@@ -20,6 +21,20 @@ const DarkTheme = () => {
         <Typography variant="h3" gutterBottom>
           Dark Theme
         </Typography>
+
+        <Box>
+          <Typography variant="h5" gutterBottom>
+            Typography Custom
+          </Typography>
+          <TypographyCustomComponent />
+        </Box>
+
+        <Box>
+          <Typography variant="h6" gutterBottom>
+            Typography
+          </Typography>
+          <TypographyComponent />
+        </Box>
 
         <Typography variant="h4" gutterBottom>
           src/muiComponents
@@ -84,13 +99,6 @@ const DarkTheme = () => {
             Dialog
           </Typography>
           <Dialog />
-        </Box>
-
-        <Box>
-          <Typography variant="h6" gutterBottom>
-            Typography
-          </Typography>
-          <TypographyComponent />
         </Box>
 
         {/*<Box>*/}
