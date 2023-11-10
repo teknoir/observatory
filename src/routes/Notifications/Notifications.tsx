@@ -48,7 +48,7 @@ const Notifications = () => {
           ) : (
             <NotificationsContent data={dataGrouped} />
           )}
-          <Box>
+          <Box className={styles.pagination}>
             {!dataByPage || dataByPage.length == 0 ? (
               <CircularProgress />
             ) : (
