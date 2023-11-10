@@ -10,3 +10,5 @@ export const motionsCounts = 'motionsCounts';
 export const wsSources = 'wsSources';
 
 export const notifications = 'notifications';
+
+export const notificationsByPage = 'notificationsByPage';

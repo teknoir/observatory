@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import _filter from 'lodash/filter';
 import _groupBy from 'lodash/groupBy';
@@ -8,19 +8,17 @@ import AppBar from 'components/AppBar/AppBar';
 import MainContent from 'components/MainContent/MainContent';
 // import { fetchNotifications } from 'services/apiRequests';
 import { fetchNotificationsTEST } from 'services/apiRequests';
-import { notifications } from 'enums/queryKeys';
+import { notificationsByPage } from 'enums/queryKeys';
 import Pagination from './Pagination/Pagination';
 import styles from './Notifications.module.scss';
 import NotificationsContent from './NotificationsContent/NotificationsContent';
 
 const Notifications = () => {
-  const location = useLocation();
-  const query = new URLSearchParams(location.search);
-  const page = parseInt(query.get('page') || '1', 10);
+  const [searchParams] = useSearchParams();
+  const page = Number(searchParams.get('page')) || 1;
 
-  const queryKey = [notifications];
   const { data, isLoading } = useQuery({
-    queryKey: [queryKey, page],
+    queryKey: [notificationsByPage, page],
     queryFn: () => fetchNotificationsTEST(page, 10),
   });
 
@@ -41,7 +39,8 @@ const Notifications = () => {
             <NotificationsContent data={dataGrouped} />
           )}
           <Box>
-            <Pagination page={page} count={10} />
+            {/* TODO: Change count to be dynamic */}
+            <Pagination page={page} count={5} />
           </Box>
         </Box>
       </MainContent>
