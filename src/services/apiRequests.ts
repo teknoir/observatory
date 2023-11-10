@@ -8,6 +8,7 @@ import {
   fetchMotionsCountsMock,
   fetchAlertMock,
   fetchNotificationsMock,
+  fetchNotificationsTESTMock,
 } from 'services/fetchMock';
 import { dataWithDelay } from 'services/fetchMock/utils';
 import { getEventQuery, getEventsQuery } from 'services/queryHistorian';
@@ -117,4 +118,9 @@ export const fetchNotifications = () => {
     // TODO: request here
   }
   return fetchNotificationsMock();
+};
+
+// TODO: Remove or rename. Just for Testing purposes for Notification Page!
+export const fetchNotificationsTEST = (page: number, pageSize: number) => {
+  return fetchNotificationsTESTMock(page, pageSize);
 };

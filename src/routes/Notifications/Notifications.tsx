@@ -1,14 +1,16 @@
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import Pagination from '@mui/material/Pagination';
-import PaginationItem from '@mui/material/PaginationItem';
-import Typography from '@mui/material/Typography';
+import _filter from 'lodash/filter';
+import _groupBy from 'lodash/groupBy';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import AppBar from 'components/AppBar/AppBar';
 import MainContent from 'components/MainContent/MainContent';
-import { fetchNotifications } from 'services/apiRequests';
+// import { fetchNotifications } from 'services/apiRequests';
+import { fetchNotificationsTEST } from 'services/apiRequests';
 import { notifications } from 'enums/queryKeys';
-import NotificationItem from './NotificationItem/NotificationItem';
+import Pagination from './Pagination/Pagination';
+import styles from './Notifications.module.scss';
+import NotificationsContent from './NotificationsContent/NotificationsContent';
 
 const Notifications = () => {
   const location = useLocation();
@@ -17,66 +19,25 @@ const Notifications = () => {
 
   const queryKey = [notifications];
   const { data, isLoading } = useQuery({
-    queryKey,
-    queryFn: () => fetchNotifications(),
+    queryKey: [queryKey, page],
+    queryFn: () => fetchNotificationsTEST(page, 10),
   });
 
-  console.log('location', location);
-  console.log('query', query);
-  console.log('page', page);
+  console.log(data);
 
+  const dataUnverified = _filter(data, ['is_verified', false]);
+  const dataGrouped = _groupBy(dataUnverified, 'is_seen');
   return (
     <>
       <AppBar>Notifications</AppBar>
       <MainContent>
-        <div
-          style={{
-            padding: 32,
-          }}
-        >
+        <div className={styles.wrapper}>
           {isLoading ? (
             <CircularProgress />
           ) : (
-            <>
-              <Typography
-                variant="body2"
-                display="block"
-                // className={styles.title}
-              >
-                Unverified
-              </Typography>
-              {/* TODO: Group by not new? */}
-              {data?.map((item) => (
-                <NotificationItem key={item.detection_id} {...item} />
-              ))}
-            </>
+            <NotificationsContent data={dataGrouped} />
           )}
-          <Pagination
-            page={page}
-            count={10}
-            color="secondary"
-            sx={{
-              '& .MuiPagination-ul': {
-                justifyContent: 'center',
-              },
-            }}
-            renderItem={(item) => (
-              <PaginationItem
-                component={Link}
-                to={`/notifications${
-                  item.page === 1 ? '' : `?page=${item.page}`
-                }`}
-                sx={{
-                  '& .MuiButtonBase-root.MuiPaginationItem-root.Mui-selected ':
-                    {
-                      borderRadius: 0,
-                      backgroundColor: 'red',
-                    },
-                }}
-                {...item}
-              />
-            )}
-          />
+          <Pagination page={page} count={10} />
         </div>
       </MainContent>
     </>
