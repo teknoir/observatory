@@ -1,15 +1,19 @@
 import { Link } from 'react-router-dom';
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
-import APP_URLS from 'enums/urls';
 import styleVariables from 'enums/styleVariables.module.scss';
 
 interface PaginationComponentProps {
   page: number;
   count: number;
+  baseUrl: string;
 }
 
-const PaginationComponent = ({ page, count }: PaginationComponentProps) => {
+const PaginationComponent = ({
+  page,
+  count,
+  baseUrl,
+}: PaginationComponentProps) => {
   return (
     <Pagination
       page={page}
@@ -27,9 +31,7 @@ const PaginationComponent = ({ page, count }: PaginationComponentProps) => {
       renderItem={(item) => (
         <PaginationItem
           component={Link}
-          to={`${APP_URLS.notifications}${
-            item.page === 1 ? '' : `?page=${item.page}`
-          }`}
+          to={`${baseUrl}${item.page === 1 ? '' : `?page=${item.page}`}`}
           sx={{
             '&.MuiButtonBase-root.MuiPaginationItem-root.Mui-selected': {
               borderRadius: 0,

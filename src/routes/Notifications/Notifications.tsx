@@ -6,9 +6,10 @@ import Box from '@mui/material/Box';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import AppBar from 'components/AppBar/AppBar';
 import MainContent from 'components/MainContent/MainContent';
+import Pagination from 'components/Pagination/Pagination';
 import { fetchNotificationsPaginated } from 'services/apiRequests';
+import APP_URLS from 'enums/urls';
 import { notificationsByPage } from 'enums/queryKeys';
-import Pagination from './Pagination/Pagination';
 import NotificationsContent from './NotificationsContent/NotificationsContent';
 import styles from './Notifications.module.scss';
 
@@ -51,7 +52,11 @@ const Notifications = () => {
             {!dataByPage || dataByPage.length == 0 ? (
               <CircularProgress />
             ) : (
-              <Pagination page={page} count={totalPages} />
+              <Pagination
+                page={page}
+                count={totalPages}
+                baseUrl={APP_URLS.notifications}
+              />
             )}
           </Box>
         </Box>
