@@ -11,9 +11,12 @@ import SurveillanceCarouselDetail from './Detail';
 // import GridViewControls from "./GridViewControls"
 import GridViewProvider from './GridViewContext';
 
+import SurveillanceCarouselAlternativeView from './AlternativeView';
+
 const surveillanceCarouselComponentsByMode = {
   [CarouselMode.General]: SurveillanceCarouselGeneral,
   [CarouselMode.Detail]: SurveillanceCarouselDetail,
+  [CarouselMode.AlternativeView]: SurveillanceCarouselAlternativeView,
 };
 
 export const GridViewContext = createContext('');

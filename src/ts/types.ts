@@ -4,6 +4,7 @@ import { Moment } from 'moment/moment';
 export enum CarouselMode {
   General = 'general',
   Detail = 'detail',
+  AlternativeView = 'alternativeView',
 }
 
 export enum SourceStatus {
@@ -52,6 +53,7 @@ export interface ImagePreviewProps {
   title: string;
   status: SourceStatus;
   className?: string;
+  classNameContainer?: string;
   onClick?: () => void;
   ref: (ref: HTMLImageElement) => void;
 }

@@ -13,7 +13,7 @@ function Home() {
       <MainContent>
         <HomeDataProvider>
           <main className={styles.homeContainer}>
-            <SurveillanceCarousel mode={CarouselMode.General} />
+            <SurveillanceCarousel mode={CarouselMode.AlternativeView} />
             <MovementsTimelineContainer />
           </main>
         </HomeDataProvider>

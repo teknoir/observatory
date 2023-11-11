@@ -14,13 +14,14 @@ const CarrouselImagePreview = forwardRef<HTMLImageElement, ImagePreviewProps>(
       src,
       title,
       status,
+      classNameContainer = '',
       className = '',
       onClick = () => {},
     }: ImagePreviewProps,
     ref
   ) => {
     return (
-      <div className={styles.imagePreviewContainer}>
+      <div className={classNames(styles.imagePreviewContainer, classNameContainer)}>
         <img
           src={src}
           className={classNames(styles.image, className)}
