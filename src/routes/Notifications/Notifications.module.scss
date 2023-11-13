@@ -1,0 +1,10 @@
+.wrapper {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 64px); // 64px is the height of the header
+}
+
+.pagination {
+   margin-top: auto;
+}
