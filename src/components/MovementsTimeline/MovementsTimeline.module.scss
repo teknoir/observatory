@@ -10,8 +10,8 @@
 }
 
 .container {
-  background-color: $black200;
-  // color: $gray300;
+  background-color: $fadedBlack;
+  // color: $offWhite;
 }
 
 .menuLayout {
@@ -34,7 +34,7 @@
 }
 
 .inputLabel {
-  color: $white;
+  color: $totalWhite;
   margin-right: 6px;
 }
 
@@ -56,7 +56,7 @@
 }
 
 .linkText {
-  color: $gray300;
+  color: $offWhite;
 }
 
 .circleMotion {
@@ -64,5 +64,5 @@
 }
 
 .circleAlert {
-  fill: $redalert;
+  fill: $redAlert;
 }

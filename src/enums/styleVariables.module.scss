@@ -1,5 +1,4 @@
 // These names SHOULD be synced with a designer
-$fuchsia400: #9b357d;
 $fuchsia500: #9f09af;
 $fuchsia800: rgba(184, 54, 167, 0.297);
 $blue400: #2eb2d0;
@@ -7,20 +6,30 @@ $bluemotion: #3c70f5;
 $blue600: #3b61bf;
 $blue900: rgba(106, 202, 246, 0.246);
 $iris400: #9980fa;
-$orange400: #ed6d36;
-$redalert: #fa4e4e;
 $gray200: #e1e1e1;
-$gray300: #e0ded9;
 $gray400: #979797;
-$gray500: #808080;
-$white: #ffffff;
-$black: #000000;
-$black200: #1c1c1c;
-$fadedblack: #1c1c1c80;
-$greensuccess: #00a12d;
+
+//Primary Palette
+$fadedBlack: #1c1c1c;
+$offWhite: #e0ded9;
+$oceanBlue: #3b61bf;
+$outrunOrange: #ed6d36;
+$horizonYellow: #e0ad1b;
+$palmTreePurple: #9b357d;
+$totalWhite: #ffffff;
+
+//Secondary Palette
+$deepSpaceBlack: #000000;
+$silver: #808080;
+$lightSilver: #b2b2b2;
+$gold: #a58966;
+
+//Informative
+$greenSuccess: #00a12d;
+$redAlert: #fa4e4e;
 
 :export {
-  white: $white;
-  black200: $black200;
+  totalWhite: $totalWhite;
+  fadedBlack: $fadedBlack;
   blue600: $blue600;
 }

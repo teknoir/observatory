@@ -52,9 +52,9 @@ const PopoverComponent = ({
         '& .MuiPopover-paper': {
           width: 616,
           maxHeight: 472,
-          color: styleVariables.black200,
+          color: styleVariables.fadedBlack,
           borderRadius: 0,
-          background: styleVariables.white,
+          background: styleVariables.totalWhite,
           padding: '20px',
         },
       }}
