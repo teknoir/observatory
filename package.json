@@ -81,7 +81,7 @@
     "*.{ts,tsx,scss}": [
       "prettier --write",
       "eslint --fix",
-      "test"
+      "vitest run"
     ]
   }
 }
