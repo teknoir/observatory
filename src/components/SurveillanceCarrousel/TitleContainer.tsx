@@ -11,6 +11,7 @@ const TitleContainer = ({ title, status }: Props) => {
     <div className={styles.titleContainer}>
       <p className={styles.titleText}>{title}</p>
       <div
+        aria-label="status-icon"
         className={
           status
             ? styles.titleStatusIndicator
