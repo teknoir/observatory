@@ -58,8 +58,8 @@
   align-items: center;
   gap: 0.25rem;
   padding: 0.25rem;
-  background-color: $fadedblack;
-  color: $white;
+  background-color: $fadedBlack;
+  color: $totalWhite;
   max-width: calc(100% - 1rem);
 }
 
@@ -71,7 +71,7 @@
 }
 
 .titleStatusIndicator {
-  background-color: $greensuccess;
+  background-color: $greenSuccess;
   min-width: 8px;
   aspect-ratio: 1;
   border-radius: 100%;
@@ -79,7 +79,7 @@
 
 .titleStatusIndicatorInactive {
   composes: titleStatusIndicator;
-  background-color: $redalert;
+  background-color: $redAlert;
 }
 
 .hoverState {
@@ -91,13 +91,13 @@
   display: none;
   justify-content: center;
   align-items: center;
-  background-color: $fadedblack;
+  background-color: $fadedBlack;
 }
 
 .hoverStateLink {
   padding: 10px 24px;
-  color: $black;
-  background-color: $gray300;
+  color: $deepSpaceBlack;
+  background-color: $offWhite;
 }
 
 .gridViewControls {
