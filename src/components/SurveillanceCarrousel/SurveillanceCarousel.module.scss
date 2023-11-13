@@ -58,7 +58,7 @@
   align-items: center;
   gap: 0.25rem;
   padding: 0.25rem;
-  background-color: $fadedBlack;
+  background-color: rgba($fadedBlack, 0.5);
   color: $totalWhite;
   max-width: calc(100% - 1rem);
 }
@@ -91,7 +91,7 @@
   display: none;
   justify-content: center;
   align-items: center;
-  background-color: $fadedBlack;
+  background-color: rgba($fadedBlack, 0.5);
 }
 
 .hoverStateLink {
