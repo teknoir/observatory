@@ -49,15 +49,11 @@ const Notifications = () => {
             <NotificationsContent data={dataGrouped} />
           )}
           <Box className={styles.pagination}>
-            {!dataByPage || dataByPage.length == 0 ? (
-              <CircularProgress />
-            ) : (
-              <Pagination
-                page={page}
-                count={totalPages}
-                baseUrl={APP_URLS.notifications}
-              />
-            )}
+            <Pagination
+              page={page}
+              count={totalPages}
+              baseUrl={APP_URLS.notifications}
+            />
           </Box>
         </Box>
       </MainContent>
