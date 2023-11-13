@@ -1,17 +1,14 @@
 import { createContext, useState, useEffect, useContext } from 'react';
 import { useInterval } from 'usehooks-ts';
-import { mainImageCarouselContext } from 'context/HomeContext/mainImageCarouselContext';
+import { HomeContext } from 'context/HomeContext/HomeContext';
 import {
-  SurveillanceCarouselProps,
   CarouselMode,
-  MainImageCarouselContextProps,
+  HomeContextProps,
+  SurveillanceCarouselProps,
 } from 'ts/types';
-import SurveillanceCarouselGeneral from './General';
-import SurveillanceCarouselDetail from './Detail';
-// import GridViewControls from "./GridViewControls"
-import GridViewProvider from './GridViewContext';
-
 import SurveillanceCarouselAlternativeView from './AlternativeView';
+import SurveillanceCarouselDetail from './Detail';
+import SurveillanceCarouselGeneral from './General';
 
 const surveillanceCarouselComponentsByMode = {
   [CarouselMode.General]: SurveillanceCarouselGeneral,
@@ -24,8 +21,8 @@ export const GridViewContext = createContext('');
 const SurveillanceCarousel = ({ mode, sources }: SurveillanceCarouselProps) => {
   const [mainImage, setMainImage] = useState('');
   const { mainImageCarousel, setMainImageCarousel } = useContext(
-    mainImageCarouselContext
-  ) as MainImageCarouselContextProps;
+    HomeContext
+  ) as HomeContextProps;
 
   const sourcesSize = sources.size;
 
@@ -66,14 +63,11 @@ const SurveillanceCarousel = ({ mode, sources }: SurveillanceCarouselProps) => {
   if (!Component) return null;
 
   return (
-    <GridViewProvider>
-      {/*<GridViewControls />*/}
-      <Component
-        sources={sources}
-        mainSource={mainImage}
-        setMainSource={setMainSource}
-      />
-    </GridViewProvider>
+    <Component
+      sources={sources}
+      mainSource={mainImage}
+      setMainSource={setMainSource}
+    />
   );
 };
 

@@ -1,19 +1,22 @@
-import { /* useContext, */ useState } from 'react';
+import { useContext, useState } from 'react';
 import { SelectChangeEvent } from '@mui/material/Select';
 import Select from 'muiComponents/Select/Select';
+import { HomeContext } from 'context/HomeContext/HomeContext';
+import { CarouselMode } from 'ts/types';
 import styles from './SurveillanceCarousel.module.scss';
 
 const gridOptions = [
-  { label: 'Dynamic Carousel', value: 'dynamic-carousel' },
-  { label: 'Other option', value: 'other-option' },
+  { label: 'General', value: CarouselMode.General },
+  { label: 'Alternative View', value: CarouselMode.AlternativeView },
 ];
 
 function GridViewControls() {
-  const [selectOption, setSelectOption] = useState('dynamic-carousel');
-  // const { setGridView } = useContext(GridViewContext)
+  const { setLayout } = useContext(HomeContext);
+  const [selectOption, setSelectOption] = useState(CarouselMode.General);
 
   function handleSelectChange(e: SelectChangeEvent<unknown>) {
-    setSelectOption(e.target.value as string);
+    setSelectOption(e.target.value as CarouselMode);
+    setLayout(e.target.value as CarouselMode);
   }
 
   return (

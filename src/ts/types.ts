@@ -92,9 +92,11 @@ export interface CirclesProps {
   onCircleHover?: (event: MouseEvent<SVGCircleElement>, data: object) => void;
 }
 
-export interface MainImageCarouselContextProps {
+export interface HomeContextProps {
   mainImageCarousel: string;
   setMainImageCarousel: Dispatch<SetStateAction<string>>;
+  layout: CarouselMode;
+  setLayout: Dispatch<SetStateAction<CarouselMode>>;
 }
 
 export interface PopoverInfoProps {

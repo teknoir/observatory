@@ -2,23 +2,23 @@ import AppBar from 'components/AppBar/AppBar';
 import MainContent from 'components/MainContent/MainContent';
 import MovementsTimelineContainer from 'components/MovementsTimeline/MovementsTimelineContainer';
 import SurveillanceCarousel from 'components/SurveillanceCarrousel';
-import { HomeDataProvider } from 'context/HomeContext/homeContext';
-import { CarouselMode } from 'ts/types.ts';
+import GridViewControls from 'components/SurveillanceCarrousel/GridViewControls';
+import HomeDataProvider from 'context/HomeContext/HomeDataProvider';
 import styles from './Home.module.scss';
 
 function Home() {
   return (
-    <>
-      <AppBar>{/* TODO: Add "All Cameras" text. */}</AppBar>
+    <HomeDataProvider>
+      <AppBar>
+        <GridViewControls />
+      </AppBar>
       <MainContent>
-        <HomeDataProvider>
-          <main className={styles.homeContainer}>
-            <SurveillanceCarousel mode={CarouselMode.AlternativeView} />
-            <MovementsTimelineContainer />
-          </main>
-        </HomeDataProvider>
+        <main className={styles.homeContainer}>
+          <SurveillanceCarousel />
+          <MovementsTimelineContainer />
+        </main>
       </MainContent>
-    </>
+    </HomeDataProvider>
   );
 }
 
