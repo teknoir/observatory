@@ -1,0 +1,47 @@
+@import 'enums/styleVariables.module.scss';
+
+.root {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid $silver;
+}
+
+.generalInfoContainer {
+  display: flex;
+  align-items: center;
+}
+
+.statusIcon {
+  width: 12px;
+  height: 12px;
+  margin-right: 12px;
+}
+
+.imgWrapper {
+  width: 80px;
+  height: 40px;
+  flex-shrink: 0;
+  background-color: $silver;
+  margin-right: 12px;
+}
+
+.buttonLink {
+  width: 116px;
+  flex-shrink: 0;
+  font-size: 14px;
+  line-height: 20px;
+  background-color: $blue600;
+  color: $totalWhite;
+  border-radius: 0;
+  padding: 10px 24px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.text {
+  font-size: 14px;
+  line-height: 20px;
+}

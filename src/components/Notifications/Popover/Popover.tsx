@@ -1,11 +1,13 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+import { Link } from 'react-router-dom';
 import _groupBy from 'lodash/groupBy';
-import Popover from '@mui/material/Popover';
-import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import Popover from '@mui/material/Popover';
+import Typography from '@mui/material/Typography';
+import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import { IAlertEvent } from 'ts/types';
+import APP_URLS from 'enums/urls';
 import styleVariables from 'enums/styleVariables.module.scss';
 import NotificationItem from '../NotificationItem/NotificationItem';
 import styles from './Popover.module.scss';
@@ -50,9 +52,9 @@ const PopoverComponent = ({
         '& .MuiPopover-paper': {
           width: 616,
           maxHeight: 472,
-          color: styleVariables.black200,
+          color: styleVariables.fadedBlack,
           borderRadius: 0,
-          background: styleVariables.white,
+          background: styleVariables.totalWhite,
           padding: '20px',
         },
       }}
@@ -88,8 +90,9 @@ const PopoverComponent = ({
           </>
         )}
       </div>
-      {/*TODO: add onClick to this button */}
       <Button
+        component={Link}
+        to={APP_URLS.notifications}
         variant="contained"
         color="primary"
         fullWidth

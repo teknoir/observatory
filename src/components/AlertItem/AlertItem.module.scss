@@ -1,12 +1,12 @@
 @import 'enums/styleVariables.module.scss';
 
 .root {
-  border-bottom: 1px solid $gray500;
+  border-bottom: 1px solid $silver;
   padding: 8px 16px;
 }
 
 .selected {
-  background-color: $orange400;
+  background-color: $outrunOrange;
 }
 
 .rootLink {
@@ -36,7 +36,7 @@
 .imgWrapper {
   width: 80px;
   height: 54px;
-  background-color: $gray500;
+  background-color: $silver;
 }
 
 .details {

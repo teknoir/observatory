@@ -5,7 +5,7 @@
   align-items: center;
   margin-bottom: 12px;
   padding-bottom: 12px;
-  border-bottom: 1px solid $black200;
+  border-bottom: 1px solid $fadedBlack;
 }
 
 .statusIcon {
@@ -18,7 +18,7 @@
   width: 80px;
   height: 40px;
   flex-shrink: 0;
-  background-color: $gray500;
+  background-color: $silver;
   margin-right: 12px;
 }
 
@@ -27,8 +27,8 @@
   flex-shrink: 0;
   font-size: 14px;
   line-height: 20px;
-  color: $blue600;
-  border: 1px solid $blue600;
+  color: $oceanBlue;
+  border: 1px solid $oceanBlue;
   border-radius: 0;
   margin-left: 12px;
   padding: 6px 24px;
@@ -37,8 +37,8 @@
 }
 
 .buttonLinkVerified {
-  color: $black200;
-  border: 1px solid $black200;
+  color: $fadedBlack;
+  border: 1px solid $fadedBlack;
 }
 
 .text {
