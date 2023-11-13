@@ -4,19 +4,23 @@ import MovementsTimelineContainer from 'components/MovementsTimeline/MovementsTi
 import SurveillanceCarousel from 'components/SurveillanceCarrousel';
 import GridViewControls from 'components/SurveillanceCarrousel/GridViewControls';
 import HomeDataProvider from 'context/HomeContext/HomeDataProvider';
+import CamerasTitle from './CamerasTitle/CamerasTitle';
 import styles from './Home.module.scss';
 
 function Home() {
   return (
     <HomeDataProvider>
       <AppBar>
-        <GridViewControls />
+        <div className={styles.toolbar}>
+          <CamerasTitle />
+          <GridViewControls />
+        </div>
       </AppBar>
       <MainContent>
-        <main className={styles.homeContainer}>
+        <div className={styles.mainContent}>
           <SurveillanceCarousel />
           <MovementsTimelineContainer />
-        </main>
+        </div>
       </MainContent>
     </HomeDataProvider>
   );
