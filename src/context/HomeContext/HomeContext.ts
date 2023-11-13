@@ -6,4 +6,6 @@ export const HomeContext = createContext<HomeContextProps>({
   setMainImageCarousel: () => '',
   layout: CarouselMode.General,
   setLayout: () => CarouselMode,
+  numCameras: 0,
+  setNumCameras: () => 0,
 });

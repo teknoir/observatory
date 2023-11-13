@@ -97,6 +97,8 @@ export interface HomeContextProps {
   setMainImageCarousel: Dispatch<SetStateAction<string>>;
   layout: CarouselMode;
   setLayout: Dispatch<SetStateAction<CarouselMode>>;
+  numCameras: number;
+  setNumCameras: Dispatch<SetStateAction<number>>;
 }
 
 export interface PopoverInfoProps {

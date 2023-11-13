@@ -23,7 +23,7 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
       : createRandomSources(0)
   );
   const { lastMessage } = useWSSContext();
-  const { layout } = useContext(HomeContext) as HomeContextProps;
+  const { layout, setNumCameras } = useContext(HomeContext) as HomeContextProps;
 
   const sourcesSize = sources.size;
 
@@ -40,6 +40,7 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
   useEffect(() => {
     if (!isLoaded && sources.size > 0) {
       setIsLoaded(true);
+      setNumCameras(sources.size);
     }
   }, [isLoaded, sourcesSize]);
 
