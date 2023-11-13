@@ -11,8 +11,9 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "prepare": "husky install",
-    "test": "vitest",
-    "coverage": "vitest run --coverage.enabled --coverage.all"
+    "test": "vitest run",
+    "test-dev": "vitest dev",
+    "test-coverage": "vitest run --coverage.enabled --coverage.all"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -79,7 +80,8 @@
   "lint-staged": {
     "*.{ts,tsx,scss}": [
       "prettier --write",
-      "eslint --fix"
+      "eslint --fix",
+      "test"
     ]
   }
 }
