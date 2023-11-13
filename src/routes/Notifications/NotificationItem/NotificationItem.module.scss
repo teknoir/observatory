@@ -6,7 +6,7 @@
   align-items: center;
   margin-bottom: 12px;
   padding-bottom: 12px;
-  border-bottom: 1px solid $gray500;
+  border-bottom: 1px solid $silver;
 }
 
 .generalInfoContainer {
@@ -24,7 +24,7 @@
   width: 80px;
   height: 40px;
   flex-shrink: 0;
-  background-color: $gray500;
+  background-color: $silver;
   margin-right: 12px;
 }
 
@@ -34,7 +34,7 @@
   font-size: 14px;
   line-height: 20px;
   background-color: $blue600;
-  color: $white;
+  color: $totalWhite;
   border-radius: 0;
   padding: 10px 24px;
   text-align: center;
