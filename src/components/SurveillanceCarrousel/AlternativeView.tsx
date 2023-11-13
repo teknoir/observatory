@@ -11,8 +11,6 @@ interface ImagesProps {
   status: number;
 }
 
-const rowHeight = 300;
-
 function SurveillanceCarouselAlternativeView({ sources }: CarouselProps) {
   const images: ImagesProps[] = [];
 
@@ -35,9 +33,13 @@ function SurveillanceCarouselAlternativeView({ sources }: CarouselProps) {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Grid container>
+      <Grid container className={surveillanceCarouselStyles.layoutContainer}>
         {mainImages.map((image, index) => (
-          <Grid key={index} xs={index === 2 ? 7 : 6} sx={{ height: rowHeight }}>
+          <Grid
+            key={index}
+            xs={index === 2 ? 7 : 6}
+            className={surveillanceCarouselStyles.containerHeightHalf}
+          >
             <CarrouselImagePreview
               id={image.peripheralName}
               src={image.src}
@@ -50,7 +52,11 @@ function SurveillanceCarouselAlternativeView({ sources }: CarouselProps) {
           </Grid>
         ))}
 
-        <Grid container xs={5} sx={{ height: rowHeight }}>
+        <Grid
+          container
+          xs={5}
+          className={surveillanceCarouselStyles.containerHeightHalf}
+        >
           {bottomImages.map((image, index) => (
             // TODO: Add action to click
             <Grid

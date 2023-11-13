@@ -1,9 +1,12 @@
 @import 'enums/styleVariables.module.scss';
 
+.layoutContainer {
+  width: 100%;
+  aspect-ratio: auto 5/2;
+}
+
 .containerGeneral {
   display: flex;
-  width: 100%;
-  aspect-ratio: auto 136/51;
   overflow-y: hidden;
 }
 
@@ -107,4 +110,8 @@
 
 .containerHeightFull {
   height: 100%;
+}
+
+.containerHeightHalf {
+  height: 50%;
 }

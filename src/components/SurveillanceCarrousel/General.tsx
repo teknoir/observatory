@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import classNames from 'classnames';
 import { CarouselProps, RefImage } from 'ts/types';
 import CarrouselImage from './CarrouselImage';
 import CarrouselImagePreview from './CarrouselImagePreview';
@@ -36,7 +37,7 @@ function SurveillanceCarouselGeneral({
   } = sources.get(mainSource) ?? {};
 
   return (
-    <section className={styles.containerGeneral}>
+    <section className={classNames(styles.layoutContainer, styles.containerGeneral)}>
       <CarrouselImage
         id={mainPeripheralId}
         src={mainSrc}
