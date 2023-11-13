@@ -49,11 +49,13 @@ const Notifications = () => {
             <NotificationsContent data={dataGrouped} />
           )}
           <Box className={styles.pagination}>
-            <Pagination
-              page={page}
-              count={totalPages}
-              baseUrl={APP_URLS.notifications}
-            />
+            {(!dataByPage || dataByPage.length != 0) && (
+              <Pagination
+                page={page}
+                count={totalPages}
+                baseUrl={APP_URLS.notifications}
+              />
+            )}
           </Box>
         </Box>
       </MainContent>
