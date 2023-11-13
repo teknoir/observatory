@@ -8,6 +8,7 @@ import { wsSources } from 'enums/queryKeys';
 import Alert from 'routes/Alert/Alert';
 import DarkTheme from 'routes/DarkTheme/DarkTheme';
 import Device from 'routes/Device/Device';
+import Notifications from 'routes/Notifications/Notifications';
 import Home from 'routes/Home/Home';
 import LineCharts from 'routes/LineCharts/Linecharts';
 import MainLayout from 'layouts/MainLayout/MainLayout';
@@ -46,6 +47,10 @@ function App() {
                   />
                   <Route path={APP_URLS.alerts} element={<Alert />} />
                   <Route path={APP_URLS.devices} element={<Device />} />
+                  <Route
+                    path={APP_URLS.notifications}
+                    element={<Notifications />}
+                  />
                 </Route>
                 <Route path="/dark-theme" element={<DarkTheme />} />
                 <Route path="/linecharts" element={<LineCharts />} />
