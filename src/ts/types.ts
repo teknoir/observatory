@@ -2,9 +2,10 @@ import { Dispatch, MouseEvent, ReactNode, SetStateAction } from 'react';
 import { Moment } from 'moment/moment';
 
 export enum CarouselMode {
-  General = 'general',
-  Detail = 'detail',
+  AllCamerasView = 'allCamerasView',
   AlternativeView = 'alternativeView',
+  Detail = 'detail',
+  General = 'general',
 }
 
 export enum SourceStatus {

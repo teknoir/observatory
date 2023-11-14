@@ -6,11 +6,13 @@ import {
   HomeContextProps,
   SurveillanceCarouselProps,
 } from 'ts/types';
+import AllCamerasView from './AllCamerasView/AllCamerasView';
 import AlternativeView from './AlternativeView/AlternativeView';
 import DetailView from './DetailView/DetailView';
 import GeneralView from './GeneralView/GeneralView';
 
 const surveillanceCarouselComponentsByMode = {
+  [CarouselMode.AllCamerasView]: AllCamerasView,
   [CarouselMode.AlternativeView]: AlternativeView,
   [CarouselMode.Detail]: DetailView,
   [CarouselMode.General]: GeneralView,

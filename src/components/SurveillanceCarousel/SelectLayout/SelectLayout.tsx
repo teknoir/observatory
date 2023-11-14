@@ -10,14 +10,19 @@ import styles from './SelectLayout.module.scss';
 // TODO: Replace icons
 const options = [
   {
-    label: 'General',
-    value: CarouselMode.General,
-    icon: <GridOn fontSize="small" />,
+    label: 'All Cameras',
+    value: CarouselMode.AllCamerasView,
+    icon: <GridView fontSize="small" />,
   },
   {
     label: 'Alternative View',
     value: CarouselMode.AlternativeView,
     icon: <GridView fontSize="small" />,
+  },
+  {
+    label: 'General',
+    value: CarouselMode.General,
+    icon: <GridOn fontSize="small" />,
   },
 ];
 
