@@ -1,0 +1,37 @@
+@import 'enums/styleVariables.module.scss';
+
+.root {
+  position: relative;
+  display: flex;
+  height: fit-content;
+
+  &:hover {
+    .hoverState {
+      display: flex;
+    }
+  }
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hoverState {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba($fadedBlack, 0.5);
+}
+
+.hoverStateLink {
+  padding: 10px 24px;
+  color: $deepSpaceBlack;
+  background-color: $offWhite;
+}
