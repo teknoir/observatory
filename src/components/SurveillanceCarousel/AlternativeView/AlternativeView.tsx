@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImagePreview/CarouselImagePreview';
@@ -11,22 +12,23 @@ interface ImagesProps {
 }
 
 function AlternativeView({ sources }: CarouselProps) {
-  const images: ImagesProps[] = [];
-
   // FIXME: This is a workaround to render using an array
-  const arr = [...sources.keys()];
-  arr.map((sourceKey) => {
-    const {
-      src = '',
-      peripheralName = '',
-      status = 0,
-    } = sources.get(sourceKey) ?? {};
-    images.push({
-      src,
-      peripheralName,
-      status,
+  const images: ImagesProps[] = useMemo(() => {
+    const arr = [...sources.keys()];
+    const generatedImages = arr.map((sourceKey) => {
+      const {
+        src = '',
+        peripheralName = '',
+        status = 0,
+      } = sources.get(sourceKey) ?? {};
+      return {
+        src,
+        peripheralName,
+        status,
+      };
     });
-  });
+    return generatedImages;
+  }, [sources]);
   const mainImages = images.slice(0, 3);
   const bottomImages = images.slice(3, 7);
 
