@@ -84,7 +84,7 @@
     "*.{ts,tsx,scss}": [
       "prettier --write",
       "eslint --fix",
-      "vitest run"
+      "vitest run --passWithNoTests"
     ]
   }
 }
