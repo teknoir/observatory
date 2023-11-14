@@ -1,5 +1,5 @@
 import { SourceStatus } from 'ts/types';
-import styles from './SurveillanceCarousel.module.scss';
+import styles from './TitleContainer.module.scss';
 
 interface Props {
   title: string;

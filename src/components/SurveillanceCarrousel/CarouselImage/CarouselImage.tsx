@@ -1,13 +1,13 @@
 import { NavLink as RouterLink, generatePath } from 'react-router-dom';
 import Link from '@mui/material/Link';
+import TitleContainer from 'components/SurveillanceCarrousel/TitleContainer/TitleContainer';
 import { ImageProps } from 'ts/types';
 import APP_URLS from 'enums/urls';
-import TitleContainer from './TitleContainer';
-import styles from './SurveillanceCarousel.module.scss';
+import styles from './CarouselImage.module.scss';
 
-function CarrouselImage({ id, src, title, status }: ImageProps) {
+function CarouselImage({ id, src, title, status }: ImageProps) {
   return (
-    <div className={styles.mainImageContainer}>
+    <div className={styles.root}>
       <img src={src} className={styles.image} />
       <TitleContainer title={title} status={status} />
       <div className={styles.hoverState}>
@@ -28,4 +28,4 @@ function CarrouselImage({ id, src, title, status }: ImageProps) {
   );
 }
 
-export default CarrouselImage;
+export default CarouselImage;

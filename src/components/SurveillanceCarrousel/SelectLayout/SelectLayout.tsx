@@ -1,14 +1,14 @@
 import { useContext, useState } from 'react';
 import { SelectChangeEvent } from '@mui/material/Select';
+import GridOn from '@mui/icons-material/GridOn';
+import GridView from '@mui/icons-material/GridView';
 import Select from 'muiComponents/Select/Select';
 import { HomeContext } from 'context/HomeContext/HomeContext';
 import { CarouselMode } from 'ts/types';
-import styles from './SurveillanceCarousel.module.scss';
-import GridOn from '@mui/icons-material/GridOn';
-import GridView from '@mui/icons-material/GridView';
+import styles from './SelectLayout.module.scss';
 
 // TODO: Replace icons
-const gridOptions = [
+const options = [
   {
     label: 'General',
     value: CarouselMode.General,
@@ -21,7 +21,7 @@ const gridOptions = [
   },
 ];
 
-function GridViewControls() {
+function SelectLayout() {
   const { setLayout } = useContext(HomeContext);
   const [selectOption, setSelectOption] = useState(CarouselMode.General);
 
@@ -31,15 +31,15 @@ function GridViewControls() {
   }
 
   return (
-    <div className={styles.gridViewControls}>
+    <div className={styles.root}>
       <Select
         label=""
         value={selectOption}
-        options={gridOptions}
+        options={options}
         onChange={handleSelectChange}
       />
     </div>
   );
 }
 
-export default GridViewControls;
+export default SelectLayout;

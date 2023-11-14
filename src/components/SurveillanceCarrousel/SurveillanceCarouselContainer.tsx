@@ -1,13 +1,13 @@
 import { useState, useEffect, useCallback, useContext } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import { CarouselMode, HomeContextProps, Source, SourceStatus } from 'ts/types';
+import { HomeContext } from 'context/HomeContext/HomeContext';
 import { useWSSContext } from 'context/webSocketContext';
 import { wsSources } from 'enums/queryKeys';
 import { TOPICS, TYPES } from 'enums/wss';
+import { CarouselMode, HomeContextProps, Source, SourceStatus } from 'ts/types';
 import SurveillanceCarousel from './SurveillanceCarousel';
 import Skeleton from './Skeleton/Skeleton';
 import { createRandomSources } from './utils';
-import { HomeContext } from 'context/HomeContext/HomeContext';
 
 interface Props {
   mode?: CarouselMode;

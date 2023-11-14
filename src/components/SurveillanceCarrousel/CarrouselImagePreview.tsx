@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import Link from '@mui/material/Link';
 import { ImagePreviewProps } from 'ts/types';
 import APP_URLS from 'enums/urls';
-import TitleContainer from './TitleContainer';
+import TitleContainer from './TitleContainer/TitleContainer';
 import styles from './SurveillanceCarousel.module.scss';
 
 const CarrouselImagePreview = forwardRef<HTMLImageElement, ImagePreviewProps>(

@@ -1,9 +1,7 @@
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import CarrouselImagePreview from 'components/SurveillanceCarrousel/CarrouselImagePreview';
 import { CarouselProps } from 'ts/types';
-import CarrouselImagePreview from '../CarrouselImagePreview';
-// FIXME: Remove this import when the styles are moved to the component
-import surveillanceCarouselStyles from '../SurveillanceCarousel.module.scss';
 import styles from './AlternativeView.module.scss';
 
 interface ImagesProps {
@@ -34,30 +32,20 @@ function AlternativeView({ sources }: CarouselProps) {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Grid container className={surveillanceCarouselStyles.layoutContainer}>
+      <Grid container className={styles.container}>
         {mainImages.map((image, index) => (
-          <Grid
-            key={index}
-            xs={index === 2 ? 7 : 6}
-            className={surveillanceCarouselStyles.containerHeightHalf}
-          >
+          <Grid key={index} xs={index === 2 ? 7 : 6} className={styles.grid}>
             <CarrouselImagePreview
               id={image.peripheralName}
               src={image.src}
               title={image.peripheralName}
               status={image.status}
-              classNameContainer={
-                surveillanceCarouselStyles.containerHeightFull
-              }
+              classNameContainer={styles.imagePreview}
             />
           </Grid>
         ))}
 
-        <Grid
-          container
-          xs={5}
-          className={surveillanceCarouselStyles.containerHeightHalf}
-        >
+        <Grid container xs={5} className={styles.grid}>
           {bottomImages.map((image, index) => (
             // TODO: Add action to click
             <Grid
@@ -71,9 +59,7 @@ function AlternativeView({ sources }: CarouselProps) {
                 src={image.src}
                 title={image.peripheralName}
                 status={image.status}
-                classNameContainer={
-                  surveillanceCarouselStyles.containerHeightFull
-                }
+                classNameContainer={styles.imagePreview}
               />
               {index === 3 && images.length > 7 && (
                 <div className={styles.backdrop}>+{images.length - 6}</div>
