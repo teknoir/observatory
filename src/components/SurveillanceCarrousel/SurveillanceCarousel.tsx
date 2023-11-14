@@ -6,14 +6,14 @@ import {
   HomeContextProps,
   SurveillanceCarouselProps,
 } from 'ts/types';
-import SurveillanceCarouselAlternativeView from './AlternativeView';
+import AlternativeView from './AlternativeView/AlternativeView';
 import SurveillanceCarouselDetail from './Detail';
 import SurveillanceCarouselGeneral from './General';
 
 const surveillanceCarouselComponentsByMode = {
   [CarouselMode.General]: SurveillanceCarouselGeneral,
   [CarouselMode.Detail]: SurveillanceCarouselDetail,
-  [CarouselMode.AlternativeView]: SurveillanceCarouselAlternativeView,
+  [CarouselMode.AlternativeView]: AlternativeView,
 };
 
 export const GridViewContext = createContext('');

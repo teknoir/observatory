@@ -1,8 +1,9 @@
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { CarouselProps } from 'ts/types';
-import CarrouselImagePreview from './CarrouselImagePreview';
-import surveillanceCarouselStyles from './SurveillanceCarousel.module.scss';
+import CarrouselImagePreview from '../CarrouselImagePreview';
+// FIXME: Remove this import when the styles are moved to the component
+import surveillanceCarouselStyles from '../SurveillanceCarousel.module.scss';
 import styles from './AlternativeView.module.scss';
 
 interface ImagesProps {
@@ -11,7 +12,7 @@ interface ImagesProps {
   status: number;
 }
 
-function SurveillanceCarouselAlternativeView({ sources }: CarouselProps) {
+function AlternativeView({ sources }: CarouselProps) {
   const images: ImagesProps[] = [];
 
   // FIXME: This is a workaround to render using an array
@@ -85,4 +86,4 @@ function SurveillanceCarouselAlternativeView({ sources }: CarouselProps) {
   );
 }
 
-export default SurveillanceCarouselAlternativeView;
+export default AlternativeView;
