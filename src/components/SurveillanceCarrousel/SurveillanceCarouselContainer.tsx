@@ -38,11 +38,11 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
   }, []);
 
   useEffect(() => {
-    if (!isLoaded && sources.size > 0) {
+    if (!isLoaded && sourcesSize > 0) {
       setIsLoaded(true);
-      setNumCameras(sources.size);
+      setNumCameras(sourcesSize);
     }
-  }, [isLoaded, sourcesSize]);
+  }, [isLoaded, sourcesSize, setNumCameras]);
 
   useEffect(() => {
     if (lastMessage) {
