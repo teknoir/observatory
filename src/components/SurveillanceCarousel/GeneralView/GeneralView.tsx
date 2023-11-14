@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
-import CarrouselImage from 'components/SurveillanceCarrousel/CarrouselImage';
-import CarrouselImagePreview from 'components/SurveillanceCarrousel/CarrouselImagePreview';
+import CarouselImage from 'components/SurveillanceCarousel/CarouselImage/CarouselImage';
+import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImagePreview/CarouselImagePreview';
 import { CarouselProps, RefImage } from 'ts/types';
 import styles from './GeneralView.module.scss';
 
@@ -37,7 +37,7 @@ function GeneralView({
 
   return (
     <section className={styles.root}>
-      <CarrouselImage
+      <CarouselImage
         id={mainPeripheralId}
         src={mainSrc}
         title={mainPeripheralName}
@@ -66,7 +66,7 @@ function GeneralView({
                 }
                 className={styles.imagePreviewContainer}
               >
-                <CarrouselImagePreview
+                <CarouselImagePreview
                   id={sourceKey}
                   src={src}
                   title={peripheralName}

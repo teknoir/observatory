@@ -1,5 +1,5 @@
-import CarrouselImage from 'components/SurveillanceCarrousel/CarrouselImage';
-import CarrouselImagePreview from 'components/SurveillanceCarrousel/CarrouselImagePreview';
+import CarouselImage from 'components/SurveillanceCarousel/CarouselImage/CarouselImage';
+import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImagePreview/CarouselImagePreview';
 import { CarouselProps } from 'ts/types';
 import styles from './DetailView.module.scss';
 
@@ -13,7 +13,7 @@ function DetailView({ sources, mainSource, setMainSource }: CarouselProps) {
 
   return (
     <section className={styles.root}>
-      <CarrouselImage
+      <CarouselImage
         id={mainPeripheralId}
         src={mainSrc}
         title={mainPeripheralName}
@@ -31,7 +31,7 @@ function DetailView({ sources, mainSource, setMainSource }: CarouselProps) {
               } = sources.get(sourceKey) ?? {};
               return (
                 <div key={src} onClick={() => setMainSource(sourceKey)}>
-                  <CarrouselImagePreview
+                  <CarouselImagePreview
                     id={sourceKey}
                     src={src}
                     title={peripheralName}

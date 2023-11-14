@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import CarrouselImagePreview from 'components/SurveillanceCarrousel/CarrouselImagePreview';
+import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImagePreview/CarouselImagePreview';
 import { CarouselProps } from 'ts/types';
 import styles from './AlternativeView.module.scss';
 
@@ -35,7 +35,7 @@ function AlternativeView({ sources }: CarouselProps) {
       <Grid container className={styles.container}>
         {mainImages.map((image, index) => (
           <Grid key={index} xs={index === 2 ? 7 : 6} className={styles.grid}>
-            <CarrouselImagePreview
+            <CarouselImagePreview
               id={image.peripheralName}
               src={image.src}
               title={image.peripheralName}
@@ -54,7 +54,7 @@ function AlternativeView({ sources }: CarouselProps) {
               className={styles.smallImages}
               onClick={() => console.log('click')}
             >
-              <CarrouselImagePreview
+              <CarouselImagePreview
                 id={image.peripheralName}
                 src={image.src}
                 title={image.peripheralName}

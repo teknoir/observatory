@@ -2,7 +2,7 @@ import { forwardRef, memo } from 'react';
 import { NavLink as RouterLink, generatePath } from 'react-router-dom';
 import classNames from 'classnames';
 import Link from '@mui/material/Link';
-import TitleContainer from 'components/SurveillanceCarrousel/TitleContainer/TitleContainer';
+import TitleContainer from 'components/SurveillanceCarousel/TitleContainer/TitleContainer';
 import APP_URLS from 'enums/urls';
 import { ImagePreviewProps } from 'ts/types';
 import styles from './CarouselImagePreview.module.scss';
