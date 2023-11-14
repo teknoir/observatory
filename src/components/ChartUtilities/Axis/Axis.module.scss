@@ -1,7 +1,7 @@
 @import 'enums/styleVariables.module';
 
 .Axis__line {
-  stroke: $orange400;
+  stroke: $outrunOrange;
 }
 
 .Axis__label {
@@ -26,9 +26,9 @@
 }
 
 .rectBackground {
-  fill: $black200;
+  fill: $fadedBlack;
 }
 
 .axisVerticalTitle {
-  fill: $white;
+  fill: $totalWhite;
 }

@@ -8,6 +8,7 @@ import {
   fetchMotionsCountsMock,
   fetchAlertMock,
   fetchNotificationsMock,
+  fetchNotificationsPaginatedMock,
 } from 'services/fetchMock';
 import { dataWithDelay } from 'services/fetchMock/utils';
 import { getEventQuery, getEventsQuery } from 'services/queryHistorian';
@@ -24,6 +25,7 @@ const shouldUseMockData = (): boolean =>
   import.meta.env.VITE_USE_MOCK_HISTORIAN_DB;
 const shouldUseMotionsDb = (): boolean => false;
 const shouldUseNotificationsDb = (): boolean => false;
+const shouldUseNotificationsPaginatedDb = (): boolean => false;
 
 export const fetchAlert = (detectionId: DetectionId) => {
   // TODO: remove this condition in future
@@ -117,4 +119,12 @@ export const fetchNotifications = () => {
     // TODO: request here
   }
   return fetchNotificationsMock();
+};
+
+export const fetchNotificationsPaginated = (page: number, pageSize: number) => {
+  // TODO: remove this condition in future
+  if (shouldUseNotificationsPaginatedDb()) {
+    // TODO: request here
+  }
+  return fetchNotificationsPaginatedMock(page, pageSize);
 };

@@ -2,8 +2,8 @@
 
 .card {
   min-width: 250px;
-  background-color: $white;
-  color: $black;
+  background-color: $totalWhite;
+  color: $deepSpaceBlack;
 }
 
 .cardContent {
@@ -22,7 +22,7 @@
   position: absolute;
   right: 6px;
   top: 15px;
-  color: $black;
+  color: $deepSpaceBlack;
 }
 
 .title {
@@ -30,7 +30,7 @@
 }
 
 .field {
-  color: $gray500;
+  color: $silver;
   text-decoration: underline;
 }
 
