@@ -1,3 +1,5 @@
+@import 'enums/styleVariables.module.scss';
+
 .container {
   width: 100%;
   aspect-ratio: auto 5/2;
@@ -14,7 +16,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba($deepSpaceBlack, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
