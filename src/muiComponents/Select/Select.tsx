@@ -35,13 +35,23 @@ export default function SelectMUI({
           '& .MuiOutlinedInput-notchedOutline': {
             border: 'none',
           },
+          '& .MuiSelect-select.MuiInputBase-input.MuiOutlinedInput-input': {
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+          },
         }}
         MenuProps={{ disableScrollLock: true }}
         {...props}
       >
         {options &&
           options.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
+            <MenuItem
+              key={option.value}
+              value={option.value}
+              sx={{ gap: '12px' }}
+            >
+              {option.icon}
               {option.label}
             </MenuItem>
           ))}

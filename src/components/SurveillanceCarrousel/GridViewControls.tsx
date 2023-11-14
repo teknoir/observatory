@@ -4,10 +4,21 @@ import Select from 'muiComponents/Select/Select';
 import { HomeContext } from 'context/HomeContext/HomeContext';
 import { CarouselMode } from 'ts/types';
 import styles from './SurveillanceCarousel.module.scss';
+import GridOn from '@mui/icons-material/GridOn';
+import GridView from '@mui/icons-material/GridView';
 
+// TODO: Replace icons
 const gridOptions = [
-  { label: 'General', value: CarouselMode.General },
-  { label: 'Alternative View', value: CarouselMode.AlternativeView },
+  {
+    label: 'General',
+    value: CarouselMode.General,
+    icon: <GridOn fontSize="small" />,
+  },
+  {
+    label: 'Alternative View',
+    value: CarouselMode.AlternativeView,
+    icon: <GridView fontSize="small" />,
+  },
 ];
 
 function GridViewControls() {
