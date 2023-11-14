@@ -11,7 +11,7 @@ const CamerasTitle = () => {
       {/* TODO: Replace with icon from design */}
       <Videocam />
       <Typography variant="TitleMedium">
-        All cameras: ({numCameras ?? 0})
+        All cameras ({numCameras ?? 0})
       </Typography>
     </div>
   );
