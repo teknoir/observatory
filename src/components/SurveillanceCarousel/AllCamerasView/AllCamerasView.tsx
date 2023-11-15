@@ -27,9 +27,13 @@ function AllCamerasView({ sources }: CarouselProps) {
   useEffect(() => {
     navigate(`?hideMotionsAlerts=true`);
     return () => {
-      navigate('');
+      // FIXME: This is a workaround to remove the query param. Replace with react router if possible.
+      const currentSearchParams = new URLSearchParams(window.location.search);
+      if (currentSearchParams.has('hideMotionsAlerts')) {
+        navigate('', { replace: true });
+      }
     };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [navigate]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // FIXME: This is a workaround to render using an array
   const images: ImagesProps[] = useMemo(() => {
