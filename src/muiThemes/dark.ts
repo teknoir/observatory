@@ -117,6 +117,11 @@ const darkTheme = createTheme({
       lineHeight: '16px',
       letterSpacing: '0.5px',
     },
+    LabelXS: {
+      fontFamily: 'ABCDiatypeMono-Regular',
+      fontSize: '10px',
+      lineHeight: '16px',
+    },
   },
 });
 
@@ -141,6 +146,7 @@ declare module '@mui/material/styles' {
     LabelMediumBold: CSSProperties;
     LabelMedium: CSSProperties;
     LabelSmall: CSSProperties;
+    LabelXS: CSSProperties;
   }
 
   // allow configuration using `createTheme`
@@ -164,6 +170,7 @@ declare module '@mui/material/styles' {
     LabelMediumBold?: CSSProperties;
     LabelMedium?: CSSProperties;
     LabelSmall?: CSSProperties;
+    LabelXS?: CSSProperties;
   }
 }
 
@@ -188,6 +195,7 @@ declare module '@mui/material/Typography' {
     LabelMediumBold: true;
     LabelMedium: true;
     LabelSmall: true;
+    LabelXS: true;
   }
 }
 
