@@ -1,12 +1,9 @@
+import CarouselImage from 'components/SurveillanceCarousel/CarouselImage/CarouselImage';
+import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImagePreview/CarouselImagePreview';
 import { CarouselProps } from 'ts/types';
-import CarrouselImage from './CarrouselImage';
-import CarrouselImagePreview from './CarrouselImagePreview';
+import styles from './DetailView.module.scss';
 
-function SurveillanceCarouselDetail({
-  sources,
-  mainSource,
-  setMainSource,
-}: CarouselProps) {
+function DetailView({ sources, mainSource, setMainSource }: CarouselProps) {
   const {
     src: mainSrc = '',
     peripheralName: mainPeripheralName = '',
@@ -15,16 +12,16 @@ function SurveillanceCarouselDetail({
   } = sources.get(mainSource) ?? {};
 
   return (
-    <section className="flex flex-col">
-      <CarrouselImage
+    <section className={styles.root}>
+      <CarouselImage
         id={mainPeripheralId}
         src={mainSrc}
         title={mainPeripheralName}
         status={status}
       />
-      <div className="flex">
+      <div className={styles.container}>
         <button>&lt;</button>
-        <div className="flex flex-row overflow-auto">
+        <div className={styles.imagesContainer}>
           {sources.size > 0 ? (
             [...sources.keys()].map((sourceKey) => {
               const {
@@ -34,7 +31,7 @@ function SurveillanceCarouselDetail({
               } = sources.get(sourceKey) ?? {};
               return (
                 <div key={src} onClick={() => setMainSource(sourceKey)}>
-                  <CarrouselImagePreview
+                  <CarouselImagePreview
                     id={sourceKey}
                     src={src}
                     title={peripheralName}
@@ -53,4 +50,4 @@ function SurveillanceCarouselDetail({
   );
 }
 
-export default SurveillanceCarouselDetail;
+export default DetailView;

@@ -1,9 +1,8 @@
 import { VideoProps } from 'ts/types';
 
-function CarrouselVideo({ src }: VideoProps) {
+function CarouselVideo({ src }: VideoProps) {
   return (
     <video
-      className="w-full"
       controls
       src={src}
       // keeping this src as an example:
@@ -12,4 +11,4 @@ function CarrouselVideo({ src }: VideoProps) {
   );
 }
 
-export default CarrouselVideo;
+export default CarouselVideo;

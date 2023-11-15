@@ -1,9 +1,11 @@
-import { Dispatch, MouseEvent, SetStateAction } from 'react';
+import { Dispatch, MouseEvent, ReactNode, SetStateAction } from 'react';
 import { Moment } from 'moment/moment';
 
 export enum CarouselMode {
-  General = 'general',
+  AllCamerasView = 'allCamerasView',
+  AlternativeView = 'alternativeView',
   Detail = 'detail',
+  General = 'general',
 }
 
 export enum SourceStatus {
@@ -53,6 +55,7 @@ export interface ImagePreviewProps {
   title: string;
   status: SourceStatus;
   className?: string;
+  classNameContainer?: string;
   onClick?: () => void;
   ref: (ref: HTMLImageElement) => void;
 }
@@ -64,6 +67,7 @@ export interface VideoProps {
 export interface SelectOptions {
   label: string;
   value: number | string;
+  icon?: ReactNode;
 }
 
 export type Options = Array<SelectOptions>;
@@ -91,9 +95,13 @@ export interface CirclesProps {
   onCircleHover?: (event: MouseEvent<SVGCircleElement>, data: object) => void;
 }
 
-export interface MainImageCarouselContextProps {
+export interface HomeContextProps {
   mainImageCarousel: string;
   setMainImageCarousel: Dispatch<SetStateAction<string>>;
+  layout: CarouselMode;
+  setLayout: Dispatch<SetStateAction<CarouselMode>>;
+  numCameras: number;
+  setNumCameras: Dispatch<SetStateAction<number>>;
 }
 
 export interface PopoverInfoProps {

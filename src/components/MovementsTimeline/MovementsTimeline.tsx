@@ -21,13 +21,9 @@ import { Axis, Chart, Circles, GridLines } from 'components/ChartUtilities';
 import { detectionIdAccessor } from 'components/ChartUtilities/accessors';
 import { peripheralIdAccessor } from 'components/ChartUtilities/accessors';
 import { useChartDimensions } from 'components/ChartUtilities/utils';
-import { mainImageCarouselContext } from 'context/HomeContext/mainImageCarouselContext';
+import { HomeContext } from 'context/HomeContext/HomeContext';
 import APP_URLS from 'enums/urls';
-import {
-  IAlertEvent,
-  MainImageCarouselContextProps,
-  PopoverInfoProps,
-} from 'ts/types';
+import { IAlertEvent, PopoverInfoProps } from 'ts/types';
 import AxisVerticalLeft from './AxisVerticalLeft/AxisVerticalLeft';
 import AxisVerticalRight from './AxisVerticalRight/AxisVerticalRight';
 import Popover from './Popover/Popover';
@@ -86,9 +82,7 @@ export const MovementsTimeline = ({
   });
   const [defaultTranslate, setDefaultTranslate] = useState<number>(0);
   const scrollGroupRef = useRef<SVGGElement | null>(null);
-  const { setMainImageCarousel } =
-    (useContext(mainImageCarouselContext) as MainImageCarouselContextProps) ||
-    '';
+  const { setMainImageCarousel } = useContext(HomeContext);
   const [anchorEl, setAnchorEl] = useState<SVGCircleElement | null>(null);
   const [alertInfo, setAlertInfo] = useState<PopoverInfoProps>({
     detection_id: '',

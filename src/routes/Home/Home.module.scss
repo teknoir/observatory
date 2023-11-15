@@ -1,4 +1,12 @@
-.homeContainer {
+.toolbar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.mainContent {
   display: flex;
   flex-direction: column;
 }

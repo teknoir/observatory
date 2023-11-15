@@ -1,0 +1,32 @@
+@import 'enums/styleVariables.module.scss';
+
+.root {
+  width: 100%;
+  aspect-ratio: auto 5/2;
+  display: flex;
+  overflow-y: hidden;
+}
+
+.galleryScroll {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: 40%;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.imagePreviewContainer {
+  position: relative;
+  display: flex;
+  height: fit-content;
+
+  &:hover {
+    .hoverState {
+      display: flex;
+    }
+  }
+}
+
+.border {
+  border: 1px solid $totalWhite;
+}
