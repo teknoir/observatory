@@ -5,13 +5,19 @@ import MovementsTimelineContainer from 'components/MovementsTimeline/MovementsTi
 import SurveillanceCarousel from 'components/SurveillanceCarousel';
 import SelectLayout from 'components/SurveillanceCarousel/SelectLayout/SelectLayout';
 import HomeDataProvider from 'context/HomeContext/HomeDataProvider';
+import { useMainLayoutContext } from 'context/mainLayoutContext';
 import CamerasTitle from './CamerasTitle/CamerasTitle';
 import styles from './Home.module.scss';
 
 function Home() {
+  const { isOpenedRight, closeRight } = useMainLayoutContext();
   const [searchParams] = useSearchParams();
   const hideMotionsAlerts =
     Boolean(searchParams.get('hideMotionsAlerts')) || false;
+
+  if (isOpenedRight && hideMotionsAlerts) {
+    closeRight();
+  }
 
   return (
     <HomeDataProvider>
