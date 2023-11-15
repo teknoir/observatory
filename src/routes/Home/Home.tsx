@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import AppBar from 'components/AppBar/AppBar';
 import MainContent from 'components/MainContent/MainContent';
@@ -10,14 +11,16 @@ import CamerasTitle from './CamerasTitle/CamerasTitle';
 import styles from './Home.module.scss';
 
 function Home() {
-  const { isOpenedRight, closeRight } = useMainLayoutContext();
+  const { closeRight } = useMainLayoutContext();
   const [searchParams] = useSearchParams();
   const hideMotionsAlerts =
     Boolean(searchParams.get('hideMotionsAlerts')) || false;
 
-  if (isOpenedRight && hideMotionsAlerts) {
-    closeRight();
-  }
+  useEffect(() => {
+    if (hideMotionsAlerts) {
+      closeRight();
+    }
+  }, [hideMotionsAlerts]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <HomeDataProvider>
