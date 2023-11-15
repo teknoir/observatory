@@ -1,8 +1,9 @@
-import { useMemo } from 'react';
+import { useContext, useMemo } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImagePreview/CarouselImagePreview';
-import { CarouselProps } from 'ts/types';
+import { HomeContext } from 'context/HomeContext/HomeContext';
+import { CarouselMode, CarouselProps } from 'ts/types';
 import styles from './AlternativeView.module.scss';
 
 interface ImagesProps {
@@ -12,6 +13,7 @@ interface ImagesProps {
 }
 
 function AlternativeView({ sources }: CarouselProps) {
+  const { setLayout } = useContext(HomeContext);
   // FIXME: This is a workaround to render using an array
   const images: ImagesProps[] = useMemo(() => {
     const arr = [...sources.keys()];
@@ -54,7 +56,7 @@ function AlternativeView({ sources }: CarouselProps) {
               key={index}
               xs={6}
               className={styles.smallImages}
-              onClick={() => console.log('click')}
+              onClick={() => setLayout(CarouselMode.AllCamerasView)}
             >
               <CarouselImagePreview
                 id={image.peripheralName}

@@ -1,11 +1,7 @@
-import { createContext, useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useInterval } from 'usehooks-ts';
 import { HomeContext } from 'context/HomeContext/HomeContext';
-import {
-  CarouselMode,
-  HomeContextProps,
-  SurveillanceCarouselProps,
-} from 'ts/types';
+import { CarouselMode, SurveillanceCarouselProps } from 'ts/types';
 import AllCamerasView from './AllCamerasView/AllCamerasView';
 import AlternativeView from './AlternativeView/AlternativeView';
 import DetailView from './DetailView/DetailView';
@@ -18,13 +14,9 @@ const surveillanceCarouselComponentsByMode = {
   [CarouselMode.General]: GeneralView,
 };
 
-export const GridViewContext = createContext('');
-
 const SurveillanceCarousel = ({ mode, sources }: SurveillanceCarouselProps) => {
   const [mainImage, setMainImage] = useState('');
-  const { mainImageCarousel, setMainImageCarousel } = useContext(
-    HomeContext
-  ) as HomeContextProps;
+  const { mainImageCarousel, setMainImageCarousel } = useContext(HomeContext);
 
   const sourcesSize = sources.size;
 

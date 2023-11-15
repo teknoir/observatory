@@ -27,7 +27,7 @@ const options = [
 ];
 
 function SelectLayout() {
-  const { setLayout } = useContext(HomeContext);
+  const { layout, setLayout } = useContext(HomeContext);
   const [selectOption, setSelectOption] = useState(CarouselMode.General);
 
   function handleSelectChange(e: SelectChangeEvent<unknown>) {
@@ -39,7 +39,7 @@ function SelectLayout() {
     <div className={styles.root}>
       <Select
         label=""
-        value={selectOption}
+        value={layout || selectOption}
         options={options}
         onChange={handleSelectChange}
       />
