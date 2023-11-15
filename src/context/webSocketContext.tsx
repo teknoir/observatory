@@ -42,13 +42,14 @@ export const WSSProvider = ({ children }: Props) => {
       const { type } = data;
       switch (type) {
         case TYPES.MESSAGE: {
-          const { topic, image, peripheral, event } = data;
+          const { topic, image, peripheral, event, device } = data;
           const peripheralId = peripheral?.id;
           if (topic === TOPICS.FRONT_END_VIDEO) {
             const source = {
               src: image,
               peripheralId,
               peripheralName: peripheral?.name,
+              device,
             };
             // Save source to queryClient
             queryClient.setQueryData(

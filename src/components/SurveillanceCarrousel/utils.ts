@@ -19,6 +19,7 @@ export function createRandomSources(quantity: number) {
       src: newImage,
       peripheralId: String(i + 1),
       peripheralName: `Camera ${i + 1}`,
+      device: 'demo',
       status: SourceStatus.Active,
     });
   }
