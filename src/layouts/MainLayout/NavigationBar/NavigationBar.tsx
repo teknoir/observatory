@@ -9,7 +9,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import Drawer from '@mui/material/Drawer';
-import logo from 'assets/logo.png';
+import logo from 'assets/logo.svg';
 import homeIcon from 'assets/icons/home.svg';
 import aimIcon from 'assets/icons/aim.svg';
 import { useMainLayoutContext } from 'context/mainLayoutContext';

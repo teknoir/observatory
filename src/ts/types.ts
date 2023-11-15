@@ -17,6 +17,7 @@ export interface Source {
   src: string;
   peripheralId: string;
   peripheralName: string;
+  device: string;
   status: SourceStatus;
 }
 
