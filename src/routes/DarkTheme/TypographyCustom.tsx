@@ -100,6 +100,10 @@ export default function Types() {
         <Box>
           <Typography variant="LabelSmall">Label/Small</Typography>
         </Box>
+
+        <Box>
+          <Typography variant="LabelXS">Label/XS</Typography>
+        </Box>
       </BoxComponent>
     </BoxComponent>
   );

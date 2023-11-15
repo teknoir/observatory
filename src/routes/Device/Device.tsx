@@ -31,10 +31,11 @@ const Device = () => {
         type: TYPES.START_IMAGES_STREAM,
         peripheralName,
         duration: DURATION,
+        device: source?.device,
       };
       sendMessage(JSON.stringify(messageObj));
     }
-  }, [isOpened, peripheralName]);
+  }, [isOpened, peripheralName, source]);
 
   useEffect(() => {
     if (isOpened) {
@@ -52,7 +53,7 @@ const Device = () => {
       const { type } = data;
       switch (type) {
         case TYPES.MESSAGE: {
-          const { topic, image, peripheral } = data;
+          const { topic, image, peripheral, device } = data;
           if (
             topic === TOPICS.FRONT_END_VIDEO &&
             peripheralName === peripheral?.name
@@ -61,6 +62,7 @@ const Device = () => {
               src: image,
               peripheralId: peripheral?.id,
               peripheralName: peripheral?.name,
+              device,
               status: SourceStatus.Active,
             });
           }

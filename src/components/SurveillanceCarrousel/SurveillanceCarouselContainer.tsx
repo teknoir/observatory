@@ -47,13 +47,14 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
       const { type, meta } = data;
       switch (type) {
         case TYPES.MESSAGE: {
-          const { topic, image, peripheral } = data;
+          const { topic, image, peripheral, device } = data;
           const peripheralId = peripheral?.id;
           if (topic === TOPICS.FRONT_END_VIDEO) {
             const source = {
               src: image,
               peripheralId,
               peripheralName: peripheral?.name,
+              device,
               status: SourceStatus.Active,
             };
             updateSourceByCameraId(peripheralId, source);
