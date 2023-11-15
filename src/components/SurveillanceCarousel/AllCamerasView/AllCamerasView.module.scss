@@ -1,12 +1,37 @@
 @import 'enums/styleVariables.module.scss';
 
+.root {
+  flex-grow: 1;
+  position: relative;
+}
+
+.button {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 100;
+  width: 60px;
+  background: rgba($fadedBlack, 0.5);
+  border: none;
+  color: $offWhite;
+  cursor: pointer;
+}
+
+.buttonLeft {
+  left: 0;
+}
+
+.buttonRight {
+  right: 0;
+}
+
 .container {
   width: 100%;
-  aspect-ratio: auto 5/2;
+  height: calc(100vh - 64px); // 64px is the height of the header
 }
 
 .grid {
-  height: 50%;
+  height: calc(100% / 3);
 }
 
 .imagePreview {

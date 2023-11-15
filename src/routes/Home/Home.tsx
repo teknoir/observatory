@@ -1,3 +1,4 @@
+import { useSearchParams } from 'react-router-dom';
 import AppBar from 'components/AppBar/AppBar';
 import MainContent from 'components/MainContent/MainContent';
 import MovementsTimelineContainer from 'components/MovementsTimeline/MovementsTimelineContainer';
@@ -8,6 +9,10 @@ import CamerasTitle from './CamerasTitle/CamerasTitle';
 import styles from './Home.module.scss';
 
 function Home() {
+  const [searchParams] = useSearchParams();
+  const hideMotionsAlerts =
+    Boolean(searchParams.get('hideMotionsAlerts')) || false;
+
   return (
     <HomeDataProvider>
       <AppBar>
@@ -19,7 +24,7 @@ function Home() {
       <MainContent>
         <div className={styles.mainContent}>
           <SurveillanceCarousel />
-          <MovementsTimelineContainer />
+          {!hideMotionsAlerts && <MovementsTimelineContainer />}
         </div>
       </MainContent>
     </HomeDataProvider>

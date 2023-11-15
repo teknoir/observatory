@@ -1,6 +1,11 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useInterval } from 'usehooks-ts';
+import classNames from 'classnames';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import ArrowBackIos from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIos from '@mui/icons-material/ArrowForwardIos';
 import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImagePreview/CarouselImagePreview';
 import { CarouselProps } from 'ts/types';
 import styles from './AllCamerasView.module.scss';
@@ -9,9 +14,23 @@ interface ImagesProps {
   src: string;
   peripheralName: string;
   status: number;
+  peripheralId: string;
 }
 
+const imagesPerPage = 9;
+const delay = 5000;
+
 function AllCamerasView({ sources }: CarouselProps) {
+  const navigate = useNavigate();
+  const [page, setPage] = useState<number>(0);
+
+  useEffect(() => {
+    navigate(`?hideMotionsAlerts=true`);
+    return () => {
+      navigate('');
+    };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   // FIXME: This is a workaround to render using an array
   const images: ImagesProps[] = useMemo(() => {
     const arr = [...sources.keys()];
@@ -20,23 +39,55 @@ function AllCamerasView({ sources }: CarouselProps) {
         src = '',
         peripheralName = '',
         status = 0,
+        peripheralId = '',
       } = sources.get(sourceKey) ?? {};
       return {
         src,
         peripheralName,
         status,
+        peripheralId,
       };
     });
     return generatedImages;
   }, [sources]);
-  const mainImages = images.slice(0, 3);
-  const bottomImages = images.slice(3, 7);
+  const visibleImages = images.slice(
+    page * imagesPerPage,
+    page * imagesPerPage + imagesPerPage
+  );
+
+  const pages = Math.ceil(images.length / imagesPerPage);
+
+  function nextPage(forward = true) {
+    setPage((prevPage) => {
+      if (forward) {
+        if (prevPage + 1 === pages) {
+          return 0;
+        }
+        return prevPage + 1;
+      } else {
+        if (prevPage === 0) {
+          return pages - 1;
+        }
+        return prevPage - 1;
+      }
+    });
+  }
+
+  useInterval(() => {
+    nextPage();
+  }, delay);
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box className={styles.root}>
+      <button
+        className={classNames(styles.button, styles.buttonLeft)}
+        onClick={() => nextPage(false)}
+      >
+        <ArrowBackIos />
+      </button>
       <Grid container className={styles.container}>
-        {mainImages.map((image, index) => (
-          <Grid key={index} xs={index === 2 ? 7 : 6} className={styles.grid}>
+        {visibleImages.map((image) => (
+          <Grid item xs={4} key={image.peripheralId} className={styles.grid}>
             <CarouselImagePreview
               id={image.peripheralName}
               src={image.src}
@@ -46,30 +97,13 @@ function AllCamerasView({ sources }: CarouselProps) {
             />
           </Grid>
         ))}
-
-        <Grid container xs={5} className={styles.grid}>
-          {bottomImages.map((image, index) => (
-            // TODO: Add action to click
-            <Grid
-              key={index}
-              xs={6}
-              className={styles.smallImages}
-              onClick={() => console.log('click')}
-            >
-              <CarouselImagePreview
-                id={image.peripheralName}
-                src={image.src}
-                title={image.peripheralName}
-                status={image.status}
-                classNameContainer={styles.imagePreview}
-              />
-              {index === 3 && images.length > 7 && (
-                <div className={styles.backdrop}>+{images.length - 6}</div>
-              )}
-            </Grid>
-          ))}
-        </Grid>
       </Grid>
+      <button
+        className={classNames(styles.button, styles.buttonRight)}
+        onClick={() => nextPage(true)}
+      >
+        <ArrowForwardIos />
+      </button>
     </Box>
   );
 }
