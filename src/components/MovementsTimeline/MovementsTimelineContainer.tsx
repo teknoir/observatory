@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import moment from 'moment/moment';
+import _flatten from 'lodash/flatten';
 import _uniqBy from 'lodash/uniqBy';
 import { SelectChangeEvent } from '@mui/material/Select';
 import {
@@ -10,7 +11,8 @@ import {
 } from 'components/ChartUtilities/accessors';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import { fetchMovements, fetchAlerts } from 'services/apiRequests';
-import { motions, alerts } from 'enums/queryKeys';
+import { motions, alerts, wsSources } from 'enums/queryKeys';
+import { Source } from 'ts/types';
 import { MovementsTimeline } from './MovementsTimeline';
 import {
   MovementsTimelinePeriod,
@@ -19,6 +21,46 @@ import {
 } from './enums';
 
 function MovementsTimelineContainer() {
+  const queryClient = useQueryClient();
+  const sources: { [p: string]: Source } = queryClient.getQueryData([
+    wsSources,
+  ])!;
+
+  const sourcesArray = Object.values(sources);
+
+  const sourcesTest = {
+    1: {
+      src: '1-src',
+      peripheral_id: '1-peripheralId',
+      peripheral_name: '1-peripheralName',
+      device: '1-device',
+      status: '1',
+    },
+    2: {
+      src: '2-src',
+      peripheral_id: '2-peripheralId',
+      peripheral_name: '2-peripheralName',
+      device: '2-device',
+      status: '2',
+    },
+    3: {
+      src: '3-src',
+      peripheral_id: '3-peripheralId',
+      peripheral_name: '3-peripheralName',
+      device: '3-device',
+      status: '3',
+    },
+    4: {
+      src: '4-src',
+      peripheral_id: '4-peripheralId',
+      peripheral_name: '4-peripheralName',
+      device: '4-device',
+      status: '4',
+    },
+  };
+
+  const sourcesArray = Object.values(sourcesTest);
+
   const [filter, setFilter] = useState<string>(TimelineFilterBy.MOTIONS_ALERTS);
   const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1);
   const startDate = useMemo(
@@ -73,14 +115,14 @@ function MovementsTimelineContainer() {
 
   const [peripherals, ids] = useMemo(() => {
     const uniqueArr = _uniqBy(
-      dataMotions ?? [].concat(dataAlerts ?? []),
+      _flatten([dataMotions ?? [], dataAlerts ?? [], sourcesArray ?? []]),
       'peripheral_name'
     );
     return [
       uniqueArr.map(peripheralNameAccessor),
       uniqueArr.map(peripheralIdAccessor),
     ];
-  }, [dataMotions, dataAlerts]);
+  }, [dataMotions, dataAlerts, sourcesArray]);
 
   const handleChangeFilterBy = (e: SelectChangeEvent<unknown>) => {
     const filterByValue = String(e.target.value);
