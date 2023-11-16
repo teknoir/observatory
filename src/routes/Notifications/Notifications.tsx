@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import _filter from 'lodash/filter';
 import _groupBy from 'lodash/groupBy';
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import AppBar from 'components/AppBar/AppBar';
 import MainContent from 'components/MainContent/MainContent';
@@ -40,7 +41,9 @@ const Notifications = () => {
   const dataGrouped = _groupBy(dataUnverified, 'is_seen');
   return (
     <>
-      <AppBar>Notifications</AppBar>
+      <AppBar>
+        <Typography variant="LabelMedium">Notifications</Typography>
+      </AppBar>
       <MainContent>
         <Box className={styles.wrapper}>
           {isLoading || isPreviousData ? (
