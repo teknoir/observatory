@@ -60,7 +60,7 @@ const Notifications = () => {
               alt="notifications"
               className={styles.icon}
             />
-            <Typography variant="body2" display="block" className={styles.text}>
+            <Typography variant="LabelMedium" display="block">
               +{count}
             </Typography>
           </div>
