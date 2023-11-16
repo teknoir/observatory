@@ -4,8 +4,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { IAlertEvent, Source } from 'ts/types';
 import { TOPICS, TYPES } from 'enums/wss';
 import { wsSources, notifications } from 'enums/queryKeys';
-
-const socketUrl = import.meta.env.VITE_WS_SERVER;
+import { getWSSHost } from '../config';
 
 export const isOpenWS = (readyState: ReadyState) =>
   readyState === ReadyState.OPEN;
@@ -29,7 +28,7 @@ interface Props {
 }
 export const WSSProvider = ({ children }: Props) => {
   const queryClient = useQueryClient();
-  const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl, {
+  const { sendMessage, lastMessage, readyState } = useWebSocket(getWSSHost(), {
     onOpen: () => console.log('WS opened CONTEXT'),
     onError: (event) => console.log('WS error', event),
     shouldReconnect: () => true,

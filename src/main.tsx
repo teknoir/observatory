@@ -1,17 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { setHost, setNamespace, setBasename } from './config';
 import App from './App.tsx';
 
-let namespace = null;
+let namespace = 'demonstration';
 let basename = '/';
-const pathname = window.location.pathname;
+const { host, pathname } = window.location;
 if (pathname !== '/') {
-  const match = pathname.match(/\/(?<namespace>.+)\/sdmc\//);
+  const match = pathname.match(/\/(?<namespace>.+)\/sdmc/);
   if (match) {
     namespace = match.groups!.namespace;
     basename = match[0];
   }
 }
+setHost(host);
+setBasename(basename);
+setNamespace(namespace);
+
 console.log('namespace', namespace);
 console.log('basename', basename);
 

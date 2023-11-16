@@ -20,14 +20,6 @@ queryClient.setQueryDefaults([wsSources], {
   cacheTime: 1000 * 60,
 });
 
-console.log('VITE_WS_SERVER', import.meta.env.VITE_WS_SERVER);
-console.log(
-  'VITE_HISTORIAN_DB_SERVER',
-  import.meta.env.VITE_HISTORIAN_DB_SERVER
-);
-console.log('import.meta.env.DEV', import.meta.env.DEV);
-console.log('import.meta.env.PROD', import.meta.env.PROD);
-
 interface Props {
   basename?: string;
 }
