@@ -21,9 +21,14 @@ import {
 
 interface Props {
   peripheralId?: string;
+  peripheralName?: string;
 }
 
-function MovementsTimelineSingleContainer({ peripheralId = '' }: Props) {
+function MovementsTimelineSingleContainer({
+  peripheralId = '',
+  peripheralName: peripheralNameFromDevice = '',
+}: Props) {
+  console.log(peripheralId);
   const [filter, setFilter] = useState<string>(TimelineFilterBy.MOTIONS_ALERTS);
   const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1);
 
@@ -69,7 +74,7 @@ function MovementsTimelineSingleContainer({ peripheralId = '' }: Props) {
     ? peripheralNameAccessor(dataMotionsByPeripheralId[0] ?? '')
     : dataAlertsByPeripheralId
     ? peripheralNameAccessor(dataAlertsByPeripheralId[0] ?? '')
-    : '';
+    : peripheralNameFromDevice ?? '';
 
   const handleChangeFilterBy = (e: SelectChangeEvent<unknown>) => {
     const filterByValue = String(e.target.value);
