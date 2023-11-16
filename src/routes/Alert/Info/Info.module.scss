@@ -11,22 +11,8 @@
   padding: 20px;
 }
 
-.title,
 .label {
-  font-size: 16px;
-  line-height: 16px;
-  font-weight: 400;
   text-transform: uppercase;
-}
-
-.title {
-  margin-bottom: 12px;
-}
-
-.text,
-.valueItem {
-  font-size: 16px;
-  line-height: 24px;
 }
 
 .valueItem {
@@ -35,6 +21,7 @@
 
 .status {
   display: flex;
+  margin-top: 8px;
 }
 
 .statusItem {

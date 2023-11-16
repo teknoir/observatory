@@ -2,11 +2,11 @@ import { useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as zod from 'zod';
+import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import FormLabel from '@mui/material/FormLabel';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import FormHelperText from '@mui/material/FormHelperText';
@@ -42,12 +42,9 @@ const Form = ({ onSubmit }: Props) => {
     <div className={styles.root}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.rowRadio}>
-          <FormLabel
-            id="demo-row-radio-buttons-group-label"
-            className={styles.label}
-          >
+          <Typography variant="LabelXLBold">
             Was this an actual theft?
-          </FormLabel>
+          </Typography>
           <Controller
             name="has_theft"
             control={control}
@@ -83,7 +80,7 @@ const Form = ({ onSubmit }: Props) => {
             render={({ field }) => (
               <TextField
                 {...field}
-                label="Comment"
+                label={<Typography variant="BodyMedium">Comment</Typography>}
                 rows={4}
                 multiline
                 fullWidth
@@ -100,7 +97,7 @@ const Form = ({ onSubmit }: Props) => {
             onClick={() => navigate(-1)}
             disabled={isSubmitting}
           >
-            Dismiss
+            <Typography variant="LabelLarge">Dismiss</Typography>
           </Button>
           <Button
             variant="contained"
@@ -108,7 +105,7 @@ const Form = ({ onSubmit }: Props) => {
             type="submit"
             disabled={isSubmitting}
           >
-            Verify
+            <Typography variant="LabelLarge">Verify</Typography>
           </Button>
         </Stack>
       </form>
