@@ -25,41 +25,14 @@ function MovementsTimelineContainer() {
   const sources: { [p: string]: Source } = queryClient.getQueryData([
     wsSources,
   ])!;
-
-  const sourcesArray = Object.values(sources);
-
-  const sourcesTest = {
-    1: {
-      src: '1-src',
-      peripheral_id: '1-peripheralId',
-      peripheral_name: '1-peripheralName',
-      device: '1-device',
-      status: '1',
-    },
-    2: {
-      src: '2-src',
-      peripheral_id: '2-peripheralId',
-      peripheral_name: '2-peripheralName',
-      device: '2-device',
-      status: '2',
-    },
-    3: {
-      src: '3-src',
-      peripheral_id: '3-peripheralId',
-      peripheral_name: '3-peripheralName',
-      device: '3-device',
-      status: '3',
-    },
-    4: {
-      src: '4-src',
-      peripheral_id: '4-peripheralId',
-      peripheral_name: '4-peripheralName',
-      device: '4-device',
-      status: '4',
-    },
-  };
-
-  const sourcesArray = Object.values(sourcesTest);
+  const sourcesArray = Object.values(sources ?? []);
+  const sourcesFromWS = sourcesArray.map((item) => {
+    return {
+      ...item,
+      peripheral_name: item.peripheralName,
+      peripheral_id: item.peripheralId,
+    };
+  });
 
   const [filter, setFilter] = useState<string>(TimelineFilterBy.MOTIONS_ALERTS);
   const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1);
@@ -115,14 +88,14 @@ function MovementsTimelineContainer() {
 
   const [peripherals, ids] = useMemo(() => {
     const uniqueArr = _uniqBy(
-      _flatten([dataMotions ?? [], dataAlerts ?? [], sourcesArray ?? []]),
+      _flatten([dataMotions ?? [], dataAlerts ?? [], sourcesFromWS ?? []]),
       'peripheral_name'
     );
     return [
       uniqueArr.map(peripheralNameAccessor),
       uniqueArr.map(peripheralIdAccessor),
     ];
-  }, [dataMotions, dataAlerts, sourcesArray]);
+  }, [dataMotions, dataAlerts, sourcesFromWS]);
 
   const handleChangeFilterBy = (e: SelectChangeEvent<unknown>) => {
     const filterByValue = String(e.target.value);
