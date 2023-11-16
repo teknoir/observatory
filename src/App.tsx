@@ -15,14 +15,11 @@ import MainLayout from 'layouts/MainLayout/MainLayout';
 import MotionsAlerts from 'routes/MotionsAlerts/MotionsAlerts';
 import './App.scss';
 
-const basename = import.meta.env.VITE_APP_BASENAME || '/';
-
 const queryClient = new QueryClient();
 queryClient.setQueryDefaults([wsSources], {
   cacheTime: 1000 * 60,
 });
 
-console.log('VITE_APP_BASENAME', import.meta.env.VITE_APP_BASENAME);
 console.log('VITE_WS_SERVER', import.meta.env.VITE_WS_SERVER);
 console.log(
   'VITE_HISTORIAN_DB_SERVER',
@@ -31,7 +28,12 @@ console.log(
 console.log('import.meta.env.DEV', import.meta.env.DEV);
 console.log('import.meta.env.PROD', import.meta.env.PROD);
 
-function App() {
+interface Props {
+  basename?: string;
+}
+
+function App({ basename: basenameProp }: Props) {
+  const basename = basenameProp || '/';
   return (
     <div>
       <QueryClientProvider client={queryClient}>

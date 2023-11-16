@@ -17,7 +17,6 @@ export default defineConfig(({ mode }) => {
           ? JSON.parse(env.VITE_USE_MOCK_HISTORIAN_DB)
           : false,
     },
-    base: env.VITE_APP_BASENAME || '/',
     plugins: [react()],
     resolve: {
       alias: {
