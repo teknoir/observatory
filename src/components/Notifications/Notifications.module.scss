@@ -1,3 +1,5 @@
+@import 'enums/styleVariables.module.scss';
+
 .root {
   margin-left: auto;
   cursor: pointer;
@@ -11,4 +13,9 @@
 .text {
   font-size: 12px;
   line-height: 12px;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
 }
