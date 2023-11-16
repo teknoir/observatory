@@ -28,7 +28,6 @@ function MovementsTimelineSingleContainer({
   peripheralId = '',
   peripheralName: peripheralNameFromDevice = '',
 }: Props) {
-  console.log(peripheralId);
   const [filter, setFilter] = useState<string>(TimelineFilterBy.MOTIONS_ALERTS);
   const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1);
 
