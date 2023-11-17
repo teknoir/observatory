@@ -54,7 +54,13 @@ export default function SelectMUI({
               value={option.value}
               sx={{ gap: '12px' }}
             >
-              {option.icon}
+              {option.icon && (
+                <img
+                  src={option.icon}
+                  alt={option.label}
+                  className={styles.layoutIcon}
+                />
+              )}
               <Typography variant="LabelMedium">{option.label}</Typography>
             </MenuItem>
           ))}

@@ -81,7 +81,10 @@ const Device = () => {
       <MainContent>
         <ImageViewer src={source?.src} />
         <div className={styles.movementsChart}>
-          <MovementsTimelineSingle peripheralId={peripheralId} />
+          <MovementsTimelineSingle
+            peripheralName={peripheralName}
+            peripheralId={peripheralId}
+          />
         </div>
       </MainContent>
     </>

@@ -1,4 +1,4 @@
-import { Dispatch, MouseEvent, ReactNode, SetStateAction } from 'react';
+import { Dispatch, MouseEvent, SetStateAction } from 'react';
 import { Moment } from 'moment/moment';
 
 export enum CarouselMode {
@@ -67,7 +67,7 @@ export interface VideoProps {
 export interface SelectOptions {
   label: string;
   value: number | string;
-  icon?: ReactNode;
+  icon?: string;
 }
 
 export type Options = Array<SelectOptions>;
