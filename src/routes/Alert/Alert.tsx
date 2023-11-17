@@ -2,6 +2,7 @@
 // @ts-nocheck
 import { useParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import Typography from '@mui/material/Typography';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import { alertKey } from 'enums/queryKeys';
 import { fetchAlert, verifyAlert } from 'services/apiRequests';
@@ -59,7 +60,9 @@ const Alert = () => {
 
   return (
     <>
-      <AppBar>{data.peripheral_name}</AppBar>
+      <AppBar>
+        <Typography variant="LabelMedium">{data.peripheral_name}</Typography>
+      </AppBar>
       <MainContent>
         <VideoPlayer url={data.video_url} width="100%" height={520} />
         {isVerified ? (
