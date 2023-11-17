@@ -19,7 +19,9 @@ const Verified = ({ size = Sizes.medium }: Props) => (
     })}
   >
     <VerifiedOutlinedIcon className={styles.icon} />
-    <Typography variant="body2" display="block" className={styles.text}>
+    <Typography
+      variant={size === Sizes.medium ? 'LabelLarge' : 'LabelMediumBold'}
+    >
       Verified
     </Typography>
   </div>

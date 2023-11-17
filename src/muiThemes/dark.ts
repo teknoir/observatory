@@ -10,6 +10,9 @@ const darkTheme = createTheme({
     },
   },
   typography: {
+    button: {
+      textTransform: 'none',
+    },
     DisplayLarge: {
       fontFamily: 'SuisseIntl-Light',
       fontSize: '56px',

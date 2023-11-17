@@ -1,0 +1,33 @@
+.root {
+  flex-shrink: 0;
+
+  img {
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.xs {
+  width: 12px;
+  height: 12px;
+}
+
+.sm {
+  width: 16px;
+  height: 16px;
+}
+
+.md {
+  width: 20px;
+  height: 20px;
+}
+
+.lg {
+  width: 24px;
+  height: 24px;
+}
+
+.rotated {
+  transform: rotate(180deg);
+}

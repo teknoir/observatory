@@ -166,3 +166,10 @@ export interface IAlertFormValues {
   has_theft: boolean;
   comment: string;
 }
+
+export enum IconSizes {
+  xs = 'xs',
+  sm = 'sm',
+  md = 'md',
+  lg = 'lg',
+}

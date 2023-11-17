@@ -5,17 +5,12 @@
 }
 
 .rowRadio {
+  display: flex;
+  align-items: center;
+  gap: 16px;
   margin-bottom: 8px;
 }
 
 .row {
   margin-bottom: 20px;
-}
-
-.label {
-  font-size: 16px;
-  line-height: 16px;
-  font-weight: 400;
-  color: $totalWhite;
-  text-transform: uppercase;
 }

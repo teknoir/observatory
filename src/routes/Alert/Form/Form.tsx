@@ -2,14 +2,17 @@ import { useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as zod from 'zod';
+import { styled } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import Radio from '@mui/material/Radio';
+import Radio, { RadioProps } from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import FormLabel from '@mui/material/FormLabel';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import FormHelperText from '@mui/material/FormHelperText';
+import thumbUpIcon from 'assets/icons/thumbUp.svg';
+import thumbUpRedIcon from 'assets/icons/thumbUpRed.svg';
 import { IAlertFormValues } from 'ts/types';
 import styles from './Form.module.scss';
 
@@ -22,6 +25,48 @@ const schema = zod
 
 interface Props {
   onSubmit: (values: IAlertFormValues) => void;
+}
+
+const Icon = styled('span')(() => ({
+  width: 20,
+  height: 20,
+  backgroundImage: `url(${thumbUpIcon})`,
+}));
+
+const IconRotated = styled(Icon)({
+  transform: 'rotate(180deg)',
+});
+
+const IconChecked = styled(Icon)({
+  backgroundImage: `url(${thumbUpRedIcon})`,
+});
+
+const IconCheckedRotated = styled(IconRotated)({
+  backgroundImage: `url(${thumbUpRedIcon})`,
+});
+
+function RadioThumb(props: RadioProps) {
+  return (
+    <Radio
+      disableRipple
+      color="default"
+      checkedIcon={<IconChecked />}
+      icon={<Icon />}
+      {...props}
+    />
+  );
+}
+
+function RadioThumbRotated(props: RadioProps) {
+  return (
+    <Radio
+      disableRipple
+      color="default"
+      checkedIcon={<IconCheckedRotated />}
+      icon={<IconRotated />}
+      {...props}
+    />
+  );
 }
 
 const Form = ({ onSubmit }: Props) => {
@@ -42,12 +87,9 @@ const Form = ({ onSubmit }: Props) => {
     <div className={styles.root}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.rowRadio}>
-          <FormLabel
-            id="demo-row-radio-buttons-group-label"
-            className={styles.label}
-          >
+          <Typography variant="LabelXLBold">
             Was this an actual theft?
-          </FormLabel>
+          </Typography>
           <Controller
             name="has_theft"
             control={control}
@@ -64,13 +106,13 @@ const Form = ({ onSubmit }: Props) => {
               >
                 <FormControlLabel
                   value={true}
-                  control={<Radio />}
-                  label="YES"
+                  control={<RadioThumb />}
+                  label=""
                 />
                 <FormControlLabel
                   value={false}
-                  control={<Radio />}
-                  label="NO"
+                  control={<RadioThumbRotated />}
+                  label=""
                 />
               </RadioGroup>
             )}
@@ -83,7 +125,7 @@ const Form = ({ onSubmit }: Props) => {
             render={({ field }) => (
               <TextField
                 {...field}
-                label="Comment"
+                label={<Typography variant="BodyMedium">Comment</Typography>}
                 rows={4}
                 multiline
                 fullWidth
@@ -100,7 +142,7 @@ const Form = ({ onSubmit }: Props) => {
             onClick={() => navigate(-1)}
             disabled={isSubmitting}
           >
-            Dismiss
+            <Typography variant="LabelLarge">Dismiss</Typography>
           </Button>
           <Button
             variant="contained"
@@ -108,7 +150,7 @@ const Form = ({ onSubmit }: Props) => {
             type="submit"
             disabled={isSubmitting}
           >
-            Verify
+            <Typography variant="LabelLarge">Verify</Typography>
           </Button>
         </Stack>
       </form>
