@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import moment from 'moment/moment';
+import _flatten from 'lodash/flatten';
 import _uniqBy from 'lodash/uniqBy';
 import { SelectChangeEvent } from '@mui/material/Select';
 import {
@@ -10,7 +11,8 @@ import {
 } from 'components/ChartUtilities/accessors';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import { fetchMovements, fetchAlerts } from 'services/apiRequests';
-import { motions, alerts } from 'enums/queryKeys';
+import { motions, alerts, wsSources } from 'enums/queryKeys';
+import { Source } from 'ts/types';
 import { MovementsTimeline } from './MovementsTimeline';
 import {
   MovementsTimelinePeriod,
@@ -19,6 +21,19 @@ import {
 } from './enums';
 
 function MovementsTimelineContainer() {
+  const queryClient = useQueryClient();
+  const sources: { [p: string]: Source } = queryClient.getQueryData([
+    wsSources,
+  ])!;
+  const sourcesArray = Object.values(sources ?? []);
+  const sourcesFromWS = sourcesArray.map((item) => {
+    return {
+      ...item,
+      peripheral_name: item.peripheralName,
+      peripheral_id: item.peripheralId,
+    };
+  });
+
   const [filter, setFilter] = useState<string>(TimelineFilterBy.MOTIONS_ALERTS);
   const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1);
   const startDate = useMemo(
@@ -73,14 +88,14 @@ function MovementsTimelineContainer() {
 
   const [peripherals, ids] = useMemo(() => {
     const uniqueArr = _uniqBy(
-      dataMotions ?? [].concat(dataAlerts ?? []),
+      _flatten([dataMotions ?? [], dataAlerts ?? [], sourcesFromWS ?? []]),
       'peripheral_name'
     );
     return [
       uniqueArr.map(peripheralNameAccessor),
       uniqueArr.map(peripheralIdAccessor),
     ];
-  }, [dataMotions, dataAlerts]);
+  }, [dataMotions, dataAlerts, sourcesFromWS]);
 
   const handleChangeFilterBy = (e: SelectChangeEvent<unknown>) => {
     const filterByValue = String(e.target.value);

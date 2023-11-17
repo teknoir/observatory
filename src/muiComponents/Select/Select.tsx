@@ -1,8 +1,10 @@
+import ExpandMore from '@mui/icons-material/ExpandMore';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import { SelectProps } from '@mui/material/Select';
+import Typography from '@mui/material/Typography';
 import { Options } from 'ts/types';
 import styles from './Select.module.scss';
 
@@ -42,6 +44,7 @@ export default function SelectMUI({
           },
         }}
         MenuProps={{ disableScrollLock: true }}
+        IconComponent={(props) => <ExpandMore fontSize="16" {...props} />}
         {...props}
       >
         {options &&
@@ -51,8 +54,14 @@ export default function SelectMUI({
               value={option.value}
               sx={{ gap: '12px' }}
             >
-              {option.icon}
-              {option.label}
+              {option.icon && (
+                <img
+                  src={option.icon}
+                  alt={option.label}
+                  className={styles.layoutIcon}
+                />
+              )}
+              <Typography variant="LabelMedium">{option.label}</Typography>
             </MenuItem>
           ))}
       </Select>

@@ -1,9 +1,9 @@
 import { useContext, useState } from 'react';
 import { SelectChangeEvent } from '@mui/material/Select';
-import GridOn from '@mui/icons-material/GridOn';
-import GridView from '@mui/icons-material/GridView';
-import ViewSidebar from '@mui/icons-material/ViewSidebar';
 import Select from 'muiComponents/Select/Select';
+import allCamerasIcon from 'assets/icons/allCamerasIcon.svg';
+import dynamicCarouselIcon from 'assets/icons/dynamicCarouselIcon.svg';
+import generalIcon from 'assets/icons/generalIcon.svg';
 import { HomeContext } from 'context/HomeContext/HomeContext';
 import { CarouselMode } from 'ts/types';
 import styles from './SelectLayout.module.scss';
@@ -13,17 +13,17 @@ const options = [
   {
     label: 'General',
     value: CarouselMode.General,
-    icon: <ViewSidebar fontSize="small" />,
+    icon: generalIcon,
   },
   {
     label: 'Dynamic Carousel',
     value: CarouselMode.AlternativeView,
-    icon: <GridView fontSize="small" />,
+    icon: dynamicCarouselIcon,
   },
   {
     label: 'All Cameras',
     value: CarouselMode.AllCamerasView,
-    icon: <GridOn fontSize="small" />,
+    icon: allCamerasIcon,
   },
 ];
 
