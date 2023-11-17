@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom/client';
 import { setHost, setNamespace, setBasename } from './config';
 import App from './App.tsx';
 
-let namespace = 'demonstration';
-let basename = '/';
+let namespace = 'dev';
+let basename = '/apps/';
 const { host, pathname } = window.location;
 if (pathname !== '/') {
-  const match = pathname.match(/\/(?<namespace>.+)\/sdmc/);
+  const match = pathname.match(/\/apps\/(?<namespace>.+)\/sdmc/);
   if (match) {
     namespace = match.groups!.namespace;
     basename = match[0];

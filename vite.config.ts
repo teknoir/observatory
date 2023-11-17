@@ -17,6 +17,7 @@ export default defineConfig(({ mode }) => {
           ? JSON.parse(env.VITE_USE_MOCK_HISTORIAN_DB)
           : false,
     },
+    base: '/apps/',
     plugins: [react()],
     resolve: {
       alias: {
