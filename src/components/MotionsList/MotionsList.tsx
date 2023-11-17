@@ -3,9 +3,11 @@ import _isEmpty from 'lodash/isEmpty';
 import { SelectChangeEvent } from '@mui/material/Select';
 import CircleIcon from '@mui/icons-material/Circle';
 import InputLabel from '@mui/material/InputLabel';
+import Typography from '@mui/material/Typography';
 import Select from 'muiComponents/Select/Select';
 import { IMotionsCounts } from 'ts/types';
 import { MotionsPeriod } from './enums';
+import styleVariables from 'enums/styleVariables.module.scss';
 import styles from './MotionsList.module.scss';
 
 interface Props {
@@ -23,7 +25,11 @@ const MotionsList = ({ data, period, handleChangePeriod }: Props) => {
   return (
     <div className={styles.root}>
       <div className={styles.selectWrapper}>
-        <InputLabel id="motionsPeriodLabel">Motions from: </InputLabel>
+        <InputLabel id="motionsPeriodLabel">
+          <Typography variant="LabelLarge" color={styleVariables.totalWhite}>
+            Motions from:
+          </Typography>
+        </InputLabel>
         <Select
           labelId="motionsPeriodLabel"
           value={period}

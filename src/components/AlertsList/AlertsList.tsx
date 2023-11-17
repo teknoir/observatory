@@ -1,10 +1,12 @@
 import _map from 'lodash/map';
 import { SelectChangeEvent } from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
+import Typography from '@mui/material/Typography';
 import Select from 'muiComponents/Select/Select';
 import AlertsGroup from 'components/AlertsGroup/AlertsGroup';
 import { IAlertEvent } from 'ts/types';
 import { AlertPeriod } from './enums';
+import styleVariables from 'enums/styleVariables.module.scss';
 import styles from './AlertsList.module.scss';
 
 interface Props {
@@ -28,7 +30,11 @@ const AlertsList = ({
   return (
     <div className={styles.root}>
       <div className={styles.selectWrapper}>
-        <InputLabel id="alertPeriodLabel">Alerts from: </InputLabel>
+        <InputLabel id="alertPeriodLabel">
+          <Typography variant="LabelLarge" color={styleVariables.totalWhite}>
+            Alerts from:
+          </Typography>
+        </InputLabel>
         <Select
           labelId="alertPeriodLabel"
           value={period}
