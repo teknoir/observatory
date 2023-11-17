@@ -1,4 +1,4 @@
-import { Dispatch, MouseEvent, SetStateAction } from 'react';
+import { Dispatch, MouseEvent, ReactNode, SetStateAction } from 'react';
 import { Moment } from 'moment/moment';
 
 export enum CarouselMode {
@@ -72,7 +72,7 @@ export enum LabelSize {
 export interface SelectOptions {
   label: string;
   value: number | string;
-  icon?: string;
+  icon?: ReactNode;
   labelSize?: LabelSize;
 }
 
