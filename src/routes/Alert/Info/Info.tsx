@@ -1,7 +1,8 @@
 import moment from 'moment';
 import Typography from '@mui/material/Typography';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import thumbUpIcon from 'assets/icons/thumbUp.svg';
+import thumbUpRedIcon from 'assets/icons/thumbUpRed.svg';
+import Icon from 'components/Icon/Icon';
 import Verified from 'components/Verified/Verified';
 import styles from './Info.module.scss';
 
@@ -43,29 +44,11 @@ const Info = ({
           </Typography>
         </div>
       </div>
-      <div className={styles.item}>
+      <div className={styles.itemWithTheft}>
         <Typography variant="LabelXLBold">Was this an actual theft?</Typography>
-        <div className={styles.status}>
-          <div className={styles.statusItem}>
-            {hasTheft ? (
-              <CheckCircleOutlineIcon />
-            ) : (
-              <RadioButtonUncheckedIcon />
-            )}
-            <Typography variant="TitleSmall" className={styles.label}>
-              Yes
-            </Typography>
-          </div>
-          <div className={styles.statusItem}>
-            {hasTheft ? (
-              <RadioButtonUncheckedIcon />
-            ) : (
-              <CheckCircleOutlineIcon />
-            )}
-            <Typography variant="TitleSmall" className={styles.label}>
-              No
-            </Typography>
-          </div>
+        <div className={styles.hasTheftIcons}>
+          <Icon icon={hasTheft ? thumbUpRedIcon : thumbUpIcon} />
+          <Icon icon={hasTheft ? thumbUpIcon : thumbUpRedIcon} rotated />
         </div>
       </div>
       <div className={styles.item}>

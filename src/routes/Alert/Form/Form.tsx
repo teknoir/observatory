@@ -2,14 +2,17 @@ import { useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as zod from 'zod';
+import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import Radio from '@mui/material/Radio';
+import Radio, { RadioProps } from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import FormHelperText from '@mui/material/FormHelperText';
+import thumbUpIcon from 'assets/icons/thumbUp.svg';
+import thumbUpRedIcon from 'assets/icons/thumbUpRed.svg';
 import { IAlertFormValues } from 'ts/types';
 import styles from './Form.module.scss';
 
@@ -22,6 +25,48 @@ const schema = zod
 
 interface Props {
   onSubmit: (values: IAlertFormValues) => void;
+}
+
+const Icon = styled('span')(() => ({
+  width: 20,
+  height: 20,
+  backgroundImage: `url(${thumbUpIcon})`,
+}));
+
+const IconRotated = styled(Icon)({
+  transform: 'rotate(180deg)',
+});
+
+const IconChecked = styled(Icon)({
+  backgroundImage: `url(${thumbUpRedIcon})`,
+});
+
+const IconCheckedRotated = styled(IconRotated)({
+  backgroundImage: `url(${thumbUpRedIcon})`,
+});
+
+function RadioThumb(props: RadioProps) {
+  return (
+    <Radio
+      disableRipple
+      color="default"
+      checkedIcon={<IconChecked />}
+      icon={<Icon />}
+      {...props}
+    />
+  );
+}
+
+function RadioThumbRotated(props: RadioProps) {
+  return (
+    <Radio
+      disableRipple
+      color="default"
+      checkedIcon={<IconCheckedRotated />}
+      icon={<IconRotated />}
+      {...props}
+    />
+  );
 }
 
 const Form = ({ onSubmit }: Props) => {
@@ -61,13 +106,13 @@ const Form = ({ onSubmit }: Props) => {
               >
                 <FormControlLabel
                   value={true}
-                  control={<Radio />}
-                  label="YES"
+                  control={<RadioThumb />}
+                  label=""
                 />
                 <FormControlLabel
                   value={false}
-                  control={<Radio />}
-                  label="NO"
+                  control={<RadioThumbRotated />}
+                  label=""
                 />
               </RadioGroup>
             )}

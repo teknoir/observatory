@@ -11,6 +11,12 @@
   padding: 20px;
 }
 
+.itemWithTheft {
+  composes: item;
+  display: flex;
+  gap: 16px;
+}
+
 .label {
   text-transform: uppercase;
 }
@@ -19,14 +25,7 @@
   margin-bottom: 8px;
 }
 
-.status {
+.hasTheftIcons {
   display: flex;
-  margin-top: 8px;
-}
-
-.statusItem {
-  display: flex;
-  align-items: center;
-  margin-right: 16px;
-  gap: 8px;
+  gap: 16px;
 }
