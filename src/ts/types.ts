@@ -64,10 +64,16 @@ export interface VideoProps {
   src: string;
 }
 
+export enum LabelSize {
+  medium = 'LabelMedium',
+  large = 'LabelLarge',
+}
+
 export interface SelectOptions {
   label: string;
   value: number | string;
   icon?: string;
+  labelSize?: LabelSize;
 }
 
 export type Options = Array<SelectOptions>;
