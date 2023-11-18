@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import { FixedSizeList } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
+import classNames from 'classnames';
+import Box from '@mui/material/Box';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import ExpandLess from '@mui/icons-material/ExpandLess';
@@ -65,7 +67,9 @@ const AlertsGroup = ({ group, dayStr }: Props) => {
   }, [detectionIdUrl, selectedIdx, isToday]);
 
   return (
-    <>
+    <Box className={classNames('BoxClass', open ? 'BoxOpen' : 'BoxClosed')}>
+      <div id="box_border_1" />
+      <div id="box_border_2" />
       <ListItemButton onClick={handleClick} sx={{ pl: '20px' }}>
         <ListItemText primary={`${dayName} (${group.length})`} />
         {open ? <ExpandLess /> : <ExpandMore />}
@@ -98,7 +102,7 @@ const AlertsGroup = ({ group, dayStr }: Props) => {
           </AutoSizer>
         </div>
       </Collapse>
-    </>
+    </Box>
   );
 };
 
