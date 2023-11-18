@@ -164,8 +164,24 @@ export interface IEventsRequestParamsById {
   peripheralId: string;
 }
 
+export enum IMotionsTypes {
+  Cars = 'cars',
+  People = 'people',
+}
+
+export enum IMotionsActions {
+  In = 'in',
+  Out = 'out',
+}
+
+export interface IMotionsCountsProps {
+  type: IMotionsTypes;
+  action: IMotionsActions;
+  number: number;
+}
+
 export interface IMotionsCounts {
-  [key: string]: number;
+  [key: string]: IMotionsCountsProps;
 }
 
 export interface IAlertFormValues {
