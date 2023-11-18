@@ -50,6 +50,17 @@ const AlertsList = ({
             borderRight: '1px solid white',
             position: 'relative',
           },
+          '& .BoxClass.BoxClosed:first-child #box_border_2': {
+            position: 'absolute',
+            top: '10px',
+            left: 0,
+            width: '1px',
+            height: 'calc(100% - 10px)',
+            borderLeft: '1px solid white',
+          },
+          '& .BoxClass:not(:first-child)': {
+            borderLeft: '1px solid white',
+          },
           '& .BoxOpen': {
             borderTop: '1px solid white',
             borderLeft: '1px solid white',
@@ -90,28 +101,6 @@ const AlertsList = ({
             borderBottom: '1px solid white',
             transform: 'rotate(-45deg)',
             transformOrigin: '0 0',
-          },
-          '& .BoxClosed #box_border_2': {
-            content: '""',
-            position: 'absolute',
-            top: '10px',
-            left: 0,
-            width: '10px',
-            height: 'calc(100% - 9px)',
-            borderLeft: '1px solid white',
-            borderBottom: '1px solid white',
-          },
-          '& .BoxOpen + .BoxClosed': {
-            position: 'relative',
-          },
-          '& .BoxOpen + .BoxClosed::after': {
-            content: '""',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '10px',
-            height: '10px',
-            borderLeft: '1px solid white',
           },
           '&>:last-child': {
             borderBottom: '1px solid white',
