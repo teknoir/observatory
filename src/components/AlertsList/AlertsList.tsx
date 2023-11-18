@@ -47,7 +47,7 @@ const AlertsList = ({
         className={styles.alertsWrapper}
         sx={{
           '& .BoxClass': {
-            borderRight: '1px solid white',
+            borderRight: `1px solid ${styleVariables.offWhite}`,
             position: 'relative',
           },
           '& .BoxClass.BoxClosed:first-child #box_border_2': {
@@ -56,14 +56,14 @@ const AlertsList = ({
             left: 0,
             width: '1px',
             height: 'calc(100% - 10px)',
-            borderLeft: '1px solid white',
+            borderLeft: `1px solid ${styleVariables.offWhite}`,
           },
           '& .BoxClass:not(:first-child)': {
-            borderLeft: '1px solid white',
+            borderLeft: `1px solid ${styleVariables.offWhite}`,
           },
           '& .BoxOpen': {
-            borderTop: '1px solid white',
-            borderLeft: '1px solid white',
+            borderTop: `1px solid ${styleVariables.offWhite}`,
+            borderLeft: `1px solid ${styleVariables.offWhite}`,
           },
           '& .BoxClosed::before': {
             content: '""',
@@ -73,7 +73,7 @@ const AlertsList = ({
             display: 'inline-block',
             width: 'calc(100% - 10px)',
             height: '100%',
-            borderTop: '1px solid white',
+            borderTop: `1px solid ${styleVariables.offWhite}`,
           },
           '& .BoxClosed::after': {
             position: 'absolute',
@@ -82,7 +82,7 @@ const AlertsList = ({
             display: 'inline-block',
             width: '1px',
             height: 'calc(100% - 10px)',
-            borderLeft: '1px solid white',
+            borderLeft: `1px solid ${styleVariables.offWhite}`,
           },
           '& .BoxClosed #box_border_1': {
             position: 'absolute',
@@ -98,12 +98,12 @@ const AlertsList = ({
             left: '-9.3px',
             width: '100%',
             height: '100%',
-            borderBottom: '1px solid white',
+            borderBottom: `1px solid ${styleVariables.offWhite}`,
             transform: 'rotate(-45deg)',
             transformOrigin: '0 0',
           },
           '&>:last-child': {
-            borderBottom: '1px solid white',
+            borderBottom: `1px solid ${styleVariables.offWhite}`,
           },
         }}
       >

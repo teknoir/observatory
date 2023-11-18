@@ -4,12 +4,13 @@ import moment from 'moment';
 import { FixedSizeList } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import classNames from 'classnames';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 import Box from '@mui/material/Box';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
 import Collapse from '@mui/material/Collapse';
+import Typography from '@mui/material/Typography';
 import AlertItem from 'components/AlertItem/AlertItem';
 import { isToday as isTodayFn, isYesterday } from 'utils/moment';
 import { IAlertEvent } from 'ts/types';
@@ -71,8 +72,16 @@ const AlertsGroup = ({ group, dayStr }: Props) => {
       <div id="box_border_1" />
       <div id="box_border_2" />
       <ListItemButton onClick={handleClick} sx={{ pl: '20px' }}>
-        <ListItemText primary={`${dayName} (${group.length})`} />
-        {open ? <ExpandLess /> : <ExpandMore />}
+        <ListItemText
+          primary={
+            <Typography variant="LabelMedium">
+              {dayName} ({group.length})
+            </Typography>
+          }
+        />
+        <div className={styles.iconBorder}>
+          {open ? <ExpandLess /> : <ExpandMore />}
+        </div>
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <div
