@@ -1,15 +1,16 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useContext } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import { CarouselMode, Source, SourceStatus } from 'ts/types';
+import { HomeContext } from 'context/HomeContext/HomeContext';
 import { useWSSContext } from 'context/webSocketContext';
 import { wsSources } from 'enums/queryKeys';
 import { TOPICS, TYPES } from 'enums/wss';
+import { CarouselMode, HomeContextProps, Source, SourceStatus } from 'ts/types';
 import SurveillanceCarousel from './SurveillanceCarousel';
 import Skeleton from './Skeleton/Skeleton';
 import { createRandomSources } from './utils';
 
 interface Props {
-  mode: CarouselMode;
+  mode?: CarouselMode;
 }
 
 const SurveillanceCarouselContainer = ({ mode }: Props) => {
@@ -22,6 +23,7 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
       : createRandomSources(0)
   );
   const { lastMessage } = useWSSContext();
+  const { layout, setNumCameras } = useContext(HomeContext) as HomeContextProps;
 
   const sourcesSize = sources.size;
 
@@ -30,16 +32,17 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
     const useTestImages = location?.search.includes('useTestImages');
     if (useTestImages) {
       setTimeout(() => {
-        setSources(createRandomSources(3));
+        setSources(createRandomSources(30));
       }, 3000);
     }
   }, []);
 
   useEffect(() => {
-    if (!isLoaded && sources.size > 0) {
+    if (!isLoaded && sourcesSize > 0) {
       setIsLoaded(true);
+      setNumCameras(sourcesSize);
     }
-  }, [isLoaded, sourcesSize]);
+  }, [isLoaded, sourcesSize, setNumCameras]);
 
   useEffect(() => {
     if (lastMessage) {
@@ -91,6 +94,8 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
     [sources]
   );
 
+  const selectedLayout = mode || layout;
+
   // TODO: remove in future when we have clear vision of this feature
   // const deleteSourcesByCameraIds = (cameraIds: string[]) => {
   //   const newSources = new Map(sources);
@@ -102,7 +107,7 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
 
   if (!isLoaded) return <Skeleton />;
 
-  return <SurveillanceCarousel mode={mode} sources={sources} />;
+  return <SurveillanceCarousel mode={selectedLayout} sources={sources} />;
 };
 
 export default SurveillanceCarouselContainer;

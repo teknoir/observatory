@@ -9,8 +9,7 @@
 .small {
   padding: 2px 4px;
 
-  .icon,
-  .text {
+  .icon {
     font-size: 12px;
     line-height: 12px;
   }
@@ -19,13 +18,12 @@
 .medium {
   padding: 4px 8px;
 
-  .icon,
-  .text {
+  .icon {
     font-size: 14px;
     line-height: 20px;
   }
+}
 
-  .text {
-    margin-left: 6px;
-  }
+.icon {
+  margin-right: 6px;
 }

@@ -1,8 +1,10 @@
+import ExpandMore from '@mui/icons-material/ExpandMore';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import { SelectProps } from '@mui/material/Select';
+import Typography from '@mui/material/Typography';
 import { Options } from 'ts/types';
 import styles from './Select.module.scss';
 
@@ -35,14 +37,31 @@ export default function SelectMUI({
           '& .MuiOutlinedInput-notchedOutline': {
             border: 'none',
           },
+          '& .MuiSelect-select.MuiInputBase-input.MuiOutlinedInput-input': {
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+          },
         }}
         MenuProps={{ disableScrollLock: true }}
+        IconComponent={(props) => <ExpandMore fontSize="16" {...props} />}
         {...props}
       >
         {options &&
           options.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
+            <MenuItem
+              key={option.value}
+              value={option.value}
+              sx={{ gap: '12px' }}
+            >
+              {option.icon && (
+                <img
+                  src={option.icon}
+                  alt={option.label}
+                  className={styles.layoutIcon}
+                />
+              )}
+              <Typography variant="LabelMedium">{option.label}</Typography>
             </MenuItem>
           ))}
       </Select>

@@ -1,28 +1,22 @@
-import { createContext, useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useInterval } from 'usehooks-ts';
-import { mainImageCarouselContext } from 'context/HomeContext/mainImageCarouselContext';
-import {
-  SurveillanceCarouselProps,
-  CarouselMode,
-  MainImageCarouselContextProps,
-} from 'ts/types';
-import SurveillanceCarouselGeneral from './General';
-import SurveillanceCarouselDetail from './Detail';
-// import GridViewControls from "./GridViewControls"
-import GridViewProvider from './GridViewContext';
+import { HomeContext } from 'context/HomeContext/HomeContext';
+import { CarouselMode, SurveillanceCarouselProps } from 'ts/types';
+import AllCamerasView from './AllCamerasView/AllCamerasView';
+import AlternativeView from './AlternativeView/AlternativeView';
+import DetailView from './DetailView/DetailView';
+import GeneralView from './GeneralView/GeneralView';
 
 const surveillanceCarouselComponentsByMode = {
-  [CarouselMode.General]: SurveillanceCarouselGeneral,
-  [CarouselMode.Detail]: SurveillanceCarouselDetail,
+  [CarouselMode.AllCamerasView]: AllCamerasView,
+  [CarouselMode.AlternativeView]: AlternativeView,
+  [CarouselMode.Detail]: DetailView,
+  [CarouselMode.General]: GeneralView,
 };
-
-export const GridViewContext = createContext('');
 
 const SurveillanceCarousel = ({ mode, sources }: SurveillanceCarouselProps) => {
   const [mainImage, setMainImage] = useState('');
-  const { mainImageCarousel, setMainImageCarousel } = useContext(
-    mainImageCarouselContext
-  ) as MainImageCarouselContextProps;
+  const { mainImageCarousel, setMainImageCarousel } = useContext(HomeContext);
 
   const sourcesSize = sources.size;
 
@@ -63,14 +57,11 @@ const SurveillanceCarousel = ({ mode, sources }: SurveillanceCarouselProps) => {
   if (!Component) return null;
 
   return (
-    <GridViewProvider>
-      {/*<GridViewControls />*/}
-      <Component
-        sources={sources}
-        mainSource={mainImage}
-        setMainSource={setMainSource}
-      />
-    </GridViewProvider>
+    <Component
+      sources={sources}
+      mainSource={mainImage}
+      setMainSource={setMainSource}
+    />
   );
 };
 

@@ -2,9 +2,9 @@
 // @ts-nocheck
 import { useState, useEffect, MouseEvent } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 import Typography from '@mui/material/Typography';
+import bellIcon from 'assets/icons/bellIcon.svg';
+import bellRedIcon from 'assets/icons/bellRedIcon.svg';
 import { fetchNotifications } from 'services/apiRequests';
 import { useWSSContext } from 'context/webSocketContext';
 import { notifications } from 'enums/queryKeys';
@@ -55,13 +55,17 @@ const Notifications = () => {
       <div onClick={handleClick}>
         {count ? (
           <div className={styles.iconWrapper}>
-            <NotificationsIcon color={'error'} />
-            <Typography variant="body2" display="block" className={styles.text}>
+            <img
+              src={bellRedIcon}
+              alt="notifications"
+              className={styles.icon}
+            />
+            <Typography variant="LabelMedium" display="block">
               +{count}
             </Typography>
           </div>
         ) : (
-          <NotificationsOutlinedIcon />
+          <img src={bellIcon} alt="notifications" className={styles.icon} />
         )}
       </div>
       <Popover

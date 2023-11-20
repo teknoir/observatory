@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react';
+import CarouselImage from 'components/SurveillanceCarousel/CarouselImage/CarouselImage';
+import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImagePreview/CarouselImagePreview';
 import { CarouselProps, RefImage } from 'ts/types';
-import CarrouselImage from './CarrouselImage';
-import CarrouselImagePreview from './CarrouselImagePreview';
-import styles from './SurveillanceCarousel.module.scss';
+import styles from './GeneralView.module.scss';
 
-function SurveillanceCarouselGeneral({
+function GeneralView({
   sources,
   mainSource,
   setMainSource,
@@ -36,8 +36,8 @@ function SurveillanceCarouselGeneral({
   } = sources.get(mainSource) ?? {};
 
   return (
-    <section className={styles.containerGeneral}>
-      <CarrouselImage
+    <section className={styles.root}>
+      <CarouselImage
         id={mainPeripheralId}
         src={mainSrc}
         title={mainPeripheralName}
@@ -66,13 +66,13 @@ function SurveillanceCarouselGeneral({
                 }
                 className={styles.imagePreviewContainer}
               >
-                <CarrouselImagePreview
+                <CarouselImagePreview
                   id={sourceKey}
                   src={src}
                   title={peripheralName}
                   status={status}
                   className={`${
-                    mainSource === sourceKey ? styles.galleryItemBorder : ''
+                    mainSource === sourceKey ? styles.border : ''
                   }`}
                 />
               </div>
@@ -86,4 +86,4 @@ function SurveillanceCarouselGeneral({
   );
 }
 
-export default SurveillanceCarouselGeneral;
+export default GeneralView;

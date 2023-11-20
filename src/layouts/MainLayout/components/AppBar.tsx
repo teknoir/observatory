@@ -1,10 +1,12 @@
 import { ReactNode } from 'react';
+import { useLocation } from 'react-router-dom';
 import { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar/AppBar';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import { styled } from '@mui/material/styles';
 import { useMainLayoutContext } from 'context/mainLayoutContext';
 import Notifications from 'components/Notifications/Notifications';
+import GoBackButton from './GoBackButton/GoBackButton';
 import {
   leftSideBarWidth,
   leftSideBarClosedWidth,
@@ -63,6 +65,7 @@ const AppBarComponent = ({
   children: ReactNode;
 }) => {
   const { isOpenedLeft, isOpenedRight } = useMainLayoutContext();
+  const location = useLocation();
   return (
     <AppBar
       position="fixed"
@@ -71,6 +74,7 @@ const AppBarComponent = ({
       hasRightSideBar={hasRightSideBar}
     >
       <Toolbar>
+        {location.pathname !== '/' && <GoBackButton />}
         {children}
         <Notifications />
       </Toolbar>

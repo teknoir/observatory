@@ -1,24 +1,42 @@
+import { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import AppBar from 'components/AppBar/AppBar';
 import MainContent from 'components/MainContent/MainContent';
 import MovementsTimelineContainer from 'components/MovementsTimeline/MovementsTimelineContainer';
-import SurveillanceCarousel from 'components/SurveillanceCarrousel';
-import { HomeDataProvider } from 'context/HomeContext/homeContext';
-import { CarouselMode } from 'ts/types.ts';
+import SurveillanceCarousel from 'components/SurveillanceCarousel';
+import SelectLayout from 'components/SurveillanceCarousel/SelectLayout/SelectLayout';
+import HomeDataProvider from 'context/HomeContext/HomeDataProvider';
+import { useMainLayoutContext } from 'context/mainLayoutContext';
+import CamerasTitle from './CamerasTitle/CamerasTitle';
 import styles from './Home.module.scss';
 
 function Home() {
+  const { closeRight } = useMainLayoutContext();
+  const [searchParams] = useSearchParams();
+  const hideMotionsAlerts =
+    Boolean(searchParams.get('hideMotionsAlerts')) || false;
+
+  useEffect(() => {
+    if (hideMotionsAlerts) {
+      closeRight();
+    }
+  }, [hideMotionsAlerts]); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
-    <>
-      <AppBar>{/* TODO: Add "All Cameras" text. */}</AppBar>
+    <HomeDataProvider>
+      <AppBar>
+        <div className={styles.toolbar}>
+          <CamerasTitle />
+          <SelectLayout />
+        </div>
+      </AppBar>
       <MainContent>
-        <HomeDataProvider>
-          <main className={styles.homeContainer}>
-            <SurveillanceCarousel mode={CarouselMode.General} />
-            <MovementsTimelineContainer />
-          </main>
-        </HomeDataProvider>
+        <div className={styles.mainContent}>
+          <SurveillanceCarousel />
+          {!hideMotionsAlerts && <MovementsTimelineContainer />}
+        </div>
       </MainContent>
-    </>
+    </HomeDataProvider>
   );
 }
 
