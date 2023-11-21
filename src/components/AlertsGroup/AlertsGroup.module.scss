@@ -1,5 +1,13 @@
+@import 'enums/styleVariables.module.scss';
+
+.iconBorder {
+  display: flex;
+  border-top: 1px solid $offWhite;
+  border-right: 1px solid $offWhite;
+}
+
 .list {
   overflow: hidden;
   max-height: 620px;
-  width: 100%;
+  width: calc(100% - 12px);
 }

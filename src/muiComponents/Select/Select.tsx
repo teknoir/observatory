@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import { SelectProps } from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
-import { Options } from 'ts/types';
+import { LabelSize, Options } from 'ts/types';
 import styles from './Select.module.scss';
 
 // TODO: handle id and name props in this component
@@ -17,8 +17,9 @@ export default function SelectMUI({
   variant = 'outlined',
   size = 'small',
   onChange,
+  labelSize = LabelSize.large,
   ...props
-}: SelectProps & { options: Options }) {
+}: SelectProps & { options: Options } & { labelSize?: LabelSize }) {
   return (
     <FormControl variant={variant} size={size}>
       {!!label && <InputLabel>{label}</InputLabel>}
@@ -54,14 +55,8 @@ export default function SelectMUI({
               value={option.value}
               sx={{ gap: '12px' }}
             >
-              {option.icon && (
-                <img
-                  src={option.icon}
-                  alt={option.label}
-                  className={styles.layoutIcon}
-                />
-              )}
-              <Typography variant="LabelMedium">{option.label}</Typography>
+              {option.icon}
+              <Typography variant={labelSize}>{option.label}</Typography>
             </MenuItem>
           ))}
       </Select>

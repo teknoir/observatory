@@ -1,12 +1,12 @@
 import IconButton from '@mui/material/IconButton';
 import LastPageIcon from '@mui/icons-material/LastPage';
-import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import { useMainLayoutContext } from 'context/mainLayoutContext';
 import RightSideBarTabs from 'components/RightSideBarTabs/RightSideBarTabs';
 import DrawerHeader from './components/DrawerHeader.tsx';
 import { rightSideBarWidth, rightSideBarClosedWidth } from './enums.ts';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
+import styleVariables from 'enums/styleVariables.module.scss';
 
 const RightSideBar = () => {
   const { isOpenedRight, openRight, closeRight } = useMainLayoutContext();
@@ -20,6 +20,7 @@ const RightSideBar = () => {
           width: isOpenedRight ? rightSideBarWidth : rightSideBarClosedWidth,
           boxSizing: 'border-box',
           alignItems: isOpenedRight ? 'inherit' : 'center',
+          backgroundColor: styleVariables.fadedBlack,
         },
       }}
       variant="permanent"
@@ -31,7 +32,6 @@ const RightSideBar = () => {
           {isOpenedRight ? <LastPageIcon /> : <FirstPageIcon />}
         </IconButton>
       </DrawerHeader>
-      <Divider />
       <div style={{ display: isOpenedRight ? 'block' : 'none' }}>
         <RightSideBarTabs />
       </div>
