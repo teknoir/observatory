@@ -14,7 +14,7 @@ export function createRandomSources(quantity: number) {
   const images: Map<CameraId, Source> = new Map();
   for (let i = 0; i < quantity; i++) {
     const randomNum = generateRandomNum();
-    const newImage = `https://picsum.photos/id/${randomNum}/400/300`;
+    const newImage = `https://picsum.photos/id/${randomNum}/800/450`;
     images.set(String(i + 1), {
       src: newImage,
       peripheralId: String(i + 1),
