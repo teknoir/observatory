@@ -7,6 +7,7 @@ import bellIcon from 'assets/icons/bellIcon.svg';
 import bellRedIcon from 'assets/icons/bellRedIcon.svg';
 import { fetchNotifications } from 'services/apiRequests';
 import { useWSSContext } from 'context/webSocketContext';
+import Icon from 'components/Icon/Icon';
 import { notifications } from 'enums/queryKeys';
 import { TOPICS, TYPES } from 'enums/wss';
 import Popover from './Popover/Popover';
@@ -55,17 +56,13 @@ const Notifications = () => {
       <div onClick={handleClick}>
         {count ? (
           <div className={styles.iconWrapper}>
-            <img
-              src={bellRedIcon}
-              alt="notifications"
-              className={styles.icon}
-            />
+            <Icon icon={bellRedIcon} />
             <Typography variant="LabelMedium" display="block">
               +{count}
             </Typography>
           </div>
         ) : (
-          <img src={bellIcon} alt="notifications" className={styles.icon} />
+          <Icon icon={bellIcon} />
         )}
       </div>
       <Popover

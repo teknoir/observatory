@@ -1,4 +1,4 @@
-import { Dispatch, MouseEvent, SetStateAction } from 'react';
+import { Dispatch, MouseEvent, ReactNode, SetStateAction } from 'react';
 import { Moment } from 'moment/moment';
 
 export enum CarouselMode {
@@ -64,10 +64,16 @@ export interface VideoProps {
   src: string;
 }
 
+export enum LabelSize {
+  medium = 'LabelMedium',
+  large = 'LabelLarge',
+}
+
 export interface SelectOptions {
   label: string;
   value: number | string;
-  icon?: string;
+  icon?: ReactNode;
+  labelSize?: LabelSize;
 }
 
 export type Options = Array<SelectOptions>;
@@ -158,8 +164,24 @@ export interface IEventsRequestParamsById {
   peripheralId: string;
 }
 
+export enum IMotionsTypes {
+  Cars = 'cars',
+  People = 'people',
+}
+
+export enum IMotionsActions {
+  In = 'in',
+  Out = 'out',
+}
+
+export interface IMotionsCountsProps {
+  type: IMotionsTypes;
+  action: IMotionsActions;
+  number: number;
+}
+
 export interface IMotionsCounts {
-  [key: string]: number;
+  [key: string]: IMotionsCountsProps;
 }
 
 export interface IAlertFormValues {

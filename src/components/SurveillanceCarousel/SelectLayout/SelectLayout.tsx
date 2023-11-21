@@ -5,7 +5,8 @@ import allCamerasIcon from 'assets/icons/allCamerasIcon.svg';
 import dynamicCarouselIcon from 'assets/icons/dynamicCarouselIcon.svg';
 import generalIcon from 'assets/icons/generalIcon.svg';
 import { HomeContext } from 'context/HomeContext/HomeContext';
-import { CarouselMode } from 'ts/types';
+import Icon from 'components/Icon/Icon';
+import { CarouselMode, IconSizes, LabelSize } from 'ts/types';
 import styles from './SelectLayout.module.scss';
 
 // TODO: Replace icons
@@ -13,17 +14,17 @@ const options = [
   {
     label: 'General',
     value: CarouselMode.General,
-    icon: generalIcon,
+    icon: <Icon icon={generalIcon} size={IconSizes.lg} />,
   },
   {
     label: 'Dynamic Carousel',
     value: CarouselMode.AlternativeView,
-    icon: dynamicCarouselIcon,
+    icon: <Icon icon={dynamicCarouselIcon} size={IconSizes.lg} />,
   },
   {
     label: 'All Cameras',
     value: CarouselMode.AllCamerasView,
-    icon: allCamerasIcon,
+    icon: <Icon icon={allCamerasIcon} size={IconSizes.lg} />,
   },
 ];
 
@@ -43,6 +44,7 @@ function SelectLayout() {
         value={layout || selectOption}
         options={options}
         onChange={handleSelectChange}
+        labelSize={LabelSize.medium}
       />
     </div>
   );

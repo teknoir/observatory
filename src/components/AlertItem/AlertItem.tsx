@@ -4,12 +4,14 @@ import moment from 'moment';
 import classNames from 'classnames';
 import Typography from '@mui/material/Typography';
 import CircleIcon from '@mui/icons-material/Circle';
-import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
-import DirectionsWalkIcon from '@mui/icons-material/DirectionsWalk';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
+import loiteringIcon from 'assets/icons/loiteringIcon.svg';
+// import personDownIcon from 'assets/icons/personDownIcon.svg';
+import theftIcon from 'assets/icons/theftIcon.svg';
+import Icon from 'components/Icon/Icon';
 import Verified, { Sizes } from 'components/Verified/Verified';
 import APP_URLS from 'enums/urls';
-import { IAlertEvent } from 'ts/types';
+import { IAlertEvent, IconSizes } from 'ts/types';
 import styles from './AlertItem.module.scss';
 
 interface Props {
@@ -33,10 +35,13 @@ const AlertItem = ({ data, index, style }: Props) => {
   let isVerified = false;
   let hasTheft = false;
   let hasComment = false;
+  let hasLoitering = true;
+  // let hasPersonDown = false;
   if (detectionId && detectionId.slice(-1).match(/[a-z]/i)) {
     isVerified = true;
     hasTheft = true;
     hasComment = true;
+    hasLoitering = false;
   }
 
   const startDate = moment(startTime);
@@ -52,9 +57,9 @@ const AlertItem = ({ data, index, style }: Props) => {
       <div className={styles.titleLine}>
         <div className={styles.leftTitleLine}>
           <CircleIcon color="error" className={styles.statusIcon} />
-          <div
-            className={styles.duration}
-          >{`${startDateFormat} (${duration}s)`}</div>
+          <Typography variant="LabelMedium">
+            {`${startDateFormat} (${duration}s)`}
+          </Typography>
         </div>
         <div className={styles.status}>
           <div className={styles.statusIcon}></div>
@@ -64,16 +69,18 @@ const AlertItem = ({ data, index, style }: Props) => {
       <div className={styles.content}>
         <div className={styles.imgWrapper}></div>
         <div className={styles.details}>
-          <Typography variant="body2" display="block" gutterBottom>
+          <Typography variant="BodySmall" display="block" gutterBottom>
             {name}
           </Typography>
-          <Typography variant="body2" display="block">
+          <Typography variant="BodySmall" display="block">
             Severity: {severity}
           </Typography>
         </div>
         <div className={styles.actionIcons}>
           {hasComment && <ChatBubbleIcon />}
-          {hasTheft ? <DirectionsRunIcon /> : <DirectionsWalkIcon />}
+          {hasTheft && <Icon icon={theftIcon} size={IconSizes.lg} />}
+          {hasLoitering && <Icon icon={loiteringIcon} size={IconSizes.lg} />}
+          {/* {hasPersonDown && <Icon icon={personDownIcon} />} */}
         </div>
       </div>
     </>

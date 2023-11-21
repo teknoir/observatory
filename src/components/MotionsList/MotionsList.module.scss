@@ -1,3 +1,5 @@
+@import 'enums/styleVariables.module.scss';
+
 .selectWrapper {
   display: flex;
   align-items: center;
@@ -5,13 +7,20 @@
   margin: 20px 20px 8px;
 }
 
-.list {
-  margin: 20px;
+.listItem {
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 22px;
+  border: 1px solid $offWhite;
 }
 
-.listItem {
+.listItemIcons {
   display: flex;
-  margin-bottom: 12px;
+  justify-content: center;
+  gap: 8px;
 }
 
 .icon {

@@ -1,7 +1,6 @@
 @import 'enums/styleVariables.module.scss';
 
 .root {
-  border-bottom: 1px solid $silver;
   padding: 8px 16px;
 }
 
@@ -21,6 +20,7 @@
 
 .leftTitleLine {
   display: flex;
+  align-items: center;
 }
 
 .statusIcon {

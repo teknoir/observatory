@@ -8,6 +8,7 @@ import AlertsList from 'components/AlertsList';
 import MotionsList from 'components/MotionsList';
 import Performance from 'components/Performance/Performance';
 import { a11yProps } from 'utils/mui';
+import styleVariables from 'enums/styleVariables.module.scss';
 import APP_URLS from 'enums/urls';
 
 const RightSideBarTabs = () => {
@@ -25,12 +26,17 @@ const RightSideBarTabs = () => {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+      <Box sx={{ borderBottom: 1, borderColor: styleVariables.deepSpaceBlack }}>
         <Tabs
           value={value}
           onChange={handleChange}
           aria-label="basic tabs example"
           variant="fullWidth"
+          sx={{
+            '& .MuiTabs-indicator': {
+              display: 'none',
+            },
+          }}
         >
           <Tab label="Alerts" {...a11yProps(0)} />
           <Tab
