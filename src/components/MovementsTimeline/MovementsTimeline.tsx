@@ -88,6 +88,7 @@ export const MovementsTimeline = ({
     detection_id: '',
     duration: 0,
     peripheral_id: '',
+    peripheral_name: '',
     severity: '',
     start_time: '',
     type: '',

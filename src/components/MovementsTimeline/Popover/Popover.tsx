@@ -1,12 +1,8 @@
 import { NavLink as RouterLink, generatePath } from 'react-router-dom';
-import moment from 'moment';
-import _startCase from 'lodash/startCase';
-import CloseIcon from '@mui/icons-material/Close';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import IconButton from '@mui/material/IconButton';
 import Link from '@mui/material/Link';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
@@ -19,6 +15,7 @@ enum ALERT_INFO_KEYS {
   DETECTION_ID = 'detection_id',
   DURATION = 'duration',
   PERIPHERAL_ID = 'peripheral_id',
+  PERIPHERAL_NAME = 'peripheral_name',
   SEVERITY = 'severity',
   START_TIME = 'start_time',
   TYPE = 'type',
@@ -49,74 +46,36 @@ function PopoverComponent({
         vertical: 'bottom',
         horizontal: 'center',
       }}
+      slotProps={{
+        paper: {
+          className: styles.paper,
+        },
+      }}
     >
       <Card className={styles.card} onMouseLeave={handleClose}>
         <CardContent className={styles.cardContent}>
-          <Typography
-            variant="subtitle1"
-            align="center"
-            className={styles.title}
-          >
-            {alertInfo[ALERT_INFO_KEYS.TYPE]} TEST -{' '}
-            {_startCase(alertInfo[ALERT_INFO_KEYS.SEVERITY]?.toLowerCase())}{' '}
-            TEST
-          </Typography>
-          <IconButton
-            aria-label="close"
-            onClick={handleClose}
-            size="small"
-            className={styles.iconButton}
-          >
-            <CloseIcon />
-          </IconButton>
           <Box>
-            <Typography
-              variant="body2"
-              display="inline"
-              className={styles.field}
-            >
+            <Typography variant="LabelMedium" className={styles.field}>
               Alert type:
             </Typography>
-            <Typography
-              variant="body2"
-              display="inline"
-              className={styles.value}
-            >
-              {alertInfo[ALERT_INFO_KEYS.TYPE]} TEST
+            <Typography variant="LabelMedium" className={styles.value}>
+              &emsp;{alertInfo[ALERT_INFO_KEYS.TYPE]} TEST
             </Typography>
           </Box>
           <Box>
-            <Typography
-              variant="body2"
-              display="inline"
-              className={styles.field}
-            >
-              Date:
+            <Typography variant="LabelMedium" className={styles.field}>
+              Camera:
             </Typography>
-            <Typography
-              variant="body2"
-              display="inline"
-              className={styles.value}
-            >
-              {moment(alertInfo[ALERT_INFO_KEYS.START_TIME]).format(
-                'MMMM D, h:mm A'
-              )}
+            <Typography variant="LabelMedium" className={styles.value}>
+              &emsp;{alertInfo[ALERT_INFO_KEYS.PERIPHERAL_NAME]}
             </Typography>
           </Box>
           <Box>
-            <Typography
-              variant="body2"
-              display="inline"
-              className={styles.field}
-            >
+            <Typography variant="LabelMedium" className={styles.field}>
               Duration:
             </Typography>
-            <Typography
-              variant="body2"
-              display="inline"
-              className={styles.value}
-            >
-              {Math.round(alertInfo[ALERT_INFO_KEYS.DURATION] / 1000)}s
+            <Typography variant="LabelMedium" className={styles.value}>
+              &emsp;{Math.round(alertInfo[ALERT_INFO_KEYS.DURATION] / 1000)}s
             </Typography>
           </Box>
         </CardContent>
