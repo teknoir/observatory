@@ -69,8 +69,9 @@ const AlertsGroup = ({ group, dayStr }: Props) => {
 
   return (
     <Box className={classNames('BoxClass', open ? 'BoxOpen' : 'BoxClosed')}>
-      <div id="box_border_1" />
-      <div id="box_border_2" />
+      {/* The classNames box_border_n are used in AlertListBox.tsx. Don't remove them. */}
+      <div className="box_border_1" />
+      <div className="box_border_2" />
       <ListItemButton onClick={handleClick} sx={{ pl: '20px' }}>
         <ListItemText
           primary={
