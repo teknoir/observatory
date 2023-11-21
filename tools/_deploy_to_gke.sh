@@ -9,7 +9,10 @@ function get_yq() {
 }
 
 function get_credentials() {
-    gcloud container clusters get-credentials "${TARGET_CLUSTER_NAME}" --project "${CLOUDSDK_CONTAINER_CLUSTER}" --zone "${CLOUDSDK_COMPUTE_ZONE}"
+    local CLOUDSDK_COMPUTE_ZONE=$1
+    local PROJECT_ID=$2
+    local TARGET_CLUSTER_NAME=$3
+    gcloud container clusters get-credentials "${TARGET_CLUSTER_NAME}" --project "${PROJECT_ID}" --zone "${CLOUDSDK_COMPUTE_ZONE}"
 }
 
 function deploy_to_gke() {
@@ -34,14 +37,14 @@ function deploy_to_gke() {
 # Deploy to GKE dev
 if [ "${BRANCH_NAME}" == "dev" ]; then
     get_yq
-    get_credentials
+    get_credentials "us-central1-c" "teknoir-poc" "teknoir-dev-cluster"
     deploy_to_gke "demonstrations" "teknoir"
 fi
 
 # Deploy to GKE prod
 if [ "${BRANCH_NAME}" == "main" ]; then
     get_yq
-    get_credentials
+    get_credentials "us-central1-c" "teknoir" "teknoir-cluster"
     deploy_to_gke "teknoir-retail" "teknoir"
     deploy_to_gke "boxer-property" "teknoir"
 fi
