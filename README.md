@@ -44,8 +44,7 @@ The following triggers are configured in GCP:
 
 Run the following command from the root of the repo:
 
-> The only params that can be modified are **SHORT_SHA**, **BRANCH_NAME** and **BASENAME**. \
-**BASENAME** format should be /*namespace*/sdmc
+> The only params that can be modified are **SHORT_SHA**, **BRANCH_NAME** and **BASENAME**.
 
 ```
 gcloud --project=teknoir-mgmt builds submit . \
@@ -54,12 +53,8 @@ gcloud --project=teknoir-mgmt builds submit . \
 --substitutions=\
 SHORT_SHA="test",\
 BRANCH_NAME="dev",\
-_DEPLOY_TO_GKE_DEV="true",\
 _CLOUDSDK_COMPUTE_ZONE="us-central1-c",\
 _CLOUDSDK_CONTAINER_CLUSTER="teknoir-poc",\
-_VITE_APP_BASENAME="/demonstrations/sdmc/",\
-_VITE_WS_SERVER="wss://teknoir.dev/demonstrations/ws/sdmc-wss-mqtt",\
-_VITE_HISTORIAN_DB_SERVER="teknoir.dev/demonstrations/historian-api",\
 _TARGET_CLUSTER_NAME="teknoir-dev-cluster"
 ```
 
@@ -67,8 +62,7 @@ _TARGET_CLUSTER_NAME="teknoir-dev-cluster"
 
 Run the following command from the root of the repo:
 
-> The only params that can be modified are **SHORT_SHA**, **BRANCH_NAME** and **BASENAME**. \
-**BASENAME** format should be /*namespace*/sdmc
+> The only params that can be modified are **SHORT_SHA**, **BRANCH_NAME** and **BASENAME**.
 
 ```
 gcloud --project=teknoir-mgmt builds submit . \
@@ -77,11 +71,7 @@ gcloud --project=teknoir-mgmt builds submit . \
 --substitutions=\
 SHORT_SHA="1.0.0",\
 BRANCH_NAME="main",\
-_DEPLOY_TO_GKE_PROD="true",\
 _CLOUDSDK_COMPUTE_ZONE="us-central1-c",\
 _CLOUDSDK_CONTAINER_CLUSTER="teknoir",\
-_VITE_APP_BASENAME="/teknoir-retail/sdmc/",\
-_VITE_WS_SERVER="wss://teknoir.cloud/teknoir-retail/ws/sdmc-wss-mqtt",\
-_VITE_HISTORIAN_DB_SERVER="teknoir.cloud/teknoir-retail/historian-api",\
 _TARGET_CLUSTER_NAME="teknoir-cluster"
 ```
