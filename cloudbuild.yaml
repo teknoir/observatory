@@ -3,12 +3,6 @@ options:
 substitutions:
   _NODE_VERSION: "18"
   _NAMESPACE: gcr.io
-  _DEPLOY_TO_GKE_DEV: "false"
-  _DEPLOY_TO_GKE_PROD: "false"
-  _VITE_APP_BASENAME: ""
-  _VITE_WS_SERVER: ""
-  _VITE_HISTORIAN_DB_SERVER: ""
-
 
 steps:
 
@@ -22,9 +16,9 @@ steps:
         docker buildx build . \
           --push \
           --build-arg NODE_VERSION=$_NODE_VERSION \
-          --build-arg VITE_APP_BASENAME=$_VITE_APP_BASENAME \
-          --build-arg VITE_WS_SERVER=$_VITE_WS_SERVER \
-          --build-arg VITE_HISTORIAN_DB_SERVER=$_VITE_HISTORIAN_DB_SERVER \
+          --build-arg VITE_APP_BASENAME="/feTEKNOIR_APP_BASENAME/" \
+          --build-arg VITE_WS_SERVER="feTEKNOIR_WS_SERVER" \
+          --build-arg VITE_HISTORIAN_DB_SERVER="feTEKNOIR_HISTORIAN_DB_SERVER" \
           --tag us-docker.pkg.dev/teknoir/$_NAMESPACE/sdmc:${BRANCH_NAME}-${SHORT_SHA}
     waitFor: [ '-' ]
 
@@ -32,8 +26,6 @@ steps:
     name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
     env: 
-      - '_DEPLOY_TO_GKE_DEV=${_DEPLOY_TO_GKE_DEV}'
-      - '_DEPLOY_TO_GKE_PROD=${_DEPLOY_TO_GKE_PROD}'
       - 'SHORT_SHA=${SHORT_SHA}'
       - 'BRANCH_NAME=${BRANCH_NAME}'
       - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
