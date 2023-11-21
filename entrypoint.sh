@@ -1,8 +1,17 @@
 #!/bin/sh
 
-export NGINX_BASENAME=${VITE_APP_BASENAME%/}
+export feTEKNOIR_APP_BASENAME="${NAMESPACE}/sdmc"
+export feTEKNOIR_WS_SERVER="wss://${DOMAIN}/${NAMESPACE}/ws/sdmc-wss-mqtt"
+export feTEKNOIR_HISTORIAN_DB_SERVER="${DOMAIN}/${NAMESPACE}/historian-api"
+export NGINX_BASENAME="/${NAMESPACE}/sdmc"
 
-echo ">>> NGINX_BASENAME: ${NGINX_BASENAME}"
+echo ">>> basename: ${feTEKNOIR_APP_BASENAME}"
+echo ">>> websocket server: ${feTEKNOIR_WS_SERVER}"
+echo ">>> historian DB server: ${feTEKNOIR_HISTORIAN_DB_SERVER}"
+
+find /usr/share/nginx/html -type f -exec sed -i "s|feTEKNOIR_APP_BASENAME|${feTEKNOIR_APP_BASENAME}|g" '{}' +
+find /usr/share/nginx/html -type f -exec sed -i "s|feTEKNOIR_WS_SERVER|${feTEKNOIR_WS_SERVER}|g" '{}' +
+find /usr/share/nginx/html -type f -exec sed -i "s|feTEKNOIR_HISTORIAN_DB_SERVER|${feTEKNOIR_HISTORIAN_DB_SERVER}|g" '{}' +
 
 envsubst '$NGINX_BASENAME' < nginx.conf > /etc/nginx/conf.d/default.conf
 
