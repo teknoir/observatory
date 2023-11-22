@@ -53,9 +53,6 @@ gcloud --project=teknoir-mgmt builds submit . \
 --substitutions=\
 SHORT_SHA="test",\
 BRANCH_NAME="dev",\
-_CLOUDSDK_COMPUTE_ZONE="us-central1-c",\
-_CLOUDSDK_CONTAINER_CLUSTER="teknoir-poc",\
-_TARGET_CLUSTER_NAME="teknoir-dev-cluster"
 ```
 
 ## Build an image & deploy to Teknoir cloud
@@ -71,7 +68,4 @@ gcloud --project=teknoir-mgmt builds submit . \
 --substitutions=\
 SHORT_SHA="1.0.0",\
 BRANCH_NAME="main",\
-_CLOUDSDK_COMPUTE_ZONE="us-central1-c",\
-_CLOUDSDK_CONTAINER_CLUSTER="teknoir",\
-_TARGET_CLUSTER_NAME="teknoir-cluster"
 ```
