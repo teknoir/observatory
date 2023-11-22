@@ -7,18 +7,21 @@
   overflow-y: hidden;
 }
 
+.galleryContainer {
+  width: 40%;
+  overflow-y: auto;
+}
+
 .galleryScroll {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  width: 40%;
-  height: 100%;
   overflow-y: auto;
 }
 
 .imagePreviewContainer {
   position: relative;
   display: flex;
-  height: fit-content;
+  aspect-ratio: auto 16/9;
 
   &:hover {
     .hoverState {

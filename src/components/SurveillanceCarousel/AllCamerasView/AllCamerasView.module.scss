@@ -25,13 +25,11 @@
   right: 0;
 }
 
-.container {
+.grid {
   width: 100%;
   height: calc(100vh - 64px); // 64px is the height of the header
-}
-
-.grid {
-  height: calc(100% / 3);
+  grid-template-rows: repeat(3, 1fr);
+  margin: 0;
 }
 
 .imagePreview {
