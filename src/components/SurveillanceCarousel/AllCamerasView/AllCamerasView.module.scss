@@ -26,30 +26,14 @@
 }
 
 .grid {
-  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, calc(100% / 3));
   height: calc(100vh - 64px); // 64px is the height of the header
-  grid-template-rows: repeat(3, 1fr);
+  width: 100%;
   margin: 0;
 }
 
 .imagePreview {
   height: 100%;
-}
-
-.smallImages {
-  height: 50%;
-  position: relative;
-}
-
-.backdrop {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: rgba($deepSpaceBlack, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
 }
