@@ -24,3 +24,11 @@
   background-color: $offWhite;
   color: $fadedBlack;
 }
+
+.buttonAll:hover {
+  background-color: $offWhite;
+  color: $fadedBlack;
+  box-shadow:
+    0px 1px 3px 1px rgba($deepSpaceBlack, 0.15),
+    0px 1px 2px 0px rgba($deepSpaceBlack, 0.3);
+}
