@@ -114,6 +114,7 @@ export interface PopoverInfoProps {
   detection_id: string;
   duration: number;
   peripheral_id: string;
+  peripheral_name: string;
   severity: string;
   start_time: string;
   type: string;
