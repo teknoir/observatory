@@ -83,7 +83,9 @@ function AllCamerasView({ sources }: CarouselProps) {
   return (
     <Box className={styles.root}>
       <button
-        className={classNames(styles.button, styles.buttonLeft)}
+        className={classNames(styles.button, styles.buttonLeft, {
+          [styles.buttonHoverState]: pages > 1,
+        })}
         onClick={() => nextPage(false)}
       >
         <ArrowBackIos />
@@ -102,7 +104,9 @@ function AllCamerasView({ sources }: CarouselProps) {
         ))}
       </div>
       <button
-        className={classNames(styles.button, styles.buttonRight)}
+        className={classNames(styles.button, styles.buttonRight, {
+          [styles.buttonHoverState]: pages > 1,
+        })}
         onClick={() => nextPage(true)}
       >
         <ArrowForwardIos />
