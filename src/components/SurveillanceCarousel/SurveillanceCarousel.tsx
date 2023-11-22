@@ -16,7 +16,16 @@ const surveillanceCarouselComponentsByMode = {
 
 const SurveillanceCarousel = ({ mode, sources }: SurveillanceCarouselProps) => {
   const [mainImage, setMainImage] = useState('');
-  const { mainImageCarousel, setMainImageCarousel } = useContext(HomeContext);
+  const { mainImageCarousel, setMainImageCarousel, peripheralIdNotified } =
+    useContext(HomeContext);
+
+  // TODO: Clean code after finishing testing
+  useEffect(() => {
+    console.log('peripheralIdNotified changed: ', peripheralIdNotified);
+    if (peripheralIdNotified) {
+      setMainSource(peripheralIdNotified);
+    }
+  }, [peripheralIdNotified]);
 
   const sourcesSize = sources.size;
 

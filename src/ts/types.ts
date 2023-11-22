@@ -108,6 +108,8 @@ export interface HomeContextProps {
   setLayout: Dispatch<SetStateAction<CarouselMode>>;
   numCameras: number;
   setNumCameras: Dispatch<SetStateAction<number>>;
+  peripheralIdNotified: string;
+  setPeripheralIdNotified: Dispatch<SetStateAction<string>>;
 }
 
 export interface PopoverInfoProps {
