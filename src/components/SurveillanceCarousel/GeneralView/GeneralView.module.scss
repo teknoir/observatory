@@ -21,7 +21,7 @@
 .imagePreviewContainer {
   position: relative;
   display: flex;
-  height: fit-content;
+  aspect-ratio: auto 16/9;
 
   &:hover {
     .hoverState {

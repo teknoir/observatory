@@ -32,7 +32,7 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
     const useTestImages = location?.search.includes('useTestImages');
     if (useTestImages) {
       setTimeout(() => {
-        setSources(createRandomSources(3));
+        setSources(createRandomSources(30));
       }, 3000);
     }
   }, []);
