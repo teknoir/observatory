@@ -4,11 +4,7 @@ import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImageP
 import { CarouselProps, RefImage } from 'ts/types';
 import styles from './GeneralView.module.scss';
 
-function GeneralView({
-  sources,
-  mainSource,
-  setMainSource,
-}: CarouselProps) {
+function GeneralView({ sources, mainSource, setMainSource }: CarouselProps) {
   const galleryRef = useRef<HTMLDivElement | null>(null);
   const selectedImageRef = useRef<HTMLImageElement | null>(null);
 
@@ -43,44 +39,46 @@ function GeneralView({
         title={mainPeripheralName}
         status={status}
       />
-      <div
-        ref={galleryRef}
-        className={styles.galleryScroll}
-        style={{
-          gridTemplateRows: `repeat(${sources.size}, 1fr)`,
-        }}
-      >
-        {sources.size > 0 ? (
-          [...sources.keys()].map((sourceKey) => {
-            const {
-              src = '',
-              peripheralName = '',
-              status = 0,
-            } = sources.get(sourceKey) ?? {};
-            return (
-              <div
-                key={src}
-                onClick={() => setMainSource(sourceKey)}
-                ref={(ref: HTMLImageElement) =>
-                  setSelectedImageRef(ref, sourceKey)
-                }
-                className={styles.imagePreviewContainer}
-              >
-                <CarouselImagePreview
-                  id={sourceKey}
-                  src={src}
-                  title={peripheralName}
-                  status={status}
-                  className={`${
-                    mainSource === sourceKey ? styles.border : ''
-                  }`}
-                />
-              </div>
-            );
-          })
-        ) : (
-          <div>Loading...</div>
-        )}
+      <div className={styles.galleryContainer}>
+        <div
+          ref={galleryRef}
+          className={styles.galleryScroll}
+          style={{
+            gridTemplateRows: `repeat(${sources.size}, auto)`,
+          }}
+        >
+          {sources.size > 0 ? (
+            [...sources.keys()].map((sourceKey) => {
+              const {
+                src = '',
+                peripheralName = '',
+                status = 0,
+              } = sources.get(sourceKey) ?? {};
+              return (
+                <div
+                  key={src}
+                  onClick={() => setMainSource(sourceKey)}
+                  ref={(ref: HTMLImageElement) =>
+                    setSelectedImageRef(ref, sourceKey)
+                  }
+                  className={styles.imagePreviewContainer}
+                >
+                  <CarouselImagePreview
+                    id={sourceKey}
+                    src={src}
+                    title={peripheralName}
+                    status={status}
+                    className={`${
+                      mainSource === sourceKey ? styles.border : ''
+                    }`}
+                  />
+                </div>
+              );
+            })
+          ) : (
+            <div>Loading...</div>
+          )}
+        </div>
       </div>
     </section>
   );

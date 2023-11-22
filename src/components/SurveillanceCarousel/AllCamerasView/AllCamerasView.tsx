@@ -2,10 +2,11 @@ import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useInterval } from 'usehooks-ts';
 import classNames from 'classnames';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
 import ArrowBackIos from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIos from '@mui/icons-material/ArrowForwardIos';
+import Box from '@mui/material/Box';
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
 import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImagePreview/CarouselImagePreview';
 import { CarouselProps } from 'ts/types';
 import styles from './AllCamerasView.module.scss';
@@ -89,9 +90,9 @@ function AllCamerasView({ sources }: CarouselProps) {
       >
         <ArrowBackIos />
       </button>
-      <Grid container className={styles.container}>
+      <ImageList cols={3} gap={0} className={styles.grid}>
         {visibleImages.map((image) => (
-          <Grid item xs={4} key={image.peripheralId} className={styles.grid}>
+          <ImageListItem key={image.peripheralId}>
             <CarouselImagePreview
               id={image.peripheralName}
               src={image.src}
@@ -99,9 +100,9 @@ function AllCamerasView({ sources }: CarouselProps) {
               status={image.status}
               classNameContainer={styles.imagePreview}
             />
-          </Grid>
+          </ImageListItem>
         ))}
-      </Grid>
+      </ImageList>
       <button
         className={classNames(styles.button, styles.buttonRight)}
         onClick={() => nextPage(true)}
