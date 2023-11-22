@@ -4,6 +4,7 @@
   display: flex;
   align-items: center;
   margin-bottom: 12px;
+  margin-right: 12px;
   padding-bottom: 12px;
   border-bottom: 1px solid $fadedBlack;
 }
@@ -23,22 +24,17 @@
 }
 
 .buttonLink {
-  width: 116px;
+  background-color: $oceanBlue;
+  width: 82px;
   flex-shrink: 0;
   font-size: 14px;
   line-height: 20px;
-  color: $oceanBlue;
-  border: 1px solid $oceanBlue;
-  border-radius: 0;
-  margin-left: 12px;
+  color: $totalWhite;
+  border: none;
+  margin-left: auto;
   padding: 6px 24px;
   text-align: center;
   text-decoration: none;
-}
-
-.buttonLinkVerified {
-  color: $fadedBlack;
-  border: 1px solid $fadedBlack;
 }
 
 .text {
