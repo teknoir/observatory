@@ -204,4 +204,6 @@ export interface ChartDimensions {
   marginRight: number;
   marginBottom: number;
   marginLeft: number;
+  boundedHeight: number;
+  boundedWidth: number;
 }

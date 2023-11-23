@@ -1,22 +1,21 @@
 import { ScalePoint } from 'd3';
 import Typography from '@mui/material/Typography';
-import cameraImage from 'assets/device_camera.png';
 import { useChartDimensions } from 'components/ChartUtilities/Chart/ChartContext';
+import Icon from 'components/Icon/Icon';
+import cctvCameraIcon from 'assets/icons/cctvCameraIcon.svg';
+import { IconSizes } from 'ts/types';
 import styles from './AxisVerticalLeft.module.scss';
 
 interface AxisVerticalLeftProps {
   scale: ScalePoint<string>;
 }
 
-export default function AxisVerticalLeft({
-  scale,
-  ...props
-}: AxisVerticalLeftProps) {
+const AxisVerticalLeft = ({ scale, ...props }: AxisVerticalLeftProps) => {
   const dimensions = useChartDimensions();
   const ticks = scale.domain();
 
   return (
-    <g dominantBaseline={'middle'} className={styles.root} {...props}>
+    <g dominantBaseline={'middle'} textAnchor="end" {...props}>
       <rect
         x={-dimensions.marginLeft}
         y="0"
@@ -44,7 +43,7 @@ export default function AxisVerticalLeft({
           className={styles.foreignObject}
         >
           <div className={styles.deviceName}>
-            <img src={cameraImage} width={32} height={32} />
+            <Icon icon={cctvCameraIcon} size={IconSizes.lg} />
             <Typography
               variant="BodyMedium"
               title={tick}
@@ -57,4 +56,6 @@ export default function AxisVerticalLeft({
       ))}
     </g>
   );
-}
+};
+
+export default AxisVerticalLeft;
