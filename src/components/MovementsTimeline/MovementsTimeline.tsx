@@ -8,7 +8,6 @@ import {
 } from 'react';
 import * as d3 from 'd3';
 import _debounce from 'lodash/debounce';
-import moment from 'moment/moment';
 import Divider from '@mui/material/Divider';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { Axis, Chart, Circles, GridLines } from 'components/ChartUtilities';
@@ -21,11 +20,13 @@ import AxisVerticalLeft from './AxisVerticalLeft/AxisVerticalLeft';
 import AxisVerticalRight from './AxisVerticalRight/AxisVerticalRight';
 import Popover from './Popover/Popover';
 import ToolBar from './ToolBar/ToolBar';
+import {
+  formatDate as formatDateFunction,
+  xScale as xScaleFunction,
+  yScale as yScaleFunction,
+} from './utils';
 import { MovementsTimelinePeriod } from './enums';
 import styles from './MovementsTimeline.module.scss';
-
-const formatDateByDay = d3.timeFormat('%-b %-d');
-const formatDateByTime = d3.timeFormat('%-I:%M %p');
 
 interface MovementsTimeLineParams {
   startTime: Date;
@@ -93,21 +94,13 @@ export const MovementsTimeline = ({
     setAnchorEl(null);
   }
 
-  const xScale = d3
-    .scaleTime()
-    .domain([startTime, moment().toDate()])
-    .range([0, dimensions.boundedWidth * 6]);
-
-  const yScale = d3
-    .scalePoint()
-    .domain(peripherals)
-    .range([dimensions.boundedHeight, 0])
-    .padding(1);
-
+  const xScale = xScaleFunction(startTime, dimensions);
+  const yScale = yScaleFunction(peripherals, dimensions);
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const xAccessorScaled = (d: object) => xScale(xAccessor(d));
   const yAccessorScaled = (d: object) => yScale(yAccessor(d));
+  const formatDate = formatDateFunction(period);
 
   const debounceResize = _debounce(
     () =>
@@ -116,11 +109,6 @@ export const MovementsTimeline = ({
       ),
     200
   );
-
-  const formatDate =
-    period === MovementsTimelinePeriod.DAYS_1
-      ? formatDateByTime
-      : formatDateByDay;
 
   const handleLeft = () => {
     const scrollGroup = d3.select<SVGGElement, unknown>(
@@ -189,7 +177,6 @@ export const MovementsTimeline = ({
       scrollGroupRef.current!
     );
     const timelineContainer = d3.select<HTMLElement, unknown>(ref.current!);
-
     const d3Zoom = d3
       .zoom<HTMLElement, unknown>()
       .scaleExtent([1, 1])
@@ -198,11 +185,8 @@ export const MovementsTimeline = ({
           scrollGroup as d3.Selection<SVGGElement, unknown, null, undefined>
         )
       );
-
     timelineContainer.call(d3Zoom);
-
     timelineContainer.call(d3Zoom.transform, d3.zoomIdentity);
-
     scrollGroup.attr('transform', `translate(${defaultTranslate}, 0)`);
   }, [defaultTranslate, ref, onScroll]);
 
@@ -215,7 +199,6 @@ export const MovementsTimeline = ({
         handleChangePeriod={handleChangePeriod}
       />
       <Divider variant="middle" />
-
       <div
         className={styles.timeline}
         ref={ref}
