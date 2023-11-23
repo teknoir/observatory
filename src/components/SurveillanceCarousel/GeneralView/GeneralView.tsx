@@ -1,16 +1,20 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, DragEvent } from 'react';
 import CarouselImage from 'components/SurveillanceCarousel/CarouselImage/CarouselImage';
 import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImagePreview/CarouselImagePreview';
-import { CarouselProps, RefImage } from 'ts/types';
+import { CarouselProps, RefImage, CameraId } from 'ts/types';
+import useOrderedSourcesKeys from 'hooks/useOrderedSourcesKeys';
 import styles from './GeneralView.module.scss';
 
-function GeneralView({
-  sources,
-  mainSource,
-  setMainSource,
-}: CarouselProps) {
+function GeneralView({ sources, mainSource, setMainSource }: CarouselProps) {
   const galleryRef = useRef<HTMLDivElement | null>(null);
   const selectedImageRef = useRef<HTMLImageElement | null>(null);
+  const {
+    sourcesKeys,
+    handleDragStart,
+    handleDragEnd,
+    handleDragOver,
+    handleDrop,
+  } = useOrderedSourcesKeys(sources);
 
   useEffect(() => {
     if (selectedImageRef.current && galleryRef.current) {
@@ -28,6 +32,13 @@ function GeneralView({
     }
   };
 
+  const handleDropMain = (sourceKey: CameraId) => (event: DragEvent) => {
+    handleDrop(sourceKey)(event);
+    const fromBox = JSON.parse(event.dataTransfer.getData('dragContent'));
+    const mainSourceKey = fromBox.val;
+    setMainSource(mainSourceKey);
+  };
+
   const {
     src: mainSrc = '',
     peripheralName: mainPeripheralName = '',
@@ -37,12 +48,19 @@ function GeneralView({
 
   return (
     <section className={styles.root}>
-      <CarouselImage
-        id={mainPeripheralId}
-        src={mainSrc}
-        title={mainPeripheralName}
-        status={status}
-      />
+      <div
+        className={styles.mainImage}
+        onDragOver={handleDragOver}
+        onDrop={handleDropMain(mainSource)}
+        draggable
+      >
+        <CarouselImage
+          id={mainPeripheralId}
+          src={mainSrc}
+          title={mainPeripheralName}
+          status={status}
+        />
+      </div>
       <div
         ref={galleryRef}
         className={styles.galleryScroll}
@@ -51,29 +69,33 @@ function GeneralView({
         }}
       >
         {sources.size > 0 ? (
-          [...sources.keys()].map((sourceKey) => {
+          sourcesKeys.map((sourceKey) => {
             const {
               src = '',
+              peripheralId,
               peripheralName = '',
               status = 0,
             } = sources.get(sourceKey) ?? {};
             return (
               <div
-                key={src}
+                key={peripheralId}
                 onClick={() => setMainSource(sourceKey)}
                 ref={(ref: HTMLImageElement) =>
                   setSelectedImageRef(ref, sourceKey)
                 }
                 className={styles.imagePreviewContainer}
+                onDragStart={handleDragStart(sourceKey)}
+                onDragEnd={handleDragEnd}
+                onDragOver={handleDragOver}
+                onDrop={handleDrop(sourceKey)}
+                draggable
               >
                 <CarouselImagePreview
                   id={sourceKey}
                   src={src}
                   title={peripheralName}
                   status={status}
-                  className={`${
-                    mainSource === sourceKey ? styles.border : ''
-                  }`}
+                  className={`${mainSource === sourceKey ? styles.border : ''}`}
                 />
               </div>
             );
