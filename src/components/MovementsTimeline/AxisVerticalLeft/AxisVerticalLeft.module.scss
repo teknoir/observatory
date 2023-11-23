@@ -1,23 +1,6 @@
 @import 'enums/styleVariables.module';
 
-.Axis__line {
-  stroke: $outrunOrange;
-}
-
-.Axis__label {
-  text-anchor: middle;
-  font-size: 0.8em;
-  letter-spacing: 0.01em;
-}
-
-.Axis__tick {
-  font-size: 12px;
-  transition: all 0.3s ease-out;
-  fill: $gray400;
-}
-
-.AxisVertical .Axis__tick {
-  dominant-baseline: middle;
+.root {
   text-anchor: end;
 }
 
@@ -27,4 +10,24 @@
 
 .axisVerticalTitle {
   fill: $totalWhite;
+}
+
+.deviceName {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 4px;
+}
+
+.foreignObject {
+  overflow: visible;
+  text-wrap: nowrap;
+}
+
+.deviceNameText {
+  color: $totalWhite;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  max-width: 14ch;
 }
