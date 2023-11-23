@@ -1,10 +1,5 @@
 @import 'enums/styleVariables.module.scss';
 
-//.container {
-//  width: 100%;
-//  aspect-ratio: auto 5/2;
-//}
-
 .container {
   width: 100%;
   aspect-ratio: auto 5/2;
@@ -34,19 +29,6 @@
 .imageItem {
   position: relative;
 }
-
-//.grid {
-//  height: 50%;
-//}
-
-//.imagePreview {
-//  height: 100%;
-//}
-
-//.smallImages {
-//  height: 50%;
-//  position: relative;
-//}
 
 .backdrop {
   width: 100%;
