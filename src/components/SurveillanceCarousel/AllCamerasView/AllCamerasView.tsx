@@ -5,8 +5,6 @@ import classNames from 'classnames';
 import ArrowBackIos from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIos from '@mui/icons-material/ArrowForwardIos';
 import Box from '@mui/material/Box';
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
 import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImagePreview/CarouselImagePreview';
 import { CarouselProps } from 'ts/types';
 import styles from './AllCamerasView.module.scss';
@@ -85,14 +83,16 @@ function AllCamerasView({ sources }: CarouselProps) {
   return (
     <Box className={styles.root}>
       <button
-        className={classNames(styles.button, styles.buttonLeft)}
+        className={classNames(styles.button, styles.buttonLeft, {
+          [styles.buttonHoverState]: pages > 1,
+        })}
         onClick={() => nextPage(false)}
       >
         <ArrowBackIos />
       </button>
-      <ImageList cols={3} gap={0} className={styles.grid}>
+      <div className={styles.grid}>
         {visibleImages.map((image) => (
-          <ImageListItem key={image.peripheralId}>
+          <div key={image.peripheralId}>
             <CarouselImagePreview
               id={image.peripheralName}
               src={image.src}
@@ -100,11 +100,13 @@ function AllCamerasView({ sources }: CarouselProps) {
               status={image.status}
               classNameContainer={styles.imagePreview}
             />
-          </ImageListItem>
+          </div>
         ))}
-      </ImageList>
+      </div>
       <button
-        className={classNames(styles.button, styles.buttonRight)}
+        className={classNames(styles.button, styles.buttonRight, {
+          [styles.buttonHoverState]: pages > 1,
+        })}
         onClick={() => nextPage(true)}
       >
         <ArrowForwardIos />
