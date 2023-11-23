@@ -10,7 +10,7 @@ import * as d3 from 'd3';
 import _debounce from 'lodash/debounce';
 import Divider from '@mui/material/Divider';
 import { SelectChangeEvent } from '@mui/material/Select';
-import { Axis, Chart, Circles, GridLines } from 'components/ChartUtilities';
+import { Axis, Chart, Circles } from 'components/ChartUtilities';
 import { detectionIdAccessor } from 'components/ChartUtilities/accessors';
 import { peripheralIdAccessor } from 'components/ChartUtilities/accessors';
 import { useChartDimensions } from 'components/ChartUtilities/utils';
@@ -18,6 +18,7 @@ import { HomeContext } from 'context/HomeContext/HomeContext';
 import { IAlertEvent, PopoverInfoProps } from 'ts/types';
 import AxisVerticalLeft from './AxisVerticalLeft/AxisVerticalLeft';
 import AxisVerticalRight from './AxisVerticalRight/AxisVerticalRight';
+import GridLines from './GridLines/GridLines';
 import Popover from './Popover/Popover';
 import ToolBar from './ToolBar/ToolBar';
 import {
@@ -220,7 +221,7 @@ export const MovementsTimeline = ({
           <button onClick={handleRight}>Move to Right</button>
         </div>
         <Chart dimensions={dimensions}>
-          <GridLines dimension="y" scale={yScale} />
+          <GridLines scale={yScale} />
           <g ref={scrollGroupRef}>
             <Axis
               dimension="xScroll"
