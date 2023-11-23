@@ -6,28 +6,22 @@ import {
   useRef,
   useState,
 } from 'react';
-import { NavLink as RouterLink } from 'react-router-dom';
 import * as d3 from 'd3';
 import _debounce from 'lodash/debounce';
 import moment from 'moment/moment';
-import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
-import InputLabel from '@mui/material/InputLabel';
-import Link from '@mui/material/Link';
 import { SelectChangeEvent } from '@mui/material/Select';
-import Typography from '@mui/material/Typography';
-import Select from 'muiComponents/Select/Select';
 import { Axis, Chart, Circles, GridLines } from 'components/ChartUtilities';
 import { detectionIdAccessor } from 'components/ChartUtilities/accessors';
 import { peripheralIdAccessor } from 'components/ChartUtilities/accessors';
 import { useChartDimensions } from 'components/ChartUtilities/utils';
 import { HomeContext } from 'context/HomeContext/HomeContext';
-import APP_URLS from 'enums/urls';
 import { IAlertEvent, PopoverInfoProps } from 'ts/types';
 import AxisVerticalLeft from './AxisVerticalLeft/AxisVerticalLeft';
 import AxisVerticalRight from './AxisVerticalRight/AxisVerticalRight';
 import Popover from './Popover/Popover';
-import { MovementsTimelinePeriod, TimelineFilterBy } from './enums';
+import ToolBar from './ToolBar/ToolBar';
+import { MovementsTimelinePeriod } from './enums';
 import styles from './MovementsTimeline.module.scss';
 
 const formatDateByDay = d3.timeFormat('%-b %-d');
@@ -46,18 +40,6 @@ interface MovementsTimeLineParams {
   period: MovementsTimelinePeriod;
   handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;
 }
-
-const timelineOptions = [
-  { value: TimelineFilterBy.MOTIONS_ALERTS, label: 'All' },
-  { value: TimelineFilterBy.MOTIONS, label: 'Motions' },
-  { value: TimelineFilterBy.ALERTS, label: 'Alerts' },
-];
-
-const periodOptions = [
-  { value: MovementsTimelinePeriod.DAYS_1, label: 'Today' },
-  { value: MovementsTimelinePeriod.DAYS_7, label: 'Last 7 days' },
-  { value: MovementsTimelinePeriod.DAYS_30, label: 'Last 30 days' },
-];
 
 // TODO: Temporal, remove this fallback when data returns video_url
 const fallbackVideoUrl =
@@ -225,60 +207,13 @@ export const MovementsTimeline = ({
   }, [defaultTranslate, ref, onScroll]);
 
   return (
-    <div className={styles.container}>
-      <nav className={styles.menuLayout}>
-        <div className={styles.menuItem}>
-          <Typography variant="h5" gutterBottom>
-            Motions & Alerts
-          </Typography>
-        </div>
-        <div className={styles.menuItem}>
-          <Box className={styles.menuItemBox}>
-            <InputLabel
-              id="timelineFilterByLabel"
-              className={styles.inputLabel}
-            >
-              Filter by:{' '}
-            </InputLabel>
-            <Select
-              labelId="timelineFilterByLabel"
-              value={filter}
-              options={timelineOptions}
-              onChange={handleChangeFilter}
-              sx={{
-                '& .MuiSelect-select.MuiInputBase-input.MuiOutlinedInput-input':
-                  {
-                    paddingLeft: 0,
-                  },
-                '& .MuiOutlinedInput-notchedOutline': {
-                  border: 'none',
-                },
-              }}
-            />
-          </Box>
-          <Select
-            labelId="movementsTimelinePeriodLabel"
-            value={period}
-            options={periodOptions}
-            onChange={handleChangePeriod}
-            sx={{
-              '& .MuiSelect-select.MuiInputBase-input.MuiOutlinedInput-input': {
-                paddingLeft: 0,
-              },
-              '& .MuiOutlinedInput-notchedOutline': {
-                border: 'none',
-              },
-            }}
-          />
-          <Link
-            component={RouterLink}
-            to={APP_URLS.motionsAlerts}
-            color="inherit"
-          >
-            View all
-          </Link>
-        </div>
-      </nav>
+    <div className={styles.root}>
+      <ToolBar
+        filter={filter}
+        handleChangeFilter={handleChangeFilter}
+        period={period}
+        handleChangePeriod={handleChangePeriod}
+      />
       <Divider variant="middle" />
 
       <div
