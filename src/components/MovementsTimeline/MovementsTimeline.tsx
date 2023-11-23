@@ -144,16 +144,22 @@ export const MovementsTimeline = ({
     const scrollGroup = d3.select<SVGGElement, unknown>(
       scrollGroupRef.current!
     );
-    onScroll(scrollGroup, true);
+    onScroll(scrollGroup, 'left');
+  };
+
+  const handleRight = () => {
+    const scrollGroup = d3.select<SVGGElement, unknown>(
+      scrollGroupRef.current!
+    );
+    onScroll(scrollGroup, 'right');
   };
 
   const onScroll = useCallback(
     (
       scrollGroup: d3.Selection<SVGGElement, unknown, null, undefined>,
-      goToLeft = false
+      move: 'left' | 'right' | undefined = undefined
     ) => {
       const transformObj = d3.zoomTransform(scrollGroup.node() as SVGGElement);
-      console.log(transformObj);
       // TODO: This approach is an alternative to not modify the resulting
       // d3.zoomTransform() object, but it needs some logic to work
       // const transformObj = { ...d3.zoomTransform(scrollGroup.node()) }
@@ -174,10 +180,16 @@ export const MovementsTimeline = ({
       // @ts-ignore
       transformObj.x = Math.min(transformObj.x, maxEndTranslate);
 
-      if (goToLeft) {
-        for (let i = transformObj.x; i < maxEndTranslate; i += 1) {
-          transformObj.x = i;
-        }
+      if (move === 'left') {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        transformObj.x = maxEndTranslate;
+      }
+
+      if (move === 'right') {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        transformObj.x = maxStartTranslate;
       }
 
       const translateX = defaultTranslate + transformObj.x;
@@ -214,7 +226,6 @@ export const MovementsTimeline = ({
 
   return (
     <div className={styles.container}>
-      <button onClick={handleLeft}>Left</button>
       <nav className={styles.menuLayout}>
         <div className={styles.menuItem}>
           <Typography variant="h5" gutterBottom>
@@ -269,6 +280,7 @@ export const MovementsTimeline = ({
         </div>
       </nav>
       <Divider variant="middle" />
+
       <div
         className={styles.timeline}
         ref={ref}
@@ -276,6 +288,19 @@ export const MovementsTimeline = ({
           height: peripherals.length * 64 + 200,
         }}
       >
+        <div
+          // TODO: Remove this inline styles and use a proper CSS class
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: '20px',
+          }}
+        >
+          {/* TODO: Replace these buttons for proper design */}
+          <button onClick={handleLeft}>Move to Left</button>
+          <button onClick={handleRight}>Move to Right</button>
+        </div>
         <Chart dimensions={dimensions}>
           <GridLines dimension="y" scale={yScale} />
           <g ref={scrollGroupRef}>
