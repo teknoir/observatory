@@ -17,22 +17,11 @@ interface ImagesProps {
 }
 
 const imagesPerPage = 9;
-const delay = 5000;
+const delay = 10000;
 
 function AllCamerasView({ sources, peripheralIdNotified }: CarouselProps) {
   const navigate = useNavigate();
   const [page, setPage] = useState<number>(0);
-
-  useEffect(() => {
-    navigate(`?hideMotionsAlerts=true`);
-    return () => {
-      // FIXME: This is a workaround to remove the query param. Replace with react router if possible.
-      const currentSearchParams = new URLSearchParams(window.location.search);
-      if (currentSearchParams.has('hideMotionsAlerts')) {
-        navigate('', { replace: true });
-      }
-    };
-  }, [navigate]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // FIXME: This is a workaround to render using an array
   const images: ImagesProps[] = useMemo(() => {
@@ -58,8 +47,6 @@ function AllCamerasView({ sources, peripheralIdNotified }: CarouselProps) {
     page * imagesPerPage + imagesPerPage
   );
 
-  console.log(visibleImages);
-
   const pages = Math.ceil(images.length / imagesPerPage);
 
   function nextPage(forward = true) {
@@ -77,6 +64,27 @@ function AllCamerasView({ sources, peripheralIdNotified }: CarouselProps) {
       }
     });
   }
+
+  useEffect(() => {
+    navigate(`?hideMotionsAlerts=true`);
+    return () => {
+      // FIXME: This is a workaround to remove the query param. Replace with react router if possible.
+      const currentSearchParams = new URLSearchParams(window.location.search);
+      if (currentSearchParams.has('hideMotionsAlerts')) {
+        navigate('', { replace: true });
+      }
+    };
+  }, [navigate]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    const notifiedDeviceIndex = images.findIndex(
+      (image) => image.peripheralId === peripheralIdNotified
+    );
+    const notifiedDevicePage = Math.floor(
+      notifiedDeviceIndex / imagesPerPage
+    ) as number;
+    setPage(notifiedDevicePage);
+  }, [peripheralIdNotified, images]);
 
   useInterval(() => {
     nextPage();
