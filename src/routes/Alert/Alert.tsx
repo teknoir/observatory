@@ -66,9 +66,9 @@ const Alert = () => {
       </AppBar>
       <MainContent className={styles.mainContent}>
         <VideoPlayer
-          className={styles.videoPlayer}
           url={data.video_url}
           width="100%"
+          className={styles.videoPlayer}
         />
         {isVerified ? (
           <Info
