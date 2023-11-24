@@ -21,7 +21,7 @@ interface ImagesProps {
 const imagesPerPage = 9;
 const delay = 5000;
 
-function AllCamerasView({ sources }: CarouselProps) {
+function AllCamerasView({ sources, peripheralIdNotified }: CarouselProps) {
   const navigate = useNavigate();
   const [page, setPage] = useState<number>(0);
 
@@ -59,6 +59,8 @@ function AllCamerasView({ sources }: CarouselProps) {
     page * imagesPerPage,
     page * imagesPerPage + imagesPerPage
   );
+
+  console.log(visibleImages);
 
   const pages = Math.ceil(images.length / imagesPerPage);
 
@@ -99,6 +101,11 @@ function AllCamerasView({ sources }: CarouselProps) {
               title={image.peripheralName}
               status={image.status}
               classNameContainer={styles.imagePreview}
+              className={`${
+                peripheralIdNotified === image.peripheralId
+                  ? styles.borderNotified
+                  : ''
+              }`}
             />
           </ImageListItem>
         ))}
