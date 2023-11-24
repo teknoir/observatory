@@ -10,9 +10,10 @@ interface ImagesProps {
   src: string;
   peripheralName: string;
   status: number;
+  peripheralId: string;
 }
 
-function AlternativeView({ sources }: CarouselProps) {
+function AlternativeView({ sources, peripheralIdNotified }: CarouselProps) {
   const { setLayout } = useContext(HomeContext);
   // FIXME: This is a workaround to render using an array
   const images: ImagesProps[] = useMemo(() => {
@@ -22,11 +23,13 @@ function AlternativeView({ sources }: CarouselProps) {
         src = '',
         peripheralName = '',
         status = 0,
+        peripheralId = '',
       } = sources.get(sourceKey) ?? {};
       return {
         src,
         peripheralName,
         status,
+        peripheralId,
       };
     });
     return generatedImages;
@@ -42,6 +45,11 @@ function AlternativeView({ sources }: CarouselProps) {
             title={image.peripheralName}
             status={image.status}
             classNameContainer={styles.imagePreview}
+            className={`${
+              peripheralIdNotified === image.peripheralId
+                ? styles.borderNotified
+                : ''
+            }`}
           >
             {index === 6 && images.length > 7 && (
               <div
