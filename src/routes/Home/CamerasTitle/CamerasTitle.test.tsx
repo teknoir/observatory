@@ -1,39 +1,40 @@
-import { render } from '@testing-library/react';
-import CamerasTitle from './CamerasTitle';
+import { render, screen } from '@testing-library/react';
+import { CarouselMode, HomeContextProps } from 'ts/types';
 import { HomeContext } from 'context/HomeContext/HomeContext';
+import CamerasTitle from './CamerasTitle';
 
-test('renders CamerasTitle component with default value', () => {
-  // Mock the context value for HomeContext
-  const mockedValue = {
-    numCameras: 5, // Set the desired default value for numCameras
-  };
+const mockedData: HomeContextProps = {
+  mainImageCarousel: '',
+  setMainImageCarousel: () => '',
+  layout: CarouselMode.General,
+  setLayout: () => CarouselMode,
+  numCameras: 0,
+  setNumCameras: () => 0,
+};
 
-  // Render CamerasTitle component with the provided context value
-  const { getByText } = render(
+const renderComponent = (mockedValue: HomeContextProps) => {
+  return render(
     <HomeContext.Provider value={mockedValue}>
       <CamerasTitle />
     </HomeContext.Provider>
   );
+};
 
-  // Check if the title with the default value is rendered
-  const titleElement = getByText('Cameras (5)');
+test('component has title', () => {
+  renderComponent(mockedData);
+
+  const titleElement = screen.getByText('Cameras (0)');
   expect(titleElement).toBeInTheDocument();
 });
 
-test('renders CamerasTitle component with null value', () => {
-  // Mock the context value for HomeContext
+test('component has title with correct value of number of cameras', () => {
   const mockedValue = {
-    numCameras: null, // Set the context value to null for numCameras
+    ...mockedData,
+    numCameras: 5,
   };
 
-  // Render CamerasTitle component with the provided context value
-  const { getByText } = render(
-    <HomeContext.Provider value={mockedValue}>
-      <CamerasTitle />
-    </HomeContext.Provider>
-  );
+  renderComponent(mockedValue);
 
-  // Check if the title with the default value 'Cameras (0)' is rendered when numCameras is null
-  const titleElement = getByText('Cameras (0)');
+  const titleElement = screen.getByText('Cameras (5)');
   expect(titleElement).toBeInTheDocument();
 });
