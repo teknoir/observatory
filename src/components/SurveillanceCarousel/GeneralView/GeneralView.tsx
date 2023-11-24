@@ -1,10 +1,16 @@
 import { useEffect, useRef } from 'react';
+import classNames from 'classnames';
 import CarouselImage from 'components/SurveillanceCarousel/CarouselImage/CarouselImage';
 import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImagePreview/CarouselImagePreview';
 import { CarouselProps, RefImage } from 'ts/types';
 import styles from './GeneralView.module.scss';
 
-function GeneralView({ sources, mainSource, setMainSource }: CarouselProps) {
+function GeneralView({
+  sources,
+  mainSource,
+  setMainSource,
+  peripheralIdNotified,
+}: CarouselProps) {
   const galleryRef = useRef<HTMLDivElement | null>(null);
   const selectedImageRef = useRef<HTMLImageElement | null>(null);
 
@@ -68,9 +74,14 @@ function GeneralView({ sources, mainSource, setMainSource }: CarouselProps) {
                     src={src}
                     title={peripheralName}
                     status={status}
-                    className={`${
-                      mainSource === sourceKey ? styles.border : ''
-                    }`}
+                    className={classNames(
+                      `${mainSource === sourceKey ? styles.border : ''}`,
+                      `${
+                        peripheralIdNotified === sourceKey
+                          ? styles.borderNotified
+                          : ''
+                      }`
+                    )}
                   />
                 </div>
               );

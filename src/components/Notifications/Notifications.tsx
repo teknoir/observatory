@@ -20,6 +20,8 @@ const Notifications = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
   const [count, setCount] = useState(0);
   const { setPeripheralIdNotified } = useContext(HomeContext);
+  // TODO: State for testing, remove later
+  const [fromWs, setFromWs] = useState(false);
 
   const isOpen = Boolean(anchorEl);
 
@@ -30,8 +32,9 @@ const Notifications = () => {
     enabled: isOpen,
   });
 
-  if (data?.length > 0) {
+  if (data?.length > 0 && fromWs) {
     setPeripheralIdNotified(_last(data)?.peripheral_id);
+    setFromWs(false);
   }
 
   // TODO: Remove after testing
@@ -56,6 +59,7 @@ const Notifications = () => {
           break;
         }
       }
+      setFromWs(true);
     }
   }, [lastMessage, setCount]);
 

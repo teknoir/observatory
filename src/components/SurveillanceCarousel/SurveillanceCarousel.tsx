@@ -70,6 +70,7 @@ const SurveillanceCarousel = ({ mode, sources }: SurveillanceCarouselProps) => {
       sources={sources}
       mainSource={mainImage}
       setMainSource={setMainSource}
+      peripheralIdNotified={peripheralIdNotified}
     />
   );
 };

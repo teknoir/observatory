@@ -32,6 +32,7 @@ export interface CarouselProps {
   sources: Map<CameraId, Source>;
   mainSource: CameraId;
   setMainSource: (index: CameraId) => void;
+  peripheralIdNotified?: string;
 }
 
 export interface SurveillanceCarouselModeParams {
