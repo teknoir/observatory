@@ -23,7 +23,7 @@ const renderComponent = (mockedValue: HomeContextProps) => {
 test('component has title', () => {
   renderComponent(mockedData);
 
-  const titleElement = screen.getByText('Cameras (0)');
+  const titleElement = screen.getByText(/cameras \(0\)/i);
   expect(titleElement).toBeInTheDocument();
 });
 
@@ -35,6 +35,6 @@ test('component has title with correct value of number of cameras', () => {
 
   renderComponent(mockedValue);
 
-  const titleElement = screen.getByText('Cameras (5)');
+  const titleElement = screen.getByText(/cameras \(5\)/i);
   expect(titleElement).toBeInTheDocument();
 });
