@@ -1,24 +1,17 @@
 @import 'enums/styleVariables.module.scss';
 
-.root {
-  width: 100%;
-  aspect-ratio: auto 5/2;
-  display: flex;
-  overflow-y: hidden;
-}
-
 .galleryScroll {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  width: 40%;
-  height: 100%;
+  height: 100vh;
   overflow-y: auto;
+  border-left: 1px solid $offWhite;
 }
 
 .mainImage {
   position: relative;
-  width: 60%;
-  height: inherit;
+  height: 100%;
+  border-bottom: 1px solid $offWhite;
 
   &:hover {
     .hoverState {

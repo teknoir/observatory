@@ -1,4 +1,5 @@
 import { useEffect, useRef, DragEvent } from 'react';
+import Resizable from 'components/Resizable/Resizable';
 import CarouselImage from 'components/SurveillanceCarousel/CarouselImage/CarouselImage';
 import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImagePreview/CarouselImagePreview';
 import { CarouselProps, RefImage, CameraId } from 'ts/types';
@@ -47,64 +48,78 @@ function GeneralView({ sources, mainSource, setMainSource }: CarouselProps) {
   } = sources.get(mainSource) ?? {};
 
   return (
-    <section className={styles.root}>
-      <div
-        className={styles.mainImage}
-        onDragOver={handleDragOver}
-        onDrop={handleDropMain(mainSource)}
-        draggable
-      >
-        <CarouselImage
-          id={mainPeripheralId}
-          src={mainSrc}
-          title={mainPeripheralName}
-          status={status}
-        />
-      </div>
-      <div
-        ref={galleryRef}
-        className={styles.galleryScroll}
-        style={{
-          gridTemplateRows: `repeat(${sources.size}, 1fr)`,
+    <>
+      <Resizable
+        enable={{
+          bottom: true,
         }}
       >
-        {sources.size > 0 ? (
-          sourcesKeys.map((sourceKey) => {
-            const {
-              src = '',
-              peripheralId,
-              peripheralName = '',
-              status = 0,
-            } = sources.get(sourceKey) ?? {};
-            return (
-              <div
-                key={peripheralId}
-                onClick={() => setMainSource(sourceKey)}
-                ref={(ref: HTMLImageElement) =>
-                  setSelectedImageRef(ref, sourceKey)
-                }
-                className={styles.imagePreviewContainer}
-                onDragStart={handleDragStart(sourceKey)}
-                onDragEnd={handleDragEnd}
-                onDragOver={handleDragOver}
-                onDrop={handleDrop(sourceKey)}
-                draggable
-              >
-                <CarouselImagePreview
-                  id={sourceKey}
-                  src={src}
-                  title={peripheralName}
-                  status={status}
-                  className={`${mainSource === sourceKey ? styles.border : ''}`}
-                />
-              </div>
-            );
-          })
-        ) : (
-          <div>Loading...</div>
-        )}
-      </div>
-    </section>
+        <div
+          className={styles.mainImage}
+          onDragOver={handleDragOver}
+          onDrop={handleDropMain(mainSource)}
+          draggable
+        >
+          <CarouselImage
+            id={mainPeripheralId}
+            src={mainSrc}
+            title={mainPeripheralName}
+            status={status}
+          />
+        </div>
+      </Resizable>
+      <Resizable
+        enable={{
+          left: true,
+        }}
+      >
+        <div
+          ref={galleryRef}
+          className={styles.galleryScroll}
+          style={{
+            gridTemplateRows: `repeat(${sources.size}, 1fr)`,
+          }}
+        >
+          {sources.size > 0 ? (
+            sourcesKeys.map((sourceKey) => {
+              const {
+                src = '',
+                peripheralId,
+                peripheralName = '',
+                status = 0,
+              } = sources.get(sourceKey) ?? {};
+              return (
+                <div
+                  key={peripheralId}
+                  onClick={() => setMainSource(sourceKey)}
+                  ref={(ref: HTMLImageElement) =>
+                    setSelectedImageRef(ref, sourceKey)
+                  }
+                  className={styles.imagePreviewContainer}
+                  onDragStart={handleDragStart(sourceKey)}
+                  onDragEnd={handleDragEnd}
+                  onDragOver={handleDragOver}
+                  onDrop={handleDrop(sourceKey)}
+                  draggable
+                >
+                  <CarouselImagePreview
+                    id={sourceKey}
+                    src={src}
+                    title={peripheralName}
+                    status={status}
+                    className={`${
+                      mainSource === sourceKey ? styles.border : ''
+                    }`}
+                  />
+                </div>
+              );
+            })
+          ) : (
+            <div>Loading...</div>
+          )}
+        </div>
+      </Resizable>
+    </>
   );
 }
 
