@@ -64,22 +64,31 @@ const Alert = () => {
         <Typography variant="LabelMedium">{data.peripheral_name}</Typography>
       </AppBar>
       <MainContent>
-        <VideoPlayer url={data.video_url} width="100%" height={520} />
-        {isVerified ? (
-          <Info
-            name={name}
-            date={date}
-            type={type}
-            severity={severity}
-            peripheralName={peripheral_name}
-            startTime={start_time}
-            endTime={end_time}
-            comment={comment}
-            hasTheft={hasTheft}
-          />
-        ) : (
-          <Form onSubmit={onSubmit} />
-        )}
+        <div
+          style={{
+            height: 'calc(100vh - 64px)',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+          }}
+        >
+          <VideoPlayer url={data.video_url} width="100%" />
+          {isVerified ? (
+            <Info
+              name={name}
+              date={date}
+              type={type}
+              severity={severity}
+              peripheralName={peripheral_name}
+              startTime={start_time}
+              endTime={end_time}
+              comment={comment}
+              hasTheft={hasTheft}
+            />
+          ) : (
+            <Form onSubmit={onSubmit} />
+          )}
+        </div>
       </MainContent>
     </>
   );
