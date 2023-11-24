@@ -10,12 +10,13 @@ import * as d3 from 'd3';
 import _debounce from 'lodash/debounce';
 import Divider from '@mui/material/Divider';
 import { SelectChangeEvent } from '@mui/material/Select';
-import { Axis, Chart, Circles } from 'components/ChartUtilities';
+import { Chart, Circles } from 'components/ChartUtilities';
 import { detectionIdAccessor } from 'components/ChartUtilities/accessors';
 import { peripheralIdAccessor } from 'components/ChartUtilities/accessors';
 import { useChartDimensions } from 'components/ChartUtilities/utils';
 import { HomeContext } from 'context/HomeContext/HomeContext';
 import { IAlertEvent, PopoverInfoProps } from 'ts/types';
+import AxisHorizontalScroll from './AxisHorizontalScroll/AxisHorizontalScroll';
 import AxisVerticalLeft from './AxisVerticalLeft/AxisVerticalLeft';
 import AxisVerticalRight from './AxisVerticalRight/AxisVerticalRight';
 import GridLines from './GridLines/GridLines';
@@ -102,6 +103,7 @@ export const MovementsTimeline = ({
   const xAccessorScaled = (d: object) => xScale(xAccessor(d));
   const yAccessorScaled = (d: object) => yScale(yAccessor(d));
   const formatDate = formatDateFunction(period);
+  const numberOfTicks = period === MovementsTimelinePeriod.DAYS_1 ? 24 : period;
 
   const debounceResize = _debounce(
     () =>
@@ -223,13 +225,10 @@ export const MovementsTimeline = ({
         <Chart dimensions={dimensions}>
           <GridLines scale={yScale} />
           <g ref={scrollGroupRef}>
-            <Axis
-              dimension="xScroll"
+            <AxisHorizontalScroll
               scale={xScale}
               formatTick={formatDate}
-              numberOfTicks={
-                period === MovementsTimelinePeriod.DAYS_1 ? 24 : period
-              }
+              numberOfTicks={numberOfTicks}
             />
             <Circles
               data={dataMotions}

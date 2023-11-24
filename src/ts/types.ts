@@ -206,4 +206,5 @@ export interface ChartDimensions {
   marginLeft: number;
   boundedHeight: number;
   boundedWidth: number;
+  boundedScrollWidth: number;
 }
