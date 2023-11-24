@@ -12,6 +12,7 @@ import VideoPlayer from 'components/VideoPlayer/VideoPlayer';
 import { IAlertEvent, IAlertFormValues } from 'ts/types';
 import Form from './Form/Form';
 import Info from './Info/Info';
+import styles from './Alert.module.scss';
 
 const Alert = () => {
   const { detectionId = '' } = useParams();
@@ -63,32 +64,27 @@ const Alert = () => {
       <AppBar>
         <Typography variant="LabelMedium">{data.peripheral_name}</Typography>
       </AppBar>
-      <MainContent>
-        <div
-          style={{
-            height: 'calc(100vh - 64px)',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-          }}
-        >
-          <VideoPlayer url={data.video_url} width="100%" />
-          {isVerified ? (
-            <Info
-              name={name}
-              date={date}
-              type={type}
-              severity={severity}
-              peripheralName={peripheral_name}
-              startTime={start_time}
-              endTime={end_time}
-              comment={comment}
-              hasTheft={hasTheft}
-            />
-          ) : (
-            <Form onSubmit={onSubmit} />
-          )}
-        </div>
+      <MainContent className={styles.mainContent}>
+        <VideoPlayer
+          className={styles.videoPlayer}
+          url={data.video_url}
+          width="100%"
+        />
+        {isVerified ? (
+          <Info
+            name={name}
+            date={date}
+            type={type}
+            severity={severity}
+            peripheralName={peripheral_name}
+            startTime={start_time}
+            endTime={end_time}
+            comment={comment}
+            hasTheft={hasTheft}
+          />
+        ) : (
+          <Form onSubmit={onSubmit} />
+        )}
       </MainContent>
     </>
   );

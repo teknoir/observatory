@@ -28,10 +28,10 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
   }),
 }));
 
-const MainContent = ({ children }: { children: ReactNode }) => {
+const MainContent = ({ children, ...props }: { children: ReactNode }) => {
   const { isOpenedLeft, isOpenedRight } = useMainLayoutContext();
   return (
-    <Main open={isOpenedLeft} openRight={isOpenedRight}>
+    <Main open={isOpenedLeft} openRight={isOpenedRight} {...props}>
       {children}
     </Main>
   );
