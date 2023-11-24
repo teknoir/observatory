@@ -19,7 +19,6 @@ function GeneralView({
       const selectedImageElement = selectedImageRef.current;
       const galleryElement = galleryRef.current;
       const offsetTop = selectedImageElement.offsetTop;
-
       galleryElement.scrollTop = offsetTop - galleryElement.clientHeight / 2;
     }
   }, [mainSource]);
@@ -45,9 +44,8 @@ function GeneralView({
         title={mainPeripheralName}
         status={status}
       />
-      <div className={styles.galleryContainer}>
+      <div ref={galleryRef} className={styles.galleryContainer}>
         <div
-          ref={galleryRef}
           className={styles.galleryScroll}
           style={{
             gridTemplateRows: `repeat(${sources.size}, auto)`,
