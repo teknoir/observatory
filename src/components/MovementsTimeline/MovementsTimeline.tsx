@@ -113,20 +113,6 @@ export const MovementsTimeline = ({
     200
   );
 
-  const handleLeft = () => {
-    const scrollGroup = d3.select<SVGGElement, unknown>(
-      scrollGroupRef.current!
-    );
-    onScroll(scrollGroup, 'left');
-  };
-
-  const handleRight = () => {
-    const scrollGroup = d3.select<SVGGElement, unknown>(
-      scrollGroupRef.current!
-    );
-    onScroll(scrollGroup, 'right');
-  };
-
   const onScroll = useCallback(
     (
       scrollGroup: d3.Selection<SVGGElement, unknown, null, undefined>,
@@ -209,19 +195,6 @@ export const MovementsTimeline = ({
           height: peripherals.length * 64 + 200,
         }}
       >
-        <div
-          // TODO: Remove this inline styles and use a proper CSS class
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: '20px',
-          }}
-        >
-          {/* TODO: Replace these buttons for proper design */}
-          <button onClick={handleLeft}>Move to Left</button>
-          <button onClick={handleRight}>Move to Right</button>
-        </div>
         <Chart dimensions={dimensions}>
           <GridLines scale={yScale} />
           <g ref={scrollGroupRef}>
