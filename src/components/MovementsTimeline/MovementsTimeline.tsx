@@ -151,14 +151,20 @@ export const MovementsTimeline = ({
       if (move === CarouselArrowsOptions.LEFT) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        transformObj.x = maxEndTranslate;
+        transformObj.x =
+          transformObj.x + dimensions.boundedWidth / 2 > maxEndTranslate
+            ? maxEndTranslate
+            : transformObj.x + dimensions.boundedWidth / 2;
         duration = 500;
       }
 
       if (move === CarouselArrowsOptions.RIGHT) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        transformObj.x = maxStartTranslate;
+        transformObj.x =
+          transformObj.x - dimensions.boundedWidth / 2 < maxStartTranslate
+            ? maxStartTranslate
+            : transformObj.x - dimensions.boundedWidth / 2;
         duration = 500;
       }
 
