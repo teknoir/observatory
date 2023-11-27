@@ -77,13 +77,15 @@ function AllCamerasView({ sources, peripheralIdNotified }: CarouselProps) {
   }, [navigate]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    const notifiedDeviceIndex = images.findIndex(
-      (image) => image.peripheralId === peripheralIdNotified
-    );
-    const notifiedDevicePage = Math.floor(
-      notifiedDeviceIndex / imagesPerPage
-    ) as number;
-    setPage(notifiedDevicePage);
+    if (peripheralIdNotified) {
+      const notifiedDeviceIndex = images.findIndex(
+        (image) => image.peripheralId === peripheralIdNotified
+      );
+      const notifiedDevicePage = Math.floor(
+        notifiedDeviceIndex / imagesPerPage
+      ) as number;
+      setPage(notifiedDevicePage);
+    }
   }, [peripheralIdNotified, images]);
 
   useInterval(() => {

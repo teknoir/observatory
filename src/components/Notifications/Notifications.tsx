@@ -19,7 +19,8 @@ const Notifications = () => {
   const { lastMessage } = useWSSContext();
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
   const [count, setCount] = useState(0);
-  const { setPeripheralIdNotified } = useContext(HomeContext);
+  const { peripheralIdNotified, setPeripheralIdNotified } =
+    useContext(HomeContext);
   // TODO: State for testing, remove later
   const [fromWs, setFromWs] = useState(false);
 
@@ -38,13 +39,22 @@ const Notifications = () => {
   }
 
   // TODO: Remove after testing
-  const handleClickBtn = () => {
+  const handleClickBtn2 = () => {
     setPeripheralIdNotified('2');
   };
-
-  const handleClickBtn2 = () => {
+  const handleClickBtn3 = () => {
     setPeripheralIdNotified('3');
   };
+
+  // set interval to reset serPEripheralIdNotified to empty string after 1000ms only if setPeripheralIdNotified is not empty string
+  useEffect(() => {
+    if (peripheralIdNotified) {
+      const interval = setInterval(() => {
+        setPeripheralIdNotified('');
+      }, 2000);
+      return () => clearInterval(interval);
+    }
+  }, [peripheralIdNotified, setPeripheralIdNotified]);
 
   useEffect(() => {
     if (lastMessage) {
@@ -73,8 +83,8 @@ const Notifications = () => {
 
   return (
     <div className={styles.root}>
-      <button onClick={handleClickBtn}>Click me! 2</button>
-      <button onClick={handleClickBtn2}>Click me! 3</button>
+      <button onClick={handleClickBtn2}>2</button>
+      <button onClick={handleClickBtn3}>3</button>
       <div onClick={handleClick}>
         {count ? (
           <div className={styles.iconWrapper}>
