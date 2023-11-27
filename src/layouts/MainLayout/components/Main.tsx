@@ -2,6 +2,11 @@ import { ReactNode } from 'react';
 import { styled } from '@mui/material/styles';
 import { useMainLayoutContext } from 'context/mainLayoutContext';
 
+interface MainContentProps {
+  children: ReactNode;
+  className?: string;
+}
+
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
   open?: boolean;
   openRight?: boolean;
@@ -28,10 +33,10 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
   }),
 }));
 
-const MainContent = ({ children, ...props }: { children: ReactNode }) => {
+const MainContent = ({ children, className }: MainContentProps) => {
   const { isOpenedLeft, isOpenedRight } = useMainLayoutContext();
   return (
-    <Main open={isOpenedLeft} openRight={isOpenedRight} {...props}>
+    <Main open={isOpenedLeft} openRight={isOpenedRight} className={className}>
       {children}
     </Main>
   );
