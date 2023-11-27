@@ -9,7 +9,6 @@ interface Props {
 }
 
 const Icon = ({ icon, size = IconSizes.md, rotated = false }: Props) => {
-  console.log('icon', icon);
   return (
     <div
       className={classNames(styles.root, {

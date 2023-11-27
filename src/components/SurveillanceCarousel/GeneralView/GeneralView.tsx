@@ -61,48 +61,52 @@ function GeneralView({ sources, mainSource, setMainSource }: CarouselProps) {
           status={status}
         />
       </div>
-      <div
-        ref={galleryRef}
-        className={styles.galleryScroll}
-        style={{
-          gridTemplateRows: `repeat(${sources.size}, 1fr)`,
-        }}
-      >
-        {sources.size > 0 ? (
-          sourcesKeys.map((sourceKey) => {
-            const {
-              src = '',
-              peripheralId,
-              peripheralName = '',
-              status = 0,
-            } = sources.get(sourceKey) ?? {};
-            return (
-              <div
-                key={peripheralId}
-                onClick={() => setMainSource(sourceKey)}
-                ref={(ref: HTMLImageElement) =>
-                  setSelectedImageRef(ref, sourceKey)
-                }
-                className={styles.imagePreviewContainer}
-                onDragStart={handleDragStart(sourceKey)}
-                onDragEnd={handleDragEnd}
-                onDragOver={handleDragOver}
-                onDrop={handleDrop(sourceKey)}
-                draggable
-              >
-                <CarouselImagePreview
-                  id={sourceKey}
-                  src={src}
-                  title={peripheralName}
-                  status={status}
-                  className={`${mainSource === sourceKey ? styles.border : ''}`}
-                />
-              </div>
-            );
-          })
-        ) : (
-          <div>Loading...</div>
-        )}
+      <div className={styles.galleryContainer}>
+        <div
+          ref={galleryRef}
+          className={styles.galleryScroll}
+          style={{
+            gridTemplateRows: `repeat(${sources.size}, auto)`,
+          }}
+        >
+          {sources.size > 0 ? (
+            sourcesKeys.map((sourceKey) => {
+              const {
+                src = '',
+                peripheralId,
+                peripheralName = '',
+                status = 0,
+              } = sources.get(sourceKey) ?? {};
+              return (
+                <div
+                  key={peripheralId}
+                  onClick={() => setMainSource(sourceKey)}
+                  ref={(ref: HTMLImageElement) =>
+                    setSelectedImageRef(ref, sourceKey)
+                  }
+                  className={styles.imagePreviewContainer}
+                  onDragStart={handleDragStart(sourceKey)}
+                  onDragEnd={handleDragEnd}
+                  onDragOver={handleDragOver}
+                  onDrop={handleDrop(sourceKey)}
+                  draggable
+                >
+                  <CarouselImagePreview
+                    id={sourceKey}
+                    src={src}
+                    title={peripheralName}
+                    status={status}
+                    className={`${
+                      mainSource === sourceKey ? styles.border : ''
+                    }`}
+                  />
+                </div>
+              );
+            })
+          ) : (
+            <div>Loading...</div>
+          )}
+        </div>
       </div>
     </section>
   );
