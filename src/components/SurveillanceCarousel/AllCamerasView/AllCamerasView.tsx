@@ -1,15 +1,18 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import _throttle from 'lodash/throttle';
 import { useInterval } from 'usehooks-ts';
 import classNames from 'classnames';
 import ArrowBackIos from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIos from '@mui/icons-material/ArrowForwardIos';
 import Box from '@mui/material/Box';
 import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImagePreview/CarouselImagePreview';
+import useOrderedSourcesKeys from 'hooks/useOrderedSourcesKeys';
 import { CarouselProps } from 'ts/types';
 import styles from './AllCamerasView.module.scss';
 
 interface ImagesProps {
+  sourceKey: string;
   src: string;
   peripheralName: string;
   status: number;
@@ -22,6 +25,13 @@ const delay = 5000;
 function AllCamerasView({ sources }: CarouselProps) {
   const navigate = useNavigate();
   const [page, setPage] = useState<number>(0);
+  const {
+    sourcesKeys,
+    handleDragStart,
+    handleDragEnd,
+    handleDragOver,
+    handleDrop,
+  } = useOrderedSourcesKeys(sources);
 
   useEffect(() => {
     navigate(`?hideMotionsAlerts=true`);
@@ -36,8 +46,7 @@ function AllCamerasView({ sources }: CarouselProps) {
 
   // FIXME: This is a workaround to render using an array
   const images: ImagesProps[] = useMemo(() => {
-    const arr = [...sources.keys()];
-    const generatedImages = arr.map((sourceKey) => {
+    const generatedImages = sourcesKeys.map((sourceKey) => {
       const {
         src = '',
         peripheralName = '',
@@ -45,6 +54,7 @@ function AllCamerasView({ sources }: CarouselProps) {
         peripheralId = '',
       } = sources.get(sourceKey) ?? {};
       return {
+        sourceKey,
         src,
         peripheralName,
         status,
@@ -52,7 +62,7 @@ function AllCamerasView({ sources }: CarouselProps) {
       };
     });
     return generatedImages;
-  }, [sources]);
+  }, [sourcesKeys, sources]);
   const visibleImages = images.slice(
     page * imagesPerPage,
     page * imagesPerPage + imagesPerPage
@@ -60,7 +70,7 @@ function AllCamerasView({ sources }: CarouselProps) {
 
   const pages = Math.ceil(images.length / imagesPerPage);
 
-  function nextPage(forward = true) {
+  const nextPage = (forward = true) => {
     setPage((prevPage) => {
       if (forward) {
         if (prevPage + 1 === pages) {
@@ -74,7 +84,18 @@ function AllCamerasView({ sources }: CarouselProps) {
         return prevPage - 1;
       }
     });
-  }
+  };
+
+  const nextPageThrottle = useCallback(
+    _throttle(
+      (forward = true) => {
+        nextPage(forward);
+      },
+      3000,
+      { trailing: false }
+    ),
+    []
+  );
 
   useInterval(() => {
     nextPage();
@@ -87,12 +108,20 @@ function AllCamerasView({ sources }: CarouselProps) {
           [styles.buttonHoverState]: pages > 1,
         })}
         onClick={() => nextPage(false)}
+        onDragOver={() => nextPageThrottle(false)}
       >
         <ArrowBackIos />
       </button>
       <div className={styles.grid}>
         {visibleImages.map((image) => (
-          <div key={image.peripheralId}>
+          <div
+            key={image.peripheralId}
+            onDragStart={handleDragStart(image.sourceKey)}
+            onDragEnd={handleDragEnd}
+            onDragOver={handleDragOver}
+            onDrop={handleDrop(image.sourceKey)}
+            draggable
+          >
             <CarouselImagePreview
               id={image.peripheralName}
               src={image.src}
@@ -108,6 +137,7 @@ function AllCamerasView({ sources }: CarouselProps) {
           [styles.buttonHoverState]: pages > 1,
         })}
         onClick={() => nextPage(true)}
+        onDragOver={() => nextPageThrottle(true)}
       >
         <ArrowForwardIos />
       </button>

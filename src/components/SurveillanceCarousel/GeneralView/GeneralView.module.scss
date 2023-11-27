@@ -18,6 +18,18 @@
   overflow-y: auto;
 }
 
+.mainImage {
+  position: relative;
+  width: 60%;
+  height: inherit;
+
+  &:hover {
+    .hoverState {
+      display: flex;
+    }
+  }
+}
+
 .imagePreviewContainer {
   position: relative;
   display: flex;

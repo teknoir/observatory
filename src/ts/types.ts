@@ -58,6 +58,7 @@ export interface ImagePreviewProps {
   classNameContainer?: string;
   onClick?: () => void;
   ref: (ref: HTMLImageElement) => void;
+  children?: ReactNode;
 }
 
 export interface VideoProps {
