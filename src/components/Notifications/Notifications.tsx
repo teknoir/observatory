@@ -21,8 +21,6 @@ const Notifications = () => {
   const [count, setCount] = useState(0);
   const { peripheralIdNotified, setPeripheralIdNotified } =
     useContext(HomeContext);
-  // TODO: State for testing, remove later
-  const [fromWs, setFromWs] = useState(false);
 
   const isOpen = Boolean(anchorEl);
 
@@ -33,25 +31,15 @@ const Notifications = () => {
     enabled: isOpen,
   });
 
-  if (data?.length > 0 && fromWs) {
+  if (data?.length > 0) {
     setPeripheralIdNotified(_last(data)?.peripheral_id);
-    setFromWs(false);
   }
 
-  // TODO: Remove after testing
-  const handleClickBtn2 = () => {
-    setPeripheralIdNotified('2');
-  };
-  const handleClickBtn3 = () => {
-    setPeripheralIdNotified('3');
-  };
-
-  // set interval to reset serPEripheralIdNotified to empty string after 1000ms only if setPeripheralIdNotified is not empty string
   useEffect(() => {
     if (peripheralIdNotified) {
       const interval = setInterval(() => {
         setPeripheralIdNotified('');
-      }, 2000);
+      }, 10000);
       return () => clearInterval(interval);
     }
   }, [peripheralIdNotified, setPeripheralIdNotified]);
@@ -69,7 +57,6 @@ const Notifications = () => {
           break;
         }
       }
-      setFromWs(true);
     }
   }, [lastMessage, setCount]);
 
@@ -83,8 +70,6 @@ const Notifications = () => {
 
   return (
     <div className={styles.root}>
-      <button onClick={handleClickBtn2}>2</button>
-      <button onClick={handleClickBtn3}>3</button>
       <div onClick={handleClick}>
         {count ? (
           <div className={styles.iconWrapper}>

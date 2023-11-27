@@ -26,14 +26,6 @@ export function createRandomSources(quantity: number) {
       status: SourceStatus.Active,
     });
   }
-  // TODO: Remove. Just for testing purposes.
-  images.set('parkinglot1', {
-    src: 'https://picsum.photos/id/1015/800/450',
-    peripheralId: 'parkinglot1',
-    peripheralName: 'PL1 Test!',
-    device: 'demo',
-    status: SourceStatus.Active,
-  });
   return images;
 }
 
