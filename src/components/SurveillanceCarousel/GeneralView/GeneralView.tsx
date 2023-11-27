@@ -1,4 +1,5 @@
 import { useEffect, useRef, DragEvent } from 'react';
+import Resizable from 'components/Resizable/Resizable';
 import CarouselImage from 'components/SurveillanceCarousel/CarouselImage/CarouselImage';
 import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImagePreview/CarouselImagePreview';
 import { CarouselProps, RefImage, CameraId } from 'ts/types';
@@ -47,26 +48,36 @@ function GeneralView({ sources, mainSource, setMainSource }: CarouselProps) {
   } = sources.get(mainSource) ?? {};
 
   return (
-    <section className={styles.root}>
-      <div
-        className={styles.mainImage}
-        onDragOver={handleDragOver}
-        onDrop={handleDropMain(mainSource)}
-        draggable
+    <>
+      <Resizable
+        enable={{
+          bottom: true,
+        }}
       >
-        <CarouselImage
-          id={mainPeripheralId}
-          src={mainSrc}
-          title={mainPeripheralName}
-          status={status}
-        />
-      </div>
-      <div className={styles.galleryContainer}>
+        <div
+          className={styles.mainImage}
+          onDragOver={handleDragOver}
+          onDrop={handleDropMain(mainSource)}
+          draggable
+        >
+          <CarouselImage
+            id={mainPeripheralId}
+            src={mainSrc}
+            title={mainPeripheralName}
+            status={status}
+          />
+        </div>
+      </Resizable>
+      <Resizable
+        enable={{
+          left: true,
+        }}
+      >
         <div
           ref={galleryRef}
           className={styles.galleryScroll}
           style={{
-            gridTemplateRows: `repeat(${sources.size}, auto)`,
+            gridTemplateRows: `repeat(${sources.size}, 1fr)`,
           }}
         >
           {sources.size > 0 ? (
@@ -107,8 +118,8 @@ function GeneralView({ sources, mainSource, setMainSource }: CarouselProps) {
             <div>Loading...</div>
           )}
         </div>
-      </div>
-    </section>
+      </Resizable>
+    </>
   );
 }
 

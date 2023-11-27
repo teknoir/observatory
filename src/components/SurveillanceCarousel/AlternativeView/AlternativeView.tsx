@@ -1,6 +1,7 @@
 import { useContext, useMemo } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import Resizable from 'components/Resizable/Resizable';
 import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImagePreview/CarouselImagePreview';
 import { HomeContext } from 'context/HomeContext/HomeContext';
 import { CarouselMode, CarouselProps } from 'ts/types';
@@ -34,26 +35,32 @@ function AlternativeView({ sources }: CarouselProps) {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Grid container className={styles.container}>
-        {images.slice(0, 7).map((image, index) => (
-          <CarouselImagePreview
-            id={image.peripheralName}
-            src={image.src}
-            title={image.peripheralName}
-            status={image.status}
-            classNameContainer={styles.imagePreview}
-          >
-            {index === 6 && images.length > 7 && (
-              <div
-                className={styles.backdrop}
-                onClick={() => setLayout(CarouselMode.AllCamerasView)}
-              >
-                +{images.length - 7}
-              </div>
-            )}
-          </CarouselImagePreview>
-        ))}
-      </Grid>
+      <Resizable
+        enable={{
+          bottom: true,
+        }}
+      >
+        <Grid container className={styles.container}>
+          {images.slice(0, 7).map((image, index) => (
+            <CarouselImagePreview
+              id={image.peripheralName}
+              src={image.src}
+              title={image.peripheralName}
+              status={image.status}
+              classNameContainer={styles.imagePreview}
+            >
+              {index === 6 && images.length > 7 && (
+                <div
+                  className={styles.backdrop}
+                  onClick={() => setLayout(CarouselMode.AllCamerasView)}
+                >
+                  +{images.length - 7}
+                </div>
+              )}
+            </CarouselImagePreview>
+          ))}
+        </Grid>
+      </Resizable>
     </Box>
   );
 }

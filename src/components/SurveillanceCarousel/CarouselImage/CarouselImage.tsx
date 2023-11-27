@@ -7,7 +7,7 @@ import styles from './CarouselImage.module.scss';
 
 function CarouselImage({ id, src, title, status }: ImageProps) {
   return (
-    <div className={styles.root}>
+    <>
       <img src={src} className={styles.image} />
       <TitleContainer title={title} status={status} />
       <div className={styles.hoverState}>
@@ -24,7 +24,7 @@ function CarouselImage({ id, src, title, status }: ImageProps) {
           View device
         </Link>
       </div>
-    </div>
+    </>
   );
 }
 
