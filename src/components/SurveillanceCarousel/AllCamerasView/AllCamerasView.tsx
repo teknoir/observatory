@@ -3,10 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import _throttle from 'lodash/throttle';
 import { useInterval } from 'usehooks-ts';
 import classNames from 'classnames';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
 import ArrowBackIos from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIos from '@mui/icons-material/ArrowForwardIos';
+import Box from '@mui/material/Box';
 import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImagePreview/CarouselImagePreview';
 import useOrderedSourcesKeys from 'hooks/useOrderedSourcesKeys';
 import { CarouselProps } from 'ts/types';
@@ -105,19 +104,18 @@ function AllCamerasView({ sources }: CarouselProps) {
   return (
     <Box className={styles.root}>
       <button
-        className={classNames(styles.button, styles.buttonLeft)}
+        className={classNames(styles.button, styles.buttonLeft, {
+          [styles.buttonHoverState]: pages > 1,
+        })}
         onClick={() => nextPage(false)}
         onDragOver={() => nextPageThrottle(false)}
       >
         <ArrowBackIos />
       </button>
-      <Grid container className={styles.container}>
+      <div className={styles.grid}>
         {visibleImages.map((image) => (
-          <Grid
-            item
-            xs={4}
+          <div
             key={image.peripheralId}
-            className={styles.grid}
             onDragStart={handleDragStart(image.sourceKey)}
             onDragEnd={handleDragEnd}
             onDragOver={handleDragOver}
@@ -131,11 +129,13 @@ function AllCamerasView({ sources }: CarouselProps) {
               status={image.status}
               classNameContainer={styles.imagePreview}
             />
-          </Grid>
+          </div>
         ))}
-      </Grid>
+      </div>
       <button
-        className={classNames(styles.button, styles.buttonRight)}
+        className={classNames(styles.button, styles.buttonRight, {
+          [styles.buttonHoverState]: pages > 1,
+        })}
         onClick={() => nextPage(true)}
         onDragOver={() => nextPageThrottle(true)}
       >

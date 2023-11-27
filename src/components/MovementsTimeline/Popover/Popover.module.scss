@@ -1,9 +1,15 @@
 @import 'enums/styleVariables.module';
 
+.paper {
+  border-radius: 0;
+  clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 10%, 90% 0);
+}
+
 .card {
-  min-width: 250px;
-  background-color: $totalWhite;
-  color: $deepSpaceBlack;
+  min-width: 240px;
+  border-radius: 0;
+  background-color: $offWhite;
+  color: $fadedBlack;
 }
 
 .cardContent {
