@@ -10,6 +10,7 @@
 .galleryContainer {
   width: 40%;
   overflow-y: auto;
+  scroll-behavior: smooth;
 }
 
 .galleryScroll {
