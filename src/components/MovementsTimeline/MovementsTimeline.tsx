@@ -6,32 +6,29 @@ import {
   useRef,
   useState,
 } from 'react';
-import { NavLink as RouterLink } from 'react-router-dom';
 import * as d3 from 'd3';
 import _debounce from 'lodash/debounce';
-import moment from 'moment/moment';
-import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
-import InputLabel from '@mui/material/InputLabel';
-import Link from '@mui/material/Link';
 import { SelectChangeEvent } from '@mui/material/Select';
-import Typography from '@mui/material/Typography';
-import Select from 'muiComponents/Select/Select';
-import { Axis, Chart, Circles, GridLines } from 'components/ChartUtilities';
+import { Chart, Circles } from 'components/ChartUtilities';
 import { detectionIdAccessor } from 'components/ChartUtilities/accessors';
 import { peripheralIdAccessor } from 'components/ChartUtilities/accessors';
 import { useChartDimensions } from 'components/ChartUtilities/utils';
 import { HomeContext } from 'context/HomeContext/HomeContext';
-import APP_URLS from 'enums/urls';
 import { IAlertEvent, PopoverInfoProps } from 'ts/types';
+import AxisHorizontalScroll from './AxisHorizontalScroll/AxisHorizontalScroll';
 import AxisVerticalLeft from './AxisVerticalLeft/AxisVerticalLeft';
 import AxisVerticalRight from './AxisVerticalRight/AxisVerticalRight';
+import GridLines from './GridLines/GridLines';
 import Popover from './Popover/Popover';
-import { MovementsTimelinePeriod, TimelineFilterBy } from './enums';
+import ToolBar from './ToolBar/ToolBar';
+import {
+  formatDate as formatDateFunction,
+  xScale as xScaleFunction,
+  yScale as yScaleFunction,
+} from './utils';
+import { MovementsTimelinePeriod } from './enums';
 import styles from './MovementsTimeline.module.scss';
-
-const formatDateByDay = d3.timeFormat('%-b %-d');
-const formatDateByTime = d3.timeFormat('%-I:%M %p');
 
 interface MovementsTimeLineParams {
   startTime: Date;
@@ -46,18 +43,6 @@ interface MovementsTimeLineParams {
   period: MovementsTimelinePeriod;
   handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;
 }
-
-const timelineOptions = [
-  { value: TimelineFilterBy.MOTIONS_ALERTS, label: 'All' },
-  { value: TimelineFilterBy.MOTIONS, label: 'Motions' },
-  { value: TimelineFilterBy.ALERTS, label: 'Alerts' },
-];
-
-const periodOptions = [
-  { value: MovementsTimelinePeriod.DAYS_1, label: 'Today' },
-  { value: MovementsTimelinePeriod.DAYS_7, label: 'Last 7 days' },
-  { value: MovementsTimelinePeriod.DAYS_30, label: 'Last 30 days' },
-];
 
 // TODO: Temporal, remove this fallback when data returns video_url
 const fallbackVideoUrl =
@@ -111,21 +96,14 @@ export const MovementsTimeline = ({
     setAnchorEl(null);
   }
 
-  const xScale = d3
-    .scaleTime()
-    .domain([startTime, moment().toDate()])
-    .range([0, dimensions.boundedWidth * 6]);
-
-  const yScale = d3
-    .scalePoint()
-    .domain(peripherals)
-    .range([dimensions.boundedHeight, 0])
-    .padding(1);
-
+  const xScale = xScaleFunction(startTime, dimensions);
+  const yScale = yScaleFunction(peripherals, dimensions);
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const xAccessorScaled = (d: object) => xScale(xAccessor(d));
   const yAccessorScaled = (d: object) => yScale(yAccessor(d));
+  const formatDate = formatDateFunction(period);
+  const numberOfTicks = period === MovementsTimelinePeriod.DAYS_1 ? 24 : period;
 
   const debounceResize = _debounce(
     () =>
@@ -135,13 +113,11 @@ export const MovementsTimeline = ({
     200
   );
 
-  const formatDate =
-    period === MovementsTimelinePeriod.DAYS_1
-      ? formatDateByTime
-      : formatDateByDay;
-
   const onScroll = useCallback(
-    (scrollGroup: d3.Selection<SVGGElement, unknown, null, undefined>) => {
+    (
+      scrollGroup: d3.Selection<SVGGElement, unknown, null, undefined>,
+      move: 'left' | 'right' | undefined = undefined
+    ) => {
       const transformObj = d3.zoomTransform(scrollGroup.node() as SVGGElement);
       // TODO: This approach is an alternative to not modify the resulting
       // d3.zoomTransform() object, but it needs some logic to work
@@ -163,6 +139,18 @@ export const MovementsTimeline = ({
       // @ts-ignore
       transformObj.x = Math.min(transformObj.x, maxEndTranslate);
 
+      if (move === 'left') {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        transformObj.x = maxEndTranslate;
+      }
+
+      if (move === 'right') {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        transformObj.x = maxStartTranslate;
+      }
+
       const translateX = defaultTranslate + transformObj.x;
       scrollGroup.attr('transform', `translate(${translateX}, 0)`);
     },
@@ -178,7 +166,6 @@ export const MovementsTimeline = ({
       scrollGroupRef.current!
     );
     const timelineContainer = d3.select<HTMLElement, unknown>(ref.current!);
-
     const d3Zoom = d3
       .zoom<HTMLElement, unknown>()
       .scaleExtent([1, 1])
@@ -187,69 +174,19 @@ export const MovementsTimeline = ({
           scrollGroup as d3.Selection<SVGGElement, unknown, null, undefined>
         )
       );
-
     timelineContainer.call(d3Zoom);
-
     timelineContainer.call(d3Zoom.transform, d3.zoomIdentity);
-
     scrollGroup.attr('transform', `translate(${defaultTranslate}, 0)`);
   }, [defaultTranslate, ref, onScroll]);
 
   return (
-    <div className={styles.container}>
-      <nav className={styles.menuLayout}>
-        <div className={styles.menuItem}>
-          <Typography variant="h5" gutterBottom>
-            Motions & Alerts
-          </Typography>
-        </div>
-        <div className={styles.menuItem}>
-          <Box className={styles.menuItemBox}>
-            <InputLabel
-              id="timelineFilterByLabel"
-              className={styles.inputLabel}
-            >
-              Filter by:{' '}
-            </InputLabel>
-            <Select
-              labelId="timelineFilterByLabel"
-              value={filter}
-              options={timelineOptions}
-              onChange={handleChangeFilter}
-              sx={{
-                '& .MuiSelect-select.MuiInputBase-input.MuiOutlinedInput-input':
-                  {
-                    paddingLeft: 0,
-                  },
-                '& .MuiOutlinedInput-notchedOutline': {
-                  border: 'none',
-                },
-              }}
-            />
-          </Box>
-          <Select
-            labelId="movementsTimelinePeriodLabel"
-            value={period}
-            options={periodOptions}
-            onChange={handleChangePeriod}
-            sx={{
-              '& .MuiSelect-select.MuiInputBase-input.MuiOutlinedInput-input': {
-                paddingLeft: 0,
-              },
-              '& .MuiOutlinedInput-notchedOutline': {
-                border: 'none',
-              },
-            }}
-          />
-          <Link
-            component={RouterLink}
-            to={APP_URLS.motionsAlerts}
-            color="inherit"
-          >
-            View all
-          </Link>
-        </div>
-      </nav>
+    <div className={styles.root}>
+      <ToolBar
+        filter={filter}
+        handleChangeFilter={handleChangeFilter}
+        period={period}
+        handleChangePeriod={handleChangePeriod}
+      />
       <Divider variant="middle" />
       <div
         className={styles.timeline}
@@ -259,15 +196,12 @@ export const MovementsTimeline = ({
         }}
       >
         <Chart dimensions={dimensions}>
-          <GridLines dimension="y" scale={yScale} />
+          <GridLines scale={yScale} />
           <g ref={scrollGroupRef}>
-            <Axis
-              dimension="xScroll"
+            <AxisHorizontalScroll
               scale={xScale}
               formatTick={formatDate}
-              numberOfTicks={
-                period === MovementsTimelinePeriod.DAYS_1 ? 24 : period
-              }
+              numberOfTicks={numberOfTicks}
             />
             <Circles
               data={dataMotions}

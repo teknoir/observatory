@@ -1,5 +1,6 @@
 import { NavLink as RouterLink } from 'react-router-dom';
 import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
 import styles from './DeviceLink.module.scss';
 
 interface DeviceLinkProps {
@@ -15,7 +16,7 @@ const DeviceLink = ({ link }: DeviceLinkProps) => {
       underline="none"
       className={styles.link}
     >
-      Open
+      <Typography variant="LabelLarge">Open</Typography>
     </Link>
   );
 };
