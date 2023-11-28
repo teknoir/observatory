@@ -19,6 +19,7 @@ import { IAlertEvent, PopoverInfoProps } from 'ts/types';
 import AxisHorizontalScroll from './AxisHorizontalScroll/AxisHorizontalScroll';
 import AxisVerticalLeft from './AxisVerticalLeft/AxisVerticalLeft';
 import AxisVerticalRight from './AxisVerticalRight/AxisVerticalRight';
+import CarouselArrows from './CarouselArrows/CarouselArrows';
 import GridLines from './GridLines/GridLines';
 import Popover from './Popover/Popover';
 import ToolBar from './ToolBar/ToolBar';
@@ -27,7 +28,7 @@ import {
   xScale as xScaleFunction,
   yScale as yScaleFunction,
 } from './utils';
-import { MovementsTimelinePeriod } from './enums';
+import { CarouselArrowsOptions, MovementsTimelinePeriod } from './enums';
 import styles from './MovementsTimeline.module.scss';
 
 interface MovementsTimeLineParams {
@@ -80,6 +81,13 @@ export const MovementsTimeline = ({
     video_url: fallbackVideoUrl,
   });
 
+  const handleCarouselArrows = (d: CarouselArrowsOptions) => {
+    const scrollGroup = d3.select<SVGGElement, unknown>(
+      scrollGroupRef.current!
+    );
+    onScroll(scrollGroup, d);
+  };
+
   // FIX: fix the info parameter type
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
@@ -116,13 +124,14 @@ export const MovementsTimeline = ({
   const onScroll = useCallback(
     (
       scrollGroup: d3.Selection<SVGGElement, unknown, null, undefined>,
-      move: 'left' | 'right' | undefined = undefined
+      move: CarouselArrowsOptions | undefined = undefined
     ) => {
       const transformObj = d3.zoomTransform(scrollGroup.node() as SVGGElement);
       // TODO: This approach is an alternative to not modify the resulting
       // d3.zoomTransform() object, but it needs some logic to work
       // const transformObj = { ...d3.zoomTransform(scrollGroup.node()) }
 
+      let duration = 0;
       const maxStartTranslate = 0;
       const maxEndTranslate =
         dimensions.boundedScrollWidth - dimensions.boundedWidth;
@@ -139,20 +148,31 @@ export const MovementsTimeline = ({
       // @ts-ignore
       transformObj.x = Math.min(transformObj.x, maxEndTranslate);
 
-      if (move === 'left') {
+      if (move === CarouselArrowsOptions.LEFT) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        transformObj.x = maxEndTranslate;
+        transformObj.x =
+          transformObj.x + dimensions.boundedWidth / 2 > maxEndTranslate
+            ? maxEndTranslate
+            : transformObj.x + dimensions.boundedWidth / 2;
+        duration = 500;
       }
 
-      if (move === 'right') {
+      if (move === CarouselArrowsOptions.RIGHT) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        transformObj.x = maxStartTranslate;
+        transformObj.x =
+          transformObj.x - dimensions.boundedWidth / 2 < maxStartTranslate
+            ? maxStartTranslate
+            : transformObj.x - dimensions.boundedWidth / 2;
+        duration = 500;
       }
 
       const translateX = defaultTranslate + transformObj.x;
-      scrollGroup.attr('transform', `translate(${translateX}, 0)`);
+      scrollGroup
+        .transition()
+        .duration(duration)
+        .attr('transform', `translate(${translateX}, 0)`);
     },
     [defaultTranslate, dimensions.boundedScrollWidth, dimensions.boundedWidth]
   );
@@ -228,6 +248,7 @@ export const MovementsTimeline = ({
               handleClose={handlePopoverClose}
             />
           </g>
+          <CarouselArrows clickHandler={handleCarouselArrows} />
           <AxisVerticalLeft scale={yScale} />
           <AxisVerticalRight scale={yScale} ids={ids} />
         </Chart>
