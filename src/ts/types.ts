@@ -152,12 +152,50 @@ export interface IAlertEvent {
   zone: string;
 }
 
+export interface IEventDocument {
+  detection_id: DetectionId;
+  type: string;
+  start_time: string;
+  duration: number;
+  severity: string;
+  video_url: string;
+  video_snapshot: string;
+}
+
 export interface IQuery {
   [key: string]: string | number | boolean | IQuery | IQuery[];
 }
 
 export interface IEventsRequestParams {
   startDate: Date | Moment;
+}
+
+export interface IRetrieveEventsRequest {
+  fromDate: Date | Moment;
+  toDate: Date | Moment;
+}
+
+export interface IRetrieveEventsRequestById {
+  fromDate: Date | Moment;
+  toDate: Date | Moment;
+  peripheralId: string;
+}
+
+export type RetrieveEventsResponse = {
+  documents: IEventDocument[];
+  peripheral_id: string;
+  peripheral_name: string;
+}[];
+
+export interface IEventDocumentWithPeripheral extends IEventDocument {
+  peripheral_id: string;
+  peripheral_name: string;
+}
+
+export interface IMotionsAggregationRequest {
+  fromDate: Date | Moment;
+  toDate: Date | Moment;
+  peripheralId?: string;
 }
 
 export interface IEventsRequestParamsById {
@@ -178,10 +216,11 @@ export enum IMotionsActions {
 export interface IMotionsCountsProps {
   type: IMotionsTypes;
   action: IMotionsActions;
-  number: number;
+  count: number;
+  label: string;
 }
 
-export interface IMotionsCounts {
+export interface IMotionsAggregationResponse {
   [key: string]: IMotionsCountsProps;
 }
 

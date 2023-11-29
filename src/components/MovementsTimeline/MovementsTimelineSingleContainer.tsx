@@ -11,6 +11,7 @@ import {
   fetchMovementsByPeripheralId,
   fetchAlertsByPeripheralId,
 } from 'services/apiRequests';
+import { getFlattenDocuments } from 'utils/events';
 import { motionsById, alertsById } from 'enums/queryKeys';
 import { MovementsTimeline } from './MovementsTimeline';
 import {
@@ -31,7 +32,7 @@ function MovementsTimelineSingleContainer({
   const [filter, setFilter] = useState<string>(TimelineFilterBy.MOTIONS_ALERTS);
   const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1);
 
-  const startDate = useMemo(
+  const fromDate = useMemo(
     () => moment().subtract(period, 'days').startOf('day'),
     [period]
   );
@@ -39,13 +40,15 @@ function MovementsTimelineSingleContainer({
     () => moment().subtract(period, 'days').toDate(),
     [period]
   );
+  const toDate = useMemo(() => moment(), [period]);
 
   const {
     data: dataMotionsByPeripheralId,
     isInitialLoading: isLoadingMotionsByPeripheralId,
   } = useQuery({
-    queryKey: [motionsById, startDate, filter, peripheralId],
-    queryFn: () => fetchMovementsByPeripheralId({ startDate, peripheralId }),
+    queryKey: [motionsById, fromDate, toDate, filter, peripheralId],
+    queryFn: () =>
+      fetchMovementsByPeripheralId({ fromDate, toDate, peripheralId }),
     enabled:
       !!peripheralId &&
       (filter == TimelineFilterBy.MOTIONS ||
@@ -58,8 +61,9 @@ function MovementsTimelineSingleContainer({
     data: dataAlertsByPeripheralId,
     isInitialLoading: isLoadingAlertsByPeripheralId,
   } = useQuery({
-    queryKey: [alertsById, startDate, filter, peripheralId],
-    queryFn: () => fetchAlertsByPeripheralId({ startDate, peripheralId }),
+    queryKey: [alertsById, fromDate, toDate, filter, peripheralId],
+    queryFn: () =>
+      fetchAlertsByPeripheralId({ fromDate, toDate, peripheralId }),
     enabled:
       (!!peripheralId && filter == TimelineFilterBy.ALERTS) ||
       filter == TimelineFilterBy.MOTIONS_ALERTS,
@@ -74,6 +78,13 @@ function MovementsTimelineSingleContainer({
     : dataAlertsByPeripheralId
     ? peripheralNameAccessor(dataAlertsByPeripheralId[0] ?? '')
     : peripheralNameFromDevice ?? '';
+
+  const dataMotionsByPeripheralIdFlatten = getFlattenDocuments(
+    dataMotionsByPeripheralId
+  );
+  const dataAlertsByPeripheralIdFlatten = getFlattenDocuments(
+    dataAlertsByPeripheralId
+  );
 
   const handleChangeFilterBy = (e: SelectChangeEvent<unknown>) => {
     const filterByValue = String(e.target.value);
@@ -93,8 +104,8 @@ function MovementsTimelineSingleContainer({
   return (
     <MovementsTimeline
       startTime={startTime}
-      dataMotions={dataMotionsByPeripheralId}
-      dataAlerts={dataAlertsByPeripheralId}
+      dataMotions={dataMotionsByPeripheralIdFlatten}
+      dataAlerts={dataAlertsByPeripheralIdFlatten}
       xAccessor={startTimeAccessor}
       yAccessor={peripheralNameAccessor}
       peripherals={[peripheralName]}

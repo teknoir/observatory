@@ -2,7 +2,6 @@
 // @ts-nocheck
 
 import moment from 'moment';
-import _pick from 'lodash/pick';
 import { IAlertEvent } from 'ts/types';
 import { getUniqueID, dataWithDelay } from './utils';
 
@@ -97,75 +96,78 @@ const motionsSchema = new Map<string, object>([
   ],
 ]);
 
-const getMotionMinutes = () => {
-  const res = new Map<number, string[]>();
-  motionsSchema.forEach((value, key) => {
-    value.minutes.forEach((minute) => {
-      const arr = res.get(minute) || [];
-      arr.push(key);
-      res.set(minute, arr);
-    });
-  });
-  return res;
-};
+// const getMotionMinutes = () => {
+//   const res = new Map<number, string[]>();
+//   motionsSchema.forEach((value, key) => {
+//     value.minutes.forEach((minute) => {
+//       const arr = res.get(minute) || [];
+//       arr.push(key);
+//       res.set(minute, arr);
+//     });
+//   });
+//   return res;
+// };
 
-export const fetchMotionsByPeripheralIdMock = (
-  { peripheralId, startDate },
-  fields: string[] = []
-): Promise<IAlertEvent[]> => {
+export const fetchMotionsByPeripheralIdMock = ({
+  peripheralId,
+  fromDate,
+}): Promise<IAlertEvent[]> => {
   const res = [];
   const now = moment();
-  const dateFrom = startDate.clone();
+  const dateFrom = fromDate.clone();
   const { duration, minutes } = motionsSchema.get(peripheralId);
+  const documents = [];
   while (dateFrom.isBefore(now)) {
     dateFrom.add(1, 'hour');
     minutes.forEach((minute) => {
       const time = dateFrom.clone();
       const startTime = time.add().minute(minute);
-      let item = {
-        ...motionItemBase,
+      const item = {
         detection_id: getUniqueID(),
-        peripheral_id: peripheralId,
-        peripheral_name: peripheralId,
+        type: motionItemBase.type,
         start_time: startTime.format(),
-        end_time: startTime.add(duration, 'seconds').format(),
+        duration: duration * 1000,
+        severity: 'low',
       };
-      if (fields.length) {
-        item = _pick(item, fields);
-      }
-      res.push(item);
+      documents.push(item);
     });
   }
+  res.push({
+    peripheral_id: peripheralId,
+    peripheral_name: peripheralId,
+    documents,
+  });
   return dataWithDelay(res);
 };
 
-export const fetchAllMotionsMock = ({ startDate }, fields: string[] = []) => {
+export const fetchAllMotionsMock = ({ fromDate }) => {
   const res = [];
-  const now = moment();
-  const dateFrom = startDate.clone();
-  const minutes = getMotionMinutes();
-  while (dateFrom.isBefore(now)) {
-    dateFrom.add(1, 'hour');
-    minutes.forEach((peripheralIds, minute) => {
-      peripheralIds.forEach((peripheralId) => {
-        const { duration } = motionsSchema.get(peripheralId);
+  motionsSchema.forEach((value, key) => {
+    const { duration, minutes } = value;
+    const documents = [];
+    const now = moment();
+    const dateFrom = fromDate.clone();
+    while (dateFrom.isBefore(now)) {
+      dateFrom.add(1, 'hour');
+      minutes.forEach((minute) => {
         const time = dateFrom.clone();
         const startTime = time.add().minute(minute);
-        let item = {
-          ...motionItemBase,
+        const item = {
           detection_id: getUniqueID(),
-          peripheral_id: peripheralId,
-          peripheral_name: peripheralId,
+          type: motionItemBase.type,
           start_time: startTime.format(),
-          end_time: startTime.add(duration, 'seconds').format(),
+          duration: duration * 1000,
+          severity: 'low',
         };
-        if (fields.length) {
-          item = _pick(item, fields);
-        }
-        res.push(item);
+        documents.push(item);
       });
+    }
+    res.push({
+      peripheral_id: key,
+      peripheral_name: key,
+      documents,
     });
-  }
+  });
   return dataWithDelay(res);
 };
 

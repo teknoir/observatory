@@ -13,14 +13,14 @@ import Collapse from '@mui/material/Collapse';
 import Typography from '@mui/material/Typography';
 import AlertItem from 'components/AlertItem/AlertItem';
 import { isToday as isTodayFn, isYesterday } from 'utils/moment';
-import { IAlertEvent } from 'ts/types';
+import { IEventDocumentWithPeripheral } from 'ts/types';
 import styles from './AlertsGroup.module.scss';
 
 const itemHeight = 103;
 const maxItemsCount = 6;
 
 interface Props {
-  group: IAlertEvent[];
+  group: IEventDocumentWithPeripheral[];
   dayStr: string;
 }
 

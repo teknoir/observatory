@@ -2,18 +2,22 @@
 // @ts-nocheck
 
 import moment from 'moment';
-import { IMotionsCounts, IMotionsActions, IMotionsTypes } from 'ts/types';
+import {
+  IMotionsActions,
+  IMotionsTypes,
+  IMotionsAggregationResponse,
+} from 'ts/types';
 import { dataWithDelay } from './utils';
 
-export const fetchMotionsCountsMock = ({
-  startDate,
-}): Promise<IMotionsCounts> => {
+export const fetchMotionsAggregationMock = ({
+  fromDate,
+}): Promise<IMotionsAggregationResponse> => {
   const carsInPerDay = 3;
   const carsOutPerDay = 3;
   const peopleInPerDay = 2;
   const peopleOutPerDay = 2;
   const now = moment();
-  const diff = now.diff(startDate, 'days');
+  const diff = now.diff(fromDate, 'days');
   const res = {
     'Cars in': {
       type: IMotionsTypes.Cars,

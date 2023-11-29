@@ -11,11 +11,11 @@ import theftIcon from 'assets/icons/theftIcon.svg';
 import Icon from 'components/Icon/Icon';
 import Verified, { Sizes } from 'components/Verified/Verified';
 import APP_URLS from 'enums/urls';
-import { IAlertEvent, IconSizes } from 'ts/types';
+import { IEventDocumentWithPeripheral, IconSizes } from 'ts/types';
 import styles from './AlertItem.module.scss';
 
 interface Props {
-  data: IAlertEvent[];
+  data: IEventDocumentWithPeripheral[];
   index: number;
   style: CSSProperties;
 }
@@ -29,7 +29,7 @@ const AlertItem = ({ data, index, style }: Props) => {
     peripheral_name: name,
     severity,
     start_time: startTime,
-    end_time: endTime,
+    duration,
   } = item;
   // TODO: it's temporary solution, we need to use real data here
   let isVerified = false;
@@ -45,8 +45,7 @@ const AlertItem = ({ data, index, style }: Props) => {
   }
 
   const startDate = moment(startTime);
-  const endDate = moment(endTime);
-  const duration = moment.duration(endDate.diff(startDate)).seconds();
+  const durationSecs = Math.round(duration / 1000);
   const startDateFormat = startDate.format('HH:mm');
 
   const hasLink = detectionId && peripheralId;
@@ -58,7 +57,7 @@ const AlertItem = ({ data, index, style }: Props) => {
         <div className={styles.leftTitleLine}>
           <CircleIcon color="error" className={styles.statusIcon} />
           <Typography variant="LabelMedium">
-            {`${startDateFormat} (${duration}s)`}
+            {`${startDateFormat} (${durationSecs}s)`}
           </Typography>
         </div>
         <div className={styles.status}>

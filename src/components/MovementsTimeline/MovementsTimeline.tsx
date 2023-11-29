@@ -15,7 +15,11 @@ import { detectionIdAccessor } from 'components/ChartUtilities/accessors';
 import { peripheralIdAccessor } from 'components/ChartUtilities/accessors';
 import { useChartDimensions } from 'components/ChartUtilities/utils';
 import { HomeContext } from 'context/HomeContext/HomeContext';
-import { IAlertEvent, PopoverInfoProps } from 'ts/types';
+import {
+  IAlertEvent,
+  IEventDocumentWithPeripheral,
+  PopoverInfoProps,
+} from 'ts/types';
 import AxisHorizontalScroll from './AxisHorizontalScroll/AxisHorizontalScroll';
 import AxisVerticalLeft from './AxisVerticalLeft/AxisVerticalLeft';
 import AxisVerticalRight from './AxisVerticalRight/AxisVerticalRight';
@@ -32,8 +36,8 @@ import styles from './MovementsTimeline.module.scss';
 
 interface MovementsTimeLineParams {
   startTime: Date;
-  dataMotions: IAlertEvent[];
-  dataAlerts: IAlertEvent[];
+  dataMotions: IEventDocumentWithPeripheral[];
+  dataAlerts: IEventDocumentWithPeripheral[];
   xAccessor: (d: IAlertEvent) => Date | null;
   yAccessor: (d: object) => string;
   peripherals: Array<string>;
