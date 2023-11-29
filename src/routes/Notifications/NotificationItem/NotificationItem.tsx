@@ -25,7 +25,7 @@ const NotificationItem = ({
   severity,
   start_time: startTime,
   end_time: endTime,
-  is_verified: isVerified,
+  // is_verified: isVerified,
   is_seen: isSeen,
 }: Props) => {
   const startDate = moment(startTime);
@@ -48,7 +48,6 @@ const NotificationItem = ({
             {`${startDateFormat} (${duration}s)`}. Severity: {severity}
           </Typography>
         </div>
-        . TEST!: {isVerified ? 'Verified' : 'Unverified'}
       </Box>
       <Link
         to={href}

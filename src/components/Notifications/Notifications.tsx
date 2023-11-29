@@ -31,7 +31,7 @@ const Notifications = () => {
   });
 
   // TODO: Using sliced data to limit the number of notifications for the moment.
-  const dataSliced = data?.slice(0, 20);
+  const dataSliced = data?.slice(0, 10);
 
   useEffect(() => {
     if (lastMessage) {
