@@ -10,8 +10,7 @@ import {
   fetchNotificationsMock,
   fetchNotificationsPaginatedMock,
 } from 'services/fetchMock';
-import { dataWithDelay } from 'services/fetchMock/utils';
-import { getEventQuery, getSearchQuery } from 'services/queryHistorian';
+import { getSearchQuery } from 'services/queryHistorian';
 import {
   DetectionId,
   IAlertFormValues,
@@ -33,23 +32,6 @@ export const fetchAlert = (detectionId: DetectionId) => {
   if (shouldUseMockData()) {
     return fetchAlertMock(detectionId);
   }
-  const query = getEventQuery(detectionId);
-  return Fetch.get(API.alerts(query)).then(({ data }) => {
-    const res = data[0];
-    if (res) {
-      // TODO: pass test video url
-      res.video_url =
-        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
-    }
-    return res;
-  });
-};
-
-export const fetchAlertME = (detectionId: DetectionId) => {
-  // TODO: remove this condition in future
-  // if (shouldUseMockData()) {
-  //   return fetchAlertMock(detectionId);
-  // }
   return Fetch.get(API.historianEventAlert(detectionId)).then(({ data }) => {
     const res = data[0];
     if (res) {
@@ -61,12 +43,10 @@ export const fetchAlertME = (detectionId: DetectionId) => {
   });
 };
 
-export const fetchFeedbackME = (detectionId: DetectionId) => {
-  // TODO: remove this condition in future
-  // if (shouldUseMockData()) {
-  //   return fetchAlertMock(detectionId);
-  // }
-  return Fetch.get(API.historianFeedback(detectionId)).then(({ data }) => data);
+export const fetchFeedback = (detectionId: DetectionId) => {
+  return Fetch.get(API.historianFeedback(detectionId)).then(
+    ({ data }) => data[0]
+  );
 };
 
 export const fetchAlerts = (filters: IRetrieveEventsRequest) => {
@@ -89,14 +69,10 @@ export const fetchAlertsByPeripheralId = (
   return Fetch.get(API.historianAlerts(query)).then(({ data }) => data);
 };
 
-// TODO: implement a real API request
-export const verifyAlert = (data: {
-  detectionId: DetectionId;
-  values: IAlertFormValues;
-}) => {
-  const { detectionId, values } = data;
-  console.log('verifyAlert', detectionId, values);
-  return dataWithDelay(values);
+export const sendFeedback = (
+  data: IAlertFormValues & { detection_id: DetectionId; username: string }
+) => {
+  return Fetch.post(API.sendFeedback, data).then(({ data }) => data);
 };
 
 export const fetchMotionsAggregation = (
