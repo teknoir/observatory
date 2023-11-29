@@ -32,7 +32,7 @@ export const fetchAlert = (detectionId: DetectionId) => {
   if (shouldUseMockData()) {
     return fetchAlertMock(detectionId);
   }
-  return Fetch.get(API.historianEventAlert(detectionId)).then(({ data }) => {
+  return Fetch.get(API.eventAlert(detectionId)).then(({ data }) => {
     const res = data[0];
     if (res) {
       // TODO: pass test video url
@@ -44,9 +44,7 @@ export const fetchAlert = (detectionId: DetectionId) => {
 };
 
 export const fetchFeedback = (detectionId: DetectionId) => {
-  return Fetch.get(API.historianFeedback(detectionId)).then(
-    ({ data }) => data[0]
-  );
+  return Fetch.get(API.feedback(detectionId)).then(({ data }) => data[0]);
 };
 
 export const fetchAlerts = (filters: IRetrieveEventsRequest) => {
@@ -55,7 +53,7 @@ export const fetchAlerts = (filters: IRetrieveEventsRequest) => {
     return fetchAllAlertsMock(filters);
   }
   const query = getSearchQuery(filters);
-  return Fetch.get(API.historianAlerts(query)).then(({ data }) => data);
+  return Fetch.get(API.eventsAlerts(query)).then(({ data }) => data);
 };
 
 export const fetchAlertsByPeripheralId = (
@@ -66,7 +64,7 @@ export const fetchAlertsByPeripheralId = (
     return fetchAlertsByPeripheralIdMock(filters);
   }
   const query = getSearchQuery(filters);
-  return Fetch.get(API.historianAlerts(query)).then(({ data }) => data);
+  return Fetch.get(API.eventsAlerts(query)).then(({ data }) => data);
 };
 
 export const sendFeedback = (
@@ -92,7 +90,7 @@ export const fetchMovements = (filters: IRetrieveEventsRequest) => {
     return fetchAllMotionsMock(filters);
   }
   const query = getSearchQuery(filters);
-  return Fetch.get(API.historianMovements(query)).then(({ data }) => data);
+  return Fetch.get(API.eventsMovements(query)).then(({ data }) => data);
 };
 
 export const fetchMovementsByPeripheralId = (
@@ -103,7 +101,7 @@ export const fetchMovementsByPeripheralId = (
     return fetchMotionsByPeripheralIdMock(filters);
   }
   const query = getSearchQuery(filters);
-  return Fetch.get(API.historianMovements(query)).then(({ data }) => data);
+  return Fetch.get(API.eventsMovements(query)).then(({ data }) => data);
 };
 
 export const fetchNotifications = () => {
