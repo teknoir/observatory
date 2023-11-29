@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import { Link } from 'react-router-dom';
-import _groupBy from 'lodash/groupBy';
+// import _groupBy from 'lodash/groupBy';
 import Button from '@mui/material/Button';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
@@ -20,10 +20,11 @@ interface Props {
   data: IAlertEvent[];
 }
 
-enum GroupKeys {
-  verified = 'true',
-  notVerified = 'false',
-}
+// TODO: Uncomment this if we are going to split data in verified/unverified
+// enum GroupKeys {
+//   verified = 'true',
+//   notVerified = 'false',
+// }
 
 const PopoverComponent = ({
   isOpen,
@@ -32,7 +33,10 @@ const PopoverComponent = ({
   isLoading,
   data,
 }: Props) => {
-  const dataGrouped = _groupBy(data, 'is_verified');
+  // TODO: Uncomment this if data is grouped by is_verified
+  // const dataGrouped = _groupBy(data, 'is_verified');
+  const dataGrouped = data;
+
   return (
     <Popover
       id="notifications-popover"
@@ -70,7 +74,13 @@ const PopoverComponent = ({
             <Typography variant="LabelLarge" className={styles.subTitle}>
               New
             </Typography>
-            {dataGrouped[GroupKeys.notVerified]?.map((item) => (
+            {/* TODO: Showing all notifications */}
+            {dataGrouped.map((item) => (
+              <NotificationItem {...item} />
+            ))}
+
+            {/* TODO: Uncomment this if we are going to split data in verified/unverified */}
+            {/* {dataGrouped[GroupKeys.notVerified]?.map((item) => (
               <NotificationItem {...item} />
             ))}
             <Typography variant="LabelLarge" className={styles.subTitle}>
@@ -78,7 +88,7 @@ const PopoverComponent = ({
             </Typography>
             {dataGrouped[GroupKeys.verified]?.map((item) => (
               <NotificationItem {...item} />
-            ))}
+            ))} */}
           </>
         )}
       </div>

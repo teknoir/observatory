@@ -1,7 +1,6 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import { useState, useEffect, MouseEvent } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import moment from 'moment/moment';
 import Typography from '@mui/material/Typography';
 import bellIcon from 'assets/icons/bellIcon.svg';
 import bellRedIcon from 'assets/icons/bellRedIcon.svg';
@@ -18,14 +17,21 @@ const Notifications = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
   const [count, setCount] = useState(0);
 
+  // TODO: Define time period to use
+  const fromDate = moment().subtract(1, 'days').startOf('day');
+  const toDate = moment();
+
   const isOpen = Boolean(anchorEl);
 
   const queryKey = [notifications];
   const { data, isLoading } = useQuery({
     queryKey,
-    queryFn: () => fetchNotifications(),
+    queryFn: () => fetchNotifications({ fromDate, toDate }),
     enabled: isOpen,
   });
+
+  // TODO: Using sliced data to limit the number of notifications for the moment.
+  const dataSliced = data?.slice(0, 20);
 
   useEffect(() => {
     if (lastMessage) {
@@ -70,7 +76,9 @@ const Notifications = () => {
         anchorEl={anchorEl}
         handleClose={handleClose}
         isLoading={isLoading}
-        data={data}
+        // TODO: Using sliced data to limit the number of notifications for the moment.
+        // data={data}
+        data={dataSliced}
       />
     </div>
   );

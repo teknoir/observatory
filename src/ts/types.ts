@@ -185,6 +185,11 @@ export interface IEventsRequestParamsById {
   peripheralId: string;
 }
 
+export interface INotificationsRequest {
+  fromDate: Date | Moment;
+  toDate: Date | Moment;
+}
+
 export enum IMotionsTypes {
   Cars = 'cars',
   People = 'people',

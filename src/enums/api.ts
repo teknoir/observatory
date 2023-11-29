@@ -13,6 +13,8 @@ const API = {
     `${API_HOST_MIDDLE_END}/motions_aggregation?collection_name=movements&${query}`,
   feedback: (detectionId: string) =>
     `${API_HOST_MIDDLE_END}/feedbacks?detection_id=${detectionId}`,
+  notifications: (query: string) =>
+    `${API_HOST_MIDDLE_END}/notifications?${query}`,
   sendFeedback: `${API_HOST_MIDDLE_END}/feedbacks`,
 };
 

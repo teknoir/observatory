@@ -17,6 +17,7 @@ import {
   IRetrieveEventsRequest,
   IRetrieveEventsRequestById,
   IMotionsAggregationRequest,
+  INotificationsRequest,
 } from 'ts/types';
 
 // TODO: remove this function in future
@@ -24,7 +25,7 @@ const shouldUseMockData = (): boolean =>
   location?.search.includes('useMockDb') ||
   import.meta.env.VITE_USE_MOCK_HISTORIAN_DB;
 const shouldUseMotionsDb = (): boolean => true;
-const shouldUseNotificationsDb = (): boolean => false;
+const shouldUseNotificationsDb = (): boolean => true;
 const shouldUseNotificationsPaginatedDb = (): boolean => false;
 
 export const fetchAlert = (detectionId: DetectionId) => {
@@ -104,10 +105,11 @@ export const fetchMovementsByPeripheralId = (
   return Fetch.get(API.eventsMovements(query)).then(({ data }) => data);
 };
 
-export const fetchNotifications = () => {
+export const fetchNotifications = (filters: INotificationsRequest) => {
   // TODO: remove this condition in future
   if (shouldUseNotificationsDb()) {
-    // TODO: request here
+    const query = getSearchQuery(filters);
+    return Fetch.get(API.notifications(query)).then(({ data }) => data);
   }
   return fetchNotificationsMock();
 };
