@@ -1,8 +1,9 @@
-import { NavLink as RouterLink, generatePath } from 'react-router-dom';
+import { NavLink as RouterLink } from 'react-router-dom';
 import Link from '@mui/material/Link';
 import TitleContainer from 'components/SurveillanceCarousel/TitleContainer/TitleContainer';
 import { ImageProps } from 'ts/types';
 import APP_URLS from 'enums/urls';
+import { generatePath } from 'utils/router';
 import styles from './CarouselImage.module.scss';
 
 function CarouselImage({ id, src, title, status }: ImageProps) {

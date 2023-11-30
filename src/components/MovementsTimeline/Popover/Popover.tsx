@@ -1,4 +1,4 @@
-import { NavLink as RouterLink, generatePath } from 'react-router-dom';
+import { NavLink as RouterLink } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -6,6 +6,7 @@ import CardContent from '@mui/material/CardContent';
 import Link from '@mui/material/Link';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
+import { generatePath } from 'utils/router';
 import VideoPlayer from 'components/VideoPlayer/VideoPlayer';
 import { PopoverInfoProps } from 'ts/types';
 import APP_URLS from 'enums/urls';

@@ -7,6 +7,7 @@ import ArrowForwardIos from '@mui/icons-material/ArrowForwardIos';
 import Box from '@mui/material/Box';
 import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImagePreview/CarouselImagePreview';
 import { CarouselProps } from 'ts/types';
+import { NextPageOptions, nextPage } from './utils';
 import styles from './AllCamerasView.module.scss';
 
 interface ImagesProps {
@@ -60,24 +61,12 @@ function AllCamerasView({ sources }: CarouselProps) {
 
   const pages = Math.ceil(images.length / imagesPerPage);
 
-  function nextPage(forward = true) {
-    setPage((prevPage) => {
-      if (forward) {
-        if (prevPage + 1 === pages) {
-          return 0;
-        }
-        return prevPage + 1;
-      } else {
-        if (prevPage === 0) {
-          return pages - 1;
-        }
-        return prevPage - 1;
-      }
-    });
-  }
+  const changePage = (direction: NextPageOptions) => {
+    setPage((prevPage) => nextPage(direction, prevPage, pages));
+  };
 
   useInterval(() => {
-    nextPage();
+    changePage(NextPageOptions.forward);
   }, delay);
 
   return (
@@ -86,7 +75,7 @@ function AllCamerasView({ sources }: CarouselProps) {
         className={classNames(styles.button, styles.buttonLeft, {
           [styles.buttonHoverState]: pages > 1,
         })}
-        onClick={() => nextPage(false)}
+        onClick={() => changePage(NextPageOptions.backward)}
       >
         <ArrowBackIos />
       </button>
@@ -107,7 +96,7 @@ function AllCamerasView({ sources }: CarouselProps) {
         className={classNames(styles.button, styles.buttonRight, {
           [styles.buttonHoverState]: pages > 1,
         })}
-        onClick={() => nextPage(true)}
+        onClick={() => changePage(NextPageOptions.forward)}
       >
         <ArrowForwardIos />
       </button>

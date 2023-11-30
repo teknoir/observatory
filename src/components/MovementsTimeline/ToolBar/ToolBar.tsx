@@ -9,6 +9,7 @@ import {
   MovementsTimelinePeriod,
   TimelineFilterBy,
 } from 'components/MovementsTimeline/enums';
+import { generatePath } from 'utils/router';
 import APP_URLS from 'enums/urls';
 import styles from './ToolBar.module.scss';
 
@@ -78,7 +79,7 @@ const ToolBar = ({
         />
         <Link
           component={RouterLink}
-          to={APP_URLS.motionsAlerts}
+          to={generatePath(APP_URLS.motionsAlerts)}
           color="inherit"
         >
           <Typography variant="LabelLarge">View all</Typography>
