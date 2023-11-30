@@ -114,6 +114,7 @@ export interface PopoverInfoProps {
   detection_id: string;
   duration: number;
   peripheral_id: string;
+  peripheral_name: string;
   severity: string;
   start_time: string;
   type: string;
@@ -194,4 +195,16 @@ export enum IconSizes {
   sm = 'sm',
   md = 'md',
   lg = 'lg',
+}
+
+export interface ChartDimensions {
+  height: number;
+  width: number;
+  marginTop: number;
+  marginRight: number;
+  marginBottom: number;
+  marginLeft: number;
+  boundedHeight: number;
+  boundedWidth: number;
+  boundedScrollWidth: number;
 }

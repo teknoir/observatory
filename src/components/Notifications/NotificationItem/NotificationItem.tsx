@@ -1,6 +1,5 @@
 import { Link, generatePath } from 'react-router-dom';
 import moment from 'moment';
-import classNames from 'classnames';
 import Typography from '@mui/material/Typography';
 import CircleIcon from '@mui/icons-material/Circle';
 import APP_URLS from 'enums/urls';
@@ -40,19 +39,18 @@ const NotificationItem = ({
       )}
       <div className={styles.imgWrapper}></div>
       <div>
-        <Typography variant="body2" display="block" className={styles.text}>
+        <Typography variant="BodyMedium" className={styles.text}>
           {/*TODO: use real type (Theft or another)*/}
-          Theft alert in Camera: {peripheralName} -{' '}
-          {`${startDateFormat} (${duration}s)`}. Severity: {severity}
+          <span>
+            Theft alert in Camera: {peripheralName} -{' '}
+            {`${startDateFormat} (${duration}s)`}.
+          </span>
+          <br />
+          <span>Severity: {severity}</span>
         </Typography>
       </div>
-      <Link
-        to={href}
-        className={classNames(styles.buttonLink, {
-          [styles.buttonLinkVerified]: isVerified,
-        })}
-      >
-        {isVerified ? 'Verified' : 'View'}
+      <Link to={href} className={styles.buttonLink}>
+        <Typography variant="LabelLarge">View</Typography>
       </Link>
     </div>
   );

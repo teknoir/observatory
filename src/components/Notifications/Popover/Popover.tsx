@@ -59,7 +59,7 @@ const PopoverComponent = ({
         },
       }}
     >
-      <Typography variant="body2" display="block" className={styles.title}>
+      <Typography variant="LabelXL" className={styles.title}>
         Notifications
       </Typography>
       <div className={styles.list}>
@@ -67,22 +67,14 @@ const PopoverComponent = ({
           <CircularProgress />
         ) : (
           <>
-            <Typography
-              variant="body2"
-              display="block"
-              className={styles.subTitle}
-            >
+            <Typography variant="LabelLarge" className={styles.subTitle}>
               New
             </Typography>
             {dataGrouped[GroupKeys.notVerified]?.map((item) => (
               <NotificationItem {...item} />
             ))}
-            <Typography
-              variant="body2"
-              display="block"
-              className={styles.subTitle}
-            >
-              This week
+            <Typography variant="LabelLarge" className={styles.subTitle}>
+              Unverified
             </Typography>
             {dataGrouped[GroupKeys.verified]?.map((item) => (
               <NotificationItem {...item} />
@@ -98,7 +90,7 @@ const PopoverComponent = ({
         fullWidth
         className={styles.buttonAll}
       >
-        See All Notifications
+        <Typography variant="LabelLarge">See all notifications</Typography>
       </Button>
     </Popover>
   );
