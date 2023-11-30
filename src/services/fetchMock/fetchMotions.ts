@@ -10,9 +10,11 @@ import { getUniqueID, dataWithDelay } from './utils';
 // const startDate = moment().startOf('day');
 // const startDate = moment().subtract(7, 'days').startOf('day');
 
+const defaultPeripheralId = 'parkinglot1';
+
 const motionsSchema = new Map<string, object>([
   [
-    'parkinglot1',
+    defaultPeripheralId,
     {
       minutes: [5, 28, 40],
       duration: 15,
@@ -116,7 +118,8 @@ export const fetchMotionsByPeripheralIdMock = (
   const res = [];
   const now = moment();
   const dateFrom = startDate.clone();
-  const { duration, minutes } = motionsSchema.get(peripheralId);
+  const { duration, minutes } =
+    motionsSchema.get(peripheralId) || motionsSchema.get(defaultPeripheralId);
   while (dateFrom.isBefore(now)) {
     dateFrom.add(1, 'hour');
     minutes.forEach((minute) => {

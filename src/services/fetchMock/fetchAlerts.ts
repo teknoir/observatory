@@ -5,9 +5,11 @@ import _pick from 'lodash/pick';
 import { IAlertEvent } from 'ts/types';
 import { getUniqueID, dataWithDelay } from './utils';
 
+const defaultPeripheralId = 'parkinglot1';
+
 const alertsSchema = new Map<string, object>([
   [
-    'parkinglot1',
+    defaultPeripheralId,
     {
       hours: [2, 15, 22],
       minute: 12,
@@ -123,7 +125,8 @@ export const fetchAlertsByPeripheralIdMock = (
   const res = [];
   const now = moment();
   const dateFrom = startDate.clone();
-  const { duration, hours, minute } = alertsSchema.get(peripheralId);
+  const { duration, hours, minute } =
+    alertsSchema.get(peripheralId) || alertsSchema.get(defaultPeripheralId);
   while (dateFrom.isBefore(now)) {
     dateFrom.add(1, 'hour');
     const currentHour = dateFrom.hour();
