@@ -1,5 +1,5 @@
 import { ScalePoint } from 'd3';
-import { generatePath } from 'react-router-dom';
+import { generatePath } from 'utils/router';
 import { useChartDimensions } from 'components/ChartUtilities/Chart/ChartContext';
 import DeviceLink from 'components/MovementsTimeline/DeviceLink/DeviceLink';
 import APP_URLS from 'enums/urls';

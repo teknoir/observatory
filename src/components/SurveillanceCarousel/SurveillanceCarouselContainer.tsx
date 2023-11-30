@@ -4,6 +4,7 @@ import { HomeContext } from 'context/HomeContext/HomeContext';
 import { useWSSContext } from 'context/webSocketContext';
 import { wsSources } from 'enums/queryKeys';
 import { TOPICS, TYPES } from 'enums/wss';
+import { useTestImages } from 'enums/mockData';
 import { CarouselMode, HomeContextProps, Source, SourceStatus } from 'ts/types';
 import SurveillanceCarousel from './SurveillanceCarousel';
 import Skeleton from './Skeleton/Skeleton';
@@ -29,8 +30,8 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
 
   // TODO: only for testing, remove this later
   useEffect(() => {
-    const useTestImages = location?.search.includes('useTestImages');
-    if (useTestImages) {
+    const shouldUseTestImages = location?.search.includes(useTestImages);
+    if (shouldUseTestImages) {
       setTimeout(() => {
         setSources(createRandomSources(30));
       }, 3000);
