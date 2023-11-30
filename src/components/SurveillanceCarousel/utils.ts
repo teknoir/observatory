@@ -21,7 +21,7 @@ export function createRandomSources(quantity: number) {
     images.set(String(i + 1), {
       src: newImage,
       peripheralId: String(i + 1),
-      peripheralName: `Camera ${i + 1}`,
+      peripheralName: `camera_${i + 1}`,
       device: 'demo',
       status: SourceStatus.Active,
     });
