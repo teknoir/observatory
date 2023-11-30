@@ -197,3 +197,15 @@ export enum IconSizes {
   md = 'md',
   lg = 'lg',
 }
+
+export interface ChartDimensions {
+  height: number;
+  width: number;
+  marginTop: number;
+  marginRight: number;
+  marginBottom: number;
+  marginLeft: number;
+  boundedHeight: number;
+  boundedWidth: number;
+  boundedScrollWidth: number;
+}

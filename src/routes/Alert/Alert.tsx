@@ -12,6 +12,7 @@ import VideoPlayer from 'components/VideoPlayer/VideoPlayer';
 import { IAlertEvent, IAlertFormValues } from 'ts/types';
 import Form from './Form/Form';
 import Info from './Info/Info';
+import styles from './Alert.module.scss';
 
 const Alert = () => {
   const { detectionId = '' } = useParams();
@@ -63,8 +64,12 @@ const Alert = () => {
       <AppBar>
         <Typography variant="LabelMedium">{data.peripheral_name}</Typography>
       </AppBar>
-      <MainContent>
-        <VideoPlayer url={data.video_url} width="100%" height={520} />
+      <MainContent className={styles.mainContent}>
+        <VideoPlayer
+          url={data.video_url}
+          width="100%"
+          className={styles.videoPlayer}
+        />
         {isVerified ? (
           <Info
             name={name}

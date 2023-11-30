@@ -1,25 +1,21 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import { ScalePoint } from 'd3';
-import classNames from 'classnames';
-import cameraImage from 'assets/device_camera.png';
-// import { useChartDimensions } from "components/ChartUtilities/Chart/Chart"
+import Typography from '@mui/material/Typography';
 import { useChartDimensions } from 'components/ChartUtilities/Chart/ChartContext';
+import Icon from 'components/Icon/Icon';
+import cctvCameraIcon from 'assets/icons/cctvCameraIcon.svg';
+import { IconSizes } from 'ts/types';
 import styles from './AxisVerticalLeft.module.scss';
 
 interface AxisVerticalLeftProps {
   scale: ScalePoint<string>;
 }
 
-export default function AxisVerticalLeft({
-  scale,
-  ...props
-}: AxisVerticalLeftProps) {
+const AxisVerticalLeft = ({ scale, ...props }: AxisVerticalLeftProps) => {
   const dimensions = useChartDimensions();
   const ticks = scale.domain();
 
   return (
-    <g className={classNames(styles.Axis, styles.AxisVertical)} {...props}>
+    <g dominantBaseline={'middle'} textAnchor="end" {...props}>
       <rect
         x={-dimensions.marginLeft}
         y="0"
@@ -27,48 +23,39 @@ export default function AxisVerticalLeft({
         height="100%"
         className={styles.rectBackground}
       />
-      <text
-        className={styles.axisVerticalTitle}
+      <foreignObject
         x={-dimensions.marginLeft}
-        y={dimensions.marginTop / 2}
+        width={1}
+        height={1}
+        className={styles.foreignObject}
       >
-        Cameras ({ticks.length})
-      </text>
-      {ticks.map((tick: string) => (
+        <Typography variant="LabelMedium">
+          Cameras ({ticks.length ?? 0})
+        </Typography>
+      </foreignObject>
+      {ticks.map((tick) => (
         <foreignObject
           key={tick}
           x={-dimensions.marginLeft}
-          y={scale(tick) - 15}
-          // width="100%"
-          height="50"
-          style={{
-            width: 250,
-          }}
+          y={(scale(tick) ?? 0) - 15}
+          width={dimensions.marginLeft}
+          height={1}
+          className={styles.foreignObject}
         >
-          <div
-            style={{
-              display: 'flex',
-              justifyItems: 'flex-start',
-              alignItems: 'center',
-              gap: '4px',
-            }}
-          >
-            <img src={cameraImage} width={32} height={32} />
-            <span
-              style={{
-                color: 'white',
-                whiteSpace: 'nowrap',
-                overflowX: 'hidden',
-                textOverflow: 'ellipsis',
-                maxWidth: '14ch',
-              }}
+          <div className={styles.deviceName}>
+            <Icon icon={cctvCameraIcon} size={IconSizes.lg} />
+            <Typography
+              variant="BodyMedium"
               title={tick}
+              className={styles.deviceNameText}
             >
               {tick}
-            </span>
+            </Typography>
           </div>
         </foreignObject>
       ))}
     </g>
   );
-}
+};
+
+export default AxisVerticalLeft;

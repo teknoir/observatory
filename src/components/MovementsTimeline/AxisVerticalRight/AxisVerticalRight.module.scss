@@ -1,14 +1,10 @@
 @import 'enums/styleVariables.module';
 
-.axisVertical {
-  dominant-baseline: middle;
-  text-anchor: end;
-}
-
-.axisVerticalTitle {
-  fill: $totalWhite;
-}
-
 .rectBackground {
   fill: $fadedBlack;
+}
+
+.foreignObject {
+  overflow: visible;
+  text-wrap: nowrap;
 }

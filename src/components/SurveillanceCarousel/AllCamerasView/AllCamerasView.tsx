@@ -9,6 +9,7 @@ import Box from '@mui/material/Box';
 import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImagePreview/CarouselImagePreview';
 import useOrderedSourcesKeys from 'hooks/useOrderedSourcesKeys';
 import { CarouselProps } from 'ts/types';
+import { NextPageOptions, nextPage } from './utils';
 import styles from './AllCamerasView.module.scss';
 
 interface ImagesProps {
@@ -70,26 +71,14 @@ function AllCamerasView({ sources }: CarouselProps) {
 
   const pages = Math.ceil(images.length / imagesPerPage);
 
-  const nextPage = (forward = true) => {
-    setPage((prevPage) => {
-      if (forward) {
-        if (prevPage + 1 === pages) {
-          return 0;
-        }
-        return prevPage + 1;
-      } else {
-        if (prevPage === 0) {
-          return pages - 1;
-        }
-        return prevPage - 1;
-      }
-    });
+  const changePage = (direction: NextPageOptions) => {
+    setPage((prevPage) => nextPage(direction, prevPage, pages));
   };
 
-  const nextPageThrottle = useCallback(
+  const changePageThrottle = useCallback(
     _throttle(
-      (forward = true) => {
-        nextPage(forward);
+      (direction) => {
+        changePage(direction);
       },
       3000,
       { trailing: false }
@@ -98,7 +87,7 @@ function AllCamerasView({ sources }: CarouselProps) {
   );
 
   useInterval(() => {
-    nextPage();
+    changePage(NextPageOptions.forward);
   }, delay);
 
   return (
@@ -107,8 +96,8 @@ function AllCamerasView({ sources }: CarouselProps) {
         className={classNames(styles.button, styles.buttonLeft, {
           [styles.buttonHoverState]: pages > 1,
         })}
-        onClick={() => nextPage(false)}
-        onDragOver={() => nextPageThrottle(false)}
+        onClick={() => changePage(NextPageOptions.backward)}
+        onDragOver={() => changePageThrottle(NextPageOptions.backward)}
       >
         <ArrowBackIos />
       </button>
@@ -136,8 +125,8 @@ function AllCamerasView({ sources }: CarouselProps) {
         className={classNames(styles.button, styles.buttonRight, {
           [styles.buttonHoverState]: pages > 1,
         })}
-        onClick={() => nextPage(true)}
-        onDragOver={() => nextPageThrottle(true)}
+        onClick={() => changePage(NextPageOptions.forward)}
+        onDragOver={() => changePageThrottle(NextPageOptions.forward)}
       >
         <ArrowForwardIos />
       </button>
