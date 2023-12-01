@@ -31,6 +31,8 @@ const AlertItem = ({ data, index, style }: Props) => {
     severity,
     start_time: startTime,
     duration,
+    // TODO: remove it
+    video_snapshot: videoSnapshot = 'https://picsum.photos/200/300',
   } = item;
   // TODO: it's temporary solution, we need to use real data here
   let isVerified = false;
@@ -67,7 +69,9 @@ const AlertItem = ({ data, index, style }: Props) => {
         </div>
       </div>
       <div className={styles.content}>
-        <div className={styles.imgWrapper}></div>
+        <div className={styles.imgWrapper}>
+          <img src={videoSnapshot} alt="img" className={styles.videoSnapshot} />
+        </div>
         <div className={styles.details}>
           <Typography variant="BodySmall" display="block" gutterBottom>
             {name}

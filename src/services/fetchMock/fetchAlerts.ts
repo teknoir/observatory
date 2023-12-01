@@ -189,6 +189,7 @@ export const fetchAlertMock = (detectionId) => {
     detection_id: detectionId,
     video_url:
       'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+    video_snapshot: 'https://picsum.photos/600/300',
   });
 };
 
