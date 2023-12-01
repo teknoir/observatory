@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
+import { generatePath } from 'utils/router';
 import { IAlertEvent } from 'ts/types';
 import APP_URLS from 'enums/urls';
 import styleVariables from 'enums/styleVariables.module.scss';
@@ -94,7 +95,7 @@ const PopoverComponent = ({
       </div>
       <Button
         component={Link}
-        to={APP_URLS.notifications}
+        to={generatePath(APP_URLS.notifications)}
         variant="contained"
         color="primary"
         fullWidth

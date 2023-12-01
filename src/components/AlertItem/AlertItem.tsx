@@ -1,5 +1,5 @@
 import { CSSProperties } from 'react';
-import { Link, generatePath, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import moment from 'moment';
 import classNames from 'classnames';
 import Typography from '@mui/material/Typography';
@@ -11,6 +11,7 @@ import theftIcon from 'assets/icons/theftIcon.svg';
 import Icon from 'components/Icon/Icon';
 import Verified, { Sizes } from 'components/Verified/Verified';
 import APP_URLS from 'enums/urls';
+import { generatePath } from 'utils/router';
 import { IEventDocumentWithPeripheral, IconSizes } from 'ts/types';
 import styles from './AlertItem.module.scss';
 

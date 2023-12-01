@@ -14,6 +14,7 @@ import homeIcon from 'assets/icons/home.svg';
 import aimIcon from 'assets/icons/aim.svg';
 import { useMainLayoutContext } from 'context/mainLayoutContext';
 import APP_URLS from 'enums/urls';
+import { generatePath } from 'utils/router';
 import DrawerHeader from '../components/DrawerHeader';
 import { leftSideBarWidth, leftSideBarClosedWidth } from '../enums';
 import styles from './NavigationBar.module.scss';
@@ -21,12 +22,12 @@ import styles from './NavigationBar.module.scss';
 const navigationItems = [
   {
     name: 'Home',
-    url: APP_URLS.home,
+    url: generatePath(APP_URLS.home),
     iconSrc: homeIcon,
   },
   {
     name: 'Motions & Alerts',
-    url: APP_URLS.motionsAlerts,
+    url: generatePath(APP_URLS.motionsAlerts),
     iconSrc: aimIcon,
   },
 ];

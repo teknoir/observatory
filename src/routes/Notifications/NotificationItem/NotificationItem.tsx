@@ -1,11 +1,12 @@
-import { Link, generatePath } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 import classNames from 'classnames';
 import Typography from '@mui/material/Typography';
 import CircleIcon from '@mui/icons-material/Circle';
+import Box from '@mui/material/Box';
+import { generatePath } from 'utils/router';
 import APP_URLS from 'enums/urls';
 import styles from './NotificationItem.module.scss';
-import Box from '@mui/material/Box';
 
 interface Props {
   detection_id: string;

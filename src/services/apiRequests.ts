@@ -22,10 +22,11 @@ import {
   IMotionsAggregationRequest,
   INotificationsRequest,
 } from 'ts/types';
+import { useMockDb } from 'enums/mockData';
 
 // TODO: remove this function in future
 const shouldUseMockData = (): boolean =>
-  location?.search.includes('useMockDb') ||
+  location?.search.includes(useMockDb) ||
   import.meta.env.VITE_USE_MOCK_HISTORIAN_DB;
 const shouldUseMotionsDb = (): boolean => true;
 const shouldUseNotificationsDb = (): boolean => true;
