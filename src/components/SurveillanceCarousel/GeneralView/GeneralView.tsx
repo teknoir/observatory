@@ -1,10 +1,16 @@
 import { useEffect, useRef } from 'react';
+import classNames from 'classnames';
 import CarouselImage from 'components/SurveillanceCarousel/CarouselImage/CarouselImage';
 import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImagePreview/CarouselImagePreview';
 import { CarouselProps, RefImage } from 'ts/types';
 import styles from './GeneralView.module.scss';
 
-function GeneralView({ sources, mainSource, setMainSource }: CarouselProps) {
+function GeneralView({
+  sources,
+  mainSource,
+  setMainSource,
+  peripheralIdNotified,
+}: CarouselProps) {
   const galleryRef = useRef<HTMLDivElement | null>(null);
   const selectedImageRef = useRef<HTMLImageElement | null>(null);
 
@@ -13,7 +19,6 @@ function GeneralView({ sources, mainSource, setMainSource }: CarouselProps) {
       const selectedImageElement = selectedImageRef.current;
       const galleryElement = galleryRef.current;
       const offsetTop = selectedImageElement.offsetTop;
-
       galleryElement.scrollTop = offsetTop - galleryElement.clientHeight / 2;
     }
   }, [mainSource]);
@@ -39,9 +44,8 @@ function GeneralView({ sources, mainSource, setMainSource }: CarouselProps) {
         title={mainPeripheralName}
         status={status}
       />
-      <div className={styles.galleryContainer}>
+      <div ref={galleryRef} className={styles.galleryContainer}>
         <div
-          ref={galleryRef}
           className={styles.galleryScroll}
           style={{
             gridTemplateRows: `repeat(${sources.size}, auto)`,
@@ -68,9 +72,14 @@ function GeneralView({ sources, mainSource, setMainSource }: CarouselProps) {
                     src={src}
                     title={peripheralName}
                     status={status}
-                    className={`${
-                      mainSource === sourceKey ? styles.border : ''
-                    }`}
+                    className={classNames(
+                      `${mainSource === sourceKey ? styles.border : ''}`,
+                      `${
+                        peripheralIdNotified === sourceKey
+                          ? styles.borderNotified
+                          : ''
+                      }`
+                    )}
                   />
                 </div>
               );

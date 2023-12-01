@@ -10,6 +10,7 @@
 .galleryContainer {
   width: 40%;
   overflow-y: auto;
+  scroll-behavior: smooth;
 }
 
 .galleryScroll {
@@ -32,4 +33,8 @@
 
 .border {
   border: 1px solid $totalWhite;
+}
+
+.borderNotified {
+  border: 5px solid $outrunOrange;
 }

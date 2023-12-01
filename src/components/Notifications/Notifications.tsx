@@ -1,11 +1,13 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import { useState, useEffect, MouseEvent } from 'react';
+import { useContext, useEffect, useState, MouseEvent } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import _last from 'lodash/last';
 import Typography from '@mui/material/Typography';
 import bellIcon from 'assets/icons/bellIcon.svg';
 import bellRedIcon from 'assets/icons/bellRedIcon.svg';
 import { fetchNotifications } from 'services/apiRequests';
+import { HomeContext } from 'context/HomeContext/HomeContext';
 import { useWSSContext } from 'context/webSocketContext';
 import Icon from 'components/Icon/Icon';
 import { notifications } from 'enums/queryKeys';
@@ -17,6 +19,8 @@ const Notifications = () => {
   const { lastMessage } = useWSSContext();
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
   const [count, setCount] = useState(0);
+  const { peripheralIdNotified, setPeripheralIdNotified } =
+    useContext(HomeContext);
 
   const isOpen = Boolean(anchorEl);
 
@@ -26,6 +30,19 @@ const Notifications = () => {
     queryFn: () => fetchNotifications(),
     enabled: isOpen,
   });
+
+  if (data?.length > 0) {
+    setPeripheralIdNotified(_last(data)?.peripheral_id);
+  }
+
+  useEffect(() => {
+    if (peripheralIdNotified) {
+      const interval = setInterval(() => {
+        setPeripheralIdNotified('');
+      }, 10000);
+      return () => clearInterval(interval);
+    }
+  }, [peripheralIdNotified, setPeripheralIdNotified]);
 
   useEffect(() => {
     if (lastMessage) {

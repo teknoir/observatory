@@ -3,18 +3,25 @@
 .container {
   width: 100%;
   aspect-ratio: auto 5/2;
-}
-
-.grid {
-  height: 50%;
+  display: grid;
+  grid-template-columns: repeat(24, 1fr);
+  grid-template-rows: repeat(4, 25%);
 }
 
 .imagePreview {
   height: 100%;
 }
 
-.smallImages {
-  height: 50%;
+.imagePreview:nth-last-child(-n + 4) {
+  grid-column: span 6;
+}
+
+.imagePreview:nth-child(-n + 3) {
+  grid-column: span 12;
+  grid-row: span 2;
+}
+
+.imageItem {
   position: relative;
 }
 
@@ -29,4 +36,8 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+}
+
+.borderNotified {
+  border: 5px solid $outrunOrange;
 }
