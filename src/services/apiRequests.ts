@@ -29,7 +29,6 @@ const shouldUseMockData = (): boolean =>
   location?.search.includes(useMockDb) ||
   import.meta.env.VITE_USE_MOCK_HISTORIAN_DB;
 const shouldUseMotionsDb = (): boolean => true;
-const shouldUseNotificationsDb = (): boolean => true;
 const shouldUseNotificationsPaginatedDb = (): boolean => false;
 
 export const fetchAlert = (detectionId: DetectionId) => {
@@ -110,12 +109,11 @@ export const fetchMovementsByPeripheralId = (
 };
 
 export const fetchNotifications = (filters: INotificationsRequest) => {
-  // TODO: remove this condition in future
-  if (shouldUseNotificationsDb()) {
-    const query = getSearchQueryNotifications(filters);
-    return Fetch.get(API.notifications(query)).then(({ data }) => data);
+  if (shouldUseMockData()) {
+    return fetchNotificationsMock();
   }
-  return fetchNotificationsMock();
+  const query = getSearchQueryNotifications(filters);
+  return Fetch.get(API.notifications(query)).then(({ data }) => data);
 };
 
 export const fetchNotificationsPaginated = (page: number, pageSize: number) => {

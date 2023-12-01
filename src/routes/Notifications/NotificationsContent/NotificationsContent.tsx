@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import Typography from '@mui/material/Typography';
 import NotificationItem from 'routes/Notifications/NotificationItem/NotificationItem';
 import { IAlertEvent } from 'ts/types';
@@ -10,9 +8,10 @@ import { IAlertEvent } from 'ts/types';
 // };
 
 interface NotificationsContentProps {
-  data: {
-    [key: string]: IAlertEvent[];
-  };
+  // data: {
+  //   [key: string]: IAlertEvent[];
+  // };
+  data: IAlertEvent[];
 }
 
 const NotificationsContent = ({ data }: NotificationsContentProps) => {

@@ -17,9 +17,9 @@ const Notifications = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
   const [count, setCount] = useState(0);
 
-  // TODO: Define time period to use
-  const fromDate = moment().subtract(1, 'days').startOf('day');
+  const fromDate = moment().subtract(7, 'days').startOf('day');
   const toDate = moment();
+  const isVerified = false;
   const limit = 10;
 
   const isOpen = Boolean(anchorEl);
@@ -27,13 +27,9 @@ const Notifications = () => {
   const queryKey = [notifications];
   const { data, isLoading } = useQuery({
     queryKey,
-    queryFn: () => fetchNotifications({ fromDate, toDate, limit }),
+    queryFn: () => fetchNotifications({ fromDate, toDate, isVerified, limit }),
     enabled: isOpen,
   });
-
-  console.log(data);
-  // TODO: Using sliced data to limit the number of notifications for the moment.
-  const dataSliced = data?.slice(0, 10);
 
   useEffect(() => {
     if (lastMessage) {
@@ -78,9 +74,7 @@ const Notifications = () => {
         anchorEl={anchorEl}
         handleClose={handleClose}
         isLoading={isLoading}
-        // TODO: Using sliced data to limit the number of notifications for the moment.
-        // data={data}
-        data={dataSliced}
+        data={data}
       />
     </div>
   );
