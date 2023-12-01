@@ -20,16 +20,18 @@ const Notifications = () => {
   // TODO: Define time period to use
   const fromDate = moment().subtract(1, 'days').startOf('day');
   const toDate = moment();
+  const limit = 10;
 
   const isOpen = Boolean(anchorEl);
 
   const queryKey = [notifications];
   const { data, isLoading } = useQuery({
     queryKey,
-    queryFn: () => fetchNotifications({ fromDate, toDate }),
+    queryFn: () => fetchNotifications({ fromDate, toDate, limit }),
     enabled: isOpen,
   });
 
+  console.log(data);
   // TODO: Using sliced data to limit the number of notifications for the moment.
   const dataSliced = data?.slice(0, 10);
 

@@ -10,7 +10,10 @@ import {
   fetchNotificationsMock,
   fetchNotificationsPaginatedMock,
 } from 'services/fetchMock';
-import { getSearchQuery } from 'services/queryHistorian';
+import {
+  getSearchQuery,
+  getSearchQueryNotifications,
+} from 'services/queryHistorian';
 import {
   DetectionId,
   IAlertFormValues,
@@ -108,7 +111,7 @@ export const fetchMovementsByPeripheralId = (
 export const fetchNotifications = (filters: INotificationsRequest) => {
   // TODO: remove this condition in future
   if (shouldUseNotificationsDb()) {
-    const query = getSearchQuery(filters);
+    const query = getSearchQueryNotifications(filters);
     return Fetch.get(API.notifications(query)).then(({ data }) => data);
   }
   return fetchNotificationsMock();

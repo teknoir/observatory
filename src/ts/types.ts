@@ -188,6 +188,8 @@ export interface IEventsRequestParamsById {
 export interface INotificationsRequest {
   fromDate: Date | Moment;
   toDate: Date | Moment;
+  isVerified?: boolean;
+  limit?: number;
 }
 
 export enum IMotionsTypes {
