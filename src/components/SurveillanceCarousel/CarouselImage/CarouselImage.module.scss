@@ -1,6 +1,14 @@
 @import 'enums/styleVariables.module.scss';
 
 .root {
+  position: relative;
+  height: inherit;
+
+  &:hover {
+    .hoverState {
+      display: flex;
+    }
+  }
 }
 
 .image {

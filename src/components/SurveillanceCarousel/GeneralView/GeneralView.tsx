@@ -78,12 +78,7 @@ function GeneralView({
           left: true,
         }}
       >
-        <div
-          className={styles.galleryScroll}
-          style={{
-            gridTemplateRows: `repeat(${sources.size}, 1fr)`,
-          }}
-        >
+        <div className={styles.galleryScroll}>
           {sources.size > 0 ? (
             sourcesKeys.map((sourceKey) => {
               const {
