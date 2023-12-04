@@ -15,7 +15,7 @@
 }
 
 .imagePreview:nth-last-child(-n + 4) {
-  grid-column: span 5;
+  grid-column: span 6;
 }
 
 .imagePreview:nth-child(3) {
@@ -27,6 +27,11 @@
   grid-column: span 12;
   grid-row: span 2;
 }
+
+//.imagePreview:nth-child(-n + 3) {
+//  grid-column: span 12;
+//  grid-row: span 2;
+//}
 
 .imageItem {
   position: relative;
@@ -43,4 +48,8 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+}
+
+.borderNotified {
+  border: 5px solid $outrunOrange;
 }

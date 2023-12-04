@@ -32,6 +32,7 @@ export interface CarouselProps {
   sources: Map<CameraId, Source>;
   mainSource: CameraId;
   setMainSource: (index: CameraId) => void;
+  peripheralIdNotified?: string;
 }
 
 export interface SurveillanceCarouselModeParams {
@@ -109,6 +110,8 @@ export interface HomeContextProps {
   setLayout: Dispatch<SetStateAction<CarouselMode>>;
   numCameras: number;
   setNumCameras: Dispatch<SetStateAction<number>>;
+  peripheralIdNotified: string;
+  setPeripheralIdNotified: Dispatch<SetStateAction<string>>;
 }
 
 export interface PopoverInfoProps {
