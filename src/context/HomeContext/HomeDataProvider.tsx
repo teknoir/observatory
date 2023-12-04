@@ -6,6 +6,7 @@ const HomeDataProvider = ({ children }: { children: ReactNode }) => {
   const [mainImageCarousel, setMainImageCarousel] = useState('');
   const [layout, setLayout] = useState(CarouselMode.General);
   const [numCameras, setNumCameras] = useState(0);
+  const [peripheralIdNotified, setPeripheralIdNotified] = useState('');
 
   return (
     <HomeContext.Provider
@@ -16,6 +17,8 @@ const HomeDataProvider = ({ children }: { children: ReactNode }) => {
         setLayout,
         numCameras,
         setNumCameras,
+        peripheralIdNotified,
+        setPeripheralIdNotified,
       }}
     >
       {children}
