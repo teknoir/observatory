@@ -1,9 +1,10 @@
 @import 'enums/styleVariables.module.scss';
 
 .galleryScroll {
+  height: 100vh;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  height: 100vh;
+  grid-auto-rows: min-content;
   overflow-y: auto;
   border-left: 1px solid $offWhite;
 }

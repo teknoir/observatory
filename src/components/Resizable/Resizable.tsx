@@ -6,18 +6,20 @@ interface Props {
   enable?: ResizableProps['enable'];
 }
 
+const basename = import.meta.env.VITE_APP_BASENAME || '/';
+
 const handleStyles = {
   top: {
-    cursor: `url("/images/icons/resize-vertical.svg") 16 16, auto`,
+    cursor: `url("${basename}images/icons/resize-vertical.svg") 16 16, auto`,
   },
   bottom: {
-    cursor: `url("/images/icons/resize-vertical.svg") 16 16, auto`,
+    cursor: `url("${basename}images/icons/resize-vertical.svg") 16 16, auto`,
   },
   right: {
-    cursor: `url("/images/icons/resize-horizontal.svg") 12 16, auto`,
+    cursor: `url("${basename}images/icons/resize-horizontal.svg") 12 16, auto`,
   },
   left: {
-    cursor: `url("/images/icons/resize-horizontal.svg") 16 16, auto`,
+    cursor: `url("${basename}images/icons/resize-horizontal.svg") 16 16, auto`,
   },
 };
 
