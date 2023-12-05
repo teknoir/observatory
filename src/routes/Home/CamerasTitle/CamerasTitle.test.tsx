@@ -10,6 +10,9 @@ const mockedData: HomeContextProps = {
   setLayout: () => CarouselMode,
   numCameras: 0,
   setNumCameras: () => 0,
+  // FIXME: Separate states from HomeContext to avoid adding this:
+  peripheralIdNotified: '',
+  setPeripheralIdNotified: () => '',
 };
 
 const renderComponent = (mockedValue: HomeContextProps) => {

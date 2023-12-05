@@ -8,4 +8,6 @@ export const HomeContext = createContext<HomeContextProps>({
   setLayout: () => CarouselMode,
   numCameras: 0,
   setNumCameras: () => 0,
+  peripheralIdNotified: '',
+  setPeripheralIdNotified: () => '',
 });

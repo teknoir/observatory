@@ -7,6 +7,25 @@
 }
 
 .mainContent {
-  display: flex;
-  flex-direction: column;
+  height: calc(100vh - 64px);
+  overflow-y: scroll;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: minmax(0, 1fr) fit-content(40%);
+  grid-template-areas:
+    'A B'
+    'C B';
+
+  & > div:first-child {
+    grid-area: A;
+  }
+
+  & > div:not(:first-child):not(:last-child) {
+    grid-area: B;
+  }
+
+  & > div:last-child {
+    grid-area: C;
+    overflow-y: scroll;
+  }
 }

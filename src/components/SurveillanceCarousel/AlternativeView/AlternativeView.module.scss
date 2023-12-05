@@ -3,18 +3,23 @@
 .container {
   width: 100%;
   aspect-ratio: auto 5/2;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 25%);
+  height: 100%;
+  border-bottom: 1px solid $offWhite;
 }
 
-.grid {
-  height: 50%;
+.imagePreviewContainer:nth-child(-n + 3) {
+  grid-column: span 2;
+  grid-row: span 2;
 }
 
 .imagePreview {
   height: 100%;
 }
 
-.smallImages {
-  height: 50%;
+.imageItem {
   position: relative;
 }
 
@@ -29,4 +34,8 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+}
+
+.borderNotified {
+  border: 5px solid $outrunOrange;
 }

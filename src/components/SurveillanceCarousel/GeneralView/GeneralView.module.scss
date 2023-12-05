@@ -1,21 +1,24 @@
 @import 'enums/styleVariables.module.scss';
 
-.root {
-  width: 100%;
-  aspect-ratio: auto 5/2;
-  display: flex;
-  overflow-y: hidden;
-}
-
-.galleryContainer {
-  width: 40%;
-  overflow-y: auto;
-}
-
 .galleryScroll {
+  height: 100vh;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: min-content;
   overflow-y: auto;
+  border-left: 1px solid $offWhite;
+}
+
+.mainImage {
+  position: relative;
+  height: 100%;
+  border-bottom: 1px solid $offWhite;
+
+  &:hover {
+    .hoverState {
+      display: flex;
+    }
+  }
 }
 
 .imagePreviewContainer {
@@ -32,4 +35,8 @@
 
 .border {
   border: 1px solid $totalWhite;
+}
+
+.borderNotified {
+  border: 5px solid $outrunOrange;
 }
