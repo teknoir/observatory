@@ -1,36 +1,34 @@
 import Typography from '@mui/material/Typography';
 import NotificationItem from 'routes/Notifications/NotificationItem/NotificationItem';
-import { IAlertEvent } from 'ts/types';
-
-// const GroupKeys = {
-//   seen: 'true',
-//   notSeen: 'false',
-// };
+import { INotifications } from 'ts/types';
+import styles from './NotificationsContent.module.scss';
 
 interface NotificationsContentProps {
-  // data: {
-  //   [key: string]: IAlertEvent[];
-  // };
-  data: IAlertEvent[];
+  data: INotifications[];
+  newLength: number;
 }
 
-const NotificationsContent = ({ data }: NotificationsContentProps) => {
+const NotificationsContent = ({
+  data,
+  newLength,
+}: NotificationsContentProps) => {
   return (
     <>
-      <Typography variant="LabelXL">All Notifications</Typography>
-      {data?.map((item: IAlertEvent) => (
-        <NotificationItem key={item.detection_id} {...item} />
+      {data?.map((item: INotifications, index: number) => (
+        <>
+          {/* TODO: Test it with real data when available from api */}
+          {newLength > 0 && index === 0 ? (
+            <Typography variant="LabelXL" className={styles.text}>
+              New
+            </Typography>
+          ) : index === newLength ? (
+            <Typography variant="LabelXL" className={styles.text}>
+              Unverified
+            </Typography>
+          ) : null}
+          <NotificationItem key={item.detection_id} {...item} />
+        </>
       ))}
-
-      {/* TODO: Uncomment this when/if we have isSeen property available */}
-      {/* <Typography variant="LabelXL">New</Typography>
-      {data[GroupKeys.notSeen]?.map((item: IAlertEvent) => (
-        <NotificationItem key={item.detection_id} {...item} />
-      ))}
-      <Typography variant="LabelXL">Unverified</Typography>
-      {data[GroupKeys.seen]?.map((item: IAlertEvent) => (
-        <NotificationItem key={item.detection_id} {...item} />
-      ))} */}
     </>
   );
 };

@@ -10,7 +10,8 @@ export const fetchNotificationsMock = (): IAlertEvent[] => {
   const peripheralId = 'parkinglot1';
   const duration = 14;
   const dateFrom = moment().subtract(1, 'days').startOf('day');
-  for (let i = 0; i < 10; i++) {
+  const statusOptions = ['new', 'unverified'];
+  for (let i = 0; i < 100; i++) {
     dateFrom.add(1, 'hour');
     const isVerified = i <= 7;
     const uniqueId = getUniqueID();
@@ -23,6 +24,7 @@ export const fetchNotificationsMock = (): IAlertEvent[] => {
       start_time: dateFrom.format(),
       end_time: dateFrom.add(duration, 'seconds').format(),
       is_verified: isVerified,
+      status: statusOptions[i % 2],
     };
     res.push(item);
   }

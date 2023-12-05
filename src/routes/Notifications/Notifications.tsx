@@ -1,5 +1,7 @@
 import { useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import _concat from 'lodash/concat';
+import _groupBy from 'lodash/groupBy';
 import moment from 'moment/moment';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -33,8 +35,11 @@ const Notifications = () => {
   // TODO: Placeholder for error handling
   if (error) return <div>Something went wrong...</div>;
 
-  const totalPages = Math.ceil(data?.length / NOTIFICATIONS_PER_PAGE);
-  const dataByPage = data?.slice(
+  const dataGrouped = _groupBy(data, 'status');
+  const dataSorted = _concat(dataGrouped['new'], dataGrouped['unverified']);
+  const newLength = dataGrouped['new']?.length;
+  const totalPages = Math.ceil(dataSorted?.length / NOTIFICATIONS_PER_PAGE);
+  const dataByPage = dataSorted?.slice(
     (page - 1) * NOTIFICATIONS_PER_PAGE,
     page * NOTIFICATIONS_PER_PAGE
   );
@@ -49,7 +54,7 @@ const Notifications = () => {
           {isLoading || isPreviousData ? (
             <CircularProgress />
           ) : (
-            <NotificationsContent data={dataByPage} />
+            <NotificationsContent data={dataByPage} newLength={newLength} />
           )}
           <Box className={styles.pagination}>
             {(!dataByPage || dataByPage.length != 0) && (
