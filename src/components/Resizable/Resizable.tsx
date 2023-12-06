@@ -3,7 +3,6 @@ import { Resizable, ResizableProps } from 're-resizable';
 
 interface Props {
   children: ReactNode;
-  enable?: ResizableProps['enable'];
 }
 
 const basename = import.meta.env.VITE_APP_BASENAME || '/';
@@ -23,9 +22,9 @@ const handleStyles = {
   },
 };
 
-const ResizableComponent = ({ enable, children }: Props) => {
+const ResizableComponent = ({ children, ...rest }: ResizableProps & Props) => {
   return (
-    <Resizable enable={enable} handleStyles={handleStyles}>
+    <Resizable {...rest} handleStyles={handleStyles}>
       {children}
     </Resizable>
   );
