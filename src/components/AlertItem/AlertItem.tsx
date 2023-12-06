@@ -58,8 +58,6 @@ const AlertItem = ({ data, index, style }: Props) => {
 
   const getTooltipText = useCallback(() => {
     switch (type) {
-      case AlertTypes.nearvehicle:
-        return 'Near Vehicle';
       case AlertTypes.loitering:
         return 'Loitering';
       case AlertTypes.theft:
