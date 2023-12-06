@@ -12,6 +12,7 @@ import Pagination from 'components/Pagination/Pagination';
 import { fetchNotifications } from 'services/apiRequests';
 import APP_URLS from 'enums/urls';
 import { notificationsByPage } from 'enums/queryKeys';
+import { NotificationStatus } from 'ts/types';
 import NotificationsContent from './NotificationsContent/NotificationsContent';
 import styles from './Notifications.module.scss';
 
@@ -36,8 +37,11 @@ const Notifications = () => {
   if (error) return <div>Something went wrong...</div>;
 
   const dataGrouped = _groupBy(data, 'status');
-  const dataSorted = _concat(dataGrouped['new'], dataGrouped['unverified']);
-  const newLength = dataGrouped['new']?.length;
+  const dataSorted = _concat(
+    dataGrouped[NotificationStatus.New],
+    dataGrouped[NotificationStatus.Unverified]
+  );
+  const newLength = dataGrouped[NotificationStatus.New]?.length;
   const totalPages = Math.ceil(dataSorted?.length / NOTIFICATIONS_PER_PAGE);
   const dataByPage = dataSorted?.slice(
     (page - 1) * NOTIFICATIONS_PER_PAGE,
