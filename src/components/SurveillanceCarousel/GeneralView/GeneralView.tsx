@@ -58,7 +58,7 @@ function GeneralView({
         enable={{
           bottom: true,
         }}
-        minHeight="160px"
+        minHeight={160}
       >
         <div
           className={styles.mainImage}
