@@ -4,6 +4,7 @@ import moment from 'moment';
 import classNames from 'classnames';
 import Typography from '@mui/material/Typography';
 import CircleIcon from '@mui/icons-material/Circle';
+import Tooltip from '@mui/material/Tooltip';
 import loiteringIcon from 'assets/icons/loiteringIcon.svg';
 import personDownIcon from 'assets/icons/personDownIcon.svg';
 import theftIcon from 'assets/icons/theftIcon.svg';
@@ -55,7 +56,23 @@ const AlertItem = ({ data, index, style }: Props) => {
     }
   }, [type]);
 
+  const getTooltipText = useCallback(() => {
+    switch (type) {
+      case AlertTypes.nearvehicle:
+        return 'Near Vehicle';
+      case AlertTypes.loitering:
+        return 'Loitering';
+      case AlertTypes.theft:
+        return 'Catalytic Converter Theft';
+      case AlertTypes.on_ground:
+        return 'Person Down';
+      default:
+        return '';
+    }
+  }, [type]);
+
   const icon = getIcon();
+  const tooltipText = getTooltipText();
 
   const renderContent = () => (
     <>
@@ -84,7 +101,13 @@ const AlertItem = ({ data, index, style }: Props) => {
           </Typography>
         </div>
         <div className={styles.actionIcons}>
-          {!!icon && <Icon icon={icon} size={IconSizes.lg} />}
+          {!!icon && (
+            <Tooltip title={tooltipText} placement="bottom" arrow>
+              <div>
+                <Icon icon={icon} size={IconSizes.lg} />
+              </div>
+            </Tooltip>
+          )}
         </div>
       </div>
     </>
