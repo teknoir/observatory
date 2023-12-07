@@ -36,15 +36,15 @@ export const getSearchQuery = (
 
 export const getSearchQueryNotifications = (params: INotificationsRequest) => {
   let query = '';
-  const { fromDate, toDate, isVerified, limit } = params;
+  const { fromDate, toDate, status, limit } = params;
   if (fromDate) {
     query = query + `from_date=${fromDate.toISOString()}&`;
   }
   if (toDate) {
     query = query + `to_date=${toDate.toISOString()}&`;
   }
-  if (isVerified) {
-    query = query + `is_verified=${isVerified}&`;
+  if (status) {
+    query = query + `status=${status}&`;
   }
   if (limit) {
     query = query + `limit=${String(limit)}&`;

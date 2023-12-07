@@ -1,7 +1,6 @@
 import { useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import _concat from 'lodash/concat';
-import _groupBy from 'lodash/groupBy';
 import moment from 'moment/moment';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -26,21 +25,48 @@ const Notifications = () => {
   const fromDate = moment().subtract(1, 'days').startOf('day');
   const toDate = moment();
 
-  const { data, isLoading, isPreviousData, error } = useQuery({
+  const {
+    data: dataNew,
+    isLoading: isLoadingNew,
+    isPreviousData: isPreviousDataNew,
+    error: errorNew,
+  } = useQuery({
     queryKey: [notificationsByPage, page],
-    queryFn: () => fetchNotifications({ fromDate, toDate }),
+    queryFn: () =>
+      fetchNotifications({
+        fromDate,
+        toDate,
+        status: NotificationStatus.New,
+        limit: NOTIFICATIONS_PER_PAGE,
+      }),
+    keepPreviousData: true,
+  });
+
+  const {
+    data: dataUnverified,
+    isLoading: isLoadingUnverified,
+    isPreviousData: isPreviousDataUnverified,
+    error: errorUnverified,
+  } = useQuery({
+    queryKey: [notificationsByPage, page],
+    queryFn: () =>
+      fetchNotifications({
+        fromDate,
+        toDate,
+        status: NotificationStatus.Unverified,
+        limit: NOTIFICATIONS_PER_PAGE,
+      }),
     keepPreviousData: true,
   });
 
   // TODO: Placeholder for error handling
-  if (error) return <div>Something went wrong...</div>;
+  if (errorNew || errorUnverified) return <div>Something went wrong...</div>;
 
-  const dataGrouped = _groupBy(data, 'status');
-  const dataSorted = _concat(
-    dataGrouped[NotificationStatus.New],
-    dataGrouped[NotificationStatus.Unverified]
-  );
-  const newLength = dataGrouped[NotificationStatus.New]?.length;
+  const isLoading = isLoadingNew || isLoadingUnverified;
+  const isPreviousData = isPreviousDataNew || isPreviousDataUnverified;
+
+  const dataSorted = _concat(dataNew, dataUnverified);
+  const newLength = dataNew?.length;
   const totalPages = Math.ceil(dataSorted?.length / NOTIFICATIONS_PER_PAGE);
   const dataByPage = dataSorted?.slice(
     (page - 1) * NOTIFICATIONS_PER_PAGE,
@@ -56,7 +82,7 @@ const Notifications = () => {
         <Box className={styles.wrapper}>
           {isLoading || isPreviousData ? (
             <CircularProgress />
-          ) : dataGrouped['undefined'] ? (
+          ) : dataNew?.length === 0 && dataUnverified?.length === 0 ? (
             <Typography variant="LabelMedium">
               Looks like there's no data
             </Typography>

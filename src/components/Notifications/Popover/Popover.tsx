@@ -4,7 +4,7 @@ import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import { generatePath } from 'utils/router';
-import { IAlertEvent } from 'ts/types';
+import { INotifications, NotificationStatus } from 'ts/types';
 import APP_URLS from 'enums/urls';
 import styleVariables from 'enums/styleVariables.module.scss';
 import NotificationItem from '../NotificationItem/NotificationItem';
@@ -15,7 +15,10 @@ interface Props {
   anchorEl: HTMLElement | null;
   handleClose: () => void;
   isLoading: boolean;
-  data: IAlertEvent[];
+  data: {
+    new: INotifications[];
+    unverified: INotifications[];
+  };
 }
 
 const PopoverComponent = ({
@@ -62,10 +65,14 @@ const PopoverComponent = ({
             <Typography variant="LabelLarge" className={styles.subTitle}>
               New
             </Typography>
+            {data[NotificationStatus.New].map((item) => (
+              <NotificationItem {...item} />
+            ))}
+            <br />
             <Typography variant="LabelLarge" className={styles.subTitle}>
               Unverified
             </Typography>
-            {data.map((item) => (
+            {data[NotificationStatus.Unverified].map((item) => (
               <NotificationItem {...item} />
             ))}
           </>

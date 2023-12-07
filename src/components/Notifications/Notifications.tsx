@@ -21,16 +21,38 @@ const Notifications = () => {
   const fromDate = moment().subtract(7, 'days').startOf('day');
   const toDate = moment();
   const limit = 10;
-  const status = NotificationStatus.New;
 
   const isOpen = Boolean(anchorEl);
 
   const queryKey = [notifications];
-  const { data, isLoading } = useQuery({
+  const { data: dataNew, isLoading: isLoadingNew } = useQuery({
     queryKey,
-    queryFn: () => fetchNotifications({ fromDate, toDate, status, limit }),
+    queryFn: () =>
+      fetchNotifications({
+        fromDate,
+        toDate,
+        status: NotificationStatus.New,
+        limit,
+      }),
     enabled: isOpen,
   });
+
+  const { data: dataUnverified, isLoading: isLoadingUnverified } = useQuery({
+    queryKey,
+    queryFn: () =>
+      fetchNotifications({
+        fromDate,
+        toDate,
+        status: NotificationStatus.Unverified,
+        limit,
+      }),
+    enabled: isOpen,
+  });
+
+  const data = {
+    new: dataNew,
+    unverified: dataUnverified,
+  };
 
   useEffect(() => {
     if (lastMessage) {
@@ -74,7 +96,7 @@ const Notifications = () => {
         isOpen={isOpen}
         anchorEl={anchorEl}
         handleClose={handleClose}
-        isLoading={isLoading}
+        isLoading={isLoadingNew || isLoadingUnverified}
         data={data}
       />
     </div>
