@@ -18,6 +18,7 @@ const CarouselImagePreview = forwardRef<HTMLImageElement, ImagePreviewProps>(
       classNameContainer = '',
       className = '',
       onClick = () => {},
+      children,
     }: ImagePreviewProps,
     ref
   ) => {
@@ -44,6 +45,7 @@ const CarouselImagePreview = forwardRef<HTMLImageElement, ImagePreviewProps>(
             View device
           </Link>
         </div>
+        {children}
       </div>
     );
   }

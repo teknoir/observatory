@@ -1,15 +1,17 @@
-import { useState, useEffect, MouseEvent } from 'react';
+import { useContext, useState, useEffect, MouseEvent } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import moment from 'moment/moment';
+import _last from 'lodash/last';
 import Typography from '@mui/material/Typography';
 import bellIcon from 'assets/icons/bellIcon.svg';
 import bellRedIcon from 'assets/icons/bellRedIcon.svg';
 import { fetchNotifications } from 'services/apiRequests';
+import { HomeContext } from 'context/HomeContext/HomeContext';
 import { useWSSContext } from 'context/webSocketContext';
 import Icon from 'components/Icon/Icon';
 import { notifications } from 'enums/queryKeys';
 import { TOPICS, TYPES } from 'enums/wss';
-import { NotificationStatus } from 'ts/types';
+import { INotifications, NotificationStatus } from 'ts/types';
 import Popover from './Popover/Popover';
 import styles from './Notifications.module.scss';
 
@@ -17,6 +19,8 @@ const Notifications = () => {
   const { lastMessage } = useWSSContext();
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
   const [count, setCount] = useState(0);
+  const { peripheralIdNotified, setPeripheralIdNotified } =
+    useContext(HomeContext);
 
   const fromDate = moment().subtract(7, 'days').startOf('day');
   const toDate = moment();
@@ -53,6 +57,19 @@ const Notifications = () => {
     new: dataNew,
     unverified: dataUnverified,
   };
+
+  if (dataNew?.length > 0) {
+    setPeripheralIdNotified((_last(dataNew) as INotifications).peripheral_id);
+  }
+
+  useEffect(() => {
+    if (peripheralIdNotified) {
+      const interval = setInterval(() => {
+        setPeripheralIdNotified('');
+      }, 10000);
+      return () => clearInterval(interval);
+    }
+  }, [peripheralIdNotified, setPeripheralIdNotified]);
 
   useEffect(() => {
     if (lastMessage) {

@@ -39,9 +39,14 @@ export const fetchAlert = (detectionId: DetectionId) => {
   return Fetch.get(API.eventAlert(detectionId)).then(({ data }) => {
     const res = data[0];
     if (res) {
-      // TODO: pass test video url
-      res.video_url =
-        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
+      // TODO: pass test video url and snapshot, remove these conditions in future
+      if (!res.video_url) {
+        res.video_url =
+          'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
+      }
+      if (!res.video_snapshot) {
+        res.video_snapshot = 'https://picsum.photos/600/300';
+      }
     }
     return res;
   });

@@ -35,10 +35,12 @@ const Alert = () => {
       {
         queryKey,
         queryFn: () => fetchAlert(detectionId),
+        refetchOnWindowFocus: false,
       },
       {
         queryKey: queryFeedbackKey,
         queryFn: () => fetchFeedback(detectionId),
+        refetchOnWindowFocus: false,
       },
     ],
   });
@@ -74,6 +76,8 @@ const Alert = () => {
     peripheral_name,
     start_time,
     duration,
+    video_url: videoUrl,
+    video_snapshot: videoSnapshot,
   } = data;
   const { ground_truth, username, comment, creation_time } = dataFeedback || {};
 
@@ -84,7 +88,9 @@ const Alert = () => {
       </AppBar>
       <MainContent className={styles.mainContent}>
         <VideoPlayer
-          url={data.video_url}
+          url={videoUrl}
+          posterUrl={videoSnapshot}
+          autoPlay
           width="100%"
           className={styles.videoPlayer}
         />
