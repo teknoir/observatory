@@ -199,8 +199,8 @@ export interface INotifications {
 export interface INotificationsRequest {
   fromDate: Date | Moment;
   toDate: Date | Moment;
-  isVerified?: boolean;
   limit?: number;
+  status?: NotificationStatus;
 }
 
 export enum NotificationStatus {

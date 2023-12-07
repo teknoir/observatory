@@ -25,11 +25,10 @@ const Notifications = () => {
   // TODO: Define time period to use
   const fromDate = moment().subtract(1, 'days').startOf('day');
   const toDate = moment();
-  const isVerified = false;
 
   const { data, isLoading, isPreviousData, error } = useQuery({
     queryKey: [notificationsByPage, page],
-    queryFn: () => fetchNotifications({ fromDate, toDate, isVerified }),
+    queryFn: () => fetchNotifications({ fromDate, toDate }),
     keepPreviousData: true,
   });
 
@@ -57,6 +56,10 @@ const Notifications = () => {
         <Box className={styles.wrapper}>
           {isLoading || isPreviousData ? (
             <CircularProgress />
+          ) : dataGrouped['undefined'] ? (
+            <Typography variant="LabelMedium">
+              Looks like there's no data
+            </Typography>
           ) : (
             <NotificationsContent data={dataByPage} newLength={newLength} />
           )}

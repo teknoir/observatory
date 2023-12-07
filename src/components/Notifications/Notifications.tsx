@@ -9,6 +9,7 @@ import { useWSSContext } from 'context/webSocketContext';
 import Icon from 'components/Icon/Icon';
 import { notifications } from 'enums/queryKeys';
 import { TOPICS, TYPES } from 'enums/wss';
+import { NotificationStatus } from 'ts/types';
 import Popover from './Popover/Popover';
 import styles from './Notifications.module.scss';
 
@@ -19,15 +20,15 @@ const Notifications = () => {
 
   const fromDate = moment().subtract(7, 'days').startOf('day');
   const toDate = moment();
-  const isVerified = false;
   const limit = 10;
+  const status = NotificationStatus.New;
 
   const isOpen = Boolean(anchorEl);
 
   const queryKey = [notifications];
   const { data, isLoading } = useQuery({
     queryKey,
-    queryFn: () => fetchNotifications({ fromDate, toDate, isVerified, limit }),
+    queryFn: () => fetchNotifications({ fromDate, toDate, status, limit }),
     enabled: isOpen,
   });
 
