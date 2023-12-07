@@ -150,6 +150,7 @@ export interface IEventDocument {
   severity: string;
   video_url: string;
   video_snapshot: string;
+  is_verified: boolean;
 }
 
 export interface IQuery {
@@ -239,4 +240,11 @@ export interface IFeedback {
   creation_time: string;
   ground_truth: boolean;
   comment: string;
+}
+
+export enum AlertTypes {
+  nearvehicle = 'nearvehicle',
+  loitering = 'loitering',
+  on_ground = 'on_ground',
+  theft = 'theft',
 }
