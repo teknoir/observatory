@@ -94,6 +94,7 @@ function PopoverComponent({
               url={alertInfo[ALERT_INFO_KEYS.VIDEO_URL]}
               width={250}
               height="auto"
+              autoPlay
             />
           </Link>
         </CardActions>
