@@ -51,6 +51,7 @@ function AlternativeView({ sources, peripheralIdNotified }: CarouselProps) {
         enable={{
           bottom: true,
         }}
+        minHeight={160}
       >
         <Grid container className={styles.container}>
           {images.slice(0, 7).map((image, index) => (
