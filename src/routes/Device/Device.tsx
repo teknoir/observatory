@@ -78,7 +78,7 @@ const Device = () => {
       <AppBar>
         <Typography variant="LabelMedium">{peripheralId}</Typography>
       </AppBar>
-      <MainContent>
+      <MainContent className={styles.main}>
         <ImageViewer src={source?.src} />
         <div className={styles.movementsChart}>
           <MovementsTimelineSingle
