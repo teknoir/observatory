@@ -4,7 +4,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { HomeContext } from 'context/HomeContext/HomeContext';
 import { useWSSContext } from 'context/webSocketContext';
 import { wsSources } from 'enums/queryKeys';
-import { TOPICS, TYPES, CAROUSER_REFRESH_RATE } from 'enums/wss';
+import { TOPICS, TYPES, CAROUSEL_REFRESH_RATE } from 'enums/wss';
 import { useTestImages } from 'enums/mockData';
 import { CarouselMode, HomeContextProps, Source, SourceStatus } from 'ts/types';
 import { getStartImagesStreamMsg } from 'services/wsMessage';
@@ -51,7 +51,7 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
         sendMessage(JSON.stringify(messageObj));
       });
     }
-  }, CAROUSER_REFRESH_RATE);
+  }, CAROUSEL_REFRESH_RATE);
 
   useEffect(() => {
     if (!isLoaded && sourcesSize > 0) {
