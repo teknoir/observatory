@@ -9,7 +9,6 @@ import {
   peripheralNameAccessor,
   peripheralIdAccessor,
 } from 'components/ChartUtilities/accessors';
-import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import { fetchMovements, fetchAlerts } from 'services/apiRequests';
 import { motions, alerts, wsSources } from 'enums/queryKeys';
 import { Source } from 'ts/types';
@@ -112,8 +111,6 @@ function MovementsTimelineContainer() {
     }
   };
 
-  if (isLoadingMotions || isLoadingAlerts) return <CircularProgress />;
-
   return (
     <MovementsTimeline
       startTime={startTime}
@@ -127,6 +124,7 @@ function MovementsTimelineContainer() {
       handleChangeFilter={handleChangeFilterBy}
       period={period}
       handleChangePeriod={handleChangePeriod}
+      isLoading={isLoadingMotions || isLoadingAlerts}
     />
   );
 }

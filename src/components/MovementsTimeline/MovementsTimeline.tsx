@@ -10,6 +10,7 @@ import * as d3 from 'd3';
 import _debounce from 'lodash/debounce';
 import Divider from '@mui/material/Divider';
 import { SelectChangeEvent } from '@mui/material/Select';
+import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import { Chart, Circles } from 'components/ChartUtilities';
 import { detectionIdAccessor } from 'components/ChartUtilities/accessors';
 import { peripheralIdAccessor } from 'components/ChartUtilities/accessors';
@@ -43,6 +44,7 @@ interface MovementsTimeLineParams {
   handleChangeFilter: (e: SelectChangeEvent<unknown>) => void;
   period: MovementsTimelinePeriod;
   handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;
+  isLoading: boolean;
 }
 
 // TODO: Temporal, remove this fallback when data returns video_url
@@ -61,6 +63,7 @@ export const MovementsTimeline = ({
   handleChangeFilter,
   period,
   handleChangePeriod,
+  isLoading,
 }: MovementsTimeLineParams) => {
   const [ref, dimensions] = useChartDimensions({
     marginLeft: 180,
@@ -253,6 +256,7 @@ export const MovementsTimeline = ({
           <AxisVerticalRight scale={yScale} ids={ids} />
         </Chart>
       </div>
+      {isLoading && <CircularProgress isAbsolute />}
     </div>
   );
 };
