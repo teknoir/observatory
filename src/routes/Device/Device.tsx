@@ -10,6 +10,7 @@ import { Source, SourceStatus } from 'ts/types';
 import { useWSSContext } from 'context/webSocketContext';
 import { wsSources } from 'enums/queryKeys';
 import { TOPICS, TYPES } from 'enums/wss';
+import { getStartImagesStreamMsg } from 'services/wsMessage';
 import ImageViewer from './ImageViewer/ImageViewer';
 import styles from './Device.module.scss';
 
@@ -28,12 +29,11 @@ const Device = () => {
 
   const playVideo = useCallback(() => {
     if (isOpened && peripheralName) {
-      const messageObj = {
-        type: TYPES.START_IMAGES_STREAM,
+      const messageObj = getStartImagesStreamMsg(
         peripheralName,
-        duration: DURATION,
-        device: source?.device,
-      };
+        source?.device,
+        DURATION
+      );
       sendMessage(JSON.stringify(messageObj));
     }
   }, [isOpened, peripheralName, source]);
