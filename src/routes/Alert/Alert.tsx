@@ -1,9 +1,15 @@
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQueries, useMutation } from '@tanstack/react-query';
 import Typography from '@mui/material/Typography';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import { alertKey, feedbackKey } from 'enums/queryKeys';
-import { fetchAlert, fetchFeedback, sendFeedback } from 'services/apiRequests';
+import {
+  fetchAlert,
+  fetchFeedback,
+  sendFeedback,
+  sendNotificationSeen,
+} from 'services/apiRequests';
 import AppBar from 'components/AppBar/AppBar';
 import MainContent from 'components/MainContent/MainContent';
 import VideoPlayer from 'components/VideoPlayer/VideoPlayer';
@@ -46,6 +52,14 @@ const Alert = () => {
       refetchFeedback();
     },
   });
+
+  const mutationNotification = useMutation({
+    mutationFn: sendNotificationSeen,
+  });
+
+  useEffect(() => {
+    mutationNotification.mutate(detectionId);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onSubmit = (values: IAlertFormValues) =>
     mutation.mutate({

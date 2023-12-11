@@ -10,13 +10,17 @@ import {
   fetchNotificationsMock,
   fetchNotificationsPaginatedMock,
 } from 'services/fetchMock';
-import { getSearchQuery } from 'services/queryHistorian';
+import {
+  getSearchQuery,
+  getSearchQueryNotifications,
+} from 'services/queryHistorian';
 import {
   DetectionId,
   IAlertFormValues,
   IRetrieveEventsRequest,
   IRetrieveEventsRequestById,
   IMotionsAggregationRequest,
+  INotificationsRequest,
 } from 'ts/types';
 import { useMockDb } from 'enums/mockData';
 
@@ -25,7 +29,6 @@ const shouldUseMockData = (): boolean =>
   location?.search.includes(useMockDb) ||
   import.meta.env.VITE_USE_MOCK_HISTORIAN_DB;
 const shouldUseMotionsDb = (): boolean => true;
-const shouldUseNotificationsDb = (): boolean => false;
 const shouldUseNotificationsPaginatedDb = (): boolean => false;
 
 export const fetchAlert = (detectionId: DetectionId) => {
@@ -79,6 +82,10 @@ export const sendFeedback = (
   return Fetch.post(API.sendFeedback, data).then(({ data }) => data);
 };
 
+export const sendNotificationSeen = (data: DetectionId) => {
+  return Fetch.post(API.sendNotificationSeen(data)).then(({ data }) => data);
+};
+
 export const fetchMotionsAggregation = (
   filters: IMotionsAggregationRequest
 ) => {
@@ -110,12 +117,12 @@ export const fetchMovementsByPeripheralId = (
   return Fetch.get(API.eventsMovements(query)).then(({ data }) => data);
 };
 
-export const fetchNotifications = () => {
-  // TODO: remove this condition in future
-  if (shouldUseNotificationsDb()) {
-    // TODO: request here
+export const fetchNotifications = (filters: INotificationsRequest) => {
+  if (shouldUseMockData()) {
+    return fetchNotificationsMock();
   }
-  return fetchNotificationsMock();
+  const query = getSearchQueryNotifications(filters);
+  return Fetch.get(API.notifications(query)).then(({ data }) => data);
 };
 
 export const fetchNotificationsPaginated = (page: number, pageSize: number) => {

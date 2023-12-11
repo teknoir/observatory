@@ -190,6 +190,30 @@ export interface IEventsRequestParamsById {
   peripheralId: string;
 }
 
+export interface INotifications {
+  detection_id: DetectionId;
+  duration: number;
+  peripheral_id: string;
+  peripheral_name: string;
+  severity: string;
+  start_time: string;
+  status: NotificationStatus;
+  type: string;
+}
+
+export interface INotificationsRequest {
+  fromDate: Date | Moment;
+  toDate: Date | Moment;
+  limit?: number;
+  status?: NotificationStatus;
+}
+
+export enum NotificationStatus {
+  New = 'new',
+  Unverified = 'unverified',
+  Verified = 'verified',
+}
+
 export enum IMotionsTypes {
   Cars = 'cars',
   People = 'people',

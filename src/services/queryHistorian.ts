@@ -3,6 +3,7 @@ import {
   IRetrieveEventsRequest,
   IRetrieveEventsRequestById,
   DetectionId,
+  INotificationsRequest,
 } from 'ts/types';
 
 export const getEventQuery = (detectionId: DetectionId) => {
@@ -29,6 +30,24 @@ export const getSearchQuery = (
   }
   if (toDate) {
     query = query + `to_date=${toDate.toISOString()}&`;
+  }
+  return query;
+};
+
+export const getSearchQueryNotifications = (params: INotificationsRequest) => {
+  let query = '';
+  const { fromDate, toDate, status, limit } = params;
+  if (fromDate) {
+    query = query + `from_date=${fromDate.toISOString()}&`;
+  }
+  if (toDate) {
+    query = query + `to_date=${toDate.toISOString()}&`;
+  }
+  if (status) {
+    query = query + `status=${status}&`;
+  }
+  if (limit) {
+    query = query + `limit=${String(limit)}&`;
   }
   return query;
 };
