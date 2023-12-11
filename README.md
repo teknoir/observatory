@@ -52,7 +52,7 @@ gcloud --project=teknoir-mgmt builds submit . \
 --timeout=3600 \
 --substitutions=\
 SHORT_SHA="test",\
-BRANCH_NAME="dev",\
+BRANCH_NAME="dev"
 ```
 
 ## Build an image & deploy to Teknoir cloud
@@ -67,5 +67,5 @@ gcloud --project=teknoir-mgmt builds submit . \
 --timeout=3600 \
 --substitutions=\
 SHORT_SHA="1.0.0",\
-BRANCH_NAME="main",\
+BRANCH_NAME="main"
 ```

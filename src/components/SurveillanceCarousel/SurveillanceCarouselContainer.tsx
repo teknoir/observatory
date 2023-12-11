@@ -1,11 +1,13 @@
 import { useState, useEffect, useCallback, useContext } from 'react';
+import { useInterval } from 'usehooks-ts';
 import { useQueryClient } from '@tanstack/react-query';
 import { HomeContext } from 'context/HomeContext/HomeContext';
 import { useWSSContext } from 'context/webSocketContext';
 import { wsSources } from 'enums/queryKeys';
-import { TOPICS, TYPES } from 'enums/wss';
+import { TOPICS, TYPES, CAROUSEL_REFRESH_RATE } from 'enums/wss';
 import { useTestImages } from 'enums/mockData';
 import { CarouselMode, HomeContextProps, Source, SourceStatus } from 'ts/types';
+import { getStartImagesStreamMsg } from 'services/wsMessage';
 import SurveillanceCarousel from './SurveillanceCarousel';
 import Skeleton from './Skeleton/Skeleton';
 import { createRandomSources } from './utils';
@@ -23,7 +25,7 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
       ? new Map(Object.entries(cachedSources))
       : createRandomSources(0)
   );
-  const { lastMessage } = useWSSContext();
+  const { lastMessage, sendMessage } = useWSSContext();
   const { layout, setNumCameras } = useContext(HomeContext) as HomeContextProps;
 
   const sourcesSize = sources.size;
@@ -37,6 +39,19 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
       }, 3000);
     }
   }, []);
+
+  useInterval(() => {
+    if (sources.size > 0) {
+      sources.forEach((source) => {
+        const messageObj = getStartImagesStreamMsg(
+          source.peripheralId,
+          source.device,
+          1
+        );
+        sendMessage(JSON.stringify(messageObj));
+      });
+    }
+  }, CAROUSEL_REFRESH_RATE);
 
   useEffect(() => {
     if (!isLoaded && sourcesSize > 0) {
