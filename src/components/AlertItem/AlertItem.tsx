@@ -12,7 +12,12 @@ import Icon from 'components/Icon/Icon';
 import Verified, { Sizes } from 'components/Verified/Verified';
 import APP_URLS from 'enums/urls';
 import { generatePath } from 'utils/router';
-import { IEventDocumentWithPeripheral, IconSizes, AlertTypes } from 'ts/types';
+import {
+  IEventDocumentWithPeripheral,
+  IconSizes,
+  AlertTypes,
+  EventStatus,
+} from 'ts/types';
 import styles from './AlertItem.module.scss';
 
 interface Props {
@@ -32,13 +37,17 @@ const AlertItem = ({ data, index, style }: Props) => {
     severity,
     start_time: startTime,
     duration,
-    is_verified: isVerified,
-    // TODO: remove it
-    video_snapshot: videoSnapshot = 'https://picsum.photos/200/300',
+    status,
   } = item;
+  // TODO: remove it
+  let { video_snapshot: videoSnapshot } = item;
+  if (!videoSnapshot) {
+    videoSnapshot = 'https://picsum.photos/200/300';
+  }
   const startDate = moment(startTime);
   const durationSecs = Math.round(duration / 1000);
   const startDateFormat = startDate.format('HH:mm');
+  const isVerified = status === EventStatus.Verified;
 
   const hasLink = detectionId && peripheralId;
   const isSelected = detectionIdUrl === detectionId;

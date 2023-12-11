@@ -138,7 +138,6 @@ export interface IAlertEvent {
   severity: string;
   start_time: string;
   type: string;
-  is_verified: boolean;
   video_snapshot: string;
 }
 
@@ -148,9 +147,9 @@ export interface IEventDocument {
   start_time: string;
   duration: number;
   severity: string;
+  status: EventStatus;
   video_url: string;
   video_snapshot: string;
-  is_verified: boolean;
 }
 
 export interface IQuery {
@@ -206,6 +205,10 @@ export interface INotificationsRequest {
   toDate: Date | Moment;
   limit?: number;
   status?: NotificationStatus;
+}
+
+export enum EventStatus {
+  Verified = 'verified',
 }
 
 export enum NotificationStatus {

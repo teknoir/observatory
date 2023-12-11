@@ -13,7 +13,7 @@ import {
 import AppBar from 'components/AppBar/AppBar';
 import MainContent from 'components/MainContent/MainContent';
 import VideoPlayer from 'components/VideoPlayer/VideoPlayer';
-import { IAlertFormValues } from 'ts/types';
+import { IAlertFormValues, EventStatus } from 'ts/types';
 import Form from './Form/Form';
 import Info from './Info/Info';
 import styles from './Alert.module.scss';
@@ -70,16 +70,17 @@ const Alert = () => {
 
   if (isLoading || isLoadingFeedback) return <CircularProgress />;
   const {
-    is_verified: isVerified = false,
     type,
     severity,
     peripheral_name,
     start_time,
     duration,
+    status,
     video_url: videoUrl,
     video_snapshot: videoSnapshot,
   } = data;
   const { ground_truth, username, comment, creation_time } = dataFeedback || {};
+  const isVerified = status === EventStatus.Verified;
 
   return (
     <>
