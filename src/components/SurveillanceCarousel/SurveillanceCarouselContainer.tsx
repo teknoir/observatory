@@ -44,7 +44,7 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
     if (sources.size > 0) {
       sources.forEach((source) => {
         const messageObj = getStartImagesStreamMsg(
-          source.peripheralName,
+          source.peripheralId,
           source.device,
           1
         );
