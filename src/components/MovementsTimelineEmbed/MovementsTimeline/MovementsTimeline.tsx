@@ -10,10 +10,11 @@ import {
 } from 'components/ChartUtilities/accessors';
 import { useChartDimensions } from 'components/ChartUtilities/utils';
 import { IAlertEvent } from 'ts/types';
+import GridLines from './GridLines/GridLines';
 import styles from './MovementsTimeline.module.scss';
 
 // TODO: Temporal impors
-import GridLines from 'components/MovementsTimeline/GridLines/GridLines';
+// import GridLines from 'components/MovementsTimeline/GridLines/GridLines';
 import {
   formatDate as formatDateFunction,
   xScale as xScaleFunction,
@@ -30,9 +31,8 @@ const MovementsTimeline = ({
   dataAlerts,
 }: MovementsTimelineProps) => {
   const [ref, dimensions] = useChartDimensions({
-    marginTop: 110,
-    marginLeft: 180,
-    marginRight: 160,
+    // marginLeft: 180,
+    // marginRight: 160,
   });
   const [defaultTranslate, setDefaultTranslate] = useState<number>(0);
   const scrollGroupRef = useRef<SVGGElement | null>(null);
@@ -108,7 +108,7 @@ const MovementsTimeline = ({
       const translateX = defaultTranslate + transformObj.x;
       scrollGroup
         .transition()
-        // .duration(duration)
+        .duration(0)
         .attr('transform', `translate(${translateX}, 0)`);
     },
     [defaultTranslate, dimensions.boundedScrollWidth, dimensions.boundedWidth]
@@ -137,13 +137,7 @@ const MovementsTimeline = ({
   }, [defaultTranslate, ref, onScroll]);
 
   return (
-    <div
-      className={styles.timeline}
-      ref={ref}
-      style={{
-        height: peripherals.length * 64 + 200,
-      }}
-    >
+    <div className={styles.timeline} ref={ref}>
       <Chart dimensions={dimensions}>
         <GridLines scale={yScale} />
         <g ref={scrollGroupRef}>
@@ -152,25 +146,27 @@ const MovementsTimeline = ({
             formatTick={formatDate}
             numberOfTicks={numberOfTicks}
           />
-          <Circles
-            data={dataMotions}
-            keyAccessor={detectionIdAccessor}
-            xAccessor={xAccessorScaled}
-            yAccessor={yAccessorScaled}
-            // onCircleClick={setMainImageCarousel}
-            // onClickAccessor={peripheralIdAccessor}
-            className={styles.circleMotion}
-          />
-          <Circles
-            data={dataAlerts}
-            keyAccessor={detectionIdAccessor}
-            xAccessor={xAccessorScaled}
-            yAccessor={yAccessorScaled}
-            // onCircleClick={setMainImageCarousel}
-            // onClickAccessor={peripheralIdAccessor}
-            className={styles.circleAlert}
-            // onCircleHover={handlePopoverOpen}
-          />
+          <g transform="translate(0, 30)">
+            <Circles
+              data={dataMotions}
+              keyAccessor={detectionIdAccessor}
+              xAccessor={xAccessorScaled}
+              yAccessor={yAccessorScaled}
+              // onCircleClick={setMainImageCarousel}
+              // onClickAccessor={peripheralIdAccessor}
+              className={styles.circleMotion}
+            />
+            <Circles
+              data={dataAlerts}
+              keyAccessor={detectionIdAccessor}
+              xAccessor={xAccessorScaled}
+              yAccessor={yAccessorScaled}
+              // onCircleClick={setMainImageCarousel}
+              // onClickAccessor={peripheralIdAccessor}
+              className={styles.circleAlert}
+              // onCircleHover={handlePopoverOpen}
+            />
+          </g>
         </g>
       </Chart>
     </div>

@@ -8,11 +8,9 @@ import {
   fetchAlertsByPeripheralId,
 } from 'services/apiRequests';
 import { motionsById, alertsById } from 'enums/queryKeys';
-// import MovementsTimeline from './MovementsTimeline/MovementsTimeline';
+import MovementsTimeline from './MovementsTimeline/MovementsTimeline';
 import { TimelineRefetchInterval } from '../MovementsTimeline/enums.ts';
 import styles from './MovementsTimelineEmbed.module.scss';
-
-import MovementsTimeline from './MovementsTimeline/MovementsTimeline.tsx';
 
 interface Props {
   peripheralId: string;
@@ -25,7 +23,7 @@ const MovementsTimelineEmbed = ({
   classNameContainer,
   children,
 }: Props) => {
-  const [isShow, setIsShow] = useState(true);
+  const [isShow, setIsShow] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const period = 1;
   const startDate = moment().subtract(period, 'days').startOf('day');
@@ -53,26 +51,19 @@ const MovementsTimelineEmbed = ({
   };
 
   const handleMouseOut = () => {
-    // setIsShow(false);
+    setIsShow(false);
   };
 
   const renderContent = () => {
     if (isLoadingMotionsByPeripheralId || isLoadingAlertsByPeripheralId) {
       return <CircularProgress />;
     }
-    // TODO: use this component instead of next lines
-    // return <MovementsTimeline />
+
     return (
       <MovementsTimeline
         dataMotions={dataMotionsByPeripheralId}
         dataAlerts={dataAlertsByPeripheralId}
       />
-      // <>
-      //   <div>peripheralId: {peripheralId}</div>
-      //   <div>Motions: {dataMotionsByPeripheralId?.length}</div>
-      //   <div>Alerts: {dataAlertsByPeripheralId?.length}</div>
-      //   <div>Width: {ref.current?.offsetWidth}px</div>
-      // </>
     );
   };
 
