@@ -10,6 +10,7 @@ import { Source, SourceStatus } from 'ts/types';
 import { useWSSContext } from 'context/webSocketContext';
 import { wsSources } from 'enums/queryKeys';
 import { TOPICS, TYPES } from 'enums/wss';
+import { getStartImagesStreamMsg } from 'services/wsMessage';
 import ImageViewer from './ImageViewer/ImageViewer';
 import styles from './Device.module.scss';
 
@@ -27,16 +28,15 @@ const Device = () => {
   const { lastMessage, sendMessage, isOpened } = useWSSContext();
 
   const playVideo = useCallback(() => {
-    if (isOpened && peripheralName) {
-      const messageObj = {
-        type: TYPES.START_IMAGES_STREAM,
-        peripheralName,
-        duration: DURATION,
-        device: source?.device,
-      };
+    if (isOpened && peripheralId) {
+      const messageObj = getStartImagesStreamMsg(
+        peripheralId,
+        source?.device,
+        DURATION
+      );
       sendMessage(JSON.stringify(messageObj));
     }
-  }, [isOpened, peripheralName, source]);
+  }, [isOpened, peripheralId, source]);
 
   useEffect(() => {
     if (isOpened) {
@@ -57,7 +57,7 @@ const Device = () => {
           const { topic, image, peripheral, device } = data;
           if (
             topic === TOPICS.FRONT_END_VIDEO &&
-            peripheralName === peripheral?.name
+            peripheralId === peripheral?.id
           ) {
             setSource({
               src: image,
@@ -71,7 +71,7 @@ const Device = () => {
         }
       }
     }
-  }, [lastMessage, peripheralName]);
+  }, [lastMessage, peripheralId]);
 
   return (
     <>
