@@ -12,6 +12,8 @@ import { motionsById, alertsById } from 'enums/queryKeys';
 import { TimelineRefetchInterval } from '../MovementsTimeline/enums.ts';
 import styles from './MovementsTimelineEmbed.module.scss';
 
+import MovementsTimeline from './MovementsTimeline/MovementsTimeline.tsx';
+
 interface Props {
   peripheralId: string;
   children: ReactNode;
@@ -23,7 +25,7 @@ const MovementsTimelineEmbed = ({
   classNameContainer,
   children,
 }: Props) => {
-  const [isShow, setIsShow] = useState(false);
+  const [isShow, setIsShow] = useState(true);
   const ref = useRef<HTMLDivElement>(null);
   const period = 1;
   const startDate = moment().subtract(period, 'days').startOf('day');
@@ -51,7 +53,7 @@ const MovementsTimelineEmbed = ({
   };
 
   const handleMouseOut = () => {
-    setIsShow(false);
+    // setIsShow(false);
   };
 
   const renderContent = () => {
@@ -61,12 +63,16 @@ const MovementsTimelineEmbed = ({
     // TODO: use this component instead of next lines
     // return <MovementsTimeline />
     return (
-      <>
-        <div>peripheralId: {peripheralId}</div>
-        <div>Motions: {dataMotionsByPeripheralId?.length}</div>
-        <div>Alerts: {dataAlertsByPeripheralId?.length}</div>
-        <div>Width: {ref.current?.offsetWidth}px</div>
-      </>
+      <MovementsTimeline
+        dataMotions={dataMotionsByPeripheralId}
+        dataAlerts={dataAlertsByPeripheralId}
+      />
+      // <>
+      //   <div>peripheralId: {peripheralId}</div>
+      //   <div>Motions: {dataMotionsByPeripheralId?.length}</div>
+      //   <div>Alerts: {dataAlertsByPeripheralId?.length}</div>
+      //   <div>Width: {ref.current?.offsetWidth}px</div>
+      // </>
     );
   };
 
