@@ -23,7 +23,8 @@ const MovementsTimelineEmbed = ({
   classNameContainer,
   children,
 }: Props) => {
-  const [isShow, setIsShow] = useState(false);
+  // const [isShow, setIsShow] = useState(false);
+  const [isShow, setIsShow] = useState(true);
   const ref = useRef<HTMLDivElement>(null);
   const period = 1;
   const startDate = moment().subtract(period, 'days').startOf('day');
@@ -51,7 +52,7 @@ const MovementsTimelineEmbed = ({
   };
 
   const handleMouseOut = () => {
-    setIsShow(false);
+    // setIsShow(false);
   };
 
   const renderContent = () => {

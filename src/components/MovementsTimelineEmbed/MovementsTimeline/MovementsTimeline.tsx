@@ -9,36 +9,63 @@ import {
   peripheralNameAccessor as yAccessor,
 } from 'components/ChartUtilities/accessors';
 import { useChartDimensions } from 'components/ChartUtilities/utils';
-import { IAlertEvent } from 'ts/types';
+import { IAlertEvent, PopoverInfoProps } from 'ts/types';
+import AxisHorizontalScroll from './AxisHorizontalScroll/AxisHorizontalScroll';
 import GridLines from './GridLines/GridLines';
+import Popover from './Popover/Popover';
 import styles from './MovementsTimeline.module.scss';
 
 // TODO: Temporal impors
-// import GridLines from 'components/MovementsTimeline/GridLines/GridLines';
 import {
   formatDate as formatDateFunction,
   xScale as xScaleFunction,
   yScale as yScaleFunction,
 } from 'components/MovementsTimeline/utils';
-import AxisHorizontalScroll from 'components/MovementsTimeline/AxisHorizontalScroll/AxisHorizontalScroll';
 
 interface MovementsTimelineProps {
   dataMotions: IAlertEvent[];
   dataAlerts: IAlertEvent[];
 }
+
+const fallbackVideoUrl =
+  'https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4';
+
 const MovementsTimeline = ({
   dataMotions,
   dataAlerts,
 }: MovementsTimelineProps) => {
-  const [ref, dimensions] = useChartDimensions({
-    // marginLeft: 180,
-    // marginRight: 160,
-  });
+  const [ref, dimensions] = useChartDimensions({});
   const [defaultTranslate, setDefaultTranslate] = useState<number>(0);
   const scrollGroupRef = useRef<SVGGElement | null>(null);
+  const [anchorEl, setAnchorEl] = useState<SVGCircleElement | null>(null);
+  const [alertInfo, setAlertInfo] = useState<PopoverInfoProps>({
+    detection_id: '',
+    duration: 0,
+    peripheral_id: '',
+    peripheral_name: '',
+    severity: '',
+    start_time: '',
+    type: '',
+    video_url: fallbackVideoUrl,
+  });
 
   const peripherals = ['test'];
   const period = 1;
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  function handlePopoverOpen(event: MouseEvent<SVGCircleElement>, info) {
+    setAnchorEl(event.currentTarget);
+    setAlertInfo((prevAlertInfo) => ({
+      ...info,
+      peripheral_id: info!.peripheral_id ?? prevAlertInfo.peripheral_id,
+      video_url: info!.video_url ?? prevAlertInfo.video_url,
+    }));
+  }
+
+  function handlePopoverClose() {
+    setAnchorEl(null);
+  }
 
   const startTime = moment().subtract(period, 'days').toDate();
   const xScale = xScaleFunction(startTime, dimensions);
@@ -139,34 +166,33 @@ const MovementsTimeline = ({
   return (
     <div className={styles.timeline} ref={ref}>
       <Chart dimensions={dimensions}>
-        <GridLines scale={yScale} />
+        <GridLines />
         <g ref={scrollGroupRef}>
           <AxisHorizontalScroll
             scale={xScale}
             formatTick={formatDate}
             numberOfTicks={numberOfTicks}
           />
-          <g transform="translate(0, 30)">
-            <Circles
-              data={dataMotions}
-              keyAccessor={detectionIdAccessor}
-              xAccessor={xAccessorScaled}
-              yAccessor={yAccessorScaled}
-              // onCircleClick={setMainImageCarousel}
-              // onClickAccessor={peripheralIdAccessor}
-              className={styles.circleMotion}
-            />
-            <Circles
-              data={dataAlerts}
-              keyAccessor={detectionIdAccessor}
-              xAccessor={xAccessorScaled}
-              yAccessor={yAccessorScaled}
-              // onCircleClick={setMainImageCarousel}
-              // onClickAccessor={peripheralIdAccessor}
-              className={styles.circleAlert}
-              // onCircleHover={handlePopoverOpen}
-            />
-          </g>
+          <Circles
+            data={dataMotions}
+            keyAccessor={detectionIdAccessor}
+            xAccessor={xAccessorScaled}
+            yAccessor={yAccessorScaled}
+            className={styles.circleMotion}
+          />
+          <Circles
+            data={dataAlerts}
+            keyAccessor={detectionIdAccessor}
+            xAccessor={xAccessorScaled}
+            yAccessor={yAccessorScaled}
+            className={styles.circleAlert}
+            onCircleHover={handlePopoverOpen}
+          />
+          <Popover
+            anchorEl={anchorEl}
+            alertInfo={alertInfo}
+            handleClose={handlePopoverClose}
+          />
         </g>
       </Chart>
     </div>

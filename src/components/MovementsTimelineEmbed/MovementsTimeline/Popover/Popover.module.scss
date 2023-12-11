@@ -1,0 +1,45 @@
+@import 'enums/styleVariables.module';
+
+.paper {
+  border-radius: 0;
+  clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 10%, 90% 0);
+}
+
+.card {
+  min-width: 240px;
+  border-radius: 0;
+  background-color: $offWhite;
+  color: $fadedBlack;
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 20px;
+  padding-bottom: 12px;
+}
+
+.cardActions {
+  justify-content: center;
+}
+
+.iconButton {
+  position: absolute;
+  right: 6px;
+  top: 15px;
+  color: $deepSpaceBlack;
+}
+
+.title {
+  margin-right: 12px;
+}
+
+.field {
+  color: $silver;
+  text-decoration: underline;
+}
+
+.value {
+  margin-bottom: 12px;
+}
