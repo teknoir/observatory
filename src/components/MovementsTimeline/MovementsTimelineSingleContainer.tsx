@@ -6,7 +6,6 @@ import {
   startTimeAccessor,
   peripheralNameAccessor,
 } from 'components/ChartUtilities/accessors';
-import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import {
   fetchMovementsByPeripheralId,
   fetchAlertsByPeripheralId,
@@ -66,9 +65,6 @@ function MovementsTimelineSingleContainer({
     refetchInterval: TimelineRefetchInterval.SINGLE_DEVICE,
   });
 
-  if (isLoadingMotionsByPeripheralId || isLoadingAlertsByPeripheralId)
-    return <CircularProgress />;
-
   const peripheralName = dataMotionsByPeripheralId
     ? peripheralNameAccessor(dataMotionsByPeripheralId[0] ?? '')
     : dataAlertsByPeripheralId
@@ -103,6 +99,9 @@ function MovementsTimelineSingleContainer({
       handleChangeFilter={handleChangeFilterBy}
       period={period}
       handleChangePeriod={handleChangePeriod}
+      isLoading={
+        isLoadingMotionsByPeripheralId || isLoadingAlertsByPeripheralId
+      }
     />
   );
 }
