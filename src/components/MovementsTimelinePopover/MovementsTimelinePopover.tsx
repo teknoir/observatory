@@ -10,7 +10,7 @@ import { generatePath } from 'utils/router';
 import VideoPlayer from 'components/VideoPlayer/VideoPlayer';
 import { PopoverInfoProps } from 'ts/types';
 import APP_URLS from 'enums/urls';
-import styles from './Popover.module.scss';
+import styles from './MovementsTimelinePopover.module.scss';
 
 enum ALERT_INFO_KEYS {
   DETECTION_ID = 'detection_id',
@@ -23,17 +23,17 @@ enum ALERT_INFO_KEYS {
   VIDEO_URL = 'video_url',
 }
 
-interface PopoverComponentProps {
+interface MovementsTimelinePopoverProps {
   anchorEl: SVGCircleElement | null;
   alertInfo: PopoverInfoProps;
   handleClose: () => void;
 }
 
-function PopoverComponent({
+const MovementsTimelinePopover = ({
   anchorEl,
   alertInfo,
   handleClose,
-}: PopoverComponentProps) {
+}: MovementsTimelinePopoverProps) => {
   return (
     <Popover
       open={!!anchorEl}
@@ -101,6 +101,6 @@ function PopoverComponent({
       </Card>
     </Popover>
   );
-}
+};
 
-export default PopoverComponent;
+export default MovementsTimelinePopover;

@@ -14,6 +14,7 @@ import { Chart, Circles } from 'components/ChartUtilities';
 import { detectionIdAccessor } from 'components/ChartUtilities/accessors';
 import { peripheralIdAccessor } from 'components/ChartUtilities/accessors';
 import { useChartDimensions } from 'components/ChartUtilities/utils';
+import Popover from 'components/MovementsTimelinePopover/MovementsTimelinePopover';
 import { HomeContext } from 'context/HomeContext/HomeContext';
 import { CarouselArrowsOptions, IAlertEvent, PopoverInfoProps } from 'ts/types';
 import AxisHorizontalScroll from './AxisHorizontalScroll/AxisHorizontalScroll';
@@ -21,7 +22,6 @@ import AxisVerticalLeft from './AxisVerticalLeft/AxisVerticalLeft';
 import AxisVerticalRight from './AxisVerticalRight/AxisVerticalRight';
 import CarouselArrows from './CarouselArrows/CarouselArrows';
 import GridLines from './GridLines/GridLines';
-import Popover from './Popover/Popover';
 import ToolBar from './ToolBar/ToolBar';
 import {
   formatDate as formatDateFunction,

@@ -9,11 +9,11 @@ import {
   peripheralNameAccessor as yAccessor,
 } from 'components/ChartUtilities/accessors';
 import { useChartDimensions } from 'components/ChartUtilities/utils';
+import Popover from 'components/MovementsTimelinePopover/MovementsTimelinePopover';
 import { CarouselArrowsOptions, IAlertEvent, PopoverInfoProps } from 'ts/types';
 import AxisHorizontalScroll from './AxisHorizontalScroll/AxisHorizontalScroll';
 import CarouselArrows from './CarouselArrows/CarouselArrows';
 import GridLines from './GridLines/GridLines';
-import Popover from './Popover/Popover';
 import styles from './MovementsTimeline.module.scss';
 
 // TODO: Temporal impors
