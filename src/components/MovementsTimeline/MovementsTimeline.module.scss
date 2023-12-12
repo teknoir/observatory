@@ -1,6 +1,7 @@
 @import 'enums/styleVariables.module.scss';
 
 .root {
+  position: relative;
   background-color: $fadedBlack;
 }
 
