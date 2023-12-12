@@ -1,7 +1,7 @@
 import ArrowBackIos from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIos from '@mui/icons-material/ArrowForwardIos';
 import { useChartDimensions } from 'components/ChartUtilities/Chart/ChartContext';
-import { CarouselArrowsOptions } from 'components/MovementsTimeline/enums';
+import { CarouselArrowsOptions } from 'ts/types';
 import styles from './CarouselArrows.module.scss';
 
 interface CarouselArrowsProps {

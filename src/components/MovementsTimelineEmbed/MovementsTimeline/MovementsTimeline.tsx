@@ -9,8 +9,9 @@ import {
   peripheralNameAccessor as yAccessor,
 } from 'components/ChartUtilities/accessors';
 import { useChartDimensions } from 'components/ChartUtilities/utils';
-import { IAlertEvent, PopoverInfoProps } from 'ts/types';
+import { CarouselArrowsOptions, IAlertEvent, PopoverInfoProps } from 'ts/types';
 import AxisHorizontalScroll from './AxisHorizontalScroll/AxisHorizontalScroll';
+import CarouselArrows from './CarouselArrows/CarouselArrows';
 import GridLines from './GridLines/GridLines';
 import Popover from './Popover/Popover';
 import styles from './MovementsTimeline.module.scss';
@@ -52,6 +53,13 @@ const MovementsTimeline = ({
   const peripherals = ['test'];
   const period = 1;
 
+  const handleCarouselArrows = (d: CarouselArrowsOptions) => {
+    const scrollGroup = d3.select<SVGGElement, unknown>(
+      scrollGroupRef.current!
+    );
+    onScroll(scrollGroup, d);
+  };
+
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   function handlePopoverOpen(event: MouseEvent<SVGCircleElement>, info) {
@@ -87,15 +95,15 @@ const MovementsTimeline = ({
 
   const onScroll = useCallback(
     (
-      scrollGroup: d3.Selection<SVGGElement, unknown, null, undefined>
-      // move: CarouselArrowsOptions | undefined = undefined
+      scrollGroup: d3.Selection<SVGGElement, unknown, null, undefined>,
+      move: CarouselArrowsOptions | undefined = undefined
     ) => {
       const transformObj = d3.zoomTransform(scrollGroup.node() as SVGGElement);
       // TODO: This approach is an alternative to not modify the resulting
       // d3.zoomTransform() object, but it needs some logic to work
       // const transformObj = { ...d3.zoomTransform(scrollGroup.node()) }
 
-      // let duration = 0;
+      let duration = 0;
       const maxStartTranslate = 0;
       const maxEndTranslate =
         dimensions.boundedScrollWidth - dimensions.boundedWidth;
@@ -112,30 +120,30 @@ const MovementsTimeline = ({
       // @ts-ignore
       transformObj.x = Math.min(transformObj.x, maxEndTranslate);
 
-      // if (move === CarouselArrowsOptions.LEFT) {
-      //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //   // @ts-ignore
-      //   transformObj.x =
-      //     transformObj.x + dimensions.boundedWidth / 2 > maxEndTranslate
-      //       ? maxEndTranslate
-      //       : transformObj.x + dimensions.boundedWidth / 2;
-      //   duration = 500;
-      // }
+      if (move === CarouselArrowsOptions.LEFT) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        transformObj.x =
+          transformObj.x + dimensions.boundedWidth / 2 > maxEndTranslate
+            ? maxEndTranslate
+            : transformObj.x + dimensions.boundedWidth / 2;
+        duration = 500;
+      }
 
-      // if (move === CarouselArrowsOptions.RIGHT) {
-      //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //   // @ts-ignore
-      //   transformObj.x =
-      //     transformObj.x - dimensions.boundedWidth / 2 < maxStartTranslate
-      //       ? maxStartTranslate
-      //       : transformObj.x - dimensions.boundedWidth / 2;
-      //   duration = 500;
-      // }
+      if (move === CarouselArrowsOptions.RIGHT) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        transformObj.x =
+          transformObj.x - dimensions.boundedWidth / 2 < maxStartTranslate
+            ? maxStartTranslate
+            : transformObj.x - dimensions.boundedWidth / 2;
+        duration = 500;
+      }
 
       const translateX = defaultTranslate + transformObj.x;
       scrollGroup
         .transition()
-        .duration(0)
+        .duration(duration)
         .attr('transform', `translate(${translateX}, 0)`);
     },
     [defaultTranslate, dimensions.boundedScrollWidth, dimensions.boundedWidth]
@@ -194,6 +202,7 @@ const MovementsTimeline = ({
             handleClose={handlePopoverClose}
           />
         </g>
+        <CarouselArrows clickHandler={handleCarouselArrows} />
       </Chart>
     </div>
   );

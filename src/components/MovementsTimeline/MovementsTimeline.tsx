@@ -15,7 +15,7 @@ import { detectionIdAccessor } from 'components/ChartUtilities/accessors';
 import { peripheralIdAccessor } from 'components/ChartUtilities/accessors';
 import { useChartDimensions } from 'components/ChartUtilities/utils';
 import { HomeContext } from 'context/HomeContext/HomeContext';
-import { IAlertEvent, PopoverInfoProps } from 'ts/types';
+import { CarouselArrowsOptions, IAlertEvent, PopoverInfoProps } from 'ts/types';
 import AxisHorizontalScroll from './AxisHorizontalScroll/AxisHorizontalScroll';
 import AxisVerticalLeft from './AxisVerticalLeft/AxisVerticalLeft';
 import AxisVerticalRight from './AxisVerticalRight/AxisVerticalRight';
@@ -28,7 +28,7 @@ import {
   xScale as xScaleFunction,
   yScale as yScaleFunction,
 } from './utils';
-import { CarouselArrowsOptions, MovementsTimelinePeriod } from './enums';
+import { MovementsTimelinePeriod } from './enums';
 import styles from './MovementsTimeline.module.scss';
 
 interface MovementsTimeLineParams {
