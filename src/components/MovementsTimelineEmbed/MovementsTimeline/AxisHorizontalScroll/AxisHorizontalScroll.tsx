@@ -12,16 +12,18 @@ interface AxisHorizontalScrollProps {
 
 const AxisHorizontalScroll = ({
   scale,
-  formatTick,
-  numberOfTicks,
+  formatTick, // numberOfTicks,
 }: AxisHorizontalScrollProps) => {
   const dimensions = useChartDimensions();
+  console.log(dimensions.boundedScrollWidth);
+  // TODO: Temporary fix for the number of ticks
   const autoNumberOfTicks =
-    dimensions.boundedScrollWidth < 600
-      ? dimensions.boundedScrollWidth / 100
-      : dimensions.boundedScrollWidth / 100;
+    dimensions.boundedScrollWidth < 1800
+      ? dimensions.boundedScrollWidth / 150
+      : 24;
 
-  const ticks = scale.ticks(numberOfTicks ? numberOfTicks : autoNumberOfTicks);
+  // const ticks = scale.ticks(numberOfTicks ? numberOfTicks : autoNumberOfTicks);
+  const ticks = scale.ticks(autoNumberOfTicks);
 
   return (
     <g className={classNames(styles.Axis, styles.AxisHorizontal)}>
