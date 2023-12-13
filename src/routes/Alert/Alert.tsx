@@ -1,63 +1,86 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQueries, useMutation } from '@tanstack/react-query';
 import Typography from '@mui/material/Typography';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
-import { alertKey } from 'enums/queryKeys';
-import { fetchAlert, verifyAlert } from 'services/apiRequests';
+import { alertKey, feedbackKey } from 'enums/queryKeys';
+import {
+  fetchAlert,
+  fetchFeedback,
+  sendFeedback,
+  sendNotificationSeen,
+} from 'services/apiRequests';
 import AppBar from 'components/AppBar/AppBar';
 import MainContent from 'components/MainContent/MainContent';
 import VideoPlayer from 'components/VideoPlayer/VideoPlayer';
-import { IAlertEvent, IAlertFormValues } from 'ts/types';
+import { IAlertFormValues, EventStatus } from 'ts/types';
 import Form from './Form/Form';
 import Info from './Info/Info';
 import styles from './Alert.module.scss';
 
 const Alert = () => {
   const { detectionId = '' } = useParams();
-  const queryClient = useQueryClient();
   const queryKey = [alertKey, detectionId];
+  const queryFeedbackKey = [feedbackKey, detectionId];
 
-  const { data, isLoading } = useQuery({
-    queryKey,
-    queryFn: () => fetchAlert(detectionId),
+  const [
+    { data, isLoading, refetch },
+    {
+      data: dataFeedback,
+      isLoading: isLoadingFeedback,
+      refetch: refetchFeedback,
+    },
+  ] = useQueries({
+    queries: [
+      {
+        queryKey,
+        queryFn: () => fetchAlert(detectionId),
+        refetchOnWindowFocus: false,
+      },
+      {
+        queryKey: queryFeedbackKey,
+        queryFn: () => fetchFeedback(detectionId),
+        refetchOnWindowFocus: false,
+      },
+    ],
   });
 
   const mutation = useMutation({
-    mutationFn: verifyAlert,
-    onSuccess: (data: IAlertFormValues) => {
-      queryClient.setQueryData(queryKey, (oldData: IAlertEvent) => ({
-        ...oldData,
-        ...data,
-        is_verified: true,
-      }));
+    mutationFn: sendFeedback,
+    onSuccess: () => {
+      refetch();
+      refetchFeedback();
     },
   });
 
+  const mutationNotification = useMutation({
+    mutationFn: sendNotificationSeen,
+  });
+
+  useEffect(() => {
+    mutationNotification.mutate(detectionId);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const onSubmit = (values: IAlertFormValues) =>
-    mutation.mutate({ detectionId, values });
+    mutation.mutate({
+      ...values,
+      detection_id: detectionId,
+      username: 'username',
+    });
 
-  if (isLoading) return <CircularProgress />;
-
-  const { type, severity, peripheral_name, start_time, end_time } = data;
-
-  // TODO: it's temporary solution, we need to use real data here
-  let {
-    name = '',
-    date = '',
-    is_verified: isVerified = false,
-    has_theft: hasTheft = false,
-    comment = '',
+  if (isLoading || isLoadingFeedback) return <CircularProgress />;
+  const {
+    type,
+    severity,
+    peripheral_name,
+    start_time,
+    duration,
+    status,
+    video_url: videoUrl,
+    video_snapshot: videoSnapshot,
   } = data;
-  if (detectionId.slice(-1).match(/[a-z]/i)) {
-    name = 'John';
-    date = '2021-10-10';
-    isVerified = true;
-    hasTheft = true;
-    comment =
-      'TEST: We double check this and was actually a theft, called the police at 15:42.';
-  }
+  const { ground_truth, username, comment, creation_time } = dataFeedback || {};
+  const isVerified = status === EventStatus.Verified;
 
   return (
     <>
@@ -66,21 +89,23 @@ const Alert = () => {
       </AppBar>
       <MainContent className={styles.mainContent}>
         <VideoPlayer
-          url={data.video_url}
+          url={videoUrl}
+          posterUrl={videoSnapshot}
+          autoPlay
           width="100%"
           className={styles.videoPlayer}
         />
         {isVerified ? (
           <Info
-            name={name}
-            date={date}
+            username={username}
+            creation_time={creation_time}
             type={type}
             severity={severity}
-            peripheralName={peripheral_name}
-            startTime={start_time}
-            endTime={end_time}
+            peripheral_name={peripheral_name}
+            start_time={start_time}
+            duration={duration}
             comment={comment}
-            hasTheft={hasTheft}
+            ground_truth={ground_truth}
           />
         ) : (
           <Form onSubmit={onSubmit} />

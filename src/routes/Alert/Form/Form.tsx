@@ -18,7 +18,7 @@ import styles from './Form.module.scss';
 
 const schema = zod
   .object({
-    has_theft: zod.boolean(),
+    ground_truth: zod.boolean(),
     comment: zod.string().min(1, { message: 'Comment is required' }),
   })
   .required();
@@ -77,7 +77,7 @@ const Form = ({ onSubmit }: Props) => {
     formState: { errors, isSubmitting },
   } = useForm<IAlertFormValues>({
     defaultValues: {
-      has_theft: false,
+      ground_truth: false,
       comment: '',
     },
     resolver: zodResolver(schema),
@@ -91,7 +91,7 @@ const Form = ({ onSubmit }: Props) => {
             Was this an actual theft?
           </Typography>
           <Controller
-            name="has_theft"
+            name="ground_truth"
             control={control}
             render={({ field }) => (
               <RadioGroup

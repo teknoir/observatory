@@ -5,13 +5,13 @@ import Typography from '@mui/material/Typography';
 import Select from 'muiComponents/Select/Select';
 import AlertListBox from 'components/AlertListBox/AlertListBox';
 import AlertsGroup from 'components/AlertsGroup/AlertsGroup';
-import { IAlertEvent } from 'ts/types';
+import { IEventDocumentWithPeripheral } from 'ts/types';
 import { AlertPeriod } from './enums';
 import styleVariables from 'enums/styleVariables.module.scss';
 import styles from './AlertsList.module.scss';
 
 interface Props {
-  groups: { [key: string]: IAlertEvent[] };
+  groups: { [key: string]: IEventDocumentWithPeripheral[] };
   groupsKeys: string[];
   period: AlertPeriod;
   handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;

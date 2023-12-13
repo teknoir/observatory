@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import moment from 'moment/moment';
 import { SelectChangeEvent } from '@mui/material/Select';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
-import { fetchMotionsCounts } from 'services/apiRequests';
+import { fetchMotionsAggregation } from 'services/apiRequests';
 import { motionsCounts } from 'enums/queryKeys';
 import MotionsList from './MotionsList';
 import { MotionsPeriod } from './enums';
@@ -11,14 +11,16 @@ import { MotionsPeriod } from './enums';
 const MotionsListContainer = () => {
   const [period, setPeriod] = useState(MotionsPeriod.DAYS_7);
 
-  const startDate = useMemo(
+  const fromDate = useMemo(
     () => moment().subtract(period, 'days').startOf('day'),
     [period]
   );
 
+  const toDate = useMemo(() => moment(), [period]);
+
   const { data, isLoading } = useQuery({
-    queryKey: [motionsCounts, startDate],
-    queryFn: () => fetchMotionsCounts({ startDate }),
+    queryKey: [motionsCounts, fromDate, toDate],
+    queryFn: () => fetchMotionsAggregation({ fromDate, toDate }),
   });
 
   const handleChangePeriod = (e: SelectChangeEvent<unknown>) =>
