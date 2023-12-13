@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { useState, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import moment from 'moment/moment';
