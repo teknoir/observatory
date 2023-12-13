@@ -43,7 +43,7 @@ const AlertsListContainer = ({ peripheralId = '' }: Props) => {
   });
 
   const prepareDataByPeripheralId = (data: RetrieveEventsResponse) => {
-    if (!data) return data;
+    if (!data || !data.length) return data;
     return getFlattenDocuments([data[0]]);
   };
 
