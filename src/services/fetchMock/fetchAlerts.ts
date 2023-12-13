@@ -1,7 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import moment from 'moment';
-import _pick from 'lodash/pick';
 import { IAlertEvent } from 'ts/types';
 import { getUniqueID, dataWithDelay } from './utils';
 
@@ -106,25 +105,26 @@ const alertsSchema = new Map<string, object>([
   ],
 ]);
 
-const getAlertsHours = () => {
-  const res = new Map<number, string[]>();
-  alertsSchema.forEach((value, key) => {
-    value.hours.forEach((hour) => {
-      const arr = res.get(hour) || [];
-      arr.push(key);
-      res.set(hour, arr);
-    });
-  });
-  return res;
-};
+// const getAlertsHours = () => {
+//   const res = new Map<number, string[]>();
+//   alertsSchema.forEach((value, key) => {
+//     value.hours.forEach((hour) => {
+//       const arr = res.get(hour) || [];
+//       arr.push(key);
+//       res.set(hour, arr);
+//     });
+//   });
+//   return res;
+// };
 
-export const fetchAlertsByPeripheralIdMock = (
-  { peripheralId, startDate },
-  fields: string[] = []
-): Promise<IAlertEvent[]> => {
+export const fetchAlertsByPeripheralIdMock = ({
+  peripheralId,
+  fromDate,
+}): Promise<IAlertEvent[]> => {
   const res = [];
   const now = moment();
-  const dateFrom = startDate.clone();
+  const documents = [];
+  const dateFrom = fromDate.clone();
   const { duration, hours, minute } =
     alertsSchema.get(peripheralId) || alertsSchema.get(defaultPeripheralId);
   while (dateFrom.isBefore(now)) {
@@ -134,54 +134,52 @@ export const fetchAlertsByPeripheralIdMock = (
       const time = dateFrom.clone();
       const startTime = time.add().minute(minute);
       const item = {
-        ...alertItemBase,
         detection_id: getUniqueID(),
-        peripheral_id: peripheralId,
-        peripheral_name: peripheralId,
+        type: alertItemBase.type,
         start_time: startTime.format(),
-        end_time: startTime.add(duration, 'seconds').format(),
+        duration: duration * 1000,
+        severity: 'low',
       };
-      if (fields.length) {
-        _pick(item, fields);
-      }
-      res.push(item);
+      documents.push(item);
     }
   }
+  res.push({
+    peripheral_id: peripheralId,
+    peripheral_name: peripheralId,
+    documents,
+  });
   return dataWithDelay(res);
 };
 
-export const fetchAllAlertsMock = (
-  { startDate },
-  fields: string[] = []
-): Promise<IAlertEvent[]> => {
+export const fetchAllAlertsMock = ({ fromDate }): Promise<IAlertEvent[]> => {
   const res = [];
-  const now = moment();
-  const dateFrom = startDate.clone();
-  const hours = getAlertsHours();
-  while (dateFrom.isBefore(now)) {
-    dateFrom.add(1, 'hour');
-    const currentHour = dateFrom.hour();
-    if (hours.has(currentHour)) {
-      const peripheralIds = hours.get(currentHour);
-      peripheralIds.forEach((peripheralId) => {
-        const { duration, minute } = alertsSchema.get(peripheralId);
+  alertsSchema.forEach((value, key) => {
+    const documents = [];
+    const now = moment();
+    const dateFrom = fromDate.clone();
+    const { hours, duration, minute } = value;
+    while (dateFrom.isBefore(now)) {
+      dateFrom.add(1, 'hour');
+      const currentHour = dateFrom.hour();
+      if (hours.includes(currentHour)) {
         const time = dateFrom.clone();
         const startTime = time.add().minute(minute);
-        let item = {
-          ...alertItemBase,
+        const item = {
           detection_id: getUniqueID(),
-          peripheral_id: peripheralId,
-          peripheral_name: peripheralId,
+          type: alertItemBase.type,
           start_time: startTime.format(),
-          end_time: startTime.add(duration, 'seconds').format(),
+          duration: duration * 1000,
+          severity: 'low',
         };
-        if (fields.length) {
-          item = _pick(item, fields);
-        }
-        res.push(item);
-      });
+        documents.push(item);
+      }
     }
-  }
+    res.push({
+      peripheral_id: key,
+      peripheral_name: key,
+      documents,
+    });
+  });
   return dataWithDelay(res);
 };
 
@@ -191,6 +189,7 @@ export const fetchAlertMock = (detectionId) => {
     detection_id: detectionId,
     video_url:
       'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+    video_snapshot: 'https://picsum.photos/600/300',
   });
 };
 

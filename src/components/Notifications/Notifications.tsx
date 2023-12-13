@@ -1,7 +1,6 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-import { useContext, useEffect, useState, MouseEvent } from 'react';
+import { useContext, useState, useEffect, MouseEvent } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import moment from 'moment/moment';
 import _last from 'lodash/last';
 import Typography from '@mui/material/Typography';
 import bellIcon from 'assets/icons/bellIcon.svg';
@@ -12,6 +11,7 @@ import { useWSSContext } from 'context/webSocketContext';
 import Icon from 'components/Icon/Icon';
 import { notifications } from 'enums/queryKeys';
 import { TOPICS, TYPES } from 'enums/wss';
+import { INotifications, NotificationStatus } from 'ts/types';
 import Popover from './Popover/Popover';
 import styles from './Notifications.module.scss';
 
@@ -22,17 +22,44 @@ const Notifications = () => {
   const { peripheralIdNotified, setPeripheralIdNotified } =
     useContext(HomeContext);
 
+  const fromDate = moment().subtract(7, 'days').startOf('day');
+  const toDate = moment();
+  const limit = 10;
+
   const isOpen = Boolean(anchorEl);
 
   const queryKey = [notifications];
-  const { data, isLoading } = useQuery({
+  const { data: dataNew, isLoading: isLoadingNew } = useQuery({
     queryKey,
-    queryFn: () => fetchNotifications(),
+    queryFn: () =>
+      fetchNotifications({
+        fromDate,
+        toDate,
+        status: NotificationStatus.New,
+        limit,
+      }),
     enabled: isOpen,
   });
 
-  if (data?.length > 0) {
-    setPeripheralIdNotified(_last(data)?.peripheral_id);
+  const { data: dataUnverified, isLoading: isLoadingUnverified } = useQuery({
+    queryKey,
+    queryFn: () =>
+      fetchNotifications({
+        fromDate,
+        toDate,
+        status: NotificationStatus.Unverified,
+        limit,
+      }),
+    enabled: isOpen,
+  });
+
+  const data = {
+    new: dataNew,
+    unverified: dataUnverified,
+  };
+
+  if (dataNew?.length > 0) {
+    setPeripheralIdNotified((_last(dataNew) as INotifications).peripheral_id);
   }
 
   useEffect(() => {
@@ -86,7 +113,7 @@ const Notifications = () => {
         isOpen={isOpen}
         anchorEl={anchorEl}
         handleClose={handleClose}
-        isLoading={isLoading}
+        isLoading={isLoadingNew || isLoadingUnverified}
         data={data}
       />
     </div>

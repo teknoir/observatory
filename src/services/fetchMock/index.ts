@@ -1,5 +1,5 @@
 export * from './fetchAlerts';
 export * from './fetchMotions';
-export * from './fetchMotionsCounts';
+export * from './fetchMotionsAggregation';
 export * from './fetchNotifications';
 export * from './fetchNotificationsPaginated';

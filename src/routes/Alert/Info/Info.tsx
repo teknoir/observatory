@@ -4,34 +4,38 @@ import thumbUpIcon from 'assets/icons/thumbUp.svg';
 import thumbUpRedIcon from 'assets/icons/thumbUpRed.svg';
 import Icon from 'components/Icon/Icon';
 import Verified from 'components/Verified/Verified';
+import { IAlertEvent, IFeedback } from 'ts/types';
 import styles from './Info.module.scss';
 
-interface Props {
-  name: string;
-  date: string;
-  endTime: string;
-  severity: string;
-  startTime: string;
-  type: string;
-  peripheralName: string;
-  comment: string;
-  hasTheft: boolean;
-}
+type Props = Pick<
+  IAlertEvent &
+    IFeedback & {
+      username: string;
+    },
+  | 'username'
+  | 'creation_time'
+  | 'severity'
+  | 'type'
+  | 'start_time'
+  | 'duration'
+  | 'peripheral_name'
+  | 'comment'
+  | 'ground_truth'
+>;
 
 const Info = ({
-  name,
-  date,
+  username,
+  creation_time: creationTime,
   severity,
   type,
-  startTime,
-  endTime,
-  peripheralName,
+  start_time: startTime,
+  duration,
+  peripheral_name: peripheralName,
   comment,
-  hasTheft,
+  ground_truth: isGroundTruth,
 }: Props) => {
   const startDate = moment(startTime);
-  const endDate = moment(endTime);
-  const duration = moment.duration(endDate.diff(startDate)).seconds();
+  const durationSec = Math.round(duration / 1000);
   const startDateFormat = startDate.format('hh:mm A');
 
   return (
@@ -40,15 +44,15 @@ const Info = ({
         <div className={styles.verifiedBlock}>
           <Verified />
           <Typography variant="BodyLarge">
-            This was verified by @{name} at @{date}
+            This was verified by @{username} at @{creationTime}
           </Typography>
         </div>
       </div>
       <div className={styles.itemWithTheft}>
         <Typography variant="LabelXLBold">Was this an actual theft?</Typography>
         <div className={styles.hasTheftIcons}>
-          <Icon icon={hasTheft ? thumbUpRedIcon : thumbUpIcon} />
-          <Icon icon={hasTheft ? thumbUpIcon : thumbUpRedIcon} rotated />
+          <Icon icon={isGroundTruth ? thumbUpRedIcon : thumbUpIcon} />
+          <Icon icon={isGroundTruth ? thumbUpIcon : thumbUpRedIcon} rotated />
         </div>
       </div>
       <div className={styles.item}>
@@ -68,7 +72,7 @@ const Info = ({
         </div>
         <div className={styles.valueItem}>
           <Typography variant="LabelXLBold">Duration:</Typography>
-          <Typography variant="BodyLarge">{duration}s</Typography>
+          <Typography variant="BodyLarge">{durationSec}s</Typography>
         </div>
         <div className={styles.valueItem}>
           <Typography variant="LabelXLBold">Severity:</Typography>
