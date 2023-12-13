@@ -8,7 +8,7 @@ import {
   fetchAlertsByPeripheralId,
 } from 'services/apiRequests';
 import { motionsById, alertsById } from 'enums/queryKeys';
-// import MovementsTimeline from './MovementsTimeline/MovementsTimeline';
+import MovementsTimeline from './MovementsTimeline/MovementsTimeline';
 import { TimelineRefetchInterval } from '../MovementsTimeline/enums.ts';
 import styles from './MovementsTimelineEmbed.module.scss';
 
@@ -58,15 +58,12 @@ const MovementsTimelineEmbed = ({
     if (isLoadingMotionsByPeripheralId || isLoadingAlertsByPeripheralId) {
       return <CircularProgress />;
     }
-    // TODO: use this component instead of next lines
-    // return <MovementsTimeline />
+
     return (
-      <>
-        <div>peripheralId: {peripheralId}</div>
-        <div>Motions: {dataMotionsByPeripheralId?.length}</div>
-        <div>Alerts: {dataAlertsByPeripheralId?.length}</div>
-        <div>Width: {ref.current?.offsetWidth}px</div>
-      </>
+      <MovementsTimeline
+        dataMotions={dataMotionsByPeripheralId}
+        dataAlerts={dataAlertsByPeripheralId}
+      />
     );
   };
 
