@@ -10,6 +10,7 @@ import * as d3 from 'd3';
 import _debounce from 'lodash/debounce';
 import Divider from '@mui/material/Divider';
 import { SelectChangeEvent } from '@mui/material/Select';
+import CarouselArrows from 'components/CarouselArrows/CarouselArrows';
 import { Chart, Circles } from 'components/ChartUtilities';
 import { detectionIdAccessor } from 'components/ChartUtilities/accessors';
 import { peripheralIdAccessor } from 'components/ChartUtilities/accessors';
@@ -20,7 +21,6 @@ import { CarouselArrowsOptions, IAlertEvent, PopoverInfoProps } from 'ts/types';
 import AxisHorizontalScroll from './AxisHorizontalScroll/AxisHorizontalScroll';
 import AxisVerticalLeft from './AxisVerticalLeft/AxisVerticalLeft';
 import AxisVerticalRight from './AxisVerticalRight/AxisVerticalRight';
-import CarouselArrows from './CarouselArrows/CarouselArrows';
 import GridLines from './GridLines/GridLines';
 import ToolBar from './ToolBar/ToolBar';
 import {
@@ -248,7 +248,12 @@ export const MovementsTimeline = ({
               handleClose={handlePopoverClose}
             />
           </g>
-          <CarouselArrows clickHandler={handleCarouselArrows} />
+          <CarouselArrows
+            leftBtnHeight={dimensions.boundedHeight}
+            rightX={dimensions.boundedWidth - 56}
+            rightBtnHeight={dimensions.boundedHeight}
+            clickHandler={handleCarouselArrows}
+          />
           <AxisVerticalLeft scale={yScale} />
           <AxisVerticalRight scale={yScale} ids={ids} />
         </Chart>

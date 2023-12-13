@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import moment from 'moment/moment';
 import _debounce from 'lodash/debounce';
+import CarouselArrows from 'components/CarouselArrows/CarouselArrows';
 import { Chart, Circles } from 'components/ChartUtilities';
 import {
   detectionIdAccessor,
@@ -12,7 +13,6 @@ import { useChartDimensions } from 'components/ChartUtilities/utils';
 import Popover from 'components/MovementsTimelinePopover/MovementsTimelinePopover';
 import { CarouselArrowsOptions, IAlertEvent, PopoverInfoProps } from 'ts/types';
 import AxisHorizontalScroll from './AxisHorizontalScroll/AxisHorizontalScroll';
-import CarouselArrows from './CarouselArrows/CarouselArrows';
 import GridLines from './GridLines/GridLines';
 import styles from './MovementsTimeline.module.scss';
 
@@ -202,7 +202,15 @@ const MovementsTimeline = ({
             handleClose={handlePopoverClose}
           />
         </g>
-        <CarouselArrows clickHandler={handleCarouselArrows} />
+        <CarouselArrows
+          leftX={-dimensions.marginLeft}
+          leftY={-dimensions.height / 2}
+          leftBtnHeight={dimensions.height}
+          rightX={dimensions.boundedWidth + dimensions.marginRight / 2}
+          rightY={-dimensions.height / 2}
+          rightBtnHeight={dimensions.height}
+          clickHandler={handleCarouselArrows}
+        />
       </Chart>
     </div>
   );
