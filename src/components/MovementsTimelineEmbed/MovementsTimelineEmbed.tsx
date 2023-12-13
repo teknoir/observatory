@@ -23,7 +23,7 @@ const MovementsTimelineEmbed = ({
   classNameContainer,
   children,
 }: Props) => {
-  const [isShow, setIsShow] = useState(true);
+  const [isShow, setIsShow] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const period = 1;
   const startDate = moment().subtract(period, 'days').startOf('day');
