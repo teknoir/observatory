@@ -11,7 +11,8 @@ import {
 } from 'components/ChartUtilities/accessors';
 import { useChartDimensions } from 'components/ChartUtilities/utils';
 import Popover from 'components/MovementsTimelinePopover/MovementsTimelinePopover';
-import { CarouselArrowsOptions, IAlertEvent, PopoverInfoProps } from 'ts/types';
+import { CarouselArrowsOptions } from 'enums/timeline';
+import { IAlertEvent, PopoverInfoProps } from 'ts/types';
 import AxisHorizontalScroll from './AxisHorizontalScroll/AxisHorizontalScroll';
 import GridLines from './GridLines/GridLines';
 import styles from './MovementsTimeline.module.scss';

@@ -212,8 +212,3 @@ export interface ChartDimensions {
   boundedWidth: number;
   boundedScrollWidth: number;
 }
-
-export enum CarouselArrowsOptions {
-  LEFT = 'left',
-  RIGHT = 'right',
-}

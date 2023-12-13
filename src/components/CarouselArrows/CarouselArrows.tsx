@@ -1,6 +1,6 @@
 import ArrowBackIos from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIos from '@mui/icons-material/ArrowForwardIos';
-import { CarouselArrowsOptions } from 'ts/types';
+import { CarouselArrowsOptions } from 'enums/timeline';
 import styles from './CarouselArrows.module.scss';
 
 interface CarouselArrowsProps {
