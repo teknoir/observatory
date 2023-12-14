@@ -10,7 +10,7 @@ import { generatePath } from 'utils/router';
 import VideoPlayer from 'components/VideoPlayer/VideoPlayer';
 import { PopoverInfoProps } from 'ts/types';
 import APP_URLS from 'enums/urls';
-import styles from './MovementsTimelinePopover.module.scss';
+import styles from './Popover.module.scss';
 
 enum ALERT_INFO_KEYS {
   DETECTION_ID = 'detection_id',
@@ -29,7 +29,7 @@ interface MovementsTimelinePopoverProps {
   handleClose: () => void;
 }
 
-const MovementsTimelinePopover = ({
+const PopoverComponent = ({
   anchorEl,
   alertInfo,
   handleClose,
@@ -103,4 +103,4 @@ const MovementsTimelinePopover = ({
   );
 };
 
-export default MovementsTimelinePopover;
+export default PopoverComponent;

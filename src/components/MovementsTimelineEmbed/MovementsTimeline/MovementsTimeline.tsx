@@ -1,8 +1,8 @@
 import moment from 'moment/moment';
-import CarouselArrows from 'components/CarouselArrows/CarouselArrows';
+import CarouselArrows from 'components/MovementsTimelineComponents/CarouselArrows/CarouselArrows';
 import { Chart, Circles } from 'components/ChartUtilities';
 import { detectionIdAccessor } from 'components/ChartUtilities/accessors';
-import Popover from 'components/MovementsTimelinePopover/MovementsTimelinePopover';
+import Popover from 'components/MovementsTimelineComponents/Popover/Popover';
 import { IEventDocumentWithPeripheral } from 'ts/types';
 import useMovementsTimelineData from 'hooks/useMovementsTimelineData';
 import AxisHorizontalScroll from './AxisHorizontalScroll/AxisHorizontalScroll';
