@@ -12,7 +12,7 @@ import {
 import { useChartDimensions } from 'components/ChartUtilities/utils';
 import Popover from 'components/MovementsTimelinePopover/MovementsTimelinePopover';
 import { CarouselArrowsOptions } from 'enums/timeline';
-import { IAlertEvent, PopoverInfoProps } from 'ts/types';
+import { IEventDocumentWithPeripheral, PopoverInfoProps } from 'ts/types';
 import AxisHorizontalScroll from './AxisHorizontalScroll/AxisHorizontalScroll';
 import GridLines from './GridLines/GridLines';
 import styles from './MovementsTimeline.module.scss';
@@ -25,8 +25,8 @@ import {
 } from 'components/MovementsTimeline/utils';
 
 interface MovementsTimelineProps {
-  dataMotions: IAlertEvent[];
-  dataAlerts: IAlertEvent[];
+  dataMotions: IEventDocumentWithPeripheral[];
+  dataAlerts: IEventDocumentWithPeripheral[];
 }
 
 const fallbackVideoUrl =

@@ -1,4 +1,4 @@
-import { useState, useRef, ReactNode } from 'react';
+import { useState, useRef, useMemo, ReactNode } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import { useQuery } from '@tanstack/react-query';
@@ -8,6 +8,7 @@ import {
   fetchAlertsByPeripheralId,
 } from 'services/apiRequests';
 import { motionsById, alertsById } from 'enums/queryKeys';
+import { getFlattenDocuments } from 'utils/events';
 import MovementsTimeline from './MovementsTimeline/MovementsTimeline';
 import { TimelineRefetchInterval } from '../MovementsTimeline/enums.ts';
 import styles from './MovementsTimelineEmbed.module.scss';
@@ -26,24 +27,29 @@ const MovementsTimelineEmbed = ({
   const [isShow, setIsShow] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const period = 1;
-  const startDate = moment().subtract(period, 'days').startOf('day');
+  const fromDate = moment().subtract(period, 'days').startOf('day');
+  const toDate = useMemo(() => moment(), []);
 
   const {
     data: dataMotionsByPeripheralId,
     isInitialLoading: isLoadingMotionsByPeripheralId,
   } = useQuery({
-    queryKey: [motionsById, startDate, peripheralId],
-    queryFn: () => fetchMovementsByPeripheralId({ startDate, peripheralId }),
+    queryKey: [motionsById, fromDate, toDate, peripheralId],
+    queryFn: () =>
+      fetchMovementsByPeripheralId({ fromDate, toDate, peripheralId }),
     refetchInterval: TimelineRefetchInterval.SINGLE_DEVICE,
+    enabled: isShow,
   });
 
   const {
     data: dataAlertsByPeripheralId,
     isInitialLoading: isLoadingAlertsByPeripheralId,
   } = useQuery({
-    queryKey: [alertsById, startDate, peripheralId],
-    queryFn: () => fetchAlertsByPeripheralId({ startDate, peripheralId }),
+    queryKey: [alertsById, fromDate, toDate, peripheralId],
+    queryFn: () =>
+      fetchAlertsByPeripheralId({ fromDate, toDate, peripheralId }),
     refetchInterval: TimelineRefetchInterval.SINGLE_DEVICE,
+    enabled: isShow,
   });
 
   const handleMouseOver = () => {
@@ -54,6 +60,23 @@ const MovementsTimelineEmbed = ({
     setIsShow(false);
   };
 
+  let dataMotionsByPeripheralIdFlatten = getFlattenDocuments(
+    dataMotionsByPeripheralId
+  );
+  // TODO: temp solution for redundant data (only for Charts) - remove in future!
+  if (dataMotionsByPeripheralIdFlatten?.length > 1000) {
+    dataMotionsByPeripheralIdFlatten =
+      dataMotionsByPeripheralIdFlatten.slice(-1000);
+  }
+  let dataAlertsByPeripheralIdFlatten = getFlattenDocuments(
+    dataAlertsByPeripheralId
+  );
+  // TODO: temp solution for redundant data (only for Charts) - remove in future!
+  if (dataAlertsByPeripheralIdFlatten?.length > 1000) {
+    dataAlertsByPeripheralIdFlatten =
+      dataAlertsByPeripheralIdFlatten.slice(-1000);
+  }
+
   const renderContent = () => {
     if (isLoadingMotionsByPeripheralId || isLoadingAlertsByPeripheralId) {
       return <CircularProgress />;
@@ -61,8 +84,8 @@ const MovementsTimelineEmbed = ({
 
     return (
       <MovementsTimeline
-        dataMotions={dataMotionsByPeripheralId}
-        dataAlerts={dataAlertsByPeripheralId}
+        dataMotions={dataMotionsByPeripheralIdFlatten}
+        dataAlerts={dataAlertsByPeripheralIdFlatten}
       />
     );
   };
