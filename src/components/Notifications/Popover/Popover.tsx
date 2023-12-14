@@ -3,10 +3,11 @@ import Button from '@mui/material/Button';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
-import { generatePath } from 'utils/router';
-import { INotifications, NotificationStatus } from 'ts/types';
+import { INotifications } from 'ts/types';
+import { NotificationStatus } from 'enums/notifications';
 import APP_URLS from 'enums/urls';
 import styleVariables from 'enums/styleVariables.module.scss';
+import { generatePath } from 'utils/router';
 import NotificationItem from '../NotificationItem/NotificationItem';
 import styles from './Popover.module.scss';
 

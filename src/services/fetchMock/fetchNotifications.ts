@@ -2,9 +2,10 @@ import { INotifications, INotificationsRequest } from 'ts/types';
 import { getUniqueID, dataWithDelay } from './utils';
 
 export const fetchNotificationsMock = (params: INotificationsRequest) => {
-  const { fromDate, status, limit = 100 } = params;
+  const { fromDate, status, limit = 30 } = params;
   const res: INotifications[] = [];
-  const peripheralId = `peripheral_id${status ? `_${status}` : ''}`;
+  const peripheralId = 'peripheral_id';
+  const peripheralName = `peripheral_name${status ? `_${status}` : ''}`;
   const duration = 14000;
   const dateFrom = fromDate;
   const severity = 'WARNING';
@@ -19,7 +20,7 @@ export const fetchNotificationsMock = (params: INotificationsRequest) => {
       detection_id: detectionId,
       duration: duration,
       peripheral_id: peripheralId,
-      peripheral_name: peripheralId,
+      peripheral_name: peripheralName,
       severity: severity,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore

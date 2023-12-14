@@ -9,9 +9,10 @@ import { fetchNotifications } from 'services/apiRequests';
 import { HomeContext } from 'context/HomeContext/HomeContext';
 import { useWSSContext } from 'context/webSocketContext';
 import Icon from 'components/Icon/Icon';
+import { NotificationStatus } from 'enums/notifications';
 import { notifications } from 'enums/queryKeys';
 import { TOPICS, TYPES } from 'enums/wss';
-import { INotifications, NotificationStatus } from 'ts/types';
+import { INotifications } from 'ts/types';
 import Popover from './Popover/Popover';
 import styles from './Notifications.module.scss';
 

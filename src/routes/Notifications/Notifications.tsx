@@ -1,7 +1,7 @@
 import { useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import _concat from 'lodash/concat';
 import moment from 'moment/moment';
+import _concat from 'lodash/concat';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
@@ -9,20 +9,24 @@ import AppBar from 'components/AppBar/AppBar';
 import MainContent from 'components/MainContent/MainContent';
 import Pagination from 'components/Pagination/Pagination';
 import { fetchNotifications } from 'services/apiRequests';
+import {
+  NotificationStatus,
+  NotificationsCount,
+  NotificationsPeriod,
+} from 'enums/notifications';
 import APP_URLS from 'enums/urls';
 import { notificationsNew, notificationsUnverified } from 'enums/queryKeys';
-import { NotificationStatus } from 'ts/types';
+import { INotifications } from 'ts/types';
 import NotificationsContent from './NotificationsContent/NotificationsContent';
 import styles from './Notifications.module.scss';
-
-const NOTIFICATIONS_PER_PAGE = 20;
 
 const Notifications = () => {
   const [searchParams] = useSearchParams();
   const page = Number(searchParams.get('page')) || 1;
 
-  // TODO: Define time period to use
-  const fromDate = moment().subtract(10, 'days').startOf('day');
+  const fromDate = moment()
+    .subtract(NotificationsPeriod.DAYS_30, 'days')
+    .startOf('day');
   const toDate = moment();
 
   const {
@@ -63,13 +67,32 @@ const Notifications = () => {
   const isLoading = isLoadingNew || isLoadingUnverified;
   const isPreviousData = isPreviousDataNew || isPreviousDataUnverified;
 
-  const dataSorted = _concat(dataNew, dataUnverified);
-  const newLength = dataNew?.length;
-  const totalPages = Math.ceil(dataSorted?.length / NOTIFICATIONS_PER_PAGE);
-  const dataByPage = dataSorted?.slice(
-    (page - 1) * NOTIFICATIONS_PER_PAGE,
-    page * NOTIFICATIONS_PER_PAGE
+  const totalPages = Math.ceil(
+    (dataNew?.length + dataUnverified?.length) / NotificationsCount.ITEMS_20
   );
+  const dataNewLength = dataNew?.length;
+  const allData = _concat(dataNew, dataUnverified);
+  const paginatedData = paginateData(
+    allData,
+    page,
+    NotificationsCount.ITEMS_20
+  );
+
+  function paginateData(
+    data: Array<INotifications>,
+    page: number,
+    itemsPerPage: number
+  ) {
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return data.slice(startIndex, endIndex).map((item, index) => ({
+      ...item,
+      status:
+        startIndex + index < dataNewLength
+          ? NotificationStatus.New
+          : NotificationStatus.Unverified,
+    }));
+  }
 
   return (
     <>
@@ -80,15 +103,16 @@ const Notifications = () => {
         <Box className={styles.wrapper}>
           {isLoading || isPreviousData ? (
             <CircularProgress />
-          ) : dataNew?.length === 0 && dataUnverified?.length === 0 ? (
+          ) : paginatedData?.length === 0 ? (
             <Typography variant="LabelMedium">
-              Looks like there's no data
+              No notifications found for the last {NotificationsPeriod.DAYS_30}{' '}
+              days
             </Typography>
           ) : (
-            <NotificationsContent data={dataByPage} newLength={newLength} />
+            <NotificationsContent data={paginatedData} />
           )}
           <Box className={styles.pagination}>
-            {(!dataByPage || dataByPage.length != 0) && (
+            {(!paginatedData || paginatedData.length != 0) && (
               <Pagination
                 page={page}
                 count={totalPages}
