@@ -28,6 +28,10 @@ console.log(
   'VITE_HISTORIAN_DB_SERVER',
   import.meta.env.VITE_HISTORIAN_DB_SERVER
 );
+console.log(
+  'VITE_HISTORIAN_MIDDLE_END_API',
+  import.meta.env.VITE_HISTORIAN_MIDDLE_END_API
+);
 console.log('import.meta.env.DEV', import.meta.env.DEV);
 console.log('import.meta.env.PROD', import.meta.env.PROD);
 

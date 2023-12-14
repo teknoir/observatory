@@ -1,22 +1,27 @@
-import { CSSProperties } from 'react';
+import { useCallback, CSSProperties } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import moment from 'moment';
 import classNames from 'classnames';
 import Typography from '@mui/material/Typography';
 import CircleIcon from '@mui/icons-material/Circle';
-import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
+import Tooltip from '@mui/material/Tooltip';
 import loiteringIcon from 'assets/icons/loiteringIcon.svg';
-// import personDownIcon from 'assets/icons/personDownIcon.svg';
+import personDownIcon from 'assets/icons/personDownIcon.svg';
 import theftIcon from 'assets/icons/theftIcon.svg';
 import Icon from 'components/Icon/Icon';
 import Verified, { Sizes } from 'components/Verified/Verified';
 import APP_URLS from 'enums/urls';
 import { generatePath } from 'utils/router';
-import { IAlertEvent, IconSizes } from 'ts/types';
+import {
+  IEventDocumentWithPeripheral,
+  IconSizes,
+  AlertTypes,
+  EventStatus,
+} from 'ts/types';
 import styles from './AlertItem.module.scss';
 
 interface Props {
-  data: IAlertEvent[];
+  data: IEventDocumentWithPeripheral[];
   index: number;
   style: CSSProperties;
 }
@@ -28,30 +33,53 @@ const AlertItem = ({ data, index, style }: Props) => {
     detection_id: detectionId,
     peripheral_id: peripheralId,
     peripheral_name: name,
+    type,
     severity,
     start_time: startTime,
-    end_time: endTime,
+    duration,
+    status,
   } = item;
-  // TODO: it's temporary solution, we need to use real data here
-  let isVerified = false;
-  let hasTheft = false;
-  let hasComment = false;
-  let hasLoitering = true;
-  // let hasPersonDown = false;
-  if (detectionId && detectionId.slice(-1).match(/[a-z]/i)) {
-    isVerified = true;
-    hasTheft = true;
-    hasComment = true;
-    hasLoitering = false;
+  // TODO: remove it
+  let { video_snapshot: videoSnapshot } = item;
+  if (!videoSnapshot) {
+    videoSnapshot = 'https://picsum.photos/200/300';
   }
-
   const startDate = moment(startTime);
-  const endDate = moment(endTime);
-  const duration = moment.duration(endDate.diff(startDate)).seconds();
+  const durationSecs = Math.round(duration / 1000);
   const startDateFormat = startDate.format('HH:mm');
+  const isVerified = status === EventStatus.Verified;
 
   const hasLink = detectionId && peripheralId;
   const isSelected = detectionIdUrl === detectionId;
+
+  const getIcon = useCallback(() => {
+    switch (type) {
+      case AlertTypes.loitering:
+        return loiteringIcon;
+      case AlertTypes.theft:
+        return theftIcon;
+      case AlertTypes.on_ground:
+        return personDownIcon;
+      default:
+        return '';
+    }
+  }, [type]);
+
+  const getTooltipText = useCallback(() => {
+    switch (type) {
+      case AlertTypes.loitering:
+        return 'Loitering';
+      case AlertTypes.theft:
+        return 'Catalytic Converter Theft';
+      case AlertTypes.on_ground:
+        return 'Person Down';
+      default:
+        return '';
+    }
+  }, [type]);
+
+  const icon = getIcon();
+  const tooltipText = getTooltipText();
 
   const renderContent = () => (
     <>
@@ -59,7 +87,7 @@ const AlertItem = ({ data, index, style }: Props) => {
         <div className={styles.leftTitleLine}>
           <CircleIcon color="error" className={styles.statusIcon} />
           <Typography variant="LabelMedium">
-            {`${startDateFormat} (${duration}s)`}
+            {`${startDateFormat} (${durationSecs}s)`}
           </Typography>
         </div>
         <div className={styles.status}>
@@ -68,7 +96,9 @@ const AlertItem = ({ data, index, style }: Props) => {
         </div>
       </div>
       <div className={styles.content}>
-        <div className={styles.imgWrapper}></div>
+        <div className={styles.imgWrapper}>
+          <img src={videoSnapshot} alt="img" className={styles.videoSnapshot} />
+        </div>
         <div className={styles.details}>
           <Typography variant="BodySmall" display="block" gutterBottom>
             {name}
@@ -78,10 +108,13 @@ const AlertItem = ({ data, index, style }: Props) => {
           </Typography>
         </div>
         <div className={styles.actionIcons}>
-          {hasComment && <ChatBubbleIcon />}
-          {hasTheft && <Icon icon={theftIcon} size={IconSizes.lg} />}
-          {hasLoitering && <Icon icon={loiteringIcon} size={IconSizes.lg} />}
-          {/* {hasPersonDown && <Icon icon={personDownIcon} />} */}
+          {!!icon && (
+            <Tooltip title={tooltipText} placement="bottom" arrow>
+              <div>
+                <Icon icon={icon} size={IconSizes.lg} />
+              </div>
+            </Tooltip>
+          )}
         </div>
       </div>
     </>

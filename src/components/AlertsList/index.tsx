@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { useState, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import moment from 'moment/moment';
@@ -6,7 +8,9 @@ import _keys from 'lodash/keys';
 import { SelectChangeEvent } from '@mui/material/Select';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import { fetchAlerts, fetchAlertsByPeripheralId } from 'services/apiRequests';
+import { getFlattenDocuments } from 'utils/events';
 import { alerts, alertsById } from 'enums/queryKeys';
+import { RetrieveEventsResponse } from 'ts/types';
 import AlertsList from './AlertsList';
 import { AlertPeriod } from './enums';
 
@@ -22,18 +26,11 @@ const AlertsListContainer = ({ peripheralId = '' }: Props) => {
     () => moment().subtract(period, 'days').startOf('day'),
     [period]
   );
-  const fields = [
-    'detection_id',
-    'peripheral_id',
-    'peripheral_name',
-    'severity',
-    'start_time',
-    'end_time',
-  ];
+  const toDate = useMemo(() => moment(), [period]);
 
   const { data: dataAlerts, isLoading: isLoadingAlerts } = useQuery({
-    queryKey: [alerts, startDate, fields],
-    queryFn: () => fetchAlerts({ startDate }, fields),
+    queryKey: [alerts, startDate],
+    queryFn: () => fetchAlerts({ fromDate: startDate, toDate }),
     enabled: !isPeripheral,
   });
 
@@ -41,13 +38,20 @@ const AlertsListContainer = ({ peripheralId = '' }: Props) => {
     data: dataAlertsByPeripheralId,
     isLoading: isLoadingAlertsByPeripheralId,
   } = useQuery({
-    queryKey: [alertsById, startDate, peripheralId, fields],
+    queryKey: [alertsById, startDate, peripheralId],
     queryFn: () =>
-      fetchAlertsByPeripheralId({ startDate, peripheralId }, fields),
+      fetchAlertsByPeripheralId({ fromDate: startDate, toDate, peripheralId }),
     enabled: isPeripheral,
   });
 
-  const data = isPeripheral ? dataAlertsByPeripheralId : dataAlerts;
+  const prepareDataByPeripheralId = (data: RetrieveEventsResponse) => {
+    if (!data || !data.length) return data;
+    return getFlattenDocuments([data[0]]);
+  };
+
+  const data = isPeripheral
+    ? prepareDataByPeripheralId(dataAlertsByPeripheralId)
+    : getFlattenDocuments(dataAlerts);
   const isLoading = isPeripheral
     ? isLoadingAlertsByPeripheralId
     : isLoadingAlerts;

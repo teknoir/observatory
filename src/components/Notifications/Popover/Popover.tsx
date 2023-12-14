@@ -1,13 +1,10 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import { Link } from 'react-router-dom';
-import _groupBy from 'lodash/groupBy';
 import Button from '@mui/material/Button';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import { generatePath } from 'utils/router';
-import { IAlertEvent } from 'ts/types';
+import { INotifications, NotificationStatus } from 'ts/types';
 import APP_URLS from 'enums/urls';
 import styleVariables from 'enums/styleVariables.module.scss';
 import NotificationItem from '../NotificationItem/NotificationItem';
@@ -18,12 +15,10 @@ interface Props {
   anchorEl: HTMLElement | null;
   handleClose: () => void;
   isLoading: boolean;
-  data: IAlertEvent[];
-}
-
-enum GroupKeys {
-  verified = 'true',
-  notVerified = 'false',
+  data: {
+    new: INotifications[];
+    unverified: INotifications[];
+  };
 }
 
 const PopoverComponent = ({
@@ -33,7 +28,6 @@ const PopoverComponent = ({
   isLoading,
   data,
 }: Props) => {
-  const dataGrouped = _groupBy(data, 'is_verified');
   return (
     <Popover
       id="notifications-popover"
@@ -71,13 +65,14 @@ const PopoverComponent = ({
             <Typography variant="LabelLarge" className={styles.subTitle}>
               New
             </Typography>
-            {dataGrouped[GroupKeys.notVerified]?.map((item) => (
+            {data[NotificationStatus.New].map((item) => (
               <NotificationItem {...item} />
             ))}
+            <br />
             <Typography variant="LabelLarge" className={styles.subTitle}>
               Unverified
             </Typography>
-            {dataGrouped[GroupKeys.verified]?.map((item) => (
+            {data[NotificationStatus.Unverified].map((item) => (
               <NotificationItem {...item} />
             ))}
           </>

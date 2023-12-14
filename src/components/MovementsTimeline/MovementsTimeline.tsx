@@ -10,6 +10,7 @@ import * as d3 from 'd3';
 import _debounce from 'lodash/debounce';
 import Divider from '@mui/material/Divider';
 import { SelectChangeEvent } from '@mui/material/Select';
+import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import CarouselArrows from 'components/CarouselArrows/CarouselArrows';
 import { Chart, Circles } from 'components/ChartUtilities';
 import { detectionIdAccessor } from 'components/ChartUtilities/accessors';
@@ -18,7 +19,11 @@ import { useChartDimensions } from 'components/ChartUtilities/utils';
 import Popover from 'components/MovementsTimelinePopover/MovementsTimelinePopover';
 import { HomeContext } from 'context/HomeContext/HomeContext';
 import { CarouselArrowsOptions } from 'enums/timeline';
-import { IAlertEvent, PopoverInfoProps } from 'ts/types';
+import {
+  IAlertEvent,
+  IEventDocumentWithPeripheral,
+  PopoverInfoProps,
+} from 'ts/types';
 import AxisHorizontalScroll from './AxisHorizontalScroll/AxisHorizontalScroll';
 import AxisVerticalLeft from './AxisVerticalLeft/AxisVerticalLeft';
 import AxisVerticalRight from './AxisVerticalRight/AxisVerticalRight';
@@ -34,8 +39,8 @@ import styles from './MovementsTimeline.module.scss';
 
 interface MovementsTimeLineParams {
   startTime: Date;
-  dataMotions: IAlertEvent[];
-  dataAlerts: IAlertEvent[];
+  dataMotions: IEventDocumentWithPeripheral[];
+  dataAlerts: IEventDocumentWithPeripheral[];
   xAccessor: (d: IAlertEvent) => Date | null;
   yAccessor: (d: object) => string;
   peripherals: Array<string>;
@@ -44,6 +49,7 @@ interface MovementsTimeLineParams {
   handleChangeFilter: (e: SelectChangeEvent<unknown>) => void;
   period: MovementsTimelinePeriod;
   handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;
+  isLoading: boolean;
 }
 
 // TODO: Temporal, remove this fallback when data returns video_url
@@ -62,6 +68,7 @@ export const MovementsTimeline = ({
   handleChangeFilter,
   period,
   handleChangePeriod,
+  isLoading,
 }: MovementsTimeLineParams) => {
   const [ref, dimensions] = useChartDimensions({
     marginLeft: 180,
@@ -259,6 +266,7 @@ export const MovementsTimeline = ({
           <AxisVerticalRight scale={yScale} ids={ids} />
         </Chart>
       </div>
+      {isLoading && <CircularProgress isAbsolute />}
     </div>
   );
 };

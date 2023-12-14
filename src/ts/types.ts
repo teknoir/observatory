@@ -129,44 +129,92 @@ export type DetectionId = string;
 
 export interface IAlertEvent {
   detection_id: DetectionId;
-  annotations: [];
-  branch: string;
-  count: number;
-  country: string;
   duration: number;
-  end_time: string;
-  facility: string;
-  from_device: string;
-  group: string;
   label: string;
-  last_modification: string;
   message: string;
   peripheral_id: string;
   peripheral_name: string;
   peripheral_type: string;
-  proof: {
-    id: string;
-  };
-  region: string;
-  sent: string;
   severity: string;
-  site: string;
   start_time: string;
   type: string;
-  zone: string;
+  video_snapshot: string;
+}
+
+export interface IEventDocument {
+  detection_id: DetectionId;
+  type: string;
+  start_time: string;
+  duration: number;
+  severity: string;
+  status: EventStatus;
+  video_url: string;
+  video_snapshot: string;
 }
 
 export interface IQuery {
   [key: string]: string | number | boolean | IQuery | IQuery[];
 }
 
-export interface IEventsRequestParams {
-  startDate: Date | Moment;
+export interface IRetrieveEventsRequest {
+  fromDate: Date | Moment;
+  toDate: Date | Moment;
+}
+
+export interface IRetrieveEventsRequestById {
+  fromDate: Date | Moment;
+  toDate: Date | Moment;
+  peripheralId: string;
+}
+
+export type RetrieveEventsResponse = {
+  documents: IEventDocument[];
+  peripheral_id: string;
+  peripheral_name: string;
+}[];
+
+export interface IEventDocumentWithPeripheral extends IEventDocument {
+  peripheral_id: string;
+  peripheral_name: string;
+}
+
+export interface IMotionsAggregationRequest {
+  fromDate: Date | Moment;
+  toDate: Date | Moment;
+  peripheralId?: string;
 }
 
 export interface IEventsRequestParamsById {
   startDate: Date | Moment;
   peripheralId: string;
+}
+
+export interface INotifications {
+  detection_id: DetectionId;
+  duration: number;
+  peripheral_id: string;
+  peripheral_name: string;
+  severity: string;
+  start_time: string;
+  status: NotificationStatus;
+  type: string;
+}
+
+export interface INotificationsRequest {
+  fromDate: Date | Moment;
+  toDate: Date | Moment;
+  limit?: number;
+  status?: NotificationStatus;
+}
+
+export enum EventStatus {
+  Verified = 'verified',
+}
+
+export enum NotificationStatus {
+  New = 'new',
+  Unverified = 'unverified',
+  Verified = 'verified',
 }
 
 export enum IMotionsTypes {
@@ -182,15 +230,16 @@ export enum IMotionsActions {
 export interface IMotionsCountsProps {
   type: IMotionsTypes;
   action: IMotionsActions;
-  number: number;
+  count: number;
+  label: string;
 }
 
-export interface IMotionsCounts {
+export interface IMotionsAggregationResponse {
   [key: string]: IMotionsCountsProps;
 }
 
 export interface IAlertFormValues {
-  has_theft: boolean;
+  ground_truth: boolean;
   comment: string;
 }
 
@@ -211,4 +260,18 @@ export interface ChartDimensions {
   boundedHeight: number;
   boundedWidth: number;
   boundedScrollWidth: number;
+}
+
+export interface IFeedback {
+  detection_id: DetectionId;
+  creation_time: string;
+  ground_truth: boolean;
+  comment: string;
+}
+
+export enum AlertTypes {
+  nearvehicle = 'nearvehicle',
+  loitering = 'loitering',
+  on_ground = 'on_ground',
+  theft = 'theft',
 }

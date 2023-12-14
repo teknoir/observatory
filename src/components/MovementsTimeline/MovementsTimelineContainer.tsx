@@ -9,10 +9,10 @@ import {
   peripheralNameAccessor,
   peripheralIdAccessor,
 } from 'components/ChartUtilities/accessors';
-import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import { fetchMovements, fetchAlerts } from 'services/apiRequests';
 import { motions, alerts, wsSources } from 'enums/queryKeys';
 import { Source } from 'ts/types';
+import { getFlattenDocuments } from 'utils/events';
 import { MovementsTimeline } from './MovementsTimeline';
 import {
   MovementsTimelinePeriod,
@@ -36,7 +36,7 @@ function MovementsTimelineContainer() {
 
   const [filter, setFilter] = useState<string>(TimelineFilterBy.MOTIONS_ALERTS);
   const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1);
-  const startDate = useMemo(
+  const fromDate = useMemo(
     () => moment().subtract(period, 'days').startOf('day'),
     [period]
   );
@@ -44,51 +44,45 @@ function MovementsTimelineContainer() {
     () => moment().subtract(period, 'days').toDate(),
     [period]
   );
-  const fields = [
-    'detection_id',
-    'duration',
-    'peripheral_id',
-    'peripheral_name',
-    'severity',
-    'start_time',
-    'type',
-    'video_url',
-  ];
+  const toDate = useMemo(() => moment(), [period]);
 
-  const queryMovements = useQuery({
-    queryKey: [motions, startDate, filter, fields],
-    queryFn: () => fetchMovements({ startDate }, fields),
+  const { data: dataMotions, isInitialLoading: isLoadingMotions } = useQuery({
+    queryKey: [motions, fromDate, toDate, filter],
+    queryFn: () => fetchMovements({ fromDate, toDate }),
     refetchInterval: TimelineRefetchInterval.ALL_DEVICES,
     enabled:
       (filter == TimelineFilterBy.MOTIONS ||
         filter == TimelineFilterBy.MOTIONS_ALERTS) &&
       period == MovementsTimelinePeriod.DAYS_1,
   });
-  // TODO: temp solution for redundant data (only for Charts) - remove in future!
-  const { isInitialLoading: isLoadingMotions } = queryMovements;
-  let { data: dataMotions } = queryMovements;
-  if (dataMotions?.length > 1000) {
-    dataMotions = dataMotions.slice(-1000);
-  }
 
-  const queryAlerts = useQuery({
-    queryKey: [alerts, startDate, filter, fields],
-    queryFn: () => fetchAlerts({ startDate }, fields),
+  const { data: dataAlerts, isInitialLoading: isLoadingAlerts } = useQuery({
+    queryKey: [alerts, fromDate, toDate, filter],
+    queryFn: () => fetchAlerts({ fromDate, toDate }),
     refetchInterval: TimelineRefetchInterval.ALL_DEVICES,
     enabled:
       filter == TimelineFilterBy.ALERTS ||
       filter == TimelineFilterBy.MOTIONS_ALERTS,
   });
-  // TODO: temp solution for redundant data (only for Charts) - remove in future!
-  const { isInitialLoading: isLoadingAlerts } = queryAlerts;
-  let { data: dataAlerts } = queryAlerts;
-  if (dataAlerts?.length > 1000) {
-    dataAlerts = dataAlerts.slice(-1000);
-  }
 
   const [peripherals, ids] = useMemo(() => {
+    const flattenArr = [];
+    for (let i = 0; i < dataAlerts?.length; i++) {
+      flattenArr.push({
+        peripheral_id: dataAlerts[i].peripheral_id,
+        peripheral_name: dataAlerts[i].peripheral_name,
+      });
+    }
+    for (let i = 0; i < dataMotions?.length; i++) {
+      flattenArr.push({
+        peripheral_id: dataMotions[i].peripheral_id,
+        peripheral_name: dataMotions[i].peripheral_name,
+      });
+    }
     const uniqueArr = _uniqBy(
-      _flatten([dataMotions ?? [], dataAlerts ?? [], sourcesFromWS ?? []]),
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      _flatten([flattenArr, sourcesFromWS ?? []]),
       'peripheral_name'
     );
     return [
@@ -96,6 +90,17 @@ function MovementsTimelineContainer() {
       uniqueArr.map(peripheralIdAccessor),
     ];
   }, [dataMotions, dataAlerts, sourcesFromWS]);
+
+  let dataAlertsFlatten = getFlattenDocuments(dataAlerts);
+  // TODO: temp solution for redundant data (only for Charts) - remove in future!
+  if (dataAlertsFlatten?.length > 1000) {
+    dataAlertsFlatten = dataAlertsFlatten.slice(-1000);
+  }
+  let dataMotionsFlatten = getFlattenDocuments(dataMotions);
+  // TODO: temp solution for redundant data (only for Charts) - remove in future!
+  if (dataMotionsFlatten?.length > 1000) {
+    dataMotionsFlatten = dataMotionsFlatten.slice(-1000);
+  }
 
   const handleChangeFilterBy = (e: SelectChangeEvent<unknown>) => {
     const filterByValue = String(e.target.value);
@@ -112,13 +117,11 @@ function MovementsTimelineContainer() {
     }
   };
 
-  if (isLoadingMotions || isLoadingAlerts) return <CircularProgress />;
-
   return (
     <MovementsTimeline
       startTime={startTime}
-      dataMotions={dataMotions}
-      dataAlerts={dataAlerts}
+      dataMotions={dataMotionsFlatten}
+      dataAlerts={dataAlertsFlatten}
       xAccessor={startTimeAccessor}
       yAccessor={peripheralNameAccessor}
       peripherals={peripherals}
@@ -127,6 +130,7 @@ function MovementsTimelineContainer() {
       handleChangeFilter={handleChangeFilterBy}
       period={period}
       handleChangePeriod={handleChangePeriod}
+      isLoading={isLoadingMotions || isLoadingAlerts}
     />
   );
 }

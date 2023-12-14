@@ -12,3 +12,5 @@ export const wsSources = 'wsSources';
 export const notifications = 'notifications';
 
 export const notificationsByPage = 'notificationsByPage';
+
+export const feedbackKey = 'feedback';

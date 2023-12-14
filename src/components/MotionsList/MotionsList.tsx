@@ -1,20 +1,24 @@
 import _map from 'lodash/map';
 import _isEmpty from 'lodash/isEmpty';
 import { SelectChangeEvent } from '@mui/material/Select';
-import DirectionsCar from '@mui/icons-material/DirectionsCar';
-import PeopleAlt from '@mui/icons-material/PeopleAlt';
-import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+// import DirectionsCar from '@mui/icons-material/DirectionsCar';
+// import PeopleAlt from '@mui/icons-material/PeopleAlt';
+// import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import Grid from '@mui/material/Grid';
 import InputLabel from '@mui/material/InputLabel';
 import Typography from '@mui/material/Typography';
 import Select from 'muiComponents/Select/Select';
-import { IMotionsActions, IMotionsCounts, IMotionsTypes } from 'ts/types';
+import {
+  // IMotionsActions,
+  // IMotionsTypes
+  IMotionsAggregationResponse,
+} from 'ts/types';
 import { MotionsPeriod } from './enums';
 import styleVariables from 'enums/styleVariables.module.scss';
 import styles from './MotionsList.module.scss';
 
 interface Props {
-  data?: IMotionsCounts;
+  data?: IMotionsAggregationResponse;
   period: MotionsPeriod;
   handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;
 }
@@ -44,21 +48,22 @@ const MotionsList = ({ data, period, handleChangePeriod }: Props) => {
         {_isEmpty(data) ? (
           <div>No data</div>
         ) : (
-          _map(data, (count, title) => (
+          _map(data, ({ count, label }) => (
             <Grid item xs={6} className={styles.listItem}>
               <div className={styles.listItemIcons}>
-                <SwapHorizIcon
-                  sx={{
-                    color:
-                      count.action === IMotionsActions.In
-                        ? styleVariables.greenSuccess
-                        : styleVariables.redAlert,
-                  }}
-                />
-                {count.type == IMotionsTypes.Cars && <DirectionsCar />}
-                {count.type == IMotionsTypes.People && <PeopleAlt />}
+                {/*TODO: check response schema*/}
+                {/*<SwapHorizIcon*/}
+                {/*  sx={{*/}
+                {/*    color:*/}
+                {/*      count.action === IMotionsActions.In*/}
+                {/*        ? styleVariables.greenSuccess*/}
+                {/*        : styleVariables.redAlert,*/}
+                {/*  }}*/}
+                {/*/>*/}
+                {/*{count.type == IMotionsTypes.Cars && <DirectionsCar />}*/}
+                {/*{count.type == IMotionsTypes.People && <PeopleAlt />}*/}
               </div>
-              <Typography variant="LabelLarge">{`${title}: ${count.number}`}</Typography>
+              <Typography variant="LabelLarge">{`${label}: ${count}`}</Typography>
             </Grid>
           ))
         )}
