@@ -1,32 +1,32 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-import moment from 'moment';
-import { IAlertEvent } from 'ts/types';
+import { INotifications, INotificationsRequest } from 'ts/types';
 import { getUniqueID, dataWithDelay } from './utils';
-import { alertItemBase } from './fetchAlerts';
 
-export const fetchNotificationsMock = (): IAlertEvent[] => {
-  const res = [];
-  const peripheralId = 'parkinglot1';
-  const duration = 14;
-  const dateFrom = moment().subtract(1, 'days').startOf('day');
-  const statusOptions = ['new', 'unverified'];
-  for (let i = 0; i < 100; i++) {
+export const fetchNotificationsMock = (params: INotificationsRequest) => {
+  const { fromDate, status, limit = 100 } = params;
+  const res: INotifications[] = [];
+  const peripheralId = `peripheral_id${status ? `_${status}` : ''}`;
+  const duration = 14000;
+  const dateFrom = fromDate;
+  const severity = 'WARNING';
+  const type = 'nearvehicle';
+  for (let i = 0; i < limit; i++) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     dateFrom.add(1, 'hour');
-    const isVerified = i <= 7;
     const uniqueId = getUniqueID();
-    const detectionId = uniqueId + (isVerified ? 'a' : '1');
+    const detectionId = uniqueId;
     const item = {
-      ...alertItemBase,
       detection_id: detectionId,
+      duration: duration,
       peripheral_id: peripheralId,
       peripheral_name: peripheralId,
+      severity: severity,
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       start_time: dateFrom.format(),
-      end_time: dateFrom.add(duration, 'seconds').format(),
-      is_verified: isVerified,
-      status: statusOptions[i % 2],
+      type: type,
     };
     res.push(item);
   }
-  return dataWithDelay(res);
+  return dataWithDelay(res.reverse());
 };

@@ -196,7 +196,6 @@ export interface INotifications {
   peripheral_name: string;
   severity: string;
   start_time: string;
-  status: NotificationStatus;
   type: string;
 }
 

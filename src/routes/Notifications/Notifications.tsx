@@ -10,19 +10,19 @@ import MainContent from 'components/MainContent/MainContent';
 import Pagination from 'components/Pagination/Pagination';
 import { fetchNotifications } from 'services/apiRequests';
 import APP_URLS from 'enums/urls';
-import { notificationsByPage } from 'enums/queryKeys';
+import { notificationsNew, notificationsUnverified } from 'enums/queryKeys';
 import { NotificationStatus } from 'ts/types';
 import NotificationsContent from './NotificationsContent/NotificationsContent';
 import styles from './Notifications.module.scss';
 
-const NOTIFICATIONS_PER_PAGE = 10;
+const NOTIFICATIONS_PER_PAGE = 20;
 
 const Notifications = () => {
   const [searchParams] = useSearchParams();
   const page = Number(searchParams.get('page')) || 1;
 
   // TODO: Define time period to use
-  const fromDate = moment().subtract(1, 'days').startOf('day');
+  const fromDate = moment().subtract(10, 'days').startOf('day');
   const toDate = moment();
 
   const {
@@ -31,13 +31,12 @@ const Notifications = () => {
     isPreviousData: isPreviousDataNew,
     error: errorNew,
   } = useQuery({
-    queryKey: [notificationsByPage, page],
+    queryKey: [notificationsNew, page],
     queryFn: () =>
       fetchNotifications({
         fromDate,
         toDate,
         status: NotificationStatus.New,
-        limit: NOTIFICATIONS_PER_PAGE,
       }),
     keepPreviousData: true,
   });
@@ -48,13 +47,12 @@ const Notifications = () => {
     isPreviousData: isPreviousDataUnverified,
     error: errorUnverified,
   } = useQuery({
-    queryKey: [notificationsByPage, page],
+    queryKey: [notificationsUnverified, page],
     queryFn: () =>
       fetchNotifications({
         fromDate,
         toDate,
         status: NotificationStatus.Unverified,
-        limit: NOTIFICATIONS_PER_PAGE,
       }),
     keepPreviousData: true,
   });

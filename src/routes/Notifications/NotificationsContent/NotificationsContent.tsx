@@ -16,7 +16,6 @@ const NotificationsContent = ({
     <>
       {data?.map((item: INotifications, index: number) => (
         <>
-          {/* TODO: Test it with real data when available from api */}
           {newLength > 0 && index === 0 ? (
             <Typography variant="LabelXL" className={styles.text}>
               New
@@ -26,7 +25,7 @@ const NotificationsContent = ({
               Unverified
             </Typography>
           ) : null}
-          <NotificationItem key={item.detection_id} {...item} />
+          <NotificationItem key={item.detection_id} data={item} />
         </>
       ))}
     </>

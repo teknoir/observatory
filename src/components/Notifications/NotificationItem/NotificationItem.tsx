@@ -4,34 +4,21 @@ import Typography from '@mui/material/Typography';
 import CircleIcon from '@mui/icons-material/Circle';
 import { generatePath } from 'utils/router';
 import APP_URLS from 'enums/urls';
-import { NotificationStatus } from 'ts/types';
+import { INotifications, NotificationStatus } from 'ts/types';
 import styles from './NotificationItem.module.scss';
 
 interface Props {
-  detection_id: string;
-  duration: number;
-  peripheral_id: string;
-  peripheral_name: string;
-  severity: string;
-  start_time: string;
+  data: INotifications;
   status: NotificationStatus;
 }
 
-const NotificationItem = ({
-  detection_id: detectionId,
-  duration,
-  peripheral_id: peripheralId,
-  peripheral_name: peripheralName,
-  severity,
-  start_time: startTime,
-  status,
-}: Props) => {
-  const durationSeconds = Math.ceil(duration / 1000);
-  const startDate = moment(startTime);
+const NotificationItem = ({ data, status }: Props) => {
+  const durationSeconds = Math.ceil(data.duration / 1000);
+  const startDate = moment(data.start_time);
   const startDateFormat = startDate.format('HH:mm A');
   const href = generatePath(APP_URLS.alerts, {
-    detectionId,
-    peripheralId,
+    detectionId: data.detection_id,
+    peripheralId: data.peripheral_id,
   });
   return (
     <div className={styles.root}>
@@ -43,11 +30,11 @@ const NotificationItem = ({
         <Typography variant="BodyMedium" className={styles.text}>
           {/*TODO: use real type (Theft or another)*/}
           <span>
-            Theft alert in Camera: {peripheralName} -{' '}
+            {data.type} in Camera: {data.peripheral_name} -{' '}
             {`${startDateFormat} (${durationSeconds}s)`}.
           </span>
           <br />
-          <span>Severity: {severity}</span>
+          <span>Severity: {data.severity}</span>
         </Typography>
       </div>
       <Link to={href} className={styles.buttonLink}>
