@@ -4,15 +4,21 @@ import Typography from '@mui/material/Typography';
 import CircleIcon from '@mui/icons-material/Circle';
 import { generatePath } from 'utils/router';
 import APP_URLS from 'enums/urls';
-import { INotifications, NotificationStatus } from 'ts/types';
+import {
+  INotifications,
+  // NotificationStatus
+} from 'ts/types';
 import styles from './NotificationItem.module.scss';
 
 interface Props {
   data: INotifications;
-  status: NotificationStatus;
+  // status: NotificationStatus;
 }
 
-const NotificationItem = ({ data, status }: Props) => {
+const NotificationItem = ({
+  data,
+} // status
+: Props) => {
   const durationSeconds = Math.ceil(data.duration / 1000);
   const startDate = moment(data.start_time);
   const startDateFormat = startDate.format('HH:mm A');
@@ -22,9 +28,9 @@ const NotificationItem = ({ data, status }: Props) => {
   });
   return (
     <div className={styles.root}>
-      {status === NotificationStatus.New && (
-        <CircleIcon color="error" className={styles.statusIcon} />
-      )}
+      {/* {status === NotificationStatus.New && ( */}
+      <CircleIcon color="error" className={styles.statusIcon} />
+      {/* )} */}
       <div className={styles.imgWrapper}></div>
       <div>
         <Typography variant="BodyMedium" className={styles.text}>

@@ -66,14 +66,14 @@ const PopoverComponent = ({
               New
             </Typography>
             {data[NotificationStatus.New].map((item) => (
-              <NotificationItem {...item} />
+              <NotificationItem data={item} />
             ))}
             <br />
             <Typography variant="LabelLarge" className={styles.subTitle}>
               Unverified
             </Typography>
             {data[NotificationStatus.Unverified].map((item) => (
-              <NotificationItem {...item} />
+              <NotificationItem data={item} />
             ))}
           </>
         )}
