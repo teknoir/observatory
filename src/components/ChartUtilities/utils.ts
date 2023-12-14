@@ -24,6 +24,18 @@ export const dimensionsPropsType = PropTypes.shape({
   marginLeft: PropTypes.number,
 });
 
+export interface IDimensions {
+  height?: number;
+  width?: number;
+  marginTop?: number;
+  marginRight?: number;
+  marginBottom?: number;
+  marginLeft?: number;
+  boundedHeight?: number;
+  boundedWidth?: number;
+  boundedScrollWidth?: number;
+}
+
 export const combineChartDimensions = (dimensions) => {
   const parsedDimensions = {
     marginTop: 40,
@@ -57,7 +69,7 @@ export const combineChartDimensions = (dimensions) => {
   };
 };
 
-export const useChartDimensions = (passedSettings) => {
+export const useChartDimensions = (passedSettings = {}) => {
   const ref = useRef(null);
   const dimensions = combineChartDimensions(passedSettings);
 
