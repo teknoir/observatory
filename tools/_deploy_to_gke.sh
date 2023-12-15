@@ -41,8 +41,8 @@ if [ "${BRANCH_NAME}" == "demo" ]; then
     deploy_to_gke "demonstrations" "teknoir"
 fi
 
-# Custom development environment
-if [ "${BRANCH_NAME}" == "dev_v2" ]; then
+# Deploy to GKE dev env
+if [ "${BRANCH_NAME}" == "dev" ]; then
     get_yq
     get_credentials "us-central1-c" "teknoir" "teknoir-cluster"
     deploy_to_gke "teknoir-ai" "teknoir"
