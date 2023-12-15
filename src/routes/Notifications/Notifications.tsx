@@ -61,9 +61,6 @@ const Notifications = () => {
     keepPreviousData: true,
   });
 
-  // TODO: Placeholder for error handling
-  if (errorNew || errorUnverified) return <div>Something went wrong...</div>;
-
   const isLoading = isLoadingNew || isLoadingUnverified;
   const isPreviousData = isPreviousDataNew || isPreviousDataUnverified;
 
@@ -103,6 +100,10 @@ const Notifications = () => {
         <Box className={styles.wrapper}>
           {isLoading || isPreviousData ? (
             <CircularProgress />
+          ) : errorNew && errorUnverified ? (
+            <Typography variant="LabelMedium">
+              Something went wrong...
+            </Typography>
           ) : paginatedData?.length === 0 ? (
             <Typography variant="LabelMedium">
               No notifications found for the last {NotificationsPeriod.DAYS_30}{' '}

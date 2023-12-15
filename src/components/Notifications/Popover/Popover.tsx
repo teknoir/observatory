@@ -4,7 +4,7 @@ import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import { INotifications } from 'ts/types';
-import { NotificationStatus } from 'enums/notifications';
+import { NotificationStatus, NotificationsPeriod } from 'enums/notifications';
 import APP_URLS from 'enums/urls';
 import styleVariables from 'enums/styleVariables.module.scss';
 import { generatePath } from 'utils/router';
@@ -20,6 +20,7 @@ interface Props {
     new: INotifications[];
     unverified: INotifications[];
   };
+  error?: boolean;
 }
 
 const PopoverComponent = ({
@@ -28,6 +29,7 @@ const PopoverComponent = ({
   handleClose,
   isLoading,
   data,
+  error,
 }: Props) => {
   return (
     <Popover
@@ -61,21 +63,41 @@ const PopoverComponent = ({
       <div className={styles.list}>
         {isLoading ? (
           <CircularProgress />
+        ) : error ? (
+          <Typography variant="LabelLarge">Something went wrong...</Typography>
+        ) : data[NotificationStatus.New]?.length === 0 &&
+          data[NotificationStatus.Unverified]?.length === 0 ? (
+          <Typography variant="LabelLarge">
+            No notifications found for the last {NotificationsPeriod.DAYS_30}{' '}
+            days
+          </Typography>
         ) : (
           <>
-            <Typography variant="LabelLarge" className={styles.subTitle}>
-              New
-            </Typography>
-            {data[NotificationStatus.New].map((item) => (
-              <NotificationItem data={item} />
-            ))}
+            {data[NotificationStatus.New].length > 0 && (
+              <Typography variant="LabelLarge" className={styles.subTitle}>
+                New
+              </Typography>
+            )}
+            {data[NotificationStatus.New].map((item) => {
+              const notificationWithStatus = {
+                ...item,
+                status: NotificationStatus.New,
+              };
+              return <NotificationItem data={notificationWithStatus} />;
+            })}
             <br />
-            <Typography variant="LabelLarge" className={styles.subTitle}>
-              Unverified
-            </Typography>
-            {data[NotificationStatus.Unverified].map((item) => (
-              <NotificationItem data={item} />
-            ))}
+            {data[NotificationStatus.Unverified].length > 0 && (
+              <Typography variant="LabelLarge" className={styles.subTitle}>
+                Unverified
+              </Typography>
+            )}
+            {data[NotificationStatus.Unverified].map((item) => {
+              const notificationWithStatus = {
+                ...item,
+                status: NotificationStatus.Unverified,
+              };
+              return <NotificationItem data={notificationWithStatus} />;
+            })}
           </>
         )}
       </div>

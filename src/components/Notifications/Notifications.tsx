@@ -9,8 +9,12 @@ import { fetchNotifications } from 'services/apiRequests';
 import { HomeContext } from 'context/HomeContext/HomeContext';
 import { useWSSContext } from 'context/webSocketContext';
 import Icon from 'components/Icon/Icon';
-import { NotificationStatus } from 'enums/notifications';
-import { notifications } from 'enums/queryKeys';
+import {
+  NotificationStatus,
+  NotificationsCount,
+  NotificationsPeriod,
+} from 'enums/notifications';
+import { notificationsNew, notificationsUnverified } from 'enums/queryKeys';
 import { TOPICS, TYPES } from 'enums/wss';
 import { INotifications } from 'ts/types';
 import Popover from './Popover/Popover';
@@ -23,45 +27,43 @@ const Notifications = () => {
   const { peripheralIdNotified, setPeripheralIdNotified } =
     useContext(HomeContext);
 
-  const fromDate = moment().subtract(7, 'days').startOf('day');
+  const fromDate = moment()
+    .subtract(NotificationsPeriod.DAYS_30, 'days')
+    .startOf('day');
   const toDate = moment();
-  const limit = 10;
-
   const isOpen = Boolean(anchorEl);
 
-  const queryKey = [notifications];
-  const { data: dataNew, isLoading: isLoadingNew } = useQuery({
-    queryKey,
+  const {
+    data: dataNew,
+    isLoading: isLoadingNew,
+    error: errorNew,
+  } = useQuery({
+    queryKey: [notificationsNew],
     queryFn: () =>
       fetchNotifications({
         fromDate,
         toDate,
         status: NotificationStatus.New,
-        limit,
+        limit: NotificationsCount.ITEMS_20,
       }),
     enabled: isOpen,
   });
 
-  const { data: dataUnverified, isLoading: isLoadingUnverified } = useQuery({
-    queryKey,
+  const {
+    data: dataUnverified,
+    isLoading: isLoadingUnverified,
+    error: errorUnverified,
+  } = useQuery({
+    queryKey: [notificationsUnverified],
     queryFn: () =>
       fetchNotifications({
         fromDate,
         toDate,
         status: NotificationStatus.Unverified,
-        limit,
+        limit: NotificationsCount.ITEMS_20,
       }),
     enabled: isOpen,
   });
-
-  const data = {
-    new: dataNew,
-    unverified: dataUnverified,
-  };
-
-  if (dataNew?.length > 0) {
-    setPeripheralIdNotified((_last(dataNew) as INotifications).peripheral_id);
-  }
 
   useEffect(() => {
     if (peripheralIdNotified) {
@@ -87,6 +89,32 @@ const Notifications = () => {
       }
     }
   }, [lastMessage, setCount]);
+
+  function sliceData(
+    dataNew: INotifications[],
+    dataUnverified: INotifications[],
+    numItems: number
+  ) {
+    const dataNewSliced = dataNew?.slice(0, numItems);
+    const dataUnverifiedSliced = dataUnverified?.slice(
+      0,
+      numItems - dataNewSliced?.length
+    );
+    return {
+      [NotificationStatus.New]: dataNewSliced,
+      [NotificationStatus.Unverified]: dataUnverifiedSliced,
+    };
+  }
+
+  const slicedData = sliceData(
+    dataNew,
+    dataUnverified,
+    NotificationsCount.ITEMS_20
+  );
+
+  if (dataNew?.length > 0) {
+    setPeripheralIdNotified((_last(dataNew) as INotifications).peripheral_id);
+  }
 
   const handleClick = (event: MouseEvent<HTMLDivElement>) => {
     setAnchorEl(event.currentTarget);
@@ -115,7 +143,8 @@ const Notifications = () => {
         anchorEl={anchorEl}
         handleClose={handleClose}
         isLoading={isLoadingNew || isLoadingUnverified}
-        data={data}
+        data={slicedData}
+        error={!!(errorNew || errorUnverified)}
       />
     </div>
   );
