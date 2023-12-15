@@ -34,8 +34,8 @@ function deploy_to_gke() {
     kubectl delete deployment sdmc -n ${APP_NAMESPACE}
 }
 
-# Deploy to GKE dev
-if [ "${BRANCH_NAME}" == "dev" ]; then
+# Deploy to GKE demo env
+if [ "${BRANCH_NAME}" == "demo" ]; then
     get_yq
     get_credentials "us-central1-c" "teknoir-poc" "teknoir-dev-cluster"
     deploy_to_gke "demonstrations" "teknoir"
