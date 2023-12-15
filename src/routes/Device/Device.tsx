@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import AppBar from 'components/AppBar/AppBar';
 import MainContent from 'components/MainContent/MainContent';
-import { MovementsTimelineSingle } from 'components/MovementsTimeline';
+// import { MovementsTimelineSingle } from 'components/MovementsTimeline';
 import { Source, SourceStatus } from 'ts/types';
 import { useWSSContext } from 'context/webSocketContext';
 import { wsSources } from 'enums/queryKeys';
@@ -13,12 +13,16 @@ import { TOPICS, TYPES } from 'enums/wss';
 import { getStartImagesStreamMsg } from 'services/wsMessage';
 import ImageViewer from './ImageViewer/ImageViewer';
 import styles from './Device.module.scss';
+import MovementsTimelineEmbed from 'components/MovementsTimelineEmbed/MovementsTimelineEmbed';
 
 const DURATION = 10;
 const INTERVAL = DURATION * 1000;
 
 const Device = () => {
-  const { peripheralId = '', peripheralName = '' } = useParams();
+  const {
+    peripheralId = '',
+    // peripheralName = ''
+  } = useParams();
   const queryClient = useQueryClient();
   const sources: { [p: string]: Source } = queryClient.getQueryData([
     wsSources,
@@ -79,13 +83,19 @@ const Device = () => {
         <Typography variant="LabelMedium">{peripheralId}</Typography>
       </AppBar>
       <MainContent>
-        <ImageViewer src={source?.src} />
-        <div className={styles.movementsChart}>
+        <MovementsTimelineEmbed
+          peripheralId={peripheralId}
+          // TODO: Update this styles
+          classNameContainer={styles.imagePreview}
+        >
+          <ImageViewer src={source?.src} />
+        </MovementsTimelineEmbed>
+        {/* <div className={styles.movementsChart}>
           <MovementsTimelineSingle
             peripheralName={peripheralName}
             peripheralId={peripheralId}
           />
-        </div>
+        </div> */}
       </MainContent>
     </>
   );

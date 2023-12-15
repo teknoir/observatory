@@ -3,24 +3,38 @@ import CarouselArrows from 'components/MovementsTimelineComponents/CarouselArrow
 import { Chart, Circles } from 'components/ChartUtilities';
 import { detectionIdAccessor } from 'components/ChartUtilities/accessors';
 import Popover from 'components/MovementsTimelineComponents/Popover/Popover';
+import ToolBar from 'components/MovementsTimeline/ToolBar/ToolBar';
 import { IEventDocumentWithPeripheral } from 'ts/types';
 import useMovementsTimelineData from 'hooks/useMovementsTimelineData';
 import AxisHorizontalScroll from './AxisHorizontalScroll/AxisHorizontalScroll';
 import GridLines from './GridLines/GridLines';
 import styles from './MovementsTimeline.module.scss';
+import { MovementsTimelinePeriod } from 'components/MovementsTimeline/enums';
+import { SelectChangeEvent } from '@mui/material/Select';
 
 interface MovementsTimelineProps {
   dataMotions: IEventDocumentWithPeripheral[];
   dataAlerts: IEventDocumentWithPeripheral[];
+  showToolbar?: boolean;
+  filter?: string;
+  handleChangeFilter?: (e: SelectChangeEvent<unknown>) => void;
+  period?: MovementsTimelinePeriod;
+  handleChangePeriod?: (e: SelectChangeEvent<unknown>) => void;
 }
 
 const MovementsTimeline = ({
   dataMotions,
   dataAlerts,
+  showToolbar = false,
+  filter = '',
+  handleChangeFilter = () => {},
+  period = 1,
+  handleChangePeriod = () => {},
 }: MovementsTimelineProps) => {
-  const period = 1;
+  // const period = 1;
   const startTime = moment().subtract(period, 'days').toDate();
-  const numberOfTicks = 24;
+  // const numberOfTicks = 24;
+  const numberOfTicks = period === MovementsTimelinePeriod.DAYS_1 ? 24 : period;
 
   const {
     dimensions,
@@ -43,6 +57,14 @@ const MovementsTimeline = ({
 
   return (
     <div className={styles.timeline} ref={ref}>
+      {showToolbar && (
+        <ToolBar
+          filter={filter}
+          handleChangeFilter={handleChangeFilter}
+          period={period}
+          handleChangePeriod={handleChangePeriod}
+        />
+      )}
       <Chart dimensions={dimensions}>
         <GridLines />
         <g ref={scrollGroupRef}>
