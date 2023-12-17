@@ -22,14 +22,14 @@ interface Props {
   peripheralId: string;
   children: ReactNode;
   classNameContainer?: string;
-  showToolbar: boolean;
+  showToolbar?: boolean;
 }
 
 const MovementsTimelineEmbed = ({
   peripheralId,
   classNameContainer,
   children,
-  showToolbar,
+  showToolbar = false,
 }: Props) => {
   const [isShow, setIsShow] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
