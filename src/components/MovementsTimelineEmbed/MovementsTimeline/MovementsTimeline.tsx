@@ -1,9 +1,8 @@
-import moment from 'moment/moment';
 import CarouselArrows from 'components/MovementsTimelineComponents/CarouselArrows/CarouselArrows';
 import { Chart, Circles } from 'components/ChartUtilities';
 import { detectionIdAccessor } from 'components/ChartUtilities/accessors';
 import Popover from 'components/MovementsTimelineComponents/Popover/Popover';
-import ToolBar from 'components/MovementsTimeline/ToolBar/ToolBar';
+import ToolBar from 'components/MovementsTimelineComponents/ToolBar/ToolBar';
 import { IEventDocumentWithPeripheral } from 'ts/types';
 import useMovementsTimelineData from 'hooks/useMovementsTimelineData';
 import AxisHorizontalScroll from './AxisHorizontalScroll/AxisHorizontalScroll';
@@ -13,29 +12,26 @@ import { MovementsTimelinePeriod } from 'components/MovementsTimeline/enums';
 import { SelectChangeEvent } from '@mui/material/Select';
 
 interface MovementsTimelineProps {
+  startTime: Date;
   dataMotions: IEventDocumentWithPeripheral[];
   dataAlerts: IEventDocumentWithPeripheral[];
   showToolbar?: boolean;
-  filter?: string;
-  handleChangeFilter?: (e: SelectChangeEvent<unknown>) => void;
-  period?: MovementsTimelinePeriod;
-  handleChangePeriod?: (e: SelectChangeEvent<unknown>) => void;
+  filter: string;
+  handleChangeFilter: (e: SelectChangeEvent<unknown>) => void;
+  period: MovementsTimelinePeriod;
+  handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;
 }
 
 const MovementsTimeline = ({
+  startTime,
   dataMotions,
   dataAlerts,
   showToolbar = false,
-  filter = '',
-  handleChangeFilter = () => {},
-  period = 1,
-  handleChangePeriod = () => {},
+  filter,
+  handleChangeFilter,
+  period,
+  handleChangePeriod,
 }: MovementsTimelineProps) => {
-  // const period = 1;
-  const startTime = moment().subtract(period, 'days').toDate();
-  // const numberOfTicks = 24;
-  const numberOfTicks = period === MovementsTimelinePeriod.DAYS_1 ? 24 : period;
-
   const {
     dimensions,
     ref,
@@ -54,15 +50,23 @@ const MovementsTimeline = ({
     peripherals: ['test'],
     period,
   });
+  const numberOfTicks = period === MovementsTimelinePeriod.DAYS_1 ? 24 : period;
 
   return (
-    <div className={styles.timeline} ref={ref}>
+    <div
+      className={styles.timeline}
+      ref={ref}
+      style={{
+        height: showToolbar ? '156px' : '112px',
+      }}
+    >
       {showToolbar && (
         <ToolBar
           filter={filter}
           handleChangeFilter={handleChangeFilter}
           period={period}
           handleChangePeriod={handleChangePeriod}
+          className={styles.toolbar}
         />
       )}
       <Chart dimensions={dimensions}>
