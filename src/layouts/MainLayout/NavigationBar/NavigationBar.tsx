@@ -3,15 +3,16 @@ import classNames from 'classnames';
 import Link from '@mui/material/Link';
 import IconButton from '@mui/material/IconButton';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
-import LastPageIcon from '@mui/icons-material/LastPage';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import Drawer from '@mui/material/Drawer';
 import logo from 'assets/logo.svg';
+import logoIcon from 'assets/logo_icon.svg';
 import homeIcon from 'assets/icons/home.svg';
 import aimIcon from 'assets/icons/aim.svg';
+import Icon from 'components/Icon/Icon';
 import { useMainLayoutContext } from 'context/mainLayoutContext';
 import APP_URLS from 'enums/urls';
 import { generatePath } from 'utils/router';
@@ -51,7 +52,7 @@ const NavigationBar = () => {
       <DrawerHeader className={styles.header}>
         {isOpenedLeft && <img src={logo} alt="logo" className={styles.logo} />}
         <IconButton onClick={isOpenedLeft ? closeLeft : openLeft}>
-          {isOpenedLeft ? <FirstPageIcon /> : <LastPageIcon />}
+          {isOpenedLeft ? <FirstPageIcon /> : <Icon icon={logoIcon} />}
         </IconButton>
       </DrawerHeader>
       <Divider />
