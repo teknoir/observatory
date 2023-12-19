@@ -25,7 +25,7 @@ const Notifications = () => {
   const page = Number(searchParams.get('page')) || 1;
 
   const fromDate = moment()
-    .subtract(NotificationsPeriod.DAYS_30, 'days')
+    .subtract(NotificationsPeriod.DAYS_365, 'days')
     .startOf('day');
   const toDate = moment();
 
