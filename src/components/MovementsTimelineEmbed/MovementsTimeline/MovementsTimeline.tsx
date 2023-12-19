@@ -26,9 +26,9 @@ const MovementsTimeline = ({
   startTime,
   dataMotions,
   dataAlerts,
-  showToolbar = false,
-  filter,
+  showToolbar,
   handleChangeFilter,
+  filter,
   period,
   handleChangePeriod,
 }: MovementsTimelineProps) => {
@@ -53,62 +53,63 @@ const MovementsTimeline = ({
   const numberOfTicks = period === MovementsTimelinePeriod.DAYS_1 ? 24 : period;
 
   return (
-    <div
-      className={styles.timeline}
-      ref={ref}
-      style={{
-        height: showToolbar ? '156px' : '112px',
-      }}
-    >
+    <>
       {showToolbar && (
         <ToolBar
           filter={filter}
           handleChangeFilter={handleChangeFilter}
           period={period}
           handleChangePeriod={handleChangePeriod}
-          className={styles.toolbar}
         />
       )}
-      <Chart dimensions={dimensions}>
-        <GridLines />
-        <g ref={scrollGroupRef}>
-          <AxisHorizontalScroll
-            scale={xScale}
-            formatTick={formatDate}
-            numberOfTicks={numberOfTicks}
+      <div
+        className={styles.timeline}
+        ref={ref}
+        style={{
+          height: showToolbar ? '156px' : '112px',
+        }}
+      >
+        <Chart dimensions={dimensions}>
+          <GridLines />
+          <g ref={scrollGroupRef}>
+            <AxisHorizontalScroll
+              scale={xScale}
+              formatTick={formatDate}
+              numberOfTicks={numberOfTicks}
+            />
+            <Circles
+              data={dataMotions}
+              keyAccessor={detectionIdAccessor}
+              xAccessor={xAccessorScaled}
+              yAccessor={yAccessorScaled}
+              className={styles.circleMotion}
+            />
+            <Circles
+              data={dataAlerts}
+              keyAccessor={detectionIdAccessor}
+              xAccessor={xAccessorScaled}
+              yAccessor={yAccessorScaled}
+              className={styles.circleAlert}
+              onCircleHover={handlePopoverOpen}
+            />
+            <Popover
+              anchorEl={anchorEl}
+              alertInfo={alertInfo}
+              handleClose={handlePopoverClose}
+            />
+          </g>
+          <CarouselArrows
+            leftX={-dimensions.marginLeft}
+            leftY={-dimensions.height / 2}
+            leftBtnHeight={dimensions.height}
+            rightX={dimensions.boundedWidth + dimensions.marginRight / 2}
+            rightY={-dimensions.height / 2}
+            rightBtnHeight={dimensions.height}
+            clickHandler={handleCarouselArrows}
           />
-          <Circles
-            data={dataMotions}
-            keyAccessor={detectionIdAccessor}
-            xAccessor={xAccessorScaled}
-            yAccessor={yAccessorScaled}
-            className={styles.circleMotion}
-          />
-          <Circles
-            data={dataAlerts}
-            keyAccessor={detectionIdAccessor}
-            xAccessor={xAccessorScaled}
-            yAccessor={yAccessorScaled}
-            className={styles.circleAlert}
-            onCircleHover={handlePopoverOpen}
-          />
-          <Popover
-            anchorEl={anchorEl}
-            alertInfo={alertInfo}
-            handleClose={handlePopoverClose}
-          />
-        </g>
-        <CarouselArrows
-          leftX={-dimensions.marginLeft}
-          leftY={-dimensions.height / 2}
-          leftBtnHeight={dimensions.height}
-          rightX={dimensions.boundedWidth + dimensions.marginRight / 2}
-          rightY={-dimensions.height / 2}
-          rightBtnHeight={dimensions.height}
-          clickHandler={handleCarouselArrows}
-        />
-      </Chart>
-    </div>
+        </Chart>
+      </div>
+    </>
   );
 };
 

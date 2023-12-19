@@ -29,7 +29,7 @@ const MovementsTimelineEmbed = ({
   peripheralId,
   classNameContainer,
   children,
-  showToolbar = false,
+  showToolbar,
 }: Props) => {
   const [isShow, setIsShow] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -64,7 +64,7 @@ const MovementsTimelineEmbed = ({
     data: dataAlertsByPeripheralId,
     isInitialLoading: isLoadingAlertsByPeripheralId,
   } = useQuery({
-    queryKey: [alertsById, fromDate, toDate, peripheralId],
+    queryKey: [alertsById, fromDate, toDate, filter, peripheralId],
     queryFn: () =>
       fetchAlertsByPeripheralId({ fromDate, toDate, peripheralId }),
     refetchInterval: TimelineRefetchInterval.SINGLE_DEVICE,
