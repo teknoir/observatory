@@ -138,9 +138,9 @@ const MovementsTimelineEmbed = ({
       onMouseOut={handleMouseOut}
       className={classNames(styles.root, classNameContainer)}
       ref={ref}
-      onMouseDown={() => {
-        setIsShow(false);
-      }}
+      // onMouseDown={() => {
+      //   setIsShow(false);
+      // }}
     >
       {children}
       {isShow && <div className={styles.content}>{renderContent()}</div>}
