@@ -10,11 +10,6 @@ export enum TimelineFilterBy {
   ALERTS = 'alerts',
 }
 
-export enum CarouselArrowsOptions {
-  LEFT = 'left',
-  RIGHT = 'right',
-}
-
 export const TimelineRefetchInterval = {
   ALL_DEVICES: 60000,
   SINGLE_DEVICE: 60000,

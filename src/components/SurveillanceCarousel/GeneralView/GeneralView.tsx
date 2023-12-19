@@ -3,6 +3,7 @@ import Resizable from 'components/Resizable/Resizable';
 import classNames from 'classnames';
 import CarouselImage from 'components/SurveillanceCarousel/CarouselImage/CarouselImage';
 import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImagePreview/CarouselImagePreview';
+import MovementsTimelineEmbed from 'components/MovementsTimelineEmbed/MovementsTimelineEmbed';
 import { CarouselProps, RefImage, CameraId } from 'ts/types';
 import useOrderedSourcesKeys from 'hooks/useOrderedSourcesKeys';
 import styles from './GeneralView.module.scss';
@@ -66,12 +67,17 @@ function GeneralView({
           onDrop={handleDropMain(mainSource)}
           draggable
         >
-          <CarouselImage
-            id={mainPeripheralId}
-            src={mainSrc}
-            title={mainPeripheralName}
-            status={status}
-          />
+          <MovementsTimelineEmbed
+            peripheralId={mainPeripheralId}
+            classNameContainer={styles.mainImageEmbed}
+          >
+            <CarouselImage
+              id={mainPeripheralId}
+              src={mainSrc}
+              title={mainPeripheralName}
+              status={status}
+            />
+          </MovementsTimelineEmbed>
         </div>
       </Resizable>
       <Resizable
