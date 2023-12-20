@@ -22,7 +22,7 @@ interface ImagesProps {
 }
 
 const imagesPerPage = 9;
-const delay = 10000;
+const delay = 30000;
 
 function AllCamerasView({ sources, peripheralIdNotified }: CarouselProps) {
   const [searchParams, setSearchParams] = useSearchParams();

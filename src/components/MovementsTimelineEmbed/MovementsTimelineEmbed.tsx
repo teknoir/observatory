@@ -23,6 +23,7 @@ interface Props {
   children: ReactNode;
   classNameContainer?: string;
   showToolbar?: boolean;
+  initiallyLoaded?: boolean;
 }
 
 const MovementsTimelineEmbed = ({
@@ -30,8 +31,9 @@ const MovementsTimelineEmbed = ({
   classNameContainer,
   children,
   showToolbar,
+  initiallyLoaded = false,
 }: Props) => {
-  const [isShow, setIsShow] = useState(false);
+  const [isShow, setIsShow] = useState(initiallyLoaded);
   const ref = useRef<HTMLDivElement>(null);
   const [filter, setFilter] = useState<string>(TimelineFilterBy.MOTIONS_ALERTS);
   const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1);
@@ -132,15 +134,20 @@ const MovementsTimelineEmbed = ({
     );
   };
 
+  const hoverProps = initiallyLoaded
+    ? {}
+    : { onMouseOver: handleMouseOver, onMouseOut: handleMouseOut };
+
   return (
     <div
-      onMouseOver={handleMouseOver}
-      onMouseOut={handleMouseOut}
+      {...hoverProps}
       className={classNames(styles.root, classNameContainer)}
       ref={ref}
-      // onMouseDown={() => {
-      //   setIsShow(false);
-      // }}
+      onMouseDown={() => {
+        if (!showToolbar) {
+          setIsShow(false);
+        }
+      }}
     >
       {children}
       {isShow && <div className={styles.content}>{renderContent()}</div>}
