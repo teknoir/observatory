@@ -78,7 +78,11 @@ const Device = () => {
         <Typography variant="LabelMedium">{peripheralId}</Typography>
       </AppBar>
       <MainContent>
-        <MovementsTimelineEmbed showToolbar={true} peripheralId={peripheralId}>
+        <MovementsTimelineEmbed
+          peripheralId={peripheralId}
+          showToolbar
+          initiallyLoaded
+        >
           <ImageViewer src={source?.src} />
         </MovementsTimelineEmbed>
       </MainContent>
