@@ -15,7 +15,6 @@ const AxisHorizontalScroll = ({
   formatTick, // numberOfTicks,
 }: AxisHorizontalScrollProps) => {
   const dimensions = useChartDimensions();
-  console.log(dimensions.boundedScrollWidth);
   // TODO: Temporary fix for the number of ticks
   const autoNumberOfTicks =
     dimensions.boundedScrollWidth < 1800

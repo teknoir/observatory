@@ -1,4 +1,5 @@
 import { NavLink as RouterLink } from 'react-router-dom';
+import classNames from 'classnames';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import Link from '@mui/material/Link';
@@ -30,6 +31,7 @@ interface ToolBarProps {
   handleChangeFilter: (e: SelectChangeEvent<unknown>) => void;
   period: MovementsTimelinePeriod;
   handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;
+  className?: string;
 }
 
 const ToolBar = ({
@@ -37,9 +39,10 @@ const ToolBar = ({
   handleChangeFilter,
   period,
   handleChangePeriod,
+  className,
 }: ToolBarProps) => {
   return (
-    <nav className={styles.menuLayout}>
+    <nav className={classNames(styles.menuLayout, className)}>
       <div className={styles.menuItem}>
         <Typography variant="LabelLarge">Motions & Alerts</Typography>
       </div>
