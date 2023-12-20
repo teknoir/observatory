@@ -119,7 +119,7 @@ export const fetchMovementsByPeripheralId = (
 
 export const fetchNotifications = (filters: INotificationsRequest) => {
   if (shouldUseMockData()) {
-    return fetchNotificationsMock();
+    return fetchNotificationsMock(filters);
   }
   const query = getSearchQueryNotifications(filters);
   return Fetch.get(API.notifications(query)).then(({ data }) => data);

@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { SelectChangeEvent } from '@mui/material/Select';
 import Select from 'muiComponents/Select/Select';
 import allCamerasIcon from 'assets/icons/allCamerasIcon.svg';
@@ -31,11 +32,23 @@ const options = [
 function SelectLayout() {
   const { layout, setLayout } = useContext(HomeContext);
   const [selectOption, setSelectOption] = useState(CarouselMode.General);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   function handleSelectChange(e: SelectChangeEvent<unknown>) {
-    setSelectOption(e.target.value as CarouselMode);
-    setLayout(e.target.value as CarouselMode);
+    const { value } = e.target;
+    setSelectOption(value as CarouselMode);
+    setLayout(value as CarouselMode);
+    syncUrlParams(value as CarouselMode);
   }
+
+  const syncUrlParams = (value: CarouselMode) => {
+    if (value === CarouselMode.AllCamerasView) {
+      searchParams.set('hideMotionsAlerts', 'true');
+    } else {
+      searchParams.delete('hideMotionsAlerts');
+    }
+    setSearchParams(searchParams);
+  };
 
   return (
     <div className={styles.root}>
