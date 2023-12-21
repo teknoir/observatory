@@ -1,5 +1,6 @@
 import { Dispatch, MouseEvent, ReactNode, SetStateAction } from 'react';
 import { Moment } from 'moment/moment';
+import { NotificationStatus } from 'enums/notifications';
 
 export enum CarouselMode {
   AllCamerasView = 'allCamerasView',
@@ -196,8 +197,11 @@ export interface INotifications {
   peripheral_name: string;
   severity: string;
   start_time: string;
-  status: NotificationStatus;
   type: string;
+}
+
+export interface INotificationsExtended extends INotifications {
+  status: NotificationStatus;
 }
 
 export interface INotificationsRequest {
@@ -208,12 +212,6 @@ export interface INotificationsRequest {
 }
 
 export enum EventStatus {
-  Verified = 'verified',
-}
-
-export enum NotificationStatus {
-  New = 'new',
-  Unverified = 'unverified',
   Verified = 'verified',
 }
 

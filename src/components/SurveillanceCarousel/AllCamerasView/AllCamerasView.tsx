@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState, useCallback } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import _throttle from 'lodash/throttle';
 import { useInterval } from 'usehooks-ts';
 import classNames from 'classnames';
@@ -24,7 +23,6 @@ const imagesPerPage = 9;
 const delay = 10000;
 
 function AllCamerasView({ sources, peripheralIdNotified }: CarouselProps) {
-  const [searchParams, setSearchParams] = useSearchParams();
   const [page, setPage] = useState<number>(0);
   const {
     sourcesKeys,
@@ -74,17 +72,6 @@ function AllCamerasView({ sources, peripheralIdNotified }: CarouselProps) {
     ),
     []
   );
-
-  useEffect(() => {
-    searchParams.set('hideMotionsAlerts', 'true');
-    setSearchParams(searchParams);
-    return () => {
-      if (searchParams.has('hideMotionsAlerts')) {
-        searchParams.delete('hideMotionsAlerts');
-        setSearchParams(searchParams);
-      }
-    };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (peripheralIdNotified) {
