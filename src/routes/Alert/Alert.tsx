@@ -10,7 +10,7 @@ import {
   sendFeedback,
   sendNotificationSeen,
 } from 'services/apiRequests';
-import AppBar from 'components/AppBar/AppBar';
+import ContentBar from 'components/ContentBar/ContentBar';
 import MainContent from 'components/MainContent/MainContent';
 import VideoPlayer from 'components/VideoPlayer/VideoPlayer';
 import { IAlertFormValues, EventStatus } from 'ts/types';
@@ -84,9 +84,9 @@ const Alert = () => {
 
   return (
     <>
-      <AppBar>
+      <ContentBar>
         <Typography variant="LabelMedium">{data.peripheral_name}</Typography>
-      </AppBar>
+      </ContentBar>
       <MainContent className={styles.mainContent}>
         <VideoPlayer
           url={videoUrl}

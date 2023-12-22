@@ -1,37 +1,16 @@
-import { NavLink as RouterLink } from 'react-router-dom';
-import classNames from 'classnames';
-import Link from '@mui/material/Link';
 import IconButton from '@mui/material/IconButton';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
 import Divider from '@mui/material/Divider';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
 import Drawer from '@mui/material/Drawer';
 import logo from 'assets/logo.svg';
 import logoIcon from 'assets/logo_icon.svg';
-import homeIcon from 'assets/icons/home.svg';
-import aimIcon from 'assets/icons/aim.svg';
-import Icon from 'components/Icon/Icon';
-import { useMainLayoutContext } from 'context/mainLayoutContext';
-import APP_URLS from 'enums/urls';
-import { generatePath } from 'utils/router';
-import DrawerHeader from '../components/DrawerHeader';
-import { leftSideBarWidth, leftSideBarClosedWidth } from '../enums';
+import Icon from 'components/Icon/Icon.tsx';
+import { useMainLayoutContext } from 'context/mainLayoutContext.tsx';
+import NavigationList from 'layouts/components/NavigationList/NavigationList.tsx';
+import DrawerHeader from '../components/DrawerHeader.tsx';
+import { leftSideBarWidth, leftSideBarClosedWidth } from '../enums.ts';
 import styles from './NavigationBar.module.scss';
 
-const navigationItems = [
-  {
-    name: 'Home',
-    url: generatePath(APP_URLS.home),
-    iconSrc: homeIcon,
-  },
-  {
-    name: 'Motions & Alerts',
-    url: generatePath(APP_URLS.motionsAlerts),
-    iconSrc: aimIcon,
-  },
-];
 const NavigationBar = () => {
   const { isOpenedLeft, openLeft, closeLeft } = useMainLayoutContext();
   return (
@@ -48,6 +27,7 @@ const NavigationBar = () => {
       variant="permanent"
       anchor="left"
       open={isOpenedLeft}
+      className={styles.root}
     >
       <DrawerHeader className={styles.header}>
         {isOpenedLeft && <img src={logo} alt="logo" className={styles.logo} />}
@@ -56,28 +36,7 @@ const NavigationBar = () => {
         </IconButton>
       </DrawerHeader>
       <Divider />
-      <List className={styles.list}>
-        {navigationItems.map(({ name, url, iconSrc }) => (
-          <ListItem key={url} disablePadding>
-            <ListItemButton className={styles.navItem}>
-              <Link
-                component={RouterLink}
-                to={url}
-                color="inherit"
-                underline="none"
-                className={styles.link}
-              >
-                <img src={iconSrc} alt={name} />
-                <div
-                  className={classNames({ [styles.textHide]: !isOpenedLeft })}
-                >
-                  {name}
-                </div>
-              </Link>
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+      <NavigationList />
     </Drawer>
   );
 };

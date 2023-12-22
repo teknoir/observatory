@@ -1,19 +1,22 @@
 import { Outlet } from 'react-router-dom';
 import Box from '@mui/material/Box';
-import NavigationBar from './NavigationBar/NavigationBar';
-import RightSideBar from './RightSideBar';
+import AppBar from './components/AppBar';
+import NavigationBar from './NavigationBar/NavigationBarContainer';
+import RightSideBar from './RightSideBar/RightSideBar.tsx';
 
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { MainLayoutProvider } from 'context/mainLayoutContext';
 import darkTheme from 'muiThemes/dark';
+import styles from './MainLayout.module.scss';
 
 export default function MainLayout() {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <MainLayoutProvider>
-        <Box sx={{ display: 'flex' }}>
+        <Box className={styles.root}>
+          <AppBar />
           <NavigationBar />
           <Outlet />
           <RightSideBar />
