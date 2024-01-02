@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Resizable from 'components/Resizable/Resizable';
 import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImagePreview/CarouselImagePreview';
+import MovementsTimelineEmbed from 'components/MovementsTimelineEmbed/MovementsTimelineEmbed';
 import { HomeContext } from 'context/HomeContext/HomeContext';
 import { CarouselMode, CarouselProps } from 'ts/types';
 import useOrderedSourcesKeys from 'hooks/useOrderedSourcesKeys';
@@ -63,27 +64,32 @@ function AlternativeView({ sources, peripheralIdNotified }: CarouselProps) {
               onDrop={handleDrop(image.sourceKey)}
               draggable
             >
-              <CarouselImagePreview
-                id={image.peripheralName}
-                src={image.src}
-                title={image.peripheralName}
-                status={image.status}
-                className={`${
-                  peripheralIdNotified === image.peripheralId
-                    ? styles.borderNotified
-                    : ''
-                }`}
+              <MovementsTimelineEmbed
+                peripheralId={image.peripheralId}
                 classNameContainer={styles.imagePreview}
               >
-                {index === 6 && images.length > 7 && (
-                  <div
-                    className={styles.backdrop}
-                    onClick={() => setLayout(CarouselMode.AllCamerasView)}
-                  >
-                    +{images.length - 7}
-                  </div>
-                )}
-              </CarouselImagePreview>
+                <CarouselImagePreview
+                  id={image.peripheralName}
+                  src={image.src}
+                  title={image.peripheralName}
+                  status={image.status}
+                  className={`${
+                    peripheralIdNotified === image.peripheralId
+                      ? styles.borderNotified
+                      : ''
+                  }`}
+                  classNameContainer={styles.imagePreview}
+                >
+                  {index === 6 && images.length > 7 && (
+                    <div
+                      className={styles.backdrop}
+                      onClick={() => setLayout(CarouselMode.AllCamerasView)}
+                    >
+                      +{images.length - 7}
+                    </div>
+                  )}
+                </CarouselImagePreview>
+              </MovementsTimelineEmbed>
             </div>
           ))}
         </Grid>

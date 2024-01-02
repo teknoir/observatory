@@ -1,0 +1,13 @@
+@import 'enums/styleVariables.module.scss';
+
+.root {
+  position: relative;
+}
+
+.content {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  font-size: 13px;
+  color: $totalWhite;
+}
