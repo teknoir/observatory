@@ -6,6 +6,7 @@ import ArrowBackIos from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIos from '@mui/icons-material/ArrowForwardIos';
 import Box from '@mui/material/Box';
 import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImagePreview/CarouselImagePreview';
+import MovementsTimelineEmbed from 'components/MovementsTimelineEmbed/MovementsTimelineEmbed';
 import useOrderedSourcesKeys from 'hooks/useOrderedSourcesKeys';
 import { CarouselProps } from 'ts/types';
 import { NextPageOptions, nextPage } from './utils';
@@ -20,7 +21,7 @@ interface ImagesProps {
 }
 
 const imagesPerPage = 9;
-const delay = 10000;
+const delay = 30000;
 
 function AllCamerasView({ sources, peripheralIdNotified }: CarouselProps) {
   const [page, setPage] = useState<number>(0);
@@ -111,19 +112,25 @@ function AllCamerasView({ sources, peripheralIdNotified }: CarouselProps) {
             onDragOver={handleDragOver}
             onDrop={handleDrop(image.sourceKey)}
             draggable
+            className={styles.imagePreviewContainer}
           >
-            <CarouselImagePreview
-              id={image.peripheralName}
-              src={image.src}
-              title={image.peripheralName}
-              status={image.status}
+            <MovementsTimelineEmbed
+              peripheralId={image.peripheralId}
               classNameContainer={styles.imagePreview}
-              className={`${
-                peripheralIdNotified === image.peripheralId
-                  ? styles.borderNotified
-                  : ''
-              }`}
-            />
+            >
+              <CarouselImagePreview
+                id={image.peripheralName}
+                src={image.src}
+                title={image.peripheralName}
+                status={image.status}
+                classNameContainer={styles.imagePreview}
+                className={`${
+                  peripheralIdNotified === image.peripheralId
+                    ? styles.borderNotified
+                    : ''
+                }`}
+              />
+            </MovementsTimelineEmbed>
           </div>
         ))}
       </div>
