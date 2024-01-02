@@ -64,10 +64,26 @@ function AlternativeView({ sources, peripheralIdNotified }: CarouselProps) {
               onDrop={handleDrop(image.sourceKey)}
               draggable
             >
-              <MovementsTimelineEmbed
-                peripheralId={image.peripheralId}
-                classNameContainer={styles.imagePreview}
-              >
+              {index < 3 && (
+                <MovementsTimelineEmbed
+                  peripheralId={image.peripheralId}
+                  classNameContainer={styles.imagePreview}
+                >
+                  <CarouselImagePreview
+                    id={image.peripheralName}
+                    src={image.src}
+                    title={image.peripheralName}
+                    status={image.status}
+                    className={`${
+                      peripheralIdNotified === image.peripheralId
+                        ? styles.borderNotified
+                        : ''
+                    }`}
+                    classNameContainer={styles.imagePreview}
+                  ></CarouselImagePreview>
+                </MovementsTimelineEmbed>
+              )}
+              {index >= 3 && (
                 <CarouselImagePreview
                   id={image.peripheralName}
                   src={image.src}
@@ -79,6 +95,7 @@ function AlternativeView({ sources, peripheralIdNotified }: CarouselProps) {
                       : ''
                   }`}
                   classNameContainer={styles.imagePreview}
+                  centered={true}
                 >
                   {index === 6 && images.length > 7 && (
                     <div
@@ -89,7 +106,7 @@ function AlternativeView({ sources, peripheralIdNotified }: CarouselProps) {
                     </div>
                   )}
                 </CarouselImagePreview>
-              </MovementsTimelineEmbed>
+              )}
             </div>
           ))}
         </Grid>
