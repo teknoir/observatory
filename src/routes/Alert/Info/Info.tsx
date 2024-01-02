@@ -55,7 +55,7 @@ const Info = ({
           <Icon icon={isGroundTruth ? thumbUpIcon : thumbUpRedIcon} rotated />
         </div>
       </div>
-      <div className={styles.item}>
+      <div className={styles.itemComment}>
         <Typography variant="LabelXLBold">Comment: </Typography>
         <Typography variant="BodyLarge">{comment && `"${comment}"`}</Typography>
       </div>

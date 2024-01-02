@@ -7,6 +7,7 @@ import {
   fetchAllAlertsMock,
   fetchMotionsAggregationMock,
   fetchAlertMock,
+  fetchFeedbackMock,
   fetchNotificationsMock,
   fetchNotificationsPaginatedMock,
 } from 'services/fetchMock';
@@ -53,6 +54,9 @@ export const fetchAlert = (detectionId: DetectionId) => {
 };
 
 export const fetchFeedback = (detectionId: DetectionId) => {
+  if (shouldUseMockData()) {
+    return fetchFeedbackMock();
+  }
   return Fetch.get(API.feedback(detectionId)).then(({ data }) => data[0]);
 };
 
