@@ -88,13 +88,15 @@ const Alert = () => {
         <Typography variant="LabelMedium">{data.peripheral_name}</Typography>
       </ContentBar>
       <MainContent className={styles.mainContent}>
-        <VideoPlayer
-          url={videoUrl}
-          posterUrl={videoSnapshot}
-          autoPlay
-          width="100%"
-          className={styles.videoPlayer}
-        />
+        <div className={styles.videoPlayerWrapper}>
+          <VideoPlayer
+            url={videoUrl}
+            posterUrl={videoSnapshot}
+            autoPlay
+            width="100%"
+            height="100%"
+          />
+        </div>
         {isVerified ? (
           <Info
             username={username}
