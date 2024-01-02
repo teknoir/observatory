@@ -121,6 +121,7 @@ function GeneralView({
                           : ''
                       }`
                     )}
+                    centered={true}
                   />
                 </div>
               );

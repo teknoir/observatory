@@ -9,6 +9,7 @@ import { IEventDocumentWithPeripheral } from 'ts/types';
 import useMovementsTimelineData from 'hooks/useMovementsTimelineData';
 import AxisHorizontalScroll from './AxisHorizontalScroll/AxisHorizontalScroll';
 import GridLines from './GridLines/GridLines';
+import styleVariables from 'enums/styleVariables.module.scss';
 import styles from './MovementsTimeline.module.scss';
 
 interface MovementsTimelineProps {
@@ -66,7 +67,9 @@ const MovementsTimeline = ({
         className={styles.timeline}
         ref={ref}
         style={{
-          height: showToolbar ? '156px' : '112px',
+          height: showToolbar
+            ? '156px'
+            : styleVariables.movementsTimelineEmbedHeight,
         }}
       >
         <Chart dimensions={dimensions}>
