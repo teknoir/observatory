@@ -5,20 +5,19 @@ import { useParams } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import ContentBar from 'components/ContentBar/ContentBar';
 import MainContent from 'components/MainContent/MainContent';
-import { MovementsTimelineSingle } from 'components/MovementsTimeline';
+import MovementsTimelineEmbed from 'components/MovementsTimelineEmbed/MovementsTimelineEmbed';
 import { Source, SourceStatus } from 'ts/types';
 import { useWSSContext } from 'context/webSocketContext';
 import { wsSources } from 'enums/queryKeys';
 import { TOPICS, TYPES } from 'enums/wss';
 import { getStartImagesStreamMsg } from 'services/wsMessage';
 import ImageViewer from './ImageViewer/ImageViewer';
-import styles from './Device.module.scss';
 
 const DURATION = 10;
 const INTERVAL = DURATION * 1000;
 
 const Device = () => {
-  const { peripheralId = '', peripheralName = '' } = useParams();
+  const { peripheralId = '' } = useParams();
   const queryClient = useQueryClient();
   const sources: { [p: string]: Source } = queryClient.getQueryData([
     wsSources,
@@ -79,13 +78,13 @@ const Device = () => {
         <Typography variant="LabelMedium">{peripheralId}</Typography>
       </ContentBar>
       <MainContent>
-        <ImageViewer src={source?.src} />
-        <div className={styles.movementsChart}>
-          <MovementsTimelineSingle
-            peripheralName={peripheralName}
-            peripheralId={peripheralId}
-          />
-        </div>
+        <MovementsTimelineEmbed
+          peripheralId={peripheralId}
+          showToolbar
+          initiallyLoaded
+        >
+          <ImageViewer src={source?.src} />
+        </MovementsTimelineEmbed>
       </MainContent>
     </>
   );

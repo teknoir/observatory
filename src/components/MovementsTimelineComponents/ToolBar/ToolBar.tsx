@@ -31,6 +31,7 @@ interface ToolBarProps {
   handleChangeFilter: (e: SelectChangeEvent<unknown>) => void;
   period: MovementsTimelinePeriod;
   handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;
+  className?: string;
 }
 
 const ToolBar = ({
@@ -38,9 +39,10 @@ const ToolBar = ({
   handleChangeFilter,
   period,
   handleChangePeriod,
+  className,
 }: ToolBarProps) => {
   return (
-    <nav className={styles.menuLayout}>
+    <nav className={classNames(styles.menuLayout, className)}>
       <div className={classNames(styles.menuItem, styles.title)}>
         <Typography variant="LabelLarge">Motions & Alerts</Typography>
       </div>

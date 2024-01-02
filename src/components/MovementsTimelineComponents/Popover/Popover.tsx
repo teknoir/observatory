@@ -23,17 +23,17 @@ enum ALERT_INFO_KEYS {
   VIDEO_URL = 'video_url',
 }
 
-interface PopoverComponentProps {
+interface MovementsTimelinePopoverProps {
   anchorEl: SVGCircleElement | null;
   alertInfo: PopoverInfoProps;
   handleClose: () => void;
 }
 
-function PopoverComponent({
+const PopoverComponent = ({
   anchorEl,
   alertInfo,
   handleClose,
-}: PopoverComponentProps) {
+}: MovementsTimelinePopoverProps) => {
   return (
     <Popover
       open={!!anchorEl}
@@ -101,6 +101,6 @@ function PopoverComponent({
       </Card>
     </Popover>
   );
-}
+};
 
 export default PopoverComponent;

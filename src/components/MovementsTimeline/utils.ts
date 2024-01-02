@@ -1,6 +1,7 @@
 import * as d3 from 'd3';
-import { MovementsTimelinePeriod } from './enums';
 import moment from 'moment';
+import { ChartDimensions } from 'ts/types';
+import { MovementsTimelinePeriod } from './enums';
 
 const formatDateByDay = d3.timeFormat('%-b %-d');
 const formatDateByTime = d3.timeFormat('%-I:%M %p');
@@ -11,18 +12,17 @@ export const formatDate = (period: MovementsTimelinePeriod) => {
     : formatDateByDay;
 };
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-export const xScale = (startTime: Date, dimensions) => {
+export const xScale = (startTime: Date, dimensions: ChartDimensions) => {
   return d3
     .scaleTime()
     .domain([startTime, moment().toDate()])
     .range([0, dimensions.boundedWidth * 6]);
 };
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-export const yScale = (peripherals: Array<string>, dimensions) => {
+export const yScale = (
+  peripherals: Array<string>,
+  dimensions: ChartDimensions
+) => {
   return d3
     .scalePoint()
     .domain(peripherals)

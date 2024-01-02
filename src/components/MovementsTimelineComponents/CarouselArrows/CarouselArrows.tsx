@@ -1,25 +1,38 @@
 import ArrowBackIos from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIos from '@mui/icons-material/ArrowForwardIos';
-import { useChartDimensions } from 'components/ChartUtilities/Chart/ChartContext';
-import { CarouselArrowsOptions } from 'components/MovementsTimeline/enums';
+import { CarouselArrowsOptions } from 'enums/timeline';
 import styles from './CarouselArrows.module.scss';
 
 interface CarouselArrowsProps {
+  leftX?: number;
+  leftY?: number;
+  leftBtnHeight?: number;
+  rightX?: number;
+  rightY?: number;
+  rightBtnHeight?: number;
   clickHandler: (d: CarouselArrowsOptions) => void;
 }
 
-const CarouselArrows = ({ clickHandler }: CarouselArrowsProps) => {
-  const dimensions = useChartDimensions();
+const CarouselArrows = ({
+  leftX = 0,
+  leftY = 0,
+  leftBtnHeight = 0,
+  rightX = 0,
+  rightY = 0,
+  rightBtnHeight = 0,
+  clickHandler,
+}: CarouselArrowsProps) => {
   return (
     <>
       <foreignObject
-        x={0}
+        x={leftX}
+        y={leftY}
         width={1}
         height={1}
         className={styles.foreignObject}
       >
         <button
-          style={{ height: dimensions.boundedHeight }}
+          style={{ height: leftBtnHeight }}
           className={styles.button}
           onClick={() => clickHandler(CarouselArrowsOptions.LEFT)}
         >
@@ -27,13 +40,14 @@ const CarouselArrows = ({ clickHandler }: CarouselArrowsProps) => {
         </button>
       </foreignObject>
       <foreignObject
-        x={dimensions.boundedWidth - 56}
+        x={rightX}
+        y={rightY}
         width={1}
         height={1}
         className={styles.foreignObject}
       >
         <button
-          style={{ height: dimensions.boundedHeight }}
+          style={{ height: rightBtnHeight }}
           className={styles.button}
           onClick={() => clickHandler(CarouselArrowsOptions.RIGHT)}
         >
