@@ -35,7 +35,7 @@ $sm: 800px;
 $md: 1200px;
 $lg: 1920px;
 
-$smallSize: $sm;
+$smallSize: $md;
 
 :export {
   fadedBlack: $fadedBlack;
@@ -45,5 +45,5 @@ $smallSize: $sm;
   blue600: $blue600;
   greenSuccess: $greenSuccess;
   redAlert: $redAlert;
-  smallSize: $sm;
+  smallSize: $smallSize;
 }

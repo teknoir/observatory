@@ -1,4 +1,5 @@
 import { NavLink as RouterLink } from 'react-router-dom';
+import classNames from 'classnames';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import Link from '@mui/material/Link';
@@ -40,7 +41,7 @@ const ToolBar = ({
 }: ToolBarProps) => {
   return (
     <nav className={styles.menuLayout}>
-      <div className={styles.menuItem}>
+      <div className={classNames(styles.menuItem, styles.title)}>
         <Typography variant="LabelLarge">Motions & Alerts</Typography>
       </div>
       <div className={styles.menuItem}>

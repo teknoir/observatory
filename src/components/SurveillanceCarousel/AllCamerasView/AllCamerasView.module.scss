@@ -38,11 +38,14 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, calc(100% / 3));
+  grid-template-columns: repeat(2, 1fr);
   height: calc(100vh - 64px); // 64px is the height of the header
   width: 100%;
   margin: 0;
+
+  & > div:nth-child(1) {
+    grid-column: span 2;
+  }
 }
 
 .imagePreview {
@@ -51,4 +54,11 @@
 
 .borderNotified {
   border: 5px solid $outrunOrange;
+}
+
+@media (min-width: $smallSize) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, calc(100% / 3));
+  }
 }
