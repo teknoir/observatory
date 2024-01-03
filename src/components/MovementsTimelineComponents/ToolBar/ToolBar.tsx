@@ -43,7 +43,7 @@ const ToolBar = ({
 }: ToolBarProps) => {
   return (
     <nav className={classNames(styles.menuLayout, className)}>
-      <div className={styles.menuItem}>
+      <div className={classNames(styles.menuItem, styles.title)}>
         <Typography variant="LabelLarge">Motions & Alerts</Typography>
       </div>
       <div className={styles.menuItem}>

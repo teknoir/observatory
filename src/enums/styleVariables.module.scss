@@ -28,6 +28,15 @@ $gold: #a58966;
 $greenSuccess: #00a12d;
 $redAlert: #fa4e4e;
 
+// Sizes
+$xs: 390px;
+$s: 480px;
+$sm: 800px;
+$md: 1200px;
+$lg: 1920px;
+
+$smallSize: $md;
+
 :export {
   fadedBlack: $fadedBlack;
   offWhite: $offWhite;
@@ -36,4 +45,5 @@ $redAlert: #fa4e4e;
   blue600: $blue600;
   greenSuccess: $greenSuccess;
   redAlert: $redAlert;
+  smallSize: $smallSize;
 }

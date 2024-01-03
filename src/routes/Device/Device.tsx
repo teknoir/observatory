@@ -3,7 +3,7 @@ import { useInterval } from 'usehooks-ts';
 import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
-import AppBar from 'components/AppBar/AppBar';
+import ContentBar from 'components/ContentBar/ContentBar';
 import MainContent from 'components/MainContent/MainContent';
 import MovementsTimelineEmbed from 'components/MovementsTimelineEmbed/MovementsTimelineEmbed';
 import { Source, SourceStatus } from 'ts/types';
@@ -74,9 +74,9 @@ const Device = () => {
 
   return (
     <>
-      <AppBar>
+      <ContentBar>
         <Typography variant="LabelMedium">{peripheralId}</Typography>
-      </AppBar>
+      </ContentBar>
       <MainContent>
         <MovementsTimelineEmbed
           peripheralId={peripheralId}

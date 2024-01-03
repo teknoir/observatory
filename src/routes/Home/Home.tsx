@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import AppBar from 'components/AppBar/AppBar';
+import ContentBar from 'components/ContentBar/ContentBar';
 import MainContent from 'components/MainContent/MainContent';
 import MovementsTimelineContainer from 'components/MovementsTimeline/MovementsTimelineContainer';
 import SurveillanceCarousel from 'components/SurveillanceCarousel';
@@ -24,12 +24,12 @@ function Home() {
 
   return (
     <HomeDataProvider>
-      <AppBar>
+      <ContentBar>
         <div className={styles.toolbar}>
           <CamerasTitle />
           <SelectLayout />
         </div>
-      </AppBar>
+      </ContentBar>
       <MainContent>
         <div className={styles.mainContent}>
           <SurveillanceCarousel />

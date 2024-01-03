@@ -10,7 +10,7 @@ import {
   sendFeedback,
   sendNotificationSeen,
 } from 'services/apiRequests';
-import AppBar from 'components/AppBar/AppBar';
+import ContentBar from 'components/ContentBar/ContentBar';
 import MainContent from 'components/MainContent/MainContent';
 import VideoPlayer from 'components/VideoPlayer/VideoPlayer';
 import { IAlertFormValues, EventStatus } from 'ts/types';
@@ -84,17 +84,19 @@ const Alert = () => {
 
   return (
     <>
-      <AppBar>
+      <ContentBar>
         <Typography variant="LabelMedium">{data.peripheral_name}</Typography>
-      </AppBar>
+      </ContentBar>
       <MainContent className={styles.mainContent}>
-        <VideoPlayer
-          url={videoUrl}
-          posterUrl={videoSnapshot}
-          autoPlay
-          width="100%"
-          className={styles.videoPlayer}
-        />
+        <div className={styles.videoPlayerWrapper}>
+          <VideoPlayer
+            url={videoUrl}
+            posterUrl={videoSnapshot}
+            autoPlay
+            width="100%"
+            height="100%"
+          />
+        </div>
         {isVerified ? (
           <Info
             username={username}

@@ -5,7 +5,7 @@ import _concat from 'lodash/concat';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
-import AppBar from 'components/AppBar/AppBar';
+import ContentBar from 'components/ContentBar/ContentBar';
 import MainContent from 'components/MainContent/MainContent';
 import Pagination from 'components/Pagination/Pagination';
 import { fetchNotifications } from 'services/apiRequests';
@@ -93,9 +93,9 @@ const Notifications = () => {
 
   return (
     <>
-      <AppBar>
+      <ContentBar>
         <Typography variant="LabelMedium">Notifications</Typography>
-      </AppBar>
+      </ContentBar>
       <MainContent>
         <Box className={styles.wrapper}>
           {isLoading || isPreviousData ? (
