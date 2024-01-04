@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import ContentBar from 'components/ContentBar/ContentBar';
 import MainContent from 'components/MainContent/MainContent';
-import MovementsTimelineEmbed from 'components/MovementsTimelineEmbed/MovementsTimelineEmbed';
+import { MovementsTimelineSingle } from 'components/MovementsTimelineVertical';
 import { Source, SourceStatus } from 'ts/types';
 import { useWSSContext } from 'context/webSocketContext';
 import { wsSources } from 'enums/queryKeys';
@@ -78,13 +78,8 @@ const Device = () => {
         <Typography variant="LabelMedium">{peripheralId}</Typography>
       </ContentBar>
       <MainContent>
-        <MovementsTimelineEmbed
-          peripheralId={peripheralId}
-          showToolbar
-          initiallyLoaded
-        >
-          <ImageViewer src={source?.src} />
-        </MovementsTimelineEmbed>
+        <ImageViewer src={source?.src} />
+        <MovementsTimelineSingle peripheralId={peripheralId} />
       </MainContent>
     </>
   );

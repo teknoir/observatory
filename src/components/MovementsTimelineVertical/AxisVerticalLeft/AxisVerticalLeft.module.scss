@@ -1,0 +1,29 @@
+@import 'enums/styleVariables.module';
+
+.rectBackground {
+  fill: $fadedBlack;
+}
+
+.axisVerticalTitle {
+  fill: $totalWhite;
+}
+
+.deviceName {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+}
+
+.foreignObject {
+  overflow: visible;
+  text-wrap: nowrap;
+}
+
+.deviceNameText {
+  color: $totalWhite;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  max-width: 14ch;
+}
