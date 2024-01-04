@@ -16,8 +16,10 @@ const GridLines = ({ scale }: GridLinesProps) => {
         <line
           key={i}
           className={styles.line}
-          x2={dimensions.boundedWidth}
-          transform={`translate(0, ${scale(tick)})`}
+          // x2={dimensions.boundedWidth}
+          // transform={`translate(0, ${scale(tick)})`}
+          y2={dimensions.boundedWidth}
+          transform={`translate(${scale(tick)}, 0)`}
         />
       ))}
     </g>

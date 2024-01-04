@@ -5,15 +5,11 @@ import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import { Chart, Circles } from 'components/ChartUtilities';
 import { detectionIdAccessor } from 'components/ChartUtilities/accessors';
 import { peripheralIdAccessor } from 'components/ChartUtilities/accessors';
-import CarouselArrows from 'components/MovementsTimelineComponents/CarouselArrows/CarouselArrows';
 import ToolBar from 'components/MovementsTimelineComponents/ToolBar/ToolBar';
-import Popover from 'components/MovementsTimelineComponents/Popover/Popover';
 import { HomeContext } from 'context/HomeContext/HomeContext';
 import { IAlertEvent, IEventDocumentWithPeripheral } from 'ts/types';
-import useMovementsTimelineData from 'hooks/useMovementsTimelineData';
+import useMovementsTimelineDataVertical from 'hooks/useMovementsTimelineDataVertical';
 import AxisHorizontalScroll from './AxisHorizontalScroll/AxisHorizontalScroll';
-import AxisVerticalLeft from './AxisVerticalLeft/AxisVerticalLeft';
-import AxisVerticalRight from './AxisVerticalRight/AxisVerticalRight';
 import GridLines from './GridLines/GridLines';
 import { MovementsTimelinePeriod } from './enums';
 import styles from './MovementsTimelineVertical.module.scss';
@@ -38,7 +34,6 @@ export const MovementsTimelineVertical = ({
   dataMotions,
   dataAlerts,
   peripherals,
-  ids,
   filter,
   handleChangeFilter,
   period,
@@ -54,19 +49,11 @@ export const MovementsTimelineVertical = ({
     xAccessorScaled,
     yAccessorScaled,
     formatDate,
-    anchorEl,
-    alertInfo,
     handlePopoverOpen,
-    handlePopoverClose,
-    handleCarouselArrows,
-  } = useMovementsTimelineData({
+  } = useMovementsTimelineDataVertical({
     startTime,
     peripherals,
     period,
-    initialDimensions: {
-      marginLeft: 180,
-      marginRight: 160,
-    },
   });
   const { setMainImageCarousel } = useContext(HomeContext);
   const numberOfTicks = period === MovementsTimelinePeriod.DAYS_1 ? 24 : period;
@@ -83,9 +70,11 @@ export const MovementsTimelineVertical = ({
       <div
         className={styles.timeline}
         ref={ref}
-        style={{
-          height: peripherals.length * 64 + 200,
-        }}
+        style={
+          {
+            // height: peripherals.length * 64 + 200,
+          }
+        }
       >
         <Chart dimensions={dimensions}>
           <GridLines scale={yScale} />
@@ -98,8 +87,8 @@ export const MovementsTimelineVertical = ({
             <Circles
               data={dataMotions}
               keyAccessor={detectionIdAccessor}
-              xAccessor={xAccessorScaled}
-              yAccessor={yAccessorScaled}
+              xAccessor={yAccessorScaled}
+              yAccessor={xAccessorScaled}
               onCircleClick={setMainImageCarousel}
               onClickAccessor={peripheralIdAccessor}
               className={styles.circleMotion}
@@ -107,27 +96,14 @@ export const MovementsTimelineVertical = ({
             <Circles
               data={dataAlerts}
               keyAccessor={detectionIdAccessor}
-              xAccessor={xAccessorScaled}
-              yAccessor={yAccessorScaled}
+              xAccessor={yAccessorScaled}
+              yAccessor={xAccessorScaled}
               onCircleClick={setMainImageCarousel}
               onClickAccessor={peripheralIdAccessor}
               className={styles.circleAlert}
               onCircleHover={handlePopoverOpen}
             />
-            <Popover
-              anchorEl={anchorEl}
-              alertInfo={alertInfo}
-              handleClose={handlePopoverClose}
-            />
           </g>
-          <CarouselArrows
-            leftBtnHeight={dimensions.boundedHeight}
-            rightX={dimensions.boundedWidth - 56}
-            rightBtnHeight={dimensions.boundedHeight}
-            clickHandler={handleCarouselArrows}
-          />
-          <AxisVerticalLeft scale={yScale} />
-          <AxisVerticalRight scale={yScale} ids={ids} />
         </Chart>
       </div>
       {isLoading && <CircularProgress isAbsolute />}
