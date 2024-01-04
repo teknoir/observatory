@@ -56,6 +56,8 @@ function MovementsTimelineSingleContainer({
     refetchInterval: TimelineRefetchInterval.SINGLE_DEVICE,
   });
 
+  console.log(dataMotionsByPeripheralId);
+
   const {
     data: dataAlertsByPeripheralId,
     isInitialLoading: isLoadingAlertsByPeripheralId,

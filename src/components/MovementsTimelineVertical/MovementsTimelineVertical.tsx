@@ -45,11 +45,9 @@ export const MovementsTimelineVertical = ({
     dimensions,
     ref,
     scrollGroupRef,
-    xScale,
     yScale,
     xAccessorScaled,
     yAccessorScaled,
-    formatDate,
     handlePopoverOpen,
   } = useMovementsTimelineDataVertical({
     startTime,
@@ -57,7 +55,6 @@ export const MovementsTimelineVertical = ({
     period,
   });
   const { setMainImageCarousel } = useContext(HomeContext);
-  const numberOfTicks = period === MovementsTimelinePeriod.DAYS_1 ? 24 : period;
 
   return (
     <div className={styles.root}>
@@ -81,9 +78,16 @@ export const MovementsTimelineVertical = ({
           <GridLines scale={yScale} />
           <g ref={scrollGroupRef}>
             <AxisTimestamps
-              scale={xScale}
-              formatTick={formatDate}
-              numberOfTicks={numberOfTicks}
+              data={dataMotions}
+              keyAccessor={detectionIdAccessor}
+              yAccessor={xAccessorScaled}
+              className={styles.lineMotion}
+            />
+            <AxisTimestamps
+              data={dataAlerts}
+              keyAccessor={detectionIdAccessor}
+              yAccessor={xAccessorScaled}
+              className={styles.lineAlert}
             />
             <Circles
               data={dataMotions}

@@ -1,7 +1,7 @@
 import Typography from '@mui/material/Typography';
 import styles from './AxisDetails.module.scss';
 
-type Accessor = (d: object) => number | undefined;
+type Accessor = (d: object) => number;
 
 interface AxisDetailsProps {
   data: { type: string }[] | undefined;
@@ -16,7 +16,7 @@ const AxisDetails = ({ data, keyAccessor, yAccessor }: AxisDetailsProps) => {
         data.map((d) => (
           <foreignObject
             key={keyAccessor(d)}
-            transform={`translate(300, ${yAccessor(d)} )`}
+            transform={`translate(300, ${yAccessor(d) - 12} )`}
             width={1}
             height={1}
             className={styles.foreignObject}

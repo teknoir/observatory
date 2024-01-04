@@ -1,52 +1,67 @@
-import { ScaleTime } from 'd3';
-import classNames from 'classnames';
+import * as d3 from 'd3';
 import Typography from '@mui/material/Typography';
-import { useChartDimensions } from 'components/ChartUtilities/Chart/ChartContext';
+import styleVariables from 'enums/styleVariables.module.scss';
 import styles from './AxisTimestamps.module.scss';
 
-interface AxisHorizontalScrollProps {
-  scale: ScaleTime<number, number, never>;
-  formatTick: (date: Date) => string;
-  numberOfTicks?: number;
+type Accessor = (d: object) => number;
+
+interface AxisTimestampsProps {
+  data: { start_time: string }[] | undefined;
+  keyAccessor: Accessor;
+  yAccessor: Accessor;
+  className?: string;
 }
 
+const parseTime = d3.timeParse('%Y-%m-%dT%H:%M:%S%Z');
+const formatDateByTime = d3.timeFormat('%-I:%M %p');
+
 const AxisTimestamps = ({
-  scale,
-  formatTick,
-  numberOfTicks,
-}: AxisHorizontalScrollProps) => {
-  const dimensions = useChartDimensions();
-  const autoNumberOfTicks =
-    dimensions.boundedScrollWidth < 600
-      ? dimensions.boundedScrollWidth / 100
-      : dimensions.boundedScrollWidth / 100;
-
-  const ticks = scale.ticks(numberOfTicks ? numberOfTicks : autoNumberOfTicks);
-
-  return (
-    <g className={classNames(styles.Axis, styles.AxisHorizontal)}>
-      {ticks.map((tick) => {
-        return (
-          <foreignObject
-            key={String(tick)}
-            transform={`translate(0, ${scale(tick)})`}
-            width={1}
-            height={1}
-            className={styles.foreignObject}
+  data,
+  keyAccessor,
+  yAccessor,
+  className,
+}: AxisTimestampsProps) => (
+  <g>
+    {data &&
+      data.map((d) => (
+        <foreignObject
+          key={keyAccessor(d)}
+          transform={`translate(${150 - 80}, ${yAccessor(d) - 12})`}
+          width={1}
+          height={1}
+          className={styles.foreignObject}
+        >
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              width: '140px',
+            }}
           >
             <div className={styles.text}>
-              <Typography variant="BodySmall">
-                {formatTick(tick).split(',')[0]}
-              </Typography>
-              <Typography variant="BodySmall">
-                {formatTick(tick).split(',')[1]}
+              <Typography
+                variant="BodySmall"
+                style={{
+                  backgroundColor: styleVariables.fadedBlack,
+                }}
+              >
+                {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+                {/* @ts-ignore */}
+                {formatDateByTime(parseTime(d.start_time))}
               </Typography>
             </div>
-          </foreignObject>
-        );
-      })}
-    </g>
-  );
-};
+            <div
+              className={className}
+              style={{
+                width: '80px',
+                height: '1px',
+              }}
+            ></div>
+          </div>
+        </foreignObject>
+      ))}
+  </g>
+);
 
 export default AxisTimestamps;
