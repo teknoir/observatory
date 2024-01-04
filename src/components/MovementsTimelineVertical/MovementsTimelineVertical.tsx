@@ -9,7 +9,8 @@ import ToolBar from 'components/MovementsTimelineComponents/ToolBar/ToolBar';
 import { HomeContext } from 'context/HomeContext/HomeContext';
 import { IAlertEvent, IEventDocumentWithPeripheral } from 'ts/types';
 import useMovementsTimelineDataVertical from 'hooks/useMovementsTimelineDataVertical';
-import AxisHorizontalScroll from './AxisHorizontalScroll/AxisHorizontalScroll';
+import AxisDetails from './AxisDetails/AxisDetails';
+import AxisTimestamps from './AxisTimestamps/AxisTimestamps';
 import GridLines from './GridLines/GridLines';
 import { MovementsTimelinePeriod } from './enums';
 import styles from './MovementsTimelineVertical.module.scss';
@@ -79,7 +80,7 @@ export const MovementsTimelineVertical = ({
         <Chart dimensions={dimensions}>
           <GridLines scale={yScale} />
           <g ref={scrollGroupRef}>
-            <AxisHorizontalScroll
+            <AxisTimestamps
               scale={xScale}
               formatTick={formatDate}
               numberOfTicks={numberOfTicks}
@@ -102,6 +103,11 @@ export const MovementsTimelineVertical = ({
               onClickAccessor={peripheralIdAccessor}
               className={styles.circleAlert}
               onCircleHover={handlePopoverOpen}
+            />
+            <AxisDetails
+              data={dataAlerts}
+              keyAccessor={detectionIdAccessor}
+              yAccessor={xAccessorScaled}
             />
           </g>
         </Chart>

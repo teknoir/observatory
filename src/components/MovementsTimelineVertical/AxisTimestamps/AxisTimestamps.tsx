@@ -2,7 +2,7 @@ import { ScaleTime } from 'd3';
 import classNames from 'classnames';
 import Typography from '@mui/material/Typography';
 import { useChartDimensions } from 'components/ChartUtilities/Chart/ChartContext';
-import styles from './AxisHorizontalScroll.module.scss';
+import styles from './AxisTimestamps.module.scss';
 
 interface AxisHorizontalScrollProps {
   scale: ScaleTime<number, number, never>;
@@ -10,7 +10,7 @@ interface AxisHorizontalScrollProps {
   numberOfTicks?: number;
 }
 
-const AxisHorizontalScroll = ({
+const AxisTimestamps = ({
   scale,
   formatTick,
   numberOfTicks,
@@ -26,11 +26,9 @@ const AxisHorizontalScroll = ({
   return (
     <g className={classNames(styles.Axis, styles.AxisHorizontal)}>
       {ticks.map((tick) => {
-        console.log(scale(tick));
         return (
           <foreignObject
             key={String(tick)}
-            // transform={`translate(${scale(tick)}, 105)`}
             transform={`translate(0, ${scale(tick)})`}
             width={1}
             height={1}
@@ -51,4 +49,4 @@ const AxisHorizontalScroll = ({
   );
 };
 
-export default AxisHorizontalScroll;
+export default AxisTimestamps;

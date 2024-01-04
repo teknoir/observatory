@@ -93,7 +93,6 @@ const useMovementsTimelineDataVertical = ({
       move: CarouselArrowsOptions | undefined = undefined
     ) => {
       const transformObj = d3.zoomTransform(scrollGroup.node() as SVGGElement);
-      console.log(transformObj);
       // TODO: This approach is an alternative to not modify the resulting
       // d3.zoomTransform() object, but it needs some logic to work
       // const transformObj = { ...d3.zoomTransform(scrollGroup.node()) }
