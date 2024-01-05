@@ -1,22 +1,14 @@
-import { useQuery } from '@tanstack/react-query';
 import { SelectChangeEvent } from '@mui/material/Select';
 import {
   startTimeAccessor,
   peripheralNameAccessor,
 } from 'components/ChartUtilities/accessors';
-import {
-  fetchMovementsByPeripheralId,
-  fetchAlertsByPeripheralId,
-} from 'services/apiRequests';
 import { getFlattenDocuments } from 'utils/events';
-import { motionsById, alertsById } from 'enums/queryKeys';
 import useFilters from 'components/MovementsTimelines/hooks/useFilters';
+import { useAlertsByPeripheralId } from 'components/MovementsTimelines/hooks/useAlerts';
+import { useMotionsByPeripheralId } from 'components/MovementsTimelines/hooks/useMotions';
 import { MovementsTimeline } from './components/MovementsTimeline/MovementsTimeline';
-import {
-  MovementsTimelinePeriod,
-  TimelineFilterBy,
-  TimelineRefetchInterval,
-} from '../enums';
+import { MovementsTimelinePeriod, TimelineFilterBy } from '../enums';
 
 interface Props {
   peripheralId?: string;
@@ -33,29 +25,24 @@ function SingleContainer({
   const {
     data: dataMotionsByPeripheralId,
     isInitialLoading: isLoadingMotionsByPeripheralId,
-  } = useQuery({
-    queryKey: [motionsById, fromDate, toDate, filter, peripheralId],
-    queryFn: () =>
-      fetchMovementsByPeripheralId({ fromDate, toDate, peripheralId }),
-    enabled:
-      !!peripheralId &&
-      (filter == TimelineFilterBy.MOTIONS ||
-        filter == TimelineFilterBy.MOTIONS_ALERTS) &&
-      period == MovementsTimelinePeriod.DAYS_1,
-    refetchInterval: TimelineRefetchInterval.SINGLE_DEVICE,
+  } = useMotionsByPeripheralId({
+    fromDate,
+    toDate,
+    filter,
+    period,
+    peripheralId,
+    enabled: !!peripheralId,
   });
 
   const {
     data: dataAlertsByPeripheralId,
     isInitialLoading: isLoadingAlertsByPeripheralId,
-  } = useQuery({
-    queryKey: [alertsById, fromDate, toDate, filter, peripheralId],
-    queryFn: () =>
-      fetchAlertsByPeripheralId({ fromDate, toDate, peripheralId }),
-    enabled:
-      (!!peripheralId && filter == TimelineFilterBy.ALERTS) ||
-      filter == TimelineFilterBy.MOTIONS_ALERTS,
-    refetchInterval: TimelineRefetchInterval.SINGLE_DEVICE,
+  } = useAlertsByPeripheralId({
+    fromDate,
+    toDate,
+    filter,
+    peripheralId,
+    enabled: !!peripheralId,
   });
 
   const peripheralName = dataMotionsByPeripheralId

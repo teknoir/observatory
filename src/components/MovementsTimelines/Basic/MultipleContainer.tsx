@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import _flatten from 'lodash/flatten';
 import _uniqBy from 'lodash/uniqBy';
 import { SelectChangeEvent } from '@mui/material/Select';
@@ -8,17 +8,14 @@ import {
   peripheralNameAccessor,
   peripheralIdAccessor,
 } from 'components/ChartUtilities/accessors';
-import { fetchMovements, fetchAlerts } from 'services/apiRequests';
-import { motions, alerts, wsSources } from 'enums/queryKeys';
+import { wsSources } from 'enums/queryKeys';
 import { Source } from 'ts/types';
 import { getFlattenDocuments } from 'utils/events';
 import useFilters from 'components/MovementsTimelines/hooks/useFilters';
+import { useAlerts } from 'components/MovementsTimelines/hooks/useAlerts';
+import { useMotions } from 'components/MovementsTimelines/hooks/useMotions';
 import { MovementsTimeline } from './components/MovementsTimeline/MovementsTimeline';
-import {
-  MovementsTimelinePeriod,
-  TimelineFilterBy,
-  TimelineRefetchInterval,
-} from '../enums';
+import { MovementsTimelinePeriod, TimelineFilterBy } from '../enums';
 
 function MultipleContainer() {
   const queryClient = useQueryClient();
@@ -37,23 +34,17 @@ function MultipleContainer() {
   const { filter, period, fromDate, startTime, toDate, setFilter, setPeriod } =
     useFilters();
 
-  const { data: dataMotions, isInitialLoading: isLoadingMotions } = useQuery({
-    queryKey: [motions, fromDate, toDate, filter],
-    queryFn: () => fetchMovements({ fromDate, toDate }),
-    refetchInterval: TimelineRefetchInterval.ALL_DEVICES,
-    enabled:
-      (filter == TimelineFilterBy.MOTIONS ||
-        filter == TimelineFilterBy.MOTIONS_ALERTS) &&
-      period == MovementsTimelinePeriod.DAYS_1,
+  const { data: dataMotions, isInitialLoading: isLoadingMotions } = useMotions({
+    fromDate,
+    toDate,
+    filter,
+    period,
   });
 
-  const { data: dataAlerts, isInitialLoading: isLoadingAlerts } = useQuery({
-    queryKey: [alerts, fromDate, toDate, filter],
-    queryFn: () => fetchAlerts({ fromDate, toDate }),
-    refetchInterval: TimelineRefetchInterval.ALL_DEVICES,
-    enabled:
-      filter == TimelineFilterBy.ALERTS ||
-      filter == TimelineFilterBy.MOTIONS_ALERTS,
+  const { data: dataAlerts, isInitialLoading: isLoadingAlerts } = useAlerts({
+    fromDate,
+    toDate,
+    filter,
   });
 
   const [peripherals, ids] = useMemo(() => {

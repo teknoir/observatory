@@ -1,20 +1,12 @@
 import { useState, useRef, ReactNode } from 'react';
 import classNames from 'classnames';
-import { useQuery } from '@tanstack/react-query';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
-import {
-  fetchMovementsByPeripheralId,
-  fetchAlertsByPeripheralId,
-} from 'services/apiRequests';
-import { motionsById, alertsById } from 'enums/queryKeys';
 import { getFlattenDocuments } from 'utils/events';
 import useFilters from 'components/MovementsTimelines/hooks/useFilters';
+import { useAlertsByPeripheralId } from 'components/MovementsTimelines/hooks/useAlerts';
+import { useMotionsByPeripheralId } from 'components/MovementsTimelines/hooks/useMotions';
 import MovementsTimeline from './components/MovementsTimeline/MovementsTimeline';
-import {
-  MovementsTimelinePeriod,
-  TimelineFilterBy,
-  TimelineRefetchInterval,
-} from '../enums';
+import { MovementsTimelinePeriod, TimelineFilterBy } from '../enums';
 import styles from './SingleContainer.module.scss';
 import { SelectChangeEvent } from '@mui/material/Select';
 
@@ -41,29 +33,24 @@ const SingleContainer = ({
   const {
     data: dataMotionsByPeripheralId,
     isInitialLoading: isLoadingMotionsByPeripheralId,
-  } = useQuery({
-    queryKey: [motionsById, fromDate, toDate, filter, peripheralId],
-    queryFn: () =>
-      fetchMovementsByPeripheralId({ fromDate, toDate, peripheralId }),
-    refetchInterval: TimelineRefetchInterval.SINGLE_DEVICE,
-    enabled:
-      isShow &&
-      (filter == TimelineFilterBy.MOTIONS ||
-        filter == TimelineFilterBy.MOTIONS_ALERTS) &&
-      period == MovementsTimelinePeriod.DAYS_1,
+  } = useMotionsByPeripheralId({
+    fromDate,
+    toDate,
+    filter,
+    period,
+    peripheralId,
+    enabled: isShow,
   });
 
   const {
     data: dataAlertsByPeripheralId,
     isInitialLoading: isLoadingAlertsByPeripheralId,
-  } = useQuery({
-    queryKey: [alertsById, fromDate, toDate, filter, peripheralId],
-    queryFn: () =>
-      fetchAlertsByPeripheralId({ fromDate, toDate, peripheralId }),
-    refetchInterval: TimelineRefetchInterval.SINGLE_DEVICE,
-    enabled:
-      (isShow && filter == TimelineFilterBy.ALERTS) ||
-      filter == TimelineFilterBy.MOTIONS_ALERTS,
+  } = useAlertsByPeripheralId({
+    fromDate,
+    toDate,
+    filter,
+    peripheralId,
+    enabled: isShow,
   });
 
   const handleMouseOver = () => {
