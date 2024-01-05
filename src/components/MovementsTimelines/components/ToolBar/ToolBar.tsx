@@ -9,7 +9,7 @@ import Select from 'muiComponents/Select/Select';
 import {
   MovementsTimelinePeriod,
   TimelineFilterBy,
-} from 'components/MovementsTimeline/enums';
+} from 'components/MovementsTimelines/enums';
 import { generatePath } from 'utils/router';
 import APP_URLS from 'enums/urls';
 import styles from './ToolBar.module.scss';

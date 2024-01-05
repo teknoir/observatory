@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import AppBar from 'components/AppBar/AppBar';
 import MainContent from 'components/MainContent/MainContent';
-import MovementsTimelineEmbed from 'components/MovementsTimelineEmbed/MovementsTimelineEmbed';
+import MovementsTimelineEmbed from 'components/MovementsTimelines/Embedded';
 import { Source, SourceStatus } from 'ts/types';
 import { useWSSContext } from 'context/webSocketContext';
 import { wsSources } from 'enums/queryKeys';

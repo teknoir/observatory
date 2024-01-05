@@ -13,14 +13,14 @@ import { fetchMovements, fetchAlerts } from 'services/apiRequests';
 import { motions, alerts, wsSources } from 'enums/queryKeys';
 import { Source } from 'ts/types';
 import { getFlattenDocuments } from 'utils/events';
-import { MovementsTimeline } from './MovementsTimeline';
+import { MovementsTimeline } from './components/MovementsTimeline/MovementsTimeline';
 import {
   MovementsTimelinePeriod,
   TimelineFilterBy,
   TimelineRefetchInterval,
-} from './enums';
+} from '../enums';
 
-function MovementsTimelineContainer() {
+function MultipleContainer() {
   const queryClient = useQueryClient();
   const sources: { [p: string]: Source } = queryClient.getQueryData([
     wsSources,
@@ -135,4 +135,4 @@ function MovementsTimelineContainer() {
   );
 }
 
-export default MovementsTimelineContainer;
+export default MultipleContainer;

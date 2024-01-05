@@ -9,13 +9,13 @@ import {
 } from 'services/apiRequests';
 import { motionsById, alertsById } from 'enums/queryKeys';
 import { getFlattenDocuments } from 'utils/events';
-import MovementsTimeline from './MovementsTimeline/MovementsTimeline';
+import MovementsTimeline from './components/MovementsTimeline/MovementsTimeline';
 import {
   MovementsTimelinePeriod,
   TimelineFilterBy,
   TimelineRefetchInterval,
-} from '../MovementsTimeline/enums.ts';
-import styles from './MovementsTimelineEmbed.module.scss';
+} from '../enums';
+import styles from './SingleContainer.module.scss';
 import { SelectChangeEvent } from '@mui/material/Select';
 
 interface Props {
@@ -26,7 +26,7 @@ interface Props {
   initiallyLoaded?: boolean;
 }
 
-const MovementsTimelineEmbed = ({
+const SingleContainer = ({
   peripheralId,
   classNameContainer,
   children,
@@ -155,4 +155,4 @@ const MovementsTimelineEmbed = ({
   );
 };
 
-export default MovementsTimelineEmbed;
+export default SingleContainer;

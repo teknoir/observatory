@@ -6,7 +6,7 @@ import ArrowBackIos from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIos from '@mui/icons-material/ArrowForwardIos';
 import Box from '@mui/material/Box';
 import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImagePreview/CarouselImagePreview';
-import MovementsTimelineEmbed from 'components/MovementsTimelineEmbed/MovementsTimelineEmbed';
+import MovementsTimelineEmbed from 'components/MovementsTimelines/Embedded';
 import useOrderedSourcesKeys from 'hooks/useOrderedSourcesKeys';
 import { CarouselProps } from 'ts/types';
 import { NextPageOptions, nextPage } from './utils';

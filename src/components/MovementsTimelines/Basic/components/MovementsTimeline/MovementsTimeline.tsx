@@ -5,17 +5,17 @@ import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import { Chart, Circles } from 'components/ChartUtilities';
 import { detectionIdAccessor } from 'components/ChartUtilities/accessors';
 import { peripheralIdAccessor } from 'components/ChartUtilities/accessors';
-import CarouselArrows from 'components/MovementsTimelineComponents/CarouselArrows/CarouselArrows';
-import ToolBar from 'components/MovementsTimelineComponents/ToolBar/ToolBar';
-import Popover from 'components/MovementsTimelineComponents/Popover/Popover';
+import CarouselArrows from 'components/MovementsTimelines/components/CarouselArrows/CarouselArrows';
+import ToolBar from 'components/MovementsTimelines/components/ToolBar/ToolBar';
+import Popover from 'components/MovementsTimelines/components/Popover/Popover';
 import { HomeContext } from 'context/HomeContext/HomeContext';
 import { IAlertEvent, IEventDocumentWithPeripheral } from 'ts/types';
-import useMovementsTimelineData from 'hooks/useMovementsTimelineData';
-import AxisHorizontalScroll from './AxisHorizontalScroll/AxisHorizontalScroll';
-import AxisVerticalLeft from './AxisVerticalLeft/AxisVerticalLeft';
-import AxisVerticalRight from './AxisVerticalRight/AxisVerticalRight';
-import GridLines from './GridLines/GridLines';
-import { MovementsTimelinePeriod } from './enums';
+import useMovementsTimelineData from 'components/MovementsTimelines/hooks/useMovementsTimelineData';
+import { MovementsTimelinePeriod } from 'components/MovementsTimelines/enums';
+import AxisHorizontalScroll from '../AxisHorizontalScroll/AxisHorizontalScroll';
+import AxisVerticalLeft from '../AxisVerticalLeft/AxisVerticalLeft';
+import AxisVerticalRight from '../AxisVerticalRight/AxisVerticalRight';
+import GridLines from '../GridLines/GridLines';
 import styles from './MovementsTimeline.module.scss';
 
 interface MovementsTimeLineParams {

@@ -12,19 +12,19 @@ import {
 } from 'services/apiRequests';
 import { getFlattenDocuments } from 'utils/events';
 import { motionsById, alertsById } from 'enums/queryKeys';
-import { MovementsTimeline } from './MovementsTimeline';
+import { MovementsTimeline } from './components/MovementsTimeline/MovementsTimeline';
 import {
   MovementsTimelinePeriod,
   TimelineFilterBy,
   TimelineRefetchInterval,
-} from './enums';
+} from '../enums';
 
 interface Props {
   peripheralId?: string;
   peripheralName?: string;
 }
 
-function MovementsTimelineSingleContainer({
+function SingleContainer({
   peripheralId = '',
   peripheralName: peripheralNameFromDevice = '',
 }: Props) {
@@ -117,4 +117,4 @@ function MovementsTimelineSingleContainer({
   );
 }
 
-export default MovementsTimelineSingleContainer;
+export default SingleContainer;
