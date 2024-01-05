@@ -1,6 +1,4 @@
-import { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import moment from 'moment/moment';
 import { SelectChangeEvent } from '@mui/material/Select';
 import {
   startTimeAccessor,
@@ -12,6 +10,7 @@ import {
 } from 'services/apiRequests';
 import { getFlattenDocuments } from 'utils/events';
 import { motionsById, alertsById } from 'enums/queryKeys';
+import useFilters from 'components/MovementsTimelines/hooks/useFilters';
 import { MovementsTimeline } from './components/MovementsTimeline/MovementsTimeline';
 import {
   MovementsTimelinePeriod,
@@ -28,18 +27,8 @@ function SingleContainer({
   peripheralId = '',
   peripheralName: peripheralNameFromDevice = '',
 }: Props) {
-  const [filter, setFilter] = useState<string>(TimelineFilterBy.MOTIONS_ALERTS);
-  const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1);
-
-  const fromDate = useMemo(
-    () => moment().subtract(period, 'days').startOf('day'),
-    [period]
-  );
-  const startTime = useMemo(
-    () => moment().subtract(period, 'days').toDate(),
-    [period]
-  );
-  const toDate = useMemo(() => moment(), [period]);
+  const { filter, period, fromDate, startTime, toDate, setFilter, setPeriod } =
+    useFilters();
 
   const {
     data: dataMotionsByPeripheralId,

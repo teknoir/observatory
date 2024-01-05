@@ -1,5 +1,4 @@
-import { useState, useRef, useMemo, ReactNode } from 'react';
-import moment from 'moment';
+import { useState, useRef, ReactNode } from 'react';
 import classNames from 'classnames';
 import { useQuery } from '@tanstack/react-query';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
@@ -9,6 +8,7 @@ import {
 } from 'services/apiRequests';
 import { motionsById, alertsById } from 'enums/queryKeys';
 import { getFlattenDocuments } from 'utils/events';
+import useFilters from 'components/MovementsTimelines/hooks/useFilters';
 import MovementsTimeline from './components/MovementsTimeline/MovementsTimeline';
 import {
   MovementsTimelinePeriod,
@@ -35,17 +35,8 @@ const SingleContainer = ({
 }: Props) => {
   const [isShow, setIsShow] = useState(initiallyLoaded);
   const ref = useRef<HTMLDivElement>(null);
-  const [filter, setFilter] = useState<string>(TimelineFilterBy.MOTIONS_ALERTS);
-  const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1);
-  const fromDate = useMemo(
-    () => moment().subtract(period, 'days').startOf('day'),
-    [period]
-  );
-  const startTime = useMemo(
-    () => moment().subtract(period, 'days').toDate(),
-    [period]
-  );
-  const toDate = useMemo(() => moment(), [period]);
+  const { filter, period, fromDate, startTime, toDate, setFilter, setPeriod } =
+    useFilters();
 
   const {
     data: dataMotionsByPeripheralId,

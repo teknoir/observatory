@@ -1,6 +1,5 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import moment from 'moment/moment';
 import _flatten from 'lodash/flatten';
 import _uniqBy from 'lodash/uniqBy';
 import { SelectChangeEvent } from '@mui/material/Select';
@@ -13,6 +12,7 @@ import { fetchMovements, fetchAlerts } from 'services/apiRequests';
 import { motions, alerts, wsSources } from 'enums/queryKeys';
 import { Source } from 'ts/types';
 import { getFlattenDocuments } from 'utils/events';
+import useFilters from 'components/MovementsTimelines/hooks/useFilters';
 import { MovementsTimeline } from './components/MovementsTimeline/MovementsTimeline';
 import {
   MovementsTimelinePeriod,
@@ -34,17 +34,8 @@ function MultipleContainer() {
     };
   });
 
-  const [filter, setFilter] = useState<string>(TimelineFilterBy.MOTIONS_ALERTS);
-  const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1);
-  const fromDate = useMemo(
-    () => moment().subtract(period, 'days').startOf('day'),
-    [period]
-  );
-  const startTime = useMemo(
-    () => moment().subtract(period, 'days').toDate(),
-    [period]
-  );
-  const toDate = useMemo(() => moment(), [period]);
+  const { filter, period, fromDate, startTime, toDate, setFilter, setPeriod } =
+    useFilters();
 
   const { data: dataMotions, isInitialLoading: isLoadingMotions } = useQuery({
     queryKey: [motions, fromDate, toDate, filter],
