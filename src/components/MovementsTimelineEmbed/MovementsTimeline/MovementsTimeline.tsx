@@ -1,15 +1,16 @@
+import { SelectChangeEvent } from '@mui/material/Select';
 import CarouselArrows from 'components/MovementsTimelineComponents/CarouselArrows/CarouselArrows';
 import { Chart, Circles } from 'components/ChartUtilities';
 import { detectionIdAccessor } from 'components/ChartUtilities/accessors';
+import { MovementsTimelinePeriod } from 'components/MovementsTimeline/enums';
 import Popover from 'components/MovementsTimelineComponents/Popover/Popover';
 import ToolBar from 'components/MovementsTimelineComponents/ToolBar/ToolBar';
 import { IEventDocumentWithPeripheral } from 'ts/types';
 import useMovementsTimelineData from 'hooks/useMovementsTimelineData';
 import AxisHorizontalScroll from './AxisHorizontalScroll/AxisHorizontalScroll';
 import GridLines from './GridLines/GridLines';
+import styleVariables from 'enums/styleVariables.module.scss';
 import styles from './MovementsTimeline.module.scss';
-import { MovementsTimelinePeriod } from 'components/MovementsTimeline/enums';
-import { SelectChangeEvent } from '@mui/material/Select';
 
 interface MovementsTimelineProps {
   startTime: Date;
@@ -66,7 +67,9 @@ const MovementsTimeline = ({
         className={styles.timeline}
         ref={ref}
         style={{
-          height: showToolbar ? '156px' : '112px',
+          height: showToolbar
+            ? '156px'
+            : styleVariables.movementsTimelineEmbedHeight,
         }}
       >
         <Chart dimensions={dimensions}>

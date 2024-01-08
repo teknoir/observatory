@@ -28,6 +28,9 @@ $gold: #a58966;
 $greenSuccess: #00a12d;
 $redAlert: #fa4e4e;
 
+//Positioning
+$movementsTimelineEmbedHeight: 112px;
+
 :export {
   fadedBlack: $fadedBlack;
   offWhite: $offWhite;
@@ -36,4 +39,5 @@ $redAlert: #fa4e4e;
   blue600: $blue600;
   greenSuccess: $greenSuccess;
   redAlert: $redAlert;
+  movementsTimelineEmbedHeight: $movementsTimelineEmbedHeight;
 }
