@@ -1,0 +1,125 @@
+import { useState, useRef, ReactNode } from 'react';
+import classNames from 'classnames';
+import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
+import useFilters from 'components/MovementsTimelines/hooks/useFilters';
+import { useAlertsByPeripheralId } from 'components/MovementsTimelines/hooks/useAlerts';
+import { useMotionsByPeripheralId } from 'components/MovementsTimelines/hooks/useMotions';
+import DataFormatter from 'components/MovementsTimelines/services/DataFormatter';
+import MovementsTimeline from './components/MovementsTimeline/MovementsTimeline';
+import styles from './SingleContainer.module.scss';
+
+interface Props {
+  peripheralId: string;
+  children: ReactNode;
+  classNameContainer?: string;
+  showToolbar?: boolean;
+  initiallyLoaded?: boolean;
+}
+
+const SingleContainer = ({
+  peripheralId,
+  classNameContainer,
+  children,
+  showToolbar,
+  initiallyLoaded = false,
+}: Props) => {
+  const [isShow, setIsShow] = useState(initiallyLoaded);
+  const ref = useRef<HTMLDivElement>(null);
+  const {
+    filter,
+    period,
+    fromDate,
+    startTime,
+    toDate,
+    handleChangeFilterBy,
+    handleChangePeriod,
+  } = useFilters();
+
+  const {
+    data: dataMotionsByPeripheralId,
+    isInitialLoading: isLoadingMotionsByPeripheralId,
+  } = useMotionsByPeripheralId({
+    fromDate,
+    toDate,
+    filter,
+    period,
+    peripheralId,
+    enabled: isShow,
+  });
+
+  const {
+    data: dataAlertsByPeripheralId,
+    isInitialLoading: isLoadingAlertsByPeripheralId,
+  } = useAlertsByPeripheralId({
+    fromDate,
+    toDate,
+    filter,
+    peripheralId,
+    enabled: isShow,
+  });
+
+  const handleMouseOver = () => {
+    setIsShow(true);
+  };
+
+  const handleMouseOut = () => {
+    setIsShow(false);
+  };
+
+  const Formatter = new DataFormatter();
+
+  let dataMotionsByPeripheralIdFlatten = Formatter.flatDocuments(
+    dataMotionsByPeripheralId
+  );
+  let dataAlertsByPeripheralIdFlatten = Formatter.flatDocuments(
+    dataAlertsByPeripheralId
+  );
+  // TODO: temp solution for redundant data (only for Charts) - remove in future!
+  dataMotionsByPeripheralIdFlatten = Formatter.sliceFlattedData(
+    dataMotionsByPeripheralIdFlatten
+  );
+  dataAlertsByPeripheralIdFlatten = Formatter.sliceFlattedData(
+    dataAlertsByPeripheralIdFlatten
+  );
+
+  const renderContent = () => {
+    if (isLoadingMotionsByPeripheralId || isLoadingAlertsByPeripheralId) {
+      return <CircularProgress />;
+    }
+
+    return (
+      <MovementsTimeline
+        startTime={startTime}
+        dataMotions={dataMotionsByPeripheralIdFlatten}
+        dataAlerts={dataAlertsByPeripheralIdFlatten}
+        filter={filter}
+        handleChangeFilter={handleChangeFilterBy}
+        period={period}
+        handleChangePeriod={handleChangePeriod}
+        showToolbar={showToolbar}
+      />
+    );
+  };
+
+  const hoverProps = initiallyLoaded
+    ? {}
+    : { onMouseOver: handleMouseOver, onMouseOut: handleMouseOut };
+
+  return (
+    <div
+      {...hoverProps}
+      className={classNames(styles.root, classNameContainer)}
+      ref={ref}
+      onMouseDown={() => {
+        if (!showToolbar) {
+          setIsShow(false);
+        }
+      }}
+    >
+      {children}
+      {isShow && <div className={styles.content}>{renderContent()}</div>}
+    </div>
+  );
+};
+
+export default SingleContainer;

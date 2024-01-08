@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
 import AppBar from 'components/AppBar/AppBar';
 import MainContent from 'components/MainContent/MainContent';
-import MovementsTimelineContainer from 'components/MovementsTimeline/MovementsTimelineContainer';
+import { MovementsTimelineContainer } from 'components/MovementsTimelines/Basic';
 
 const MotionsAlerts = () => {
   return (

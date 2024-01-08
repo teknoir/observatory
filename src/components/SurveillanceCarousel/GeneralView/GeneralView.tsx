@@ -3,7 +3,7 @@ import Resizable from 'components/Resizable/Resizable';
 import classNames from 'classnames';
 import CarouselImage from 'components/SurveillanceCarousel/CarouselImage/CarouselImage';
 import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImagePreview/CarouselImagePreview';
-import MovementsTimelineEmbed from 'components/MovementsTimelineEmbed/MovementsTimelineEmbed';
+import MovementsTimelineEmbed from 'components/MovementsTimelines/Embedded';
 import { CarouselProps, RefImage, CameraId } from 'ts/types';
 import useOrderedSourcesKeys from 'hooks/useOrderedSourcesKeys';
 import styles from './GeneralView.module.scss';

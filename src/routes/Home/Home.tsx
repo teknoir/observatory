@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import AppBar from 'components/AppBar/AppBar';
 import MainContent from 'components/MainContent/MainContent';
-import MovementsTimelineContainer from 'components/MovementsTimeline/MovementsTimelineContainer';
+import { MovementsTimelineContainer } from 'components/MovementsTimelines/Basic';
 import SurveillanceCarousel from 'components/SurveillanceCarousel';
 import SelectLayout from 'components/SurveillanceCarousel/SelectLayout/SelectLayout';
 import HomeDataProvider from 'context/HomeContext/HomeDataProvider';

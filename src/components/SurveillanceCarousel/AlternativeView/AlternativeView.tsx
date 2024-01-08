@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Resizable from 'components/Resizable/Resizable';
 import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImagePreview/CarouselImagePreview';
-import MovementsTimelineEmbed from 'components/MovementsTimelineEmbed/MovementsTimelineEmbed';
+import MovementsTimelineEmbed from 'components/MovementsTimelines/Embedded';
 import { HomeContext } from 'context/HomeContext/HomeContext';
 import { CarouselMode, CarouselProps } from 'ts/types';
 import useOrderedSourcesKeys from 'hooks/useOrderedSourcesKeys';
