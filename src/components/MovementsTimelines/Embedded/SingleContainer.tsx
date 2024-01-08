@@ -1,10 +1,10 @@
 import { useState, useRef, ReactNode } from 'react';
 import classNames from 'classnames';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
-import { getFlattenDocuments } from 'utils/events';
 import useFilters from 'components/MovementsTimelines/hooks/useFilters';
 import { useAlertsByPeripheralId } from 'components/MovementsTimelines/hooks/useAlerts';
 import { useMotionsByPeripheralId } from 'components/MovementsTimelines/hooks/useMotions';
+import DataFormatter from 'components/MovementsTimelines/services/DataFormatter';
 import MovementsTimeline from './components/MovementsTimeline/MovementsTimeline';
 import styles from './SingleContainer.module.scss';
 
@@ -66,22 +66,21 @@ const SingleContainer = ({
     setIsShow(false);
   };
 
-  let dataMotionsByPeripheralIdFlatten = getFlattenDocuments(
+  const Formatter = new DataFormatter();
+
+  let dataMotionsByPeripheralIdFlatten = Formatter.flatDocuments(
     dataMotionsByPeripheralId
   );
-  // TODO: temp solution for redundant data (only for Charts) - remove in future!
-  if (dataMotionsByPeripheralIdFlatten?.length > 1000) {
-    dataMotionsByPeripheralIdFlatten =
-      dataMotionsByPeripheralIdFlatten.slice(-1000);
-  }
-  let dataAlertsByPeripheralIdFlatten = getFlattenDocuments(
+  let dataAlertsByPeripheralIdFlatten = Formatter.flatDocuments(
     dataAlertsByPeripheralId
   );
   // TODO: temp solution for redundant data (only for Charts) - remove in future!
-  if (dataAlertsByPeripheralIdFlatten?.length > 1000) {
-    dataAlertsByPeripheralIdFlatten =
-      dataAlertsByPeripheralIdFlatten.slice(-1000);
-  }
+  dataMotionsByPeripheralIdFlatten = Formatter.sliceFlattedData(
+    dataMotionsByPeripheralIdFlatten
+  );
+  dataAlertsByPeripheralIdFlatten = Formatter.sliceFlattedData(
+    dataAlertsByPeripheralIdFlatten
+  );
 
   const renderContent = () => {
     if (isLoadingMotionsByPeripheralId || isLoadingAlertsByPeripheralId) {

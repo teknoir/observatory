@@ -1,18 +1,16 @@
 import { useMemo } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import _flatten from 'lodash/flatten';
-import _uniqBy from 'lodash/uniqBy';
 import {
   startTimeAccessor,
   peripheralNameAccessor,
-  peripheralIdAccessor,
 } from 'components/ChartUtilities/accessors';
 import { wsSources } from 'enums/queryKeys';
 import { Source } from 'ts/types';
-import { getFlattenDocuments } from 'utils/events';
 import useFilters from 'components/MovementsTimelines/hooks/useFilters';
 import { useAlerts } from 'components/MovementsTimelines/hooks/useAlerts';
 import { useMotions } from 'components/MovementsTimelines/hooks/useMotions';
+import DataFormatter from 'components/MovementsTimelines/services/DataFormatter';
+import MultipleStrategy from 'components/MovementsTimelines/services/MultipleStrategy';
 import { MovementsTimeline } from './components/MovementsTimeline/MovementsTimeline';
 
 function MultipleContainer() {
@@ -52,42 +50,19 @@ function MultipleContainer() {
     filter,
   });
 
-  const [peripherals, ids] = useMemo(() => {
-    const flattenArr = [];
-    for (let i = 0; i < dataAlerts?.length; i++) {
-      flattenArr.push({
-        peripheral_id: dataAlerts[i].peripheral_id,
-        peripheral_name: dataAlerts[i].peripheral_name,
-      });
-    }
-    for (let i = 0; i < dataMotions?.length; i++) {
-      flattenArr.push({
-        peripheral_id: dataMotions[i].peripheral_id,
-        peripheral_name: dataMotions[i].peripheral_name,
-      });
-    }
-    const uniqueArr = _uniqBy(
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      _flatten([flattenArr, sourcesFromWS ?? []]),
-      'peripheral_name'
-    );
-    return [
-      uniqueArr.map(peripheralNameAccessor),
-      uniqueArr.map(peripheralIdAccessor),
-    ];
-  }, [dataMotions, dataAlerts, sourcesFromWS]);
+  const Formatter = new DataFormatter();
+  Formatter.setStrategy(new MultipleStrategy());
 
-  let dataAlertsFlatten = getFlattenDocuments(dataAlerts);
+  const [peripherals, ids] = useMemo(
+    () => Formatter.peripheralsAndIds(dataMotions, dataAlerts, sourcesFromWS),
+    [dataMotions, dataAlerts, sourcesFromWS]
+  );
+
+  let dataAlertsFlatten = Formatter.flatDocuments(dataAlerts);
+  let dataMotionsFlatten = Formatter.flatDocuments(dataMotions);
   // TODO: temp solution for redundant data (only for Charts) - remove in future!
-  if (dataAlertsFlatten?.length > 1000) {
-    dataAlertsFlatten = dataAlertsFlatten.slice(-1000);
-  }
-  let dataMotionsFlatten = getFlattenDocuments(dataMotions);
-  // TODO: temp solution for redundant data (only for Charts) - remove in future!
-  if (dataMotionsFlatten?.length > 1000) {
-    dataMotionsFlatten = dataMotionsFlatten.slice(-1000);
-  }
+  dataAlertsFlatten = Formatter.sliceFlattedData(dataAlertsFlatten);
+  dataMotionsFlatten = Formatter.sliceFlattedData(dataMotionsFlatten);
 
   return (
     <MovementsTimeline

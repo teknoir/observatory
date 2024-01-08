@@ -2,10 +2,11 @@ import {
   startTimeAccessor,
   peripheralNameAccessor,
 } from 'components/ChartUtilities/accessors';
-import { getFlattenDocuments } from 'utils/events';
 import useFilters from 'components/MovementsTimelines/hooks/useFilters';
 import { useAlertsByPeripheralId } from 'components/MovementsTimelines/hooks/useAlerts';
 import { useMotionsByPeripheralId } from 'components/MovementsTimelines/hooks/useMotions';
+import DataFormatter from 'components/MovementsTimelines/services/DataFormatter';
+import SingleStrategy from 'components/MovementsTimelines/services/SingleStrategy';
 import { MovementsTimeline } from './components/MovementsTimeline/MovementsTimeline';
 
 interface Props {
@@ -13,6 +14,7 @@ interface Props {
   peripheralName?: string;
 }
 
+// TODO: This container isn't used. Remove in future!
 function SingleContainer({
   peripheralId = '',
   peripheralName: peripheralNameFromDevice = '',
@@ -50,16 +52,18 @@ function SingleContainer({
     enabled: !!peripheralId,
   });
 
-  const peripheralName = dataMotionsByPeripheralId
-    ? peripheralNameAccessor(dataMotionsByPeripheralId[0] ?? '')
-    : dataAlertsByPeripheralId
-    ? peripheralNameAccessor(dataAlertsByPeripheralId[0] ?? '')
-    : peripheralNameFromDevice ?? '';
+  const Formatter = new DataFormatter();
+  Formatter.setStrategy(new SingleStrategy());
 
-  const dataMotionsByPeripheralIdFlatten = getFlattenDocuments(
+  const [peripheralNames] = Formatter.peripheralsAndIds(
+    dataMotionsByPeripheralId,
+    dataAlertsByPeripheralId,
+    peripheralNameFromDevice
+  );
+  const dataMotionsByPeripheralIdFlatten = Formatter.flatDocuments(
     dataMotionsByPeripheralId
   );
-  const dataAlertsByPeripheralIdFlatten = getFlattenDocuments(
+  const dataAlertsByPeripheralIdFlatten = Formatter.flatDocuments(
     dataAlertsByPeripheralId
   );
 
@@ -70,7 +74,7 @@ function SingleContainer({
       dataAlerts={dataAlertsByPeripheralIdFlatten}
       xAccessor={startTimeAccessor}
       yAccessor={peripheralNameAccessor}
-      peripherals={[peripheralName]}
+      peripherals={peripheralNames}
       ids={[peripheralId]}
       filter={filter}
       handleChangeFilter={handleChangeFilterBy}
