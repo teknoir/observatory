@@ -1,4 +1,3 @@
-import { SelectChangeEvent } from '@mui/material/Select';
 import {
   startTimeAccessor,
   peripheralNameAccessor,
@@ -8,7 +7,6 @@ import useFilters from 'components/MovementsTimelines/hooks/useFilters';
 import { useAlertsByPeripheralId } from 'components/MovementsTimelines/hooks/useAlerts';
 import { useMotionsByPeripheralId } from 'components/MovementsTimelines/hooks/useMotions';
 import { MovementsTimeline } from './components/MovementsTimeline/MovementsTimeline';
-import { MovementsTimelinePeriod, TimelineFilterBy } from '../enums';
 
 interface Props {
   peripheralId?: string;
@@ -19,8 +17,15 @@ function SingleContainer({
   peripheralId = '',
   peripheralName: peripheralNameFromDevice = '',
 }: Props) {
-  const { filter, period, fromDate, startTime, toDate, setFilter, setPeriod } =
-    useFilters();
+  const {
+    filter,
+    period,
+    fromDate,
+    startTime,
+    toDate,
+    handleChangeFilterBy,
+    handleChangePeriod,
+  } = useFilters();
 
   const {
     data: dataMotionsByPeripheralId,
@@ -57,21 +62,6 @@ function SingleContainer({
   const dataAlertsByPeripheralIdFlatten = getFlattenDocuments(
     dataAlertsByPeripheralId
   );
-
-  const handleChangeFilterBy = (e: SelectChangeEvent<unknown>) => {
-    const filterByValue = String(e.target.value);
-    setFilter(filterByValue);
-    if (filterByValue !== TimelineFilterBy.ALERTS) {
-      setPeriod(MovementsTimelinePeriod.DAYS_1);
-    }
-  };
-  const handleChangePeriod = (e: SelectChangeEvent<unknown>) => {
-    const periodValue = Number(e.target.value);
-    setPeriod(periodValue);
-    if (periodValue !== MovementsTimelinePeriod.DAYS_1) {
-      setFilter(TimelineFilterBy.ALERTS);
-    }
-  };
 
   return (
     <MovementsTimeline

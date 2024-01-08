@@ -6,9 +6,7 @@ import useFilters from 'components/MovementsTimelines/hooks/useFilters';
 import { useAlertsByPeripheralId } from 'components/MovementsTimelines/hooks/useAlerts';
 import { useMotionsByPeripheralId } from 'components/MovementsTimelines/hooks/useMotions';
 import MovementsTimeline from './components/MovementsTimeline/MovementsTimeline';
-import { MovementsTimelinePeriod, TimelineFilterBy } from '../enums';
 import styles from './SingleContainer.module.scss';
-import { SelectChangeEvent } from '@mui/material/Select';
 
 interface Props {
   peripheralId: string;
@@ -27,8 +25,15 @@ const SingleContainer = ({
 }: Props) => {
   const [isShow, setIsShow] = useState(initiallyLoaded);
   const ref = useRef<HTMLDivElement>(null);
-  const { filter, period, fromDate, startTime, toDate, setFilter, setPeriod } =
-    useFilters();
+  const {
+    filter,
+    period,
+    fromDate,
+    startTime,
+    toDate,
+    handleChangeFilterBy,
+    handleChangePeriod,
+  } = useFilters();
 
   const {
     data: dataMotionsByPeripheralId,
@@ -77,21 +82,6 @@ const SingleContainer = ({
     dataAlertsByPeripheralIdFlatten =
       dataAlertsByPeripheralIdFlatten.slice(-1000);
   }
-
-  const handleChangeFilterBy = (e: SelectChangeEvent<unknown>) => {
-    const filterByValue = String(e.target.value);
-    setFilter(filterByValue);
-    if (filterByValue !== TimelineFilterBy.ALERTS) {
-      setPeriod(MovementsTimelinePeriod.DAYS_1);
-    }
-  };
-  const handleChangePeriod = (e: SelectChangeEvent<unknown>) => {
-    const periodValue = Number(e.target.value);
-    setPeriod(periodValue);
-    if (periodValue !== MovementsTimelinePeriod.DAYS_1) {
-      setFilter(TimelineFilterBy.ALERTS);
-    }
-  };
 
   const renderContent = () => {
     if (isLoadingMotionsByPeripheralId || isLoadingAlertsByPeripheralId) {

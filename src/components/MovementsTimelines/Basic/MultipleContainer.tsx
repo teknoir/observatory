@@ -2,7 +2,6 @@ import { useMemo } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import _flatten from 'lodash/flatten';
 import _uniqBy from 'lodash/uniqBy';
-import { SelectChangeEvent } from '@mui/material/Select';
 import {
   startTimeAccessor,
   peripheralNameAccessor,
@@ -15,7 +14,6 @@ import useFilters from 'components/MovementsTimelines/hooks/useFilters';
 import { useAlerts } from 'components/MovementsTimelines/hooks/useAlerts';
 import { useMotions } from 'components/MovementsTimelines/hooks/useMotions';
 import { MovementsTimeline } from './components/MovementsTimeline/MovementsTimeline';
-import { MovementsTimelinePeriod, TimelineFilterBy } from '../enums';
 
 function MultipleContainer() {
   const queryClient = useQueryClient();
@@ -31,8 +29,15 @@ function MultipleContainer() {
     };
   });
 
-  const { filter, period, fromDate, startTime, toDate, setFilter, setPeriod } =
-    useFilters();
+  const {
+    filter,
+    period,
+    fromDate,
+    startTime,
+    toDate,
+    handleChangeFilterBy,
+    handleChangePeriod,
+  } = useFilters();
 
   const { data: dataMotions, isInitialLoading: isLoadingMotions } = useMotions({
     fromDate,
@@ -83,21 +88,6 @@ function MultipleContainer() {
   if (dataMotionsFlatten?.length > 1000) {
     dataMotionsFlatten = dataMotionsFlatten.slice(-1000);
   }
-
-  const handleChangeFilterBy = (e: SelectChangeEvent<unknown>) => {
-    const filterByValue = String(e.target.value);
-    setFilter(filterByValue);
-    if (filterByValue !== TimelineFilterBy.ALERTS) {
-      setPeriod(MovementsTimelinePeriod.DAYS_1);
-    }
-  };
-  const handleChangePeriod = (e: SelectChangeEvent<unknown>) => {
-    const periodValue = Number(e.target.value);
-    setPeriod(periodValue);
-    if (periodValue !== MovementsTimelinePeriod.DAYS_1) {
-      setFilter(TimelineFilterBy.ALERTS);
-    }
-  };
 
   return (
     <MovementsTimeline

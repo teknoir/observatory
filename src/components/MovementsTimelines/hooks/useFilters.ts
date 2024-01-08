@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import moment from 'moment';
+import { SelectChangeEvent } from '@mui/material/Select';
 import {
   MovementsTimelinePeriod,
   TimelineFilterBy,
@@ -19,14 +20,29 @@ const useFilters = () => {
   );
   const toDate = useMemo(() => moment(), [period]);
 
+  const handleChangeFilterBy = (e: SelectChangeEvent<unknown>) => {
+    const filterByValue = String(e.target.value);
+    setFilter(filterByValue);
+    if (filterByValue !== TimelineFilterBy.ALERTS) {
+      setPeriod(MovementsTimelinePeriod.DAYS_1);
+    }
+  };
+  const handleChangePeriod = (e: SelectChangeEvent<unknown>) => {
+    const periodValue = Number(e.target.value);
+    setPeriod(periodValue);
+    if (periodValue !== MovementsTimelinePeriod.DAYS_1) {
+      setFilter(TimelineFilterBy.ALERTS);
+    }
+  };
+
   return {
     filter,
     period,
     fromDate,
     startTime,
     toDate,
-    setFilter,
-    setPeriod,
+    handleChangeFilterBy,
+    handleChangePeriod,
   };
 };
 
