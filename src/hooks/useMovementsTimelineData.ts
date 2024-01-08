@@ -138,7 +138,8 @@ const useMovementsTimelineData = ({
       scrollGroup
         .transition()
         .duration(duration)
-        .attr('transform', `translate(${translateX}, 0)`);
+        // .attr('transform', `translate(${translateX}, 0)`);
+        .style('transform', `translate(${translateX}px, 0)`);
     },
     [defaultTranslate, dimensions.boundedScrollWidth, dimensions.boundedWidth]
   );
@@ -162,7 +163,8 @@ const useMovementsTimelineData = ({
       );
     timelineContainer.call(d3Zoom);
     timelineContainer.call(d3Zoom.transform, d3.zoomIdentity);
-    scrollGroup.attr('transform', `translate(${defaultTranslate}, 0)`);
+    // scrollGroup.attr('transform', `translate(${defaultTranslate}, 0)`);
+    scrollGroup.style('transform', `translate(${defaultTranslate}px, 0)`);
   }, [defaultTranslate, ref, onScroll]);
 
   return {

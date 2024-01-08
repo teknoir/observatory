@@ -5,7 +5,7 @@ import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import { Chart, Circles } from 'components/ChartUtilities';
 import { detectionIdAccessor } from 'components/ChartUtilities/accessors';
 import { peripheralIdAccessor } from 'components/ChartUtilities/accessors';
-import CarouselArrows from 'components/MovementsTimelineComponents/CarouselArrows/CarouselArrows';
+// import CarouselArrows from 'components/MovementsTimelineComponents/CarouselArrows/CarouselArrows';
 import ToolBar from 'components/MovementsTimelineComponents/ToolBar/ToolBar';
 import Popover from 'components/MovementsTimelineComponents/Popover/Popover';
 import { HomeContext } from 'context/HomeContext/HomeContext';
@@ -58,7 +58,7 @@ export const MovementsTimeline = ({
     alertInfo,
     handlePopoverOpen,
     handlePopoverClose,
-    handleCarouselArrows,
+    // handleCarouselArrows,
   } = useMovementsTimelineData({
     startTime,
     peripherals,
@@ -89,7 +89,17 @@ export const MovementsTimeline = ({
       >
         <Chart dimensions={dimensions}>
           <GridLines scale={yScale} />
-          <g ref={scrollGroupRef}>
+          {/* <g id="scrollGroupRef" ref={scrollGroupRef}> */}
+          <div
+            id="scrollGroupRef"
+            // TODO: Remove ts ignore and fix issue
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            ref={scrollGroupRef}
+            style={{
+              position: 'absolute',
+            }}
+          >
             <AxisHorizontalScroll
               scale={xScale}
               formatTick={formatDate}
@@ -119,13 +129,14 @@ export const MovementsTimeline = ({
               alertInfo={alertInfo}
               handleClose={handlePopoverClose}
             />
-          </g>
-          <CarouselArrows
+          </div>
+          {/* </g> */}
+          {/* <CarouselArrows
             leftBtnHeight={dimensions.boundedHeight}
             rightX={dimensions.boundedWidth - 56}
             rightBtnHeight={dimensions.boundedHeight}
             clickHandler={handleCarouselArrows}
-          />
+          /> */}
           <AxisVerticalLeft scale={yScale} />
           <AxisVerticalRight scale={yScale} ids={ids} />
         </Chart>

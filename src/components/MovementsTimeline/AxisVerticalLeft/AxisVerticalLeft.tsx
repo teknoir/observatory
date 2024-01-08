@@ -15,46 +15,74 @@ const AxisVerticalLeft = ({ scale, ...props }: AxisVerticalLeftProps) => {
   const ticks = scale.domain();
 
   return (
-    <g dominantBaseline={'middle'} textAnchor="end" {...props}>
-      <rect
-        x={-dimensions.marginLeft}
-        y="0"
-        width={dimensions.marginLeft}
-        height="100%"
-        className={styles.rectBackground}
-      />
-      <foreignObject
-        x={-dimensions.marginLeft}
-        width={1}
-        height={1}
-        className={styles.foreignObject}
-      >
-        <Typography variant="LabelMedium">
-          Cameras ({ticks.length ?? 0})
-        </Typography>
-      </foreignObject>
+    <div
+      id="axis_names"
+      style={{
+        width: 'fit-content',
+        height: dimensions.height,
+        position: 'relative',
+      }}
+      {...props}
+    >
       {ticks.map((tick) => (
-        <foreignObject
-          key={tick}
-          x={-dimensions.marginLeft}
-          y={(scale(tick) ?? 0) - 15}
-          width={dimensions.marginLeft}
-          height={1}
-          className={styles.foreignObject}
+        <div
+          className={styles.deviceName}
+          style={{
+            position: 'absolute',
+            top: scale(tick),
+          }}
         >
-          <div className={styles.deviceName}>
-            <Icon icon={cctvCameraIcon} size={IconSizes.lg} />
-            <Typography
-              variant="BodyMedium"
-              title={tick}
-              className={styles.deviceNameText}
-            >
-              {tick}
-            </Typography>
-          </div>
-        </foreignObject>
+          <Icon icon={cctvCameraIcon} size={IconSizes.lg} />
+          <Typography
+            variant="BodyMedium"
+            title={tick}
+            className={styles.deviceNameText}
+          >
+            {tick}
+          </Typography>
+        </div>
       ))}
-    </g>
+    </div>
+    // <g dominantBaseline={'middle'} textAnchor="end" {...props}>
+    //   <rect
+    //     x={-dimensions.marginLeft}
+    //     y="0"
+    //     width={dimensions.marginLeft}
+    //     height="100%"
+    //     className={styles.rectBackground}
+    //   />
+    //   <foreignObject
+    //     x={-dimensions.marginLeft}
+    //     width={1}
+    //     height={1}
+    //     className={styles.foreignObject}
+    //   >
+    //     <Typography variant="LabelMedium">
+    //       Cameras ({ticks.length ?? 0})
+    //     </Typography>
+    //   </foreignObject>
+    //   {ticks.map((tick) => (
+    //     <foreignObject
+    //       key={tick}
+    //       x={-dimensions.marginLeft}
+    //       y={(scale(tick) ?? 0) - 15}
+    //       width={dimensions.marginLeft}
+    //       height={1}
+    //       className={styles.foreignObject}
+    //     >
+    //       <div className={styles.deviceName}>
+    //         <Icon icon={cctvCameraIcon} size={IconSizes.lg} />
+    //         <Typography
+    //           variant="BodyMedium"
+    //           title={tick}
+    //           className={styles.deviceNameText}
+    //         >
+    //           {tick}
+    //         </Typography>
+    //       </div>
+    //     </foreignObject>
+    //   ))}
+    // </g>
   );
 };
 
