@@ -1,12 +1,13 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import moment from 'moment';
+import _shuffle from 'lodash/shuffle';
 import { IAlertEvent } from 'ts/types';
 import { getUniqueID, dataWithDelay } from './utils';
 
 const defaultPeripheralId = 'parkinglot1';
 
-const alertsSchema = new Map<string, object>([
+const alertsSchemaList = [
   [
     defaultPeripheralId,
     {
@@ -103,7 +104,8 @@ const alertsSchema = new Map<string, object>([
       duration: 1,
     },
   ],
-]);
+];
+const alertsSchema = new Map<string, object>(alertsSchemaList);
 
 // const getAlertsHours = () => {
 //   const res = new Map<number, string[]>();
@@ -153,6 +155,7 @@ export const fetchAlertsByPeripheralIdMock = ({
 
 export const fetchAllAlertsMock = ({ fromDate }): Promise<IAlertEvent[]> => {
   const res = [];
+  const alertsSchema = new Map(_shuffle(alertsSchemaList));
   alertsSchema.forEach((value, key) => {
     const documents = [];
     const now = moment();
