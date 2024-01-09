@@ -2,6 +2,7 @@
 // @ts-nocheck
 
 import moment from 'moment';
+import _shuffle from 'lodash/shuffle';
 import { IAlertEvent } from 'ts/types';
 import { getUniqueID, dataWithDelay } from './utils';
 
@@ -11,7 +12,7 @@ import { getUniqueID, dataWithDelay } from './utils';
 
 const defaultPeripheralId = 'parkinglot1';
 
-const motionsSchema = new Map<string, object>([
+const motionsSchemaList = [
   [
     defaultPeripheralId,
     {
@@ -96,7 +97,9 @@ const motionsSchema = new Map<string, object>([
       duration: 25,
     },
   ],
-]);
+];
+
+const motionsSchema = new Map<string, object>(motionsSchemaList);
 
 // const getMotionMinutes = () => {
 //   const res = new Map<number, string[]>();
@@ -145,6 +148,7 @@ export const fetchMotionsByPeripheralIdMock = ({
 
 export const fetchAllMotionsMock = ({ fromDate }) => {
   const res = [];
+  const motionsSchema = new Map(_shuffle(motionsSchemaList));
   motionsSchema.forEach((value, key) => {
     const { duration, minutes } = value;
     const documents = [];
