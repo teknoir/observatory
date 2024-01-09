@@ -33,6 +33,7 @@ const useMovementsTimelineData = ({
   period,
   initialDimensions,
 }: Props) => {
+  const [translateXPos, setTranslateXPos] = useState(0);
   const [ref, dimensions] = useChartDimensions(initialDimensions);
   const [defaultTranslate, setDefaultTranslate] = useState<number>(0);
   const scrollGroupRef = useRef<SVGGElement | null>(null);
@@ -135,6 +136,7 @@ const useMovementsTimelineData = ({
       }
 
       const translateX = defaultTranslate + transformObj.x;
+      setTranslateXPos(translateX);
       scrollGroup
         .transition()
         .duration(duration)
@@ -181,6 +183,7 @@ const useMovementsTimelineData = ({
     handlePopoverOpen,
     handlePopoverClose,
     handleCarouselArrows,
+    translateXPos,
   };
 };
 

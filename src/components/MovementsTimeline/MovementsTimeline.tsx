@@ -16,6 +16,7 @@ import AxisVerticalLeft from './AxisVerticalLeft/AxisVerticalLeft';
 import AxisVerticalRight from './AxisVerticalRight/AxisVerticalRight';
 import GridLines from './GridLines/GridLines';
 import { MovementsTimelinePeriod } from './enums';
+import styleVariables from 'enums/styleVariables.module.scss';
 import styles from './MovementsTimeline.module.scss';
 
 interface MovementsTimeLineParams {
@@ -59,6 +60,7 @@ export const MovementsTimeline = ({
     handlePopoverOpen,
     handlePopoverClose,
     // handleCarouselArrows,
+    translateXPos,
   } = useMovementsTimelineData({
     startTime,
     peripherals,
@@ -73,38 +75,47 @@ export const MovementsTimeline = ({
 
   return (
     <div className={styles.root}>
-      <ToolBar
-        filter={filter}
-        handleChangeFilter={handleChangeFilter}
-        period={period}
-        handleChangePeriod={handleChangePeriod}
-      />
-      <Divider variant="middle" />
+      <div
+        style={{
+          zIndex: 1,
+          backgroundColor: styleVariables.fadedBlack,
+          position: 'fixed',
+        }}
+      >
+        <ToolBar
+          filter={filter}
+          handleChangeFilter={handleChangeFilter}
+          period={period}
+          handleChangePeriod={handleChangePeriod}
+        />
+        <Divider variant="middle" />
+        {/* TODO: Remove ts ignore and fix issue
+        eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        @ts-ignore */}
+        <div id="scrollTimestamps" ref={scrollGroupRef}>
+          <AxisHorizontalScroll
+            dimensionsProps={dimensions}
+            translateX={translateXPos}
+            scale={xScale}
+            formatTick={formatDate}
+            numberOfTicks={numberOfTicks}
+          />
+        </div>
+      </div>
       <div
         className={styles.timeline}
         ref={ref}
         style={{
           height: peripherals.length * 64 + 200,
+          marginTop: '120px',
         }}
       >
         <Chart dimensions={dimensions}>
           <GridLines scale={yScale} />
-          {/* <g id="scrollGroupRef" ref={scrollGroupRef}> */}
-          <div
-            id="scrollGroupRef"
-            // TODO: Remove ts ignore and fix issue
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            ref={scrollGroupRef}
-            style={{
-              position: 'absolute',
-            }}
-          >
-            <AxisHorizontalScroll
-              scale={xScale}
-              formatTick={formatDate}
-              numberOfTicks={numberOfTicks}
-            />
+          {/* TODO: Remove ts ignore and fix issue 
+          eslint-disable-next-line @typescript-eslint/ban-ts-comment 
+          @ts-ignore */}
+          <div id="scrollGroupRef" ref={scrollGroupRef}>
             <Circles
               data={dataMotions}
               keyAccessor={detectionIdAccessor}
@@ -130,7 +141,6 @@ export const MovementsTimeline = ({
               handleClose={handlePopoverClose}
             />
           </div>
-          {/* </g> */}
           {/* <CarouselArrows
             leftBtnHeight={dimensions.boundedHeight}
             rightX={dimensions.boundedWidth - 56}

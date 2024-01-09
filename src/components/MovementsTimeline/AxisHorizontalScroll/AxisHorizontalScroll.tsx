@@ -1,15 +1,20 @@
 import { ScaleTime } from 'd3';
 import Typography from '@mui/material/Typography';
 import { useChartDimensions } from 'components/ChartUtilities/Chart/ChartContext';
-// import styles from './AxisHorizontalScroll.module.scss';
 
 interface AxisHorizontalScrollProps {
+  dimensionsProps?: {
+    boundedScrollWidth: number;
+  };
+  translateX?: number;
   scale: ScaleTime<number, number, never>;
   formatTick: (date: Date) => string;
   numberOfTicks?: number;
 }
 
 const AxisHorizontalScroll = ({
+  translateX,
+  dimensionsProps,
   scale,
   formatTick,
   numberOfTicks,
@@ -23,13 +28,14 @@ const AxisHorizontalScroll = ({
   const ticks = scale.ticks(numberOfTicks ? numberOfTicks : autoNumberOfTicks);
 
   return (
-    // <foreignObject width={1} height={1} className={styles.foreignObject}>
     <div
       id="axis_horizontal_scroll"
       style={{
-        width: dimensions.boundedScrollWidth,
+        width:
+          dimensionsProps?.boundedScrollWidth ?? dimensions.boundedScrollWidth,
         display: 'flex',
         justifyContent: 'space-between',
+        transform: `translateX(${translateX}px)`,
       }}
     >
       {ticks.map((tick) => (
@@ -43,26 +49,6 @@ const AxisHorizontalScroll = ({
         </div>
       ))}
     </div>
-    // </foreignObject>
-
-    // <g id="axis_horizontal_scroll">
-    //   {ticks.map((tick) => (
-    //     <foreignObject
-    //       key={String(tick)}
-    //       transform={`translate(${scale(tick)}, 0)`}
-    //       width={1}
-    //       height={1}
-    //       className={styles.foreignObject}
-    //     >
-    //       <Typography variant="BodySmall">
-    //         {formatTick(tick).split(',')[0]}
-    //       </Typography>
-    //       <Typography variant="BodySmall">
-    //         {formatTick(tick).split(',')[1]}
-    //       </Typography>
-    //     </foreignObject>
-    //   ))}
-    // </g>
   );
 };
 
