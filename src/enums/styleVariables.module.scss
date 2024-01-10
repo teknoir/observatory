@@ -28,6 +28,9 @@ $gold: #a58966;
 $greenSuccess: #00a12d;
 $redAlert: #fa4e4e;
 
+//Positioning
+$movementsTimelineEmbedHeight: 112px;
+
 // Sizes
 $xs: 390px;
 $s: 480px;
@@ -45,5 +48,6 @@ $smallSize: $md;
   blue600: $blue600;
   greenSuccess: $greenSuccess;
   redAlert: $redAlert;
+  movementsTimelineEmbedHeight: $movementsTimelineEmbedHeight;
   smallSize: $smallSize;
 }

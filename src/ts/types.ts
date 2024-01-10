@@ -61,6 +61,7 @@ export interface ImagePreviewProps {
   onClick?: () => void;
   ref: (ref: HTMLImageElement) => void;
   children?: ReactNode;
+  centered?: boolean;
 }
 
 export interface VideoProps {

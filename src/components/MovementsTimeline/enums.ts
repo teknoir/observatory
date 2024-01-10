@@ -11,6 +11,6 @@ export enum TimelineFilterBy {
 }
 
 export const TimelineRefetchInterval = {
-  ALL_DEVICES: 60000,
-  SINGLE_DEVICE: 60000,
+  ALL_DEVICES: 2000,
+  SINGLE_DEVICE: 2000,
 };
