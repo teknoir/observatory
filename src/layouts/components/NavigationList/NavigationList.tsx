@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { NavLink as RouterLink } from 'react-router-dom';
 import classNames from 'classnames';
 import Link from '@mui/material/Link';
@@ -11,21 +12,28 @@ import APP_URLS from 'enums/urls';
 import { generatePath } from 'utils/router';
 import styles from './NavigationList.module.scss';
 
-const navigationItems = [
-  {
-    name: 'Home',
-    url: generatePath(APP_URLS.home),
-    iconSrc: homeIcon,
-  },
-  {
-    name: 'Motions & Alerts',
-    url: generatePath(APP_URLS.motionsAlerts),
-    iconSrc: aimIcon,
-  },
-];
+const homeItem = {
+  name: 'Home',
+  url: generatePath(APP_URLS.home),
+  iconSrc: homeIcon,
+};
+
+const motionsAlertsItem = {
+  name: 'Motions & Alerts',
+  url: generatePath(APP_URLS.motionsAlerts),
+  iconSrc: aimIcon,
+};
+
+const getNavigationItems = (isSmall: boolean) => {
+  const items = [homeItem];
+  if (isSmall) return items;
+  return [...items, motionsAlertsItem];
+};
+
 const NavigationList = () => {
-  const { isOpenedLeft } = useMainLayoutContext();
-  console.log('isOpenedLeft', isOpenedLeft);
+  const { isOpenedLeft, isSmall } = useMainLayoutContext();
+  const navigationItems = useMemo(() => getNavigationItems(isSmall), [isSmall]);
+
   return (
     <List className={styles.list}>
       {navigationItems.map(({ name, url, iconSrc }) => (
