@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import Divider from '@mui/material/Divider';
 import { SelectChangeEvent } from '@mui/material/Select';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
@@ -17,6 +17,7 @@ import AxisVerticalRight from './AxisVerticalRight/AxisVerticalRight';
 import GridLines from './GridLines/GridLines';
 import { MovementsTimelinePeriod } from './enums';
 import styles from './MovementsTimeline.module.scss';
+import { debounce } from 'lodash';
 
 interface MovementsTimeLineParams {
   startTime: Date;
@@ -72,17 +73,39 @@ export const MovementsTimeline = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const [scrollYPos, setScrollYPos] = useState(0);
   const numberOfTicks = period === MovementsTimelinePeriod.DAYS_1 ? 24 : period;
+  const translateY = scrollYPos > 140 ? scrollYPos - 110 : 0;
 
-  const onScroll = () => {
+  const debouncedOnScroll = debounce(() => {
     const con = containerRef.current;
     if (con) {
       const verticalScrollPosition = con.scrollTop;
       setScrollYPos(verticalScrollPosition);
     }
-  };
+  }, 20);
+
+  useEffect(() => {
+    const con = containerRef.current;
+    if (con) {
+      con.addEventListener('scroll', debouncedOnScroll);
+    }
+
+    return () => {
+      if (con) {
+        con.removeEventListener('scroll', debouncedOnScroll);
+      }
+    };
+  }, [debouncedOnScroll]);
+
+  // const onScroll = () => {
+  //   const con = containerRef.current;
+  //   if (con) {
+  //     const verticalScrollPosition = con.scrollTop;
+  //     setScrollYPos(verticalScrollPosition);
+  //   }
+  // };
 
   return (
-    <div className={styles.root} ref={containerRef} onScroll={onScroll}>
+    <div className={styles.root} ref={containerRef}>
       <ToolBar
         filter={filter}
         handleChangeFilter={handleChangeFilter}
@@ -119,12 +142,14 @@ export const MovementsTimeline = ({
               className={styles.circleAlert}
               onCircleHover={handlePopoverOpen}
             />
-            <AxisHorizontalScroll
-              scale={xScale}
-              formatTick={formatDate}
-              numberOfTicks={numberOfTicks}
-              offsetY={scrollYPos}
-            />
+            <g transform={`translate(0, ${translateY})`}>
+              <AxisHorizontalScroll
+                scale={xScale}
+                formatTick={formatDate}
+                numberOfTicks={numberOfTicks}
+                // offsetY={scrollYPos}
+              />
+            </g>
             <Popover
               anchorEl={anchorEl}
               alertInfo={alertInfo}
