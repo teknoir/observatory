@@ -95,6 +95,12 @@ export const MovementsTimeline = ({
               formatTick={formatDate}
               numberOfTicks={numberOfTicks}
             />
+            <AxisHorizontalScroll
+              scale={xScale}
+              formatTick={formatDate}
+              numberOfTicks={numberOfTicks}
+              position="bottom"
+            />
             <Circles
               data={dataMotions}
               keyAccessor={detectionIdAccessor}
