@@ -1,13 +1,16 @@
 import classNames from 'classnames';
 import IconButton from '@mui/material/IconButton';
+import FirstPageIcon from '@mui/icons-material/FirstPage';
 import LastPageIcon from '@mui/icons-material/LastPage';
+import motionAlertsIcon from 'assets/icons/motionAlerts.svg';
 import Drawer from '@mui/material/Drawer';
 import { useMainLayoutContext } from 'context/mainLayoutContext.tsx';
+import Icon from 'components/Icon/Icon';
 import RightSideBarTabs from 'components/RightSideBarTabs/RightSideBarTabs.tsx';
+import styleVariables from 'enums/styleVariables.module.scss';
+import { IconSizes } from 'ts/types';
 import DrawerHeader from '../components/DrawerHeader.tsx';
 import { rightSideBarWidth, rightSideBarClosedWidth } from '../enums.ts';
-import FirstPageIcon from '@mui/icons-material/FirstPage';
-import styleVariables from 'enums/styleVariables.module.scss';
 import styles from './RightSideBar.module.scss';
 
 const RightSideBar = () => {
@@ -53,14 +56,26 @@ const RightSideBarMobile = () => {
       >
         <RightSideBarTabs />
       </div>
-      <div className={styles.bottomIcon}>
-        <IconButton onClick={isOpenedRight ? closeRight : openRight}>
-          {isOpenedRight ? (
-            <LastPageIcon sx={sxIcon} />
-          ) : (
-            <FirstPageIcon sx={sxIcon} />
-          )}
-        </IconButton>
+      <div
+        className={
+          isOpenedRight
+            ? styles.bottomIconWrapperOpened
+            : styles.bottomIconWrapper
+        }
+      >
+        <div
+          className={
+            isOpenedRight ? styles.bottomIconOpened : styles.bottomIcon
+          }
+        >
+          <IconButton onClick={isOpenedRight ? closeRight : openRight}>
+            {isOpenedRight ? (
+              <LastPageIcon sx={sxIcon} />
+            ) : (
+              <Icon icon={motionAlertsIcon} size={IconSizes.lg} />
+            )}
+          </IconButton>
+        </div>
       </div>
     </>
   );
