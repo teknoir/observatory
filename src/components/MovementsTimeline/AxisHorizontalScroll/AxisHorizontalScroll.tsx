@@ -7,7 +7,6 @@ interface AxisHorizontalScrollProps {
   scale: ScaleTime<number, number, never>;
   formatTick: (date: Date) => string;
   numberOfTicks?: number;
-  position?: 'top' | 'bottom';
   offsetY?: number;
 }
 
