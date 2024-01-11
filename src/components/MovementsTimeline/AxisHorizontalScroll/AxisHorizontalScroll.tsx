@@ -1,5 +1,4 @@
 import { ScaleTime } from 'd3';
-import classNames from 'classnames';
 import Typography from '@mui/material/Typography';
 import { useChartDimensions } from 'components/ChartUtilities/Chart/ChartContext';
 import styles from './AxisHorizontalScroll.module.scss';
@@ -8,12 +7,15 @@ interface AxisHorizontalScrollProps {
   scale: ScaleTime<number, number, never>;
   formatTick: (date: Date) => string;
   numberOfTicks?: number;
+  position?: 'top' | 'bottom';
+  offsetY?: number;
 }
 
 const AxisHorizontalScroll = ({
   scale,
   formatTick,
   numberOfTicks,
+  offsetY = 0,
 }: AxisHorizontalScrollProps) => {
   const dimensions = useChartDimensions();
   const autoNumberOfTicks =
@@ -22,13 +24,20 @@ const AxisHorizontalScroll = ({
       : dimensions.boundedScrollWidth / 100;
 
   const ticks = scale.ticks(numberOfTicks ? numberOfTicks : autoNumberOfTicks);
+  const translateY = offsetY > 140 ? offsetY - 110 : 0;
 
   return (
-    <g className={classNames(styles.Axis, styles.AxisHorizontal)}>
+    <g transform={`translate(0, ${translateY})`}>
+      <rect
+        className={styles.rect}
+        width={dimensions.boundedScrollWidth}
+        height={40}
+        y={-15}
+      />
       {ticks.map((tick) => (
         <foreignObject
           key={String(tick)}
-          transform={`translate(${scale(tick)}, 0)`}
+          transform={`translate(${scale(tick)})`}
           width={1}
           height={1}
           className={styles.foreignObject}

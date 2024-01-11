@@ -1,5 +1,9 @@
 @import 'enums/styleVariables.module';
 
+.rect {
+  fill: $fadedBlack;
+}
+
 .foreignObject {
   overflow: visible;
   text-wrap: nowrap;
@@ -7,4 +11,5 @@
 
 .text {
   color: $silver;
+  background-color: $fadedBlack;
 }

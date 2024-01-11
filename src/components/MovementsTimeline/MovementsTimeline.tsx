@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useRef, useState } from 'react';
 import Divider from '@mui/material/Divider';
 import { SelectChangeEvent } from '@mui/material/Select';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
@@ -69,10 +69,20 @@ export const MovementsTimeline = ({
     },
   });
   const { setMainImageCarousel } = useContext(HomeContext);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [scrollYPos, setScrollYPos] = useState(0);
   const numberOfTicks = period === MovementsTimelinePeriod.DAYS_1 ? 24 : period;
 
+  const onScroll = () => {
+    const con = containerRef.current;
+    if (con) {
+      const verticalScrollPosition = con.scrollTop;
+      setScrollYPos(verticalScrollPosition);
+    }
+  };
+
   return (
-    <div className={styles.root}>
+    <div className={styles.root} ref={containerRef} onScroll={onScroll}>
       <ToolBar
         filter={filter}
         handleChangeFilter={handleChangeFilter}
@@ -90,11 +100,6 @@ export const MovementsTimeline = ({
         <Chart dimensions={dimensions}>
           <GridLines scale={yScale} />
           <g ref={scrollGroupRef}>
-            <AxisHorizontalScroll
-              scale={xScale}
-              formatTick={formatDate}
-              numberOfTicks={numberOfTicks}
-            />
             <Circles
               data={dataMotions}
               keyAccessor={detectionIdAccessor}
@@ -113,6 +118,12 @@ export const MovementsTimeline = ({
               onClickAccessor={peripheralIdAccessor}
               className={styles.circleAlert}
               onCircleHover={handlePopoverOpen}
+            />
+            <AxisHorizontalScroll
+              scale={xScale}
+              formatTick={formatDate}
+              numberOfTicks={numberOfTicks}
+              offsetY={scrollYPos}
             />
             <Popover
               anchorEl={anchorEl}
