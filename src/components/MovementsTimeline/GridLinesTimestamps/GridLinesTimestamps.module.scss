@@ -4,3 +4,13 @@
   stroke: rgba($offWhite, 0.1);
   stroke-width: 2px;
 }
+
+.foreignObject {
+  overflow: visible;
+  text-wrap: nowrap;
+}
+
+.text {
+  color: rgba($silver, 0.5);
+  transform: rotate(270deg);
+}

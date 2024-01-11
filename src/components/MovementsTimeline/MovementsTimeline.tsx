@@ -102,7 +102,12 @@ export const MovementsTimeline = ({
               numberOfTicks={numberOfTicks}
               position="bottom"
             />
-            <GridLinesTimestamps scale={xScale} numberOfTicks={numberOfTicks} />
+            <GridLinesTimestamps
+              scale={xScale}
+              numberOfTicks={numberOfTicks}
+              timestamps
+              formatTick={formatDate}
+            />
             <Circles
               data={dataMotions}
               keyAccessor={detectionIdAccessor}
