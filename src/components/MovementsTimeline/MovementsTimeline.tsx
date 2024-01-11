@@ -15,6 +15,7 @@ import AxisHorizontalScroll from './AxisHorizontalScroll/AxisHorizontalScroll';
 import AxisVerticalLeft from './AxisVerticalLeft/AxisVerticalLeft';
 import AxisVerticalRight from './AxisVerticalRight/AxisVerticalRight';
 import GridLines from './GridLines/GridLines';
+import GridLinesTimestamps from './GridLinesTimestamps/GridLinesTimestamps';
 import { MovementsTimelinePeriod } from './enums';
 import styles from './MovementsTimeline.module.scss';
 
@@ -101,6 +102,7 @@ export const MovementsTimeline = ({
               numberOfTicks={numberOfTicks}
               position="bottom"
             />
+            <GridLinesTimestamps scale={xScale} numberOfTicks={numberOfTicks} />
             <Circles
               data={dataMotions}
               keyAccessor={detectionIdAccessor}
