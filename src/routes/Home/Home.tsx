@@ -11,7 +11,7 @@ import CamerasTitle from './CamerasTitle/CamerasTitle';
 import styles from './Home.module.scss';
 
 function Home() {
-  const { closeRight } = useMainLayoutContext();
+  const { closeRight, isSmall } = useMainLayoutContext();
   const [searchParams] = useSearchParams();
   const hideMotionsAlerts =
     Boolean(searchParams.get('hideMotionsAlerts')) || false;
@@ -33,7 +33,7 @@ function Home() {
       <MainContent>
         <div className={styles.mainContent}>
           <SurveillanceCarousel />
-          {!hideMotionsAlerts && <MovementsTimelineContainer />}
+          {!hideMotionsAlerts && !isSmall && <MovementsTimelineContainer />}
         </div>
       </MainContent>
     </HomeDataProvider>
