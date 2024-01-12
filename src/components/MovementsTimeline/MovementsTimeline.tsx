@@ -84,6 +84,7 @@ export const MovementsTimeline = ({
         className={styles.timeline}
         ref={ref}
         style={{
+          display: peripherals.length > 0 ? 'block' : '',
           height: peripherals.length * 64 + 200,
         }}
       >
