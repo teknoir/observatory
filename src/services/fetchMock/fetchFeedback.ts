@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 
-import { dataWithDelay } from './utils.ts';
+import { dataWithDelay } from './utils';
 
 export const fetchFeedbackMock = () => {
   return dataWithDelay({

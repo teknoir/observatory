@@ -1,6 +1,6 @@
 import classNames from 'classnames';
-import { useMainLayoutContext } from 'context/mainLayoutContext.tsx';
-import NavigationList from 'layouts/components/NavigationList/NavigationList.tsx';
+import { useMainLayoutContext } from 'context/mainLayoutContext';
+import NavigationList from 'layouts/components/NavigationList/NavigationList';
 import styles from './NavigationBarMobile.module.scss';
 
 const NavigationBarMobile = () => {
