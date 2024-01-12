@@ -34,6 +34,8 @@ const Circles = ({
                 className={classNames(styles.circle, className)}
                 key={keyAccessor(d)}
                 cx={xAccessor(d)}
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore */}
                 cy={yAccessor(d) + 10}
                 r={radius}
                 onClick={() => {
