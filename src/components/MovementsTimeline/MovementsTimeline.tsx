@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from 'react';
+import { useContext } from 'react';
 import Divider from '@mui/material/Divider';
 import { SelectChangeEvent } from '@mui/material/Select';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
@@ -70,44 +70,9 @@ export const MovementsTimeline = ({
   });
   const { setMainImageCarousel } = useContext(HomeContext);
   const numberOfTicks = period === MovementsTimelinePeriod.DAYS_1 ? 24 : period;
-  const refContainer = useRef(null);
-  const refTimestamps = useRef(null);
-
-  useEffect(() => {
-    const container = refContainer.current;
-    const timestamps = refTimestamps.current;
-
-    const handleScroll = () => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      const { top: containerTop } = container.getBoundingClientRect();
-      const threshold = 20;
-      const isScrolled = containerTop < threshold;
-
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      const svgGroup = timestamps.querySelector('g');
-      console.log(svgGroup);
-
-      if (isScrolled) {
-        svgGroup.setAttribute('transform', `translate(0, ${threshold}px)`);
-      } else {
-        svgGroup.setAttribute('transform', `translate(0, 0)`);
-      }
-    };
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    container.addEventListener('scroll', handleScroll);
-
-    return () => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      container.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
 
   return (
-    <div className={styles.root} ref={refContainer}>
+    <div className={styles.root}>
       <ToolBar
         filter={filter}
         handleChangeFilter={handleChangeFilter}
@@ -125,13 +90,11 @@ export const MovementsTimeline = ({
         <Chart dimensions={dimensions}>
           <GridLines scale={yScale} />
           <g ref={scrollGroupRef}>
-            <g ref={refTimestamps}>
-              <AxisHorizontalScroll
-                scale={xScale}
-                formatTick={formatDate}
-                numberOfTicks={numberOfTicks}
-              />
-            </g>
+            <AxisHorizontalScroll
+              scale={xScale}
+              formatTick={formatDate}
+              numberOfTicks={numberOfTicks}
+            />
             <Circles
               data={dataMotions}
               keyAccessor={detectionIdAccessor}
