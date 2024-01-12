@@ -4,13 +4,13 @@ import FirstPageIcon from '@mui/icons-material/FirstPage';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import motionAlertsIcon from 'assets/icons/motionAlerts.svg';
 import Drawer from '@mui/material/Drawer';
-import { useMainLayoutContext } from 'context/mainLayoutContext.tsx';
+import { useMainLayoutContext } from 'context/mainLayoutContext';
 import Icon from 'components/Icon/Icon';
-import RightSideBarTabs from 'components/RightSideBarTabs/RightSideBarTabs.tsx';
+import RightSideBarTabs from 'components/RightSideBarTabs/RightSideBarTabs';
 import styleVariables from 'enums/styleVariables.module.scss';
 import { IconSizes } from 'ts/types';
-import DrawerHeader from '../components/DrawerHeader.tsx';
-import { rightSideBarWidth, rightSideBarClosedWidth } from '../enums.ts';
+import DrawerHeader from '../components/DrawerHeader';
+import { rightSideBarWidth, rightSideBarClosedWidth } from '../enums';
 import styles from './RightSideBar.module.scss';
 
 const RightSideBar = () => {
