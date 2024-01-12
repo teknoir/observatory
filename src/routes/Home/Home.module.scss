@@ -18,10 +18,6 @@
     'B'
     'C';
 
-  & > div:first-child {
-    grid-area: A;
-  }
-
   & > div:not(:first-child):not(:last-child) {
     grid-area: B;
     max-height: 40vh;
@@ -29,6 +25,10 @@
 
   & > div:last-child {
     grid-area: C;
+  }
+
+  & > div:first-child {
+    grid-area: A;
   }
 }
 
