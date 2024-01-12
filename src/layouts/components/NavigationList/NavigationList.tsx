@@ -30,7 +30,11 @@ const getNavigationItems = (isSmall: boolean) => {
   return [...items, motionsAlertsItem];
 };
 
-const NavigationList = () => {
+interface Props {
+  onClickItem?: () => void;
+}
+
+const NavigationList = ({ onClickItem }: Props) => {
   const { isOpenedLeft, isSmall } = useMainLayoutContext();
   const navigationItems = useMemo(() => getNavigationItems(isSmall), [isSmall]);
 
@@ -38,7 +42,7 @@ const NavigationList = () => {
     <List className={styles.list}>
       {navigationItems.map(({ name, url, iconSrc }) => (
         <ListItem key={url} disablePadding>
-          <ListItemButton className={styles.navItem}>
+          <ListItemButton className={styles.navItem} onClick={onClickItem}>
             <Link
               component={RouterLink}
               to={url}
