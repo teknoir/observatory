@@ -4,7 +4,7 @@ import {
   dateAccessor,
   countAccessor,
   eventAccessor,
-} from 'components/ChartUtilities/accessors.ts';
+} from 'components/ChartUtilities/accessors';
 import { LineChart } from 'components/LineChart';
 import styles from './LineCharts.module.scss';
 

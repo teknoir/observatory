@@ -15,7 +15,7 @@ import {
   formatDate as formatDateFunction,
   xScale as xScaleFunction,
   yScale as yScaleFunction,
-} from '../components/MovementsTimeline/utils.ts';
+} from '../components/MovementsTimeline/utils';
 
 const fallbackVideoUrl =
   'https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4';
