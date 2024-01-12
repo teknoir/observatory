@@ -17,7 +17,7 @@ const GridLines = ({ scale }: GridLinesProps) => {
         width: dimensions.boundedWidth,
         height: dimensions.height,
         position: 'absolute',
-        top: 25,
+        top: 10,
         right: 0,
         left: 0,
         margin: 'auto',

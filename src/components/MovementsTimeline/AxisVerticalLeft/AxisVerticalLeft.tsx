@@ -4,6 +4,7 @@ import { useChartDimensions } from 'components/ChartUtilities/Chart/ChartContext
 import Icon from 'components/Icon/Icon';
 import cctvCameraIcon from 'assets/icons/cctvCameraIcon.svg';
 import { IconSizes } from 'ts/types';
+import styleVariables from 'enums/styleVariables.module.scss';
 import styles from './AxisVerticalLeft.module.scss';
 
 interface AxisVerticalLeftProps {
@@ -18,9 +19,10 @@ const AxisVerticalLeft = ({ scale, ...props }: AxisVerticalLeftProps) => {
     <div
       id="axis_names"
       style={{
-        width: 'fit-content',
+        width: '170px',
         height: dimensions.height,
         position: 'relative',
+        backgroundColor: styleVariables.fadedBlack,
       }}
       {...props}
     >

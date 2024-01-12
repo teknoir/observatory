@@ -3,13 +3,14 @@
 .root {
   position: relative;
   background-color: $fadedBlack;
+  overflow-x: hidden;
 }
 
 .timeline {
   height: 500px;
   min-width: 500px;
   width: calc(100% - 1em);
-  margin: 32px;
+  // margin: 32px;
   margin-top: 0;
   margin-bottom: 2em;
 }

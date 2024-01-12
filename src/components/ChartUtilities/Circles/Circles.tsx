@@ -34,7 +34,7 @@ const Circles = ({
                 className={classNames(styles.circle, className)}
                 key={keyAccessor(d)}
                 cx={xAccessor(d)}
-                cy={yAccessor(d)}
+                cy={yAccessor(d) + 10}
                 r={radius}
                 onClick={() => {
                   if (onCircleClick && onClickAccessor)

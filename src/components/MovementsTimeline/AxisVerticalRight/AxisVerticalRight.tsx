@@ -3,6 +3,7 @@ import { generatePath } from 'utils/router';
 import { useChartDimensions } from 'components/ChartUtilities/Chart/ChartContext';
 import DeviceLink from 'components/MovementsTimeline/DeviceLink/DeviceLink';
 import APP_URLS from 'enums/urls';
+import styleVariables from 'enums/styleVariables.module.scss';
 // import styles from './AxisVerticalRight.module.scss';
 
 // const marginLeftFromChart = 32;
@@ -24,11 +25,15 @@ const AxisVerticalRight = ({
     <div
       id="axis_buttons"
       style={{
-        width: 'fit-content',
+        width: '195px',
         height: dimensions.height,
         position: 'absolute',
         top: 0,
-        right: 150,
+        right: '-26px',
+        backgroundColor: styleVariables.fadedBlack,
+        display: 'flex',
+        justifyContent: 'center',
+        paddingRight: '125px',
       }}
       {...props}
     >
