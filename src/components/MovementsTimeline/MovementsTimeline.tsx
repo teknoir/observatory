@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import Divider from '@mui/material/Divider';
 import { SelectChangeEvent } from '@mui/material/Select';
+import Typography from '@mui/material/Typography';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import { Chart, Circles } from 'components/ChartUtilities';
 import { detectionIdAccessor } from 'components/ChartUtilities/accessors';
@@ -12,6 +13,7 @@ import { HomeContext } from 'context/HomeContext/HomeContext';
 import { IAlertEvent, IEventDocumentWithPeripheral } from 'ts/types';
 import useMovementsTimelineData from 'hooks/useMovementsTimelineData';
 import AxisHorizontalScroll from './AxisHorizontalScroll/AxisHorizontalScroll';
+// import AxisHorizontalScrollSvg from './AxisHorizontalScrollSVG/AxisHorizontalScrollSvg';
 import AxisVerticalLeft from './AxisVerticalLeft/AxisVerticalLeft';
 import AxisVerticalRight from './AxisVerticalRight/AxisVerticalRight';
 import GridLines from './GridLines/GridLines';
@@ -49,6 +51,7 @@ export const MovementsTimeline = ({
     dimensions,
     ref,
     scrollGroupRef,
+    translateXPos,
     xScale,
     yScale,
     xAccessorScaled,
@@ -65,7 +68,7 @@ export const MovementsTimeline = ({
     period,
     initialDimensions: {
       marginLeft: 180,
-      marginRight: 160,
+      marginRight: 114,
     },
   });
   const { setMainImageCarousel } = useContext(HomeContext);
@@ -73,28 +76,53 @@ export const MovementsTimeline = ({
 
   return (
     <div className={styles.root}>
-      <ToolBar
-        filter={filter}
-        handleChangeFilter={handleChangeFilter}
-        period={period}
-        handleChangePeriod={handleChangePeriod}
-      />
-      <Divider variant="middle" />
+      <div className={styles.fixedArea}>
+        <ToolBar
+          filter={filter}
+          handleChangeFilter={handleChangeFilter}
+          period={period}
+          handleChangePeriod={handleChangePeriod}
+        />
+        <Divider variant="fullWidth" />
+        <div className={styles.timestamps}>
+          <div style={{ width: dimensions.marginLeft }}>
+            <Typography variant="LabelMedium">
+              Cameras ({peripherals.length ?? 0})
+            </Typography>
+          </div>
+          <svg width={dimensions.boundedWidth} height={24}>
+            <g transform={`translate(${translateXPos}, 0)`}>
+              <AxisHorizontalScroll
+                scale={xScale}
+                formatTick={formatDate}
+                numberOfTicks={numberOfTicks}
+                dimensions={dimensions}
+              />
+            </g>
+          </svg>
+          <div
+            style={{
+              width: dimensions.marginRight,
+            }}
+          ></div>
+        </div>
+      </div>
       <div
-        className={styles.timeline}
         ref={ref}
+        className={styles.timeline}
         style={{
+          marginTop: 80,
           height: peripherals.length * 64 + 200,
         }}
       >
         <Chart dimensions={dimensions}>
           <GridLines scale={yScale} />
           <g ref={scrollGroupRef}>
-            <AxisHorizontalScroll
+            {/* <AxisHorizontalScrollSvg
               scale={xScale}
               formatTick={formatDate}
               numberOfTicks={numberOfTicks}
-            />
+            /> */}
             <Circles
               data={dataMotions}
               keyAccessor={detectionIdAccessor}
