@@ -1,14 +1,13 @@
 import { ScaleTime } from 'd3';
 import Typography from '@mui/material/Typography';
 import styles from './AxisHorizontalScroll.module.scss';
+import { ChartDimensions } from 'ts/types';
 
 interface AxisHorizontalScrollProps {
   scale: ScaleTime<number, number, never>;
   formatTick: (date: Date) => string;
   numberOfTicks?: number;
-  dimensions?: {
-    boundedScrollWidth: number;
-  };
+  dimensions?: ChartDimensions;
 }
 
 const AxisHorizontalScroll = ({

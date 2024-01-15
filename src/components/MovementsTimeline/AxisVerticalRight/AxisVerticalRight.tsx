@@ -16,12 +16,7 @@ const AxisVerticalRight = ({ scale, ids }: AxisVerticalRightProps) => {
 
   return (
     <g transform={`translate(${dimensions.boundedWidth}, 0)`}>
-      <rect
-        x={0}
-        width={dimensions.marginRight}
-        height="100%"
-        className={styles.rectBackground}
-      />
+      <rect width={dimensions.marginRight} className={styles.rectBackground} />
       {ticks.map((tick, i) => (
         <foreignObject
           key={tick}
