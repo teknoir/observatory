@@ -10,6 +10,7 @@ import { generatePath } from 'utils/router';
 import VideoPlayer from 'components/VideoPlayer/VideoPlayer';
 import { PopoverInfoProps } from 'ts/types';
 import APP_URLS from 'enums/urls';
+import { durationToMMSS } from 'utils/moment';
 import styles from './Popover.module.scss';
 
 enum ALERT_INFO_KEYS {
@@ -76,7 +77,7 @@ const PopoverComponent = ({
               Duration:
             </Typography>
             <Typography variant="LabelMedium" className={styles.value}>
-              &emsp;{Math.round(alertInfo[ALERT_INFO_KEYS.DURATION] / 1000)}s
+              &emsp;{durationToMMSS(alertInfo[ALERT_INFO_KEYS.DURATION])}
             </Typography>
           </Box>
         </CardContent>
