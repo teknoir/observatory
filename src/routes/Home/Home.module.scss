@@ -8,7 +8,6 @@
 
 .mainContent {
   height: calc(100vh - 64px);
-  overflow-y: scroll;
   display: grid;
   grid-auto-flow: column;
   grid-template-columns: minmax(0, 1fr) fit-content(40%);
