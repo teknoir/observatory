@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import classNames from 'classnames';
 import Divider from '@mui/material/Divider';
 import { SelectChangeEvent } from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
@@ -33,6 +34,7 @@ interface MovementsTimeLineParams {
   period: MovementsTimelinePeriod;
   handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;
   isLoading: boolean;
+  fullHeight?: boolean;
 }
 
 export const MovementsTimeline = ({
@@ -46,6 +48,7 @@ export const MovementsTimeline = ({
   period,
   handleChangePeriod,
   isLoading,
+  fullHeight,
 }: MovementsTimeLineParams) => {
   const {
     dimensions,
@@ -75,7 +78,9 @@ export const MovementsTimeline = ({
   const numberOfTicks = period === MovementsTimelinePeriod.DAYS_1 ? 24 : period;
 
   return (
-    <div className={styles.root}>
+    <div
+      className={classNames(styles.root, fullHeight ? styles.fullHeight : '')}
+    >
       <div className={styles.fixedArea}>
         <ToolBar
           filter={filter}
@@ -118,11 +123,6 @@ export const MovementsTimeline = ({
         <Chart dimensions={dimensions}>
           <GridLines scale={yScale} />
           <g ref={scrollGroupRef}>
-            {/* <AxisHorizontalScrollSvg
-              scale={xScale}
-              formatTick={formatDate}
-              numberOfTicks={numberOfTicks}
-            /> */}
             <Circles
               data={dataMotions}
               keyAccessor={detectionIdAccessor}

@@ -6,6 +6,10 @@
   overflow-x: hidden;
 }
 
+.fullHeight {
+  height: calc(100vh - $headerHeight);
+}
+
 .fixedArea {
   position: fixed;
   background-color: $fadedBlack;

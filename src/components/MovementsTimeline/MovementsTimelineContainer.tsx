@@ -20,7 +20,13 @@ import {
   TimelineRefetchInterval,
 } from './enums';
 
-function MovementsTimelineContainer() {
+interface MovementsTimelineContainerParams {
+  fullHeight?: boolean;
+}
+
+function MovementsTimelineContainer({
+  fullHeight,
+}: MovementsTimelineContainerParams) {
   const queryClient = useQueryClient();
   const sources: { [p: string]: Source } = queryClient.getQueryData([
     wsSources,
@@ -123,6 +129,7 @@ function MovementsTimelineContainer() {
       period={period}
       handleChangePeriod={handleChangePeriod}
       isLoading={isLoadingMotions || isLoadingAlerts}
+      fullHeight={fullHeight}
     />
   );
 }
