@@ -14,7 +14,6 @@ import { HomeContext } from 'context/HomeContext/HomeContext';
 import { IAlertEvent, IEventDocumentWithPeripheral } from 'ts/types';
 import useMovementsTimelineData from 'hooks/useMovementsTimelineData';
 import AxisHorizontalScroll from './AxisHorizontalScroll/AxisHorizontalScroll';
-// import AxisHorizontalScrollSvg from './AxisHorizontalScrollSVG/AxisHorizontalScrollSvg';
 import AxisVerticalLeft from './AxisVerticalLeft/AxisVerticalLeft';
 import AxisVerticalRight from './AxisVerticalRight/AxisVerticalRight';
 import GridLines from './GridLines/GridLines';
@@ -116,7 +115,6 @@ export const MovementsTimeline = ({
         ref={ref}
         className={styles.timeline}
         style={{
-          marginTop: 80,
           height: peripherals.length * 64 + 200,
         }}
       >
