@@ -1,4 +1,5 @@
 import { NavLink as RouterLink } from 'react-router-dom';
+import _upperFirst from 'lodash/upperFirst';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -10,6 +11,7 @@ import { generatePath } from 'utils/router';
 import VideoPlayer from 'components/VideoPlayer/VideoPlayer';
 import { PopoverInfoProps } from 'ts/types';
 import APP_URLS from 'enums/urls';
+import { durationToMMSS } from 'utils/moment';
 import styles from './Popover.module.scss';
 
 enum ALERT_INFO_KEYS {
@@ -60,7 +62,7 @@ const PopoverComponent = ({
               Alert type:
             </Typography>
             <Typography variant="LabelMedium" className={styles.value}>
-              &emsp;{alertInfo[ALERT_INFO_KEYS.TYPE]} TEST
+              &emsp;{_upperFirst(alertInfo[ALERT_INFO_KEYS.TYPE])}
             </Typography>
           </Box>
           <Box>
@@ -76,7 +78,7 @@ const PopoverComponent = ({
               Duration:
             </Typography>
             <Typography variant="LabelMedium" className={styles.value}>
-              &emsp;{Math.round(alertInfo[ALERT_INFO_KEYS.DURATION] / 1000)}s
+              &emsp;{durationToMMSS(alertInfo[ALERT_INFO_KEYS.DURATION])}
             </Typography>
           </Box>
         </CardContent>
