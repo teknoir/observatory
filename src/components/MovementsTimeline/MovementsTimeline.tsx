@@ -125,6 +125,7 @@ export const MovementsTimeline = ({
         ref={ref}
         className={styles.timeline}
         style={{
+          display: peripherals.length > 0 ? 'block' : '',
           height: peripherals.length * 64 + 200,
           marginTop: isFixToolbar ? 80 : 0,
         }}
