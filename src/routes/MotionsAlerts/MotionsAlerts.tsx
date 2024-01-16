@@ -10,7 +10,7 @@ const MotionsAlerts = () => {
         <Typography variant="LabelMedium">Motions & Alerts</Typography>
       </ContentBar>
       <MainContent>
-        <MovementsTimelineContainer />
+        <MovementsTimelineContainer isFullHeight isFixToolbar />
       </MainContent>
     </>
   );

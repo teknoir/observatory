@@ -8,8 +8,7 @@
 }
 
 .mainContent {
-  height: calc(100vh - 64px);
-  overflow-y: scroll;
+  height: calc(100vh - $headerHeight);
   display: grid;
   grid-auto-flow: column;
   grid-template-columns: minmax(0, 1fr);
