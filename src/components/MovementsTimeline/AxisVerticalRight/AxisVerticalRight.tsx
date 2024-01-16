@@ -5,35 +5,26 @@ import DeviceLink from 'components/MovementsTimeline/DeviceLink/DeviceLink';
 import APP_URLS from 'enums/urls';
 import styles from './AxisVerticalRight.module.scss';
 
-const marginLeftFromChart = 32;
-
 interface AxisVerticalRightProps {
   scale: ScalePoint<string>;
   ids: string[];
 }
 
-const AxisVerticalRight = ({
-  scale,
-  ids,
-  ...props
-}: AxisVerticalRightProps) => {
+const AxisVerticalRight = ({ scale, ids }: AxisVerticalRightProps) => {
   const dimensions = useChartDimensions();
   const ticks = scale.domain();
 
   return (
-    <g {...props}>
+    <g transform={`translate(${dimensions.boundedWidth}, 0)`}>
       <rect
-        x={dimensions.width - dimensions.marginRight - dimensions.marginLeft}
-        y="0"
-        width={dimensions.marginRight - marginLeftFromChart / 2}
+        width={dimensions.marginRight}
         height="100%"
         className={styles.rectBackground}
       />
       {ticks.map((tick, i) => (
         <foreignObject
           key={tick}
-          textAnchor="middle"
-          x={dimensions.boundedWidth + marginLeftFromChart}
+          x={32}
           y={(scale(tick) ?? 0) - 10.5}
           width={1}
           height={1}
