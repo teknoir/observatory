@@ -50,6 +50,7 @@ const MovementsTimeline = ({
     startTime,
     peripherals: ['test'],
     period,
+    scrollLengthMultiplier: 12,
   });
   const numberOfTicks = period === MovementsTimelinePeriod.DAYS_1 ? 24 : period;
 
