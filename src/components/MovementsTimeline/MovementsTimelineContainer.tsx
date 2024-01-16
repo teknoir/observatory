@@ -21,13 +21,13 @@ import {
 } from './enums';
 
 interface MovementsTimelineContainerParams {
-  fullHeight?: boolean;
-  fixToolbar?: boolean;
+  isFullHeight?: boolean;
+  isFixToolbar?: boolean;
 }
 
 function MovementsTimelineContainer({
-  fullHeight,
-  fixToolbar,
+  isFullHeight,
+  isFixToolbar,
 }: MovementsTimelineContainerParams) {
   const queryClient = useQueryClient();
   const sources: { [p: string]: Source } = queryClient.getQueryData([
@@ -131,8 +131,8 @@ function MovementsTimelineContainer({
       period={period}
       handleChangePeriod={handleChangePeriod}
       isLoading={isLoadingMotions || isLoadingAlerts}
-      fullHeight={fullHeight}
-      fixToolbar={fixToolbar}
+      isFullHeight={isFullHeight}
+      isFixToolbar={isFixToolbar}
     />
   );
 }

@@ -10,7 +10,7 @@ const MotionsAlerts = () => {
         <Typography variant="LabelMedium">Motions & Alerts</Typography>
       </AppBar>
       <MainContent>
-        <MovementsTimelineContainer fullHeight fixToolbar />
+        <MovementsTimelineContainer isFullHeight isFixToolbar />
       </MainContent>
     </>
   );

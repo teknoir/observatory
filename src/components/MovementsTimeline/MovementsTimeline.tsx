@@ -33,8 +33,8 @@ interface MovementsTimeLineParams {
   period: MovementsTimelinePeriod;
   handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;
   isLoading: boolean;
-  fullHeight?: boolean;
-  fixToolbar?: boolean;
+  isFullHeight?: boolean;
+  isFixToolbar?: boolean;
 }
 
 export const MovementsTimeline = ({
@@ -48,8 +48,8 @@ export const MovementsTimeline = ({
   period,
   handleChangePeriod,
   isLoading,
-  fullHeight,
-  fixToolbar = false,
+  isFullHeight,
+  isFixToolbar = false,
 }: MovementsTimeLineParams) => {
   const {
     dimensions,
@@ -71,14 +71,14 @@ export const MovementsTimeline = ({
     peripherals,
     period,
     initialDimensions: {
-      marginTop: fixToolbar ? 20 : -20,
+      marginTop: isFixToolbar ? 20 : -20,
       marginLeft: 180,
       marginRight: 114,
     },
   });
   const { setMainImageCarousel } = useContext(HomeContext);
   const numberOfTicks = period === MovementsTimelinePeriod.DAYS_1 ? 24 : period;
-  const toolBarProps = {
+  const toolbarProps = {
     filter,
     handleChangeFilter,
     period,
@@ -87,16 +87,16 @@ export const MovementsTimeline = ({
 
   return (
     <div
-      className={classNames(styles.root, fullHeight ? styles.fullHeight : '')}
+      className={classNames(styles.root, isFullHeight ? styles.fullHeight : '')}
     >
-      {!fixToolbar && <ToolBar {...toolBarProps} />}
+      {!isFixToolbar && <ToolBar {...toolbarProps} />}
       <div
         className={classNames(
           styles.areaBackground,
-          fixToolbar ? styles.fixedArea : styles.stickyArea
+          isFixToolbar ? styles.fixedArea : styles.stickyArea
         )}
       >
-        {fixToolbar && <ToolBar {...toolBarProps} />}
+        {isFixToolbar && <ToolBar {...toolbarProps} />}
         <Divider variant="fullWidth" />
         <div className={styles.timestamps}>
           <div style={{ width: dimensions.marginLeft }}>
@@ -126,7 +126,7 @@ export const MovementsTimeline = ({
         className={styles.timeline}
         style={{
           height: peripherals.length * 64 + 200,
-          marginTop: fixToolbar ? 80 : 0,
+          marginTop: isFixToolbar ? 80 : 0,
         }}
       >
         <Chart dimensions={dimensions}>
