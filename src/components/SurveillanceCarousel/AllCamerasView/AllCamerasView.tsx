@@ -1,13 +1,14 @@
-import { useEffect, useMemo, useState, useCallback } from 'react';
+import { useEffect, useMemo, useState, useCallback, Fragment } from 'react';
 import _throttle from 'lodash/throttle';
 import { useInterval } from 'usehooks-ts';
 import classNames from 'classnames';
 import ArrowBackIos from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIos from '@mui/icons-material/ArrowForwardIos';
 import Box from '@mui/material/Box';
-import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImagePreview/CarouselImagePreview';
+import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImagePreview';
 import MovementsTimelineEmbed from 'components/MovementsTimelineEmbed/MovementsTimelineEmbed';
 import useOrderedSourcesKeys from 'hooks/useOrderedSourcesKeys';
+import { useMainLayoutContext } from 'context/mainLayoutContext';
 import { CarouselProps } from 'ts/types';
 import { NextPageOptions, nextPage } from './utils';
 import styles from './AllCamerasView.module.scss';
@@ -32,6 +33,9 @@ function AllCamerasView({ sources, peripheralIdNotified }: CarouselProps) {
     handleDragOver,
     handleDrop,
   } = useOrderedSourcesKeys(sources);
+  const { isSmall } = useMainLayoutContext();
+
+  const EmbedComponent = isSmall ? Fragment : MovementsTimelineEmbed;
 
   // FIXME: This is a workaround to render using an array
   const images: ImagesProps[] = useMemo(() => {
@@ -114,7 +118,7 @@ function AllCamerasView({ sources, peripheralIdNotified }: CarouselProps) {
             draggable
             className={styles.imagePreviewContainer}
           >
-            <MovementsTimelineEmbed
+            <EmbedComponent
               peripheralId={image.peripheralId}
               classNameContainer={styles.imagePreview}
             >
@@ -130,7 +134,7 @@ function AllCamerasView({ sources, peripheralIdNotified }: CarouselProps) {
                     : ''
                 }`}
               />
-            </MovementsTimelineEmbed>
+            </EmbedComponent>
           </div>
         ))}
       </div>
