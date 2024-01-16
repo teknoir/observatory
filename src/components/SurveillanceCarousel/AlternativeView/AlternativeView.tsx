@@ -2,9 +2,10 @@ import { Fragment, useContext, useMemo } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Resizable from 'components/Resizable/Resizable';
-import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImagePreview/CarouselImagePreview';
+import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImagePreview';
 import MovementsTimelineEmbed from 'components/MovementsTimelineEmbed/MovementsTimelineEmbed';
 import { HomeContext } from 'context/HomeContext/HomeContext';
+import { useMainLayoutContext } from 'context/mainLayoutContext';
 import { CarouselMode, CarouselProps } from 'ts/types';
 import useOrderedSourcesKeys from 'hooks/useOrderedSourcesKeys';
 import styles from './AlternativeView.module.scss';
@@ -19,6 +20,7 @@ interface ImagesProps {
 
 function AlternativeView({ sources, peripheralIdNotified }: CarouselProps) {
   const { setLayout } = useContext(HomeContext);
+  const { isSmall } = useMainLayoutContext();
   const {
     sourcesKeys,
     handleDragStart,
@@ -56,7 +58,7 @@ function AlternativeView({ sources, peripheralIdNotified }: CarouselProps) {
       >
         <Grid container className={styles.container}>
           {images.slice(0, 7).map((image, index) => {
-            const isEmbedded = index < 3;
+            const isEmbedded = !isSmall && index < 3;
             const EmbedComponent = isEmbedded
               ? MovementsTimelineEmbed
               : Fragment;
