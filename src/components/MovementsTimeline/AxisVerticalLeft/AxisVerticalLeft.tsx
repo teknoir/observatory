@@ -23,16 +23,6 @@ const AxisVerticalLeft = ({ scale, ...props }: AxisVerticalLeftProps) => {
         height="100%"
         className={styles.rectBackground}
       />
-      <foreignObject
-        x={-dimensions.marginLeft}
-        width={1}
-        height={1}
-        className={styles.foreignObject}
-      >
-        <Typography variant="LabelMedium">
-          Cameras ({ticks.length ?? 0})
-        </Typography>
-      </foreignObject>
       {ticks.map((tick) => (
         <foreignObject
           key={tick}

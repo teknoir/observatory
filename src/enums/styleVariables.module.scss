@@ -31,6 +31,9 @@ $redAlert: #fa4e4e;
 //Positioning
 $movementsTimelineEmbedHeight: 112px;
 
+//Header
+$headerHeight: 64px;
+
 :export {
   fadedBlack: $fadedBlack;
   offWhite: $offWhite;
@@ -40,4 +43,5 @@ $movementsTimelineEmbedHeight: 112px;
   greenSuccess: $greenSuccess;
   redAlert: $redAlert;
   movementsTimelineEmbedHeight: $movementsTimelineEmbedHeight;
+  headerHeight: $headerHeight;
 }
