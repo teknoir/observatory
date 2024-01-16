@@ -34,6 +34,7 @@ interface MovementsTimeLineParams {
   handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;
   isLoading: boolean;
   fullHeight?: boolean;
+  fixToolbar?: boolean;
 }
 
 export const MovementsTimeline = ({
@@ -48,6 +49,7 @@ export const MovementsTimeline = ({
   handleChangePeriod,
   isLoading,
   fullHeight,
+  fixToolbar = false,
 }: MovementsTimeLineParams) => {
   const {
     dimensions,
@@ -69,24 +71,32 @@ export const MovementsTimeline = ({
     peripherals,
     period,
     initialDimensions: {
+      marginTop: fixToolbar ? 20 : -20,
       marginLeft: 180,
       marginRight: 114,
     },
   });
   const { setMainImageCarousel } = useContext(HomeContext);
   const numberOfTicks = period === MovementsTimelinePeriod.DAYS_1 ? 24 : period;
+  const toolBarProps = {
+    filter,
+    handleChangeFilter,
+    period,
+    handleChangePeriod,
+  };
 
   return (
     <div
       className={classNames(styles.root, fullHeight ? styles.fullHeight : '')}
     >
-      <div className={styles.fixedArea}>
-        <ToolBar
-          filter={filter}
-          handleChangeFilter={handleChangeFilter}
-          period={period}
-          handleChangePeriod={handleChangePeriod}
-        />
+      {!fixToolbar && <ToolBar {...toolBarProps} />}
+      <div
+        className={classNames(
+          styles.areaBackground,
+          fixToolbar ? styles.fixedArea : styles.stickyArea
+        )}
+      >
+        {fixToolbar && <ToolBar {...toolBarProps} />}
         <Divider variant="fullWidth" />
         <div className={styles.timestamps}>
           <div style={{ width: dimensions.marginLeft }}>
@@ -116,6 +126,7 @@ export const MovementsTimeline = ({
         className={styles.timeline}
         style={{
           height: peripherals.length * 64 + 200,
+          marginTop: fixToolbar ? 80 : 0,
         }}
       >
         <Chart dimensions={dimensions}>

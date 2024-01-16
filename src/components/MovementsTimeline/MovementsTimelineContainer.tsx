@@ -22,10 +22,12 @@ import {
 
 interface MovementsTimelineContainerParams {
   fullHeight?: boolean;
+  fixToolbar?: boolean;
 }
 
 function MovementsTimelineContainer({
   fullHeight,
+  fixToolbar,
 }: MovementsTimelineContainerParams) {
   const queryClient = useQueryClient();
   const sources: { [p: string]: Source } = queryClient.getQueryData([
@@ -130,6 +132,7 @@ function MovementsTimelineContainer({
       handleChangePeriod={handleChangePeriod}
       isLoading={isLoadingMotions || isLoadingAlerts}
       fullHeight={fullHeight}
+      fixToolbar={fixToolbar}
     />
   );
 }
