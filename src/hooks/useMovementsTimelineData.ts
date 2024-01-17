@@ -25,6 +25,7 @@ interface Props {
   period: number;
   startTime: Date;
   initialDimensions?: IDimensions;
+  scrollLengthMultiplier?: number;
 }
 
 const useMovementsTimelineData = ({
@@ -32,10 +33,15 @@ const useMovementsTimelineData = ({
   peripherals,
   period,
   initialDimensions,
+  scrollLengthMultiplier = 6,
 }: Props) => {
-  const [ref, dimensions] = useChartDimensions(initialDimensions);
+  const [ref, dimensions] = useChartDimensions(
+    initialDimensions,
+    scrollLengthMultiplier
+  );
   const [defaultTranslate, setDefaultTranslate] = useState<number>(0);
   const scrollGroupRef = useRef<SVGGElement | null>(null);
+  const [translateXPos, setTranslateXPos] = useState(0);
   const [anchorEl, setAnchorEl] = useState<SVGCircleElement | null>(null);
   const [alertInfo, setAlertInfo] = useState<PopoverInfoProps>({
     detection_id: '',
@@ -135,6 +141,7 @@ const useMovementsTimelineData = ({
       }
 
       const translateX = defaultTranslate + transformObj.x;
+      setTranslateXPos(translateX);
       scrollGroup
         .transition()
         .duration(duration)
@@ -169,6 +176,7 @@ const useMovementsTimelineData = ({
     dimensions,
     ref,
     scrollGroupRef,
+    translateXPos,
     xScale,
     yScale,
     xAccessorScaled,
