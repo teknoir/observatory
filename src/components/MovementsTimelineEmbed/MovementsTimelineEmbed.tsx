@@ -14,7 +14,7 @@ import {
   MovementsTimelinePeriod,
   TimelineFilterBy,
   TimelineRefetchInterval,
-} from '../MovementsTimeline/enums.ts';
+} from '../MovementsTimeline/enums';
 import styles from './MovementsTimelineEmbed.module.scss';
 import { SelectChangeEvent } from '@mui/material/Select';
 
@@ -83,22 +83,12 @@ const MovementsTimelineEmbed = ({
     setIsShow(false);
   };
 
-  let dataMotionsByPeripheralIdFlatten = getFlattenDocuments(
+  const dataMotionsByPeripheralIdFlatten = getFlattenDocuments(
     dataMotionsByPeripheralId
   );
-  // TODO: temp solution for redundant data (only for Charts) - remove in future!
-  if (dataMotionsByPeripheralIdFlatten?.length > 1000) {
-    dataMotionsByPeripheralIdFlatten =
-      dataMotionsByPeripheralIdFlatten.slice(-1000);
-  }
-  let dataAlertsByPeripheralIdFlatten = getFlattenDocuments(
+  const dataAlertsByPeripheralIdFlatten = getFlattenDocuments(
     dataAlertsByPeripheralId
   );
-  // TODO: temp solution for redundant data (only for Charts) - remove in future!
-  if (dataAlertsByPeripheralIdFlatten?.length > 1000) {
-    dataAlertsByPeripheralIdFlatten =
-      dataAlertsByPeripheralIdFlatten.slice(-1000);
-  }
 
   const handleChangeFilterBy = (e: SelectChangeEvent<unknown>) => {
     const filterByValue = String(e.target.value);

@@ -4,11 +4,11 @@ import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import logo from 'assets/logo.svg';
 import logoIcon from 'assets/logo_icon.svg';
-import Icon from 'components/Icon/Icon.tsx';
-import { useMainLayoutContext } from 'context/mainLayoutContext.tsx';
-import NavigationList from 'layouts/components/NavigationList/NavigationList.tsx';
-import DrawerHeader from '../components/DrawerHeader.tsx';
-import { leftSideBarWidth, leftSideBarClosedWidth } from '../enums.ts';
+import Icon from 'components/Icon/Icon';
+import { useMainLayoutContext } from 'context/mainLayoutContext';
+import NavigationList from 'layouts/components/NavigationList/NavigationList';
+import DrawerHeader from '../components/DrawerHeader';
+import { leftSideBarWidth, leftSideBarClosedWidth } from '../enums';
 import styles from './NavigationBar.module.scss';
 
 const NavigationBar = () => {

@@ -64,5 +64,9 @@
   .grid {
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, calc(100% / 3));
+
+    & > div {
+      grid-column: span 1 !important;
+    }
   }
 }

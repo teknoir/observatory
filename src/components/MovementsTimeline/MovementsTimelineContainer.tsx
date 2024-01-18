@@ -86,21 +86,13 @@ function MovementsTimelineContainer() {
       'peripheral_name'
     );
     return [
-      uniqueArr.map(peripheralNameAccessor),
-      uniqueArr.map(peripheralIdAccessor),
+      uniqueArr.map(peripheralNameAccessor).sort(),
+      uniqueArr.map(peripheralIdAccessor).sort(),
     ];
   }, [dataMotions, dataAlerts, sourcesFromWS]);
 
-  let dataAlertsFlatten = getFlattenDocuments(dataAlerts);
-  // TODO: temp solution for redundant data (only for Charts) - remove in future!
-  if (dataAlertsFlatten?.length > 1000) {
-    dataAlertsFlatten = dataAlertsFlatten.slice(-1000);
-  }
-  let dataMotionsFlatten = getFlattenDocuments(dataMotions);
-  // TODO: temp solution for redundant data (only for Charts) - remove in future!
-  if (dataMotionsFlatten?.length > 1000) {
-    dataMotionsFlatten = dataMotionsFlatten.slice(-1000);
-  }
+  const dataAlertsFlatten = getFlattenDocuments(dataAlerts);
+  const dataMotionsFlatten = getFlattenDocuments(dataMotions);
 
   const handleChangeFilterBy = (e: SelectChangeEvent<unknown>) => {
     const filterByValue = String(e.target.value);

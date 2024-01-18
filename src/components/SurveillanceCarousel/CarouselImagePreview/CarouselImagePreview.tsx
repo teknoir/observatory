@@ -6,6 +6,7 @@ import TitleContainer from 'components/SurveillanceCarousel/TitleContainer/Title
 import APP_URLS from 'enums/urls';
 import { generatePath } from 'utils/router';
 import { ImagePreviewProps } from 'ts/types';
+import styleVariables from 'enums/styleVariables.module.scss';
 import styles from './CarouselImagePreview.module.scss';
 
 const CarouselImagePreview = forwardRef<HTMLImageElement, ImagePreviewProps>(
@@ -19,6 +20,7 @@ const CarouselImagePreview = forwardRef<HTMLImageElement, ImagePreviewProps>(
       className = '',
       onClick = () => {},
       children,
+      centered = false,
     }: ImagePreviewProps,
     ref
   ) => {
@@ -31,7 +33,14 @@ const CarouselImagePreview = forwardRef<HTMLImageElement, ImagePreviewProps>(
           ref={ref}
         />
         <TitleContainer title={title} status={status} />
-        <div className={styles.hoverState}>
+        <div
+          className={styles.hoverState}
+          style={{
+            paddingBottom: centered
+              ? 0
+              : styleVariables.movementsTimelineEmbedHeight,
+          }}
+        >
           <Link
             component={RouterLink}
             to={generatePath(APP_URLS.devices, {

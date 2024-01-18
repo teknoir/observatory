@@ -1,9 +1,10 @@
-import { useEffect, useRef, DragEvent } from 'react';
+import { useEffect, useRef, DragEvent, Fragment } from 'react';
 import Resizable from 'components/Resizable/Resizable';
 import classNames from 'classnames';
-import CarouselImage from 'components/SurveillanceCarousel/CarouselImage/CarouselImage';
-import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImagePreview/CarouselImagePreview';
+import CarouselImage from 'components/SurveillanceCarousel/CarouselImage';
+import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImagePreview';
 import MovementsTimelineEmbed from 'components/MovementsTimelineEmbed/MovementsTimelineEmbed';
+import { useMainLayoutContext } from 'context/mainLayoutContext';
 import { CarouselProps, RefImage, CameraId } from 'ts/types';
 import useOrderedSourcesKeys from 'hooks/useOrderedSourcesKeys';
 import styles from './GeneralView.module.scss';
@@ -23,6 +24,9 @@ function GeneralView({
     handleDragOver,
     handleDrop,
   } = useOrderedSourcesKeys(sources);
+  const { isSmall } = useMainLayoutContext();
+
+  const EmbedComponent = isSmall ? Fragment : MovementsTimelineEmbed;
 
   useEffect(() => {
     if (selectedImageRef.current && galleryRef.current) {
@@ -67,7 +71,7 @@ function GeneralView({
           onDrop={handleDropMain(mainSource)}
           draggable
         >
-          <MovementsTimelineEmbed
+          <EmbedComponent
             peripheralId={mainPeripheralId}
             classNameContainer={styles.mainImageEmbed}
           >
@@ -77,7 +81,7 @@ function GeneralView({
               title={mainPeripheralName}
               status={status}
             />
-          </MovementsTimelineEmbed>
+          </EmbedComponent>
         </div>
       </Resizable>
       <Resizable
@@ -121,6 +125,7 @@ function GeneralView({
                           : ''
                       }`
                     )}
+                    centered
                   />
                 </div>
               );

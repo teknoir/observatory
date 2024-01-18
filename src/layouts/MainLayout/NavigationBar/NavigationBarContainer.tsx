@@ -1,10 +1,10 @@
-import NavigationBar from './NavigationBar.tsx';
-import NavigationBarMobil from './NavigationBarMobile/NavigationBarMobile.tsx';
+import NavigationBar from './NavigationBar';
+import NavigationBarMobile from './NavigationBarMobile/NavigationBarMobile';
 
 const NavigationBarContainer = () => (
   <>
     <NavigationBar />
-    <NavigationBarMobil />
+    <NavigationBarMobile />
   </>
 );
 
