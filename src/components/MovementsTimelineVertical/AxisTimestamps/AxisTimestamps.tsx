@@ -9,7 +9,6 @@ interface AxisTimestampsProps {
   data: { start_time: string }[] | undefined;
   keyAccessor: Accessor;
   yAccessor: Accessor;
-  className?: string;
 }
 
 const parseTime = d3.timeParse('%Y-%m-%dT%H:%M:%S%Z');
@@ -19,7 +18,6 @@ const AxisTimestamps = ({
   data,
   keyAccessor,
   yAccessor,
-  className,
 }: AxisTimestampsProps) => (
   <g>
     {data &&
@@ -51,13 +49,6 @@ const AxisTimestamps = ({
                 {formatDateByTime(parseTime(d.start_time))}
               </Typography>
             </div>
-            <div
-              className={className}
-              style={{
-                width: '80px',
-                height: '1px',
-              }}
-            ></div>
           </div>
         </foreignObject>
       ))}

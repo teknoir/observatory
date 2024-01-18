@@ -10,6 +10,7 @@ import { HomeContext } from 'context/HomeContext/HomeContext';
 import { IAlertEvent, IEventDocumentWithPeripheral } from 'ts/types';
 import useMovementsTimelineDataVertical from 'hooks/useMovementsTimelineDataVertical';
 import AxisDetails from './AxisDetails/AxisDetails';
+import AxisLines from './AxisLines/AxisLines';
 import AxisTimestamps from './AxisTimestamps/AxisTimestamps';
 import GridLines from './GridLines/GridLines';
 import { MovementsTimelinePeriod } from './enums';
@@ -73,9 +74,14 @@ export const MovementsTimelineVertical = ({
               data={dataMotions}
               keyAccessor={detectionIdAccessor}
               yAccessor={xAccessorScaled}
+            />
+            <AxisLines
+              data={dataMotions}
+              keyAccessor={detectionIdAccessor}
+              yAccessor={xAccessorScaled}
               className={styles.lineMotion}
             />
-            <AxisTimestamps
+            <AxisLines
               data={dataAlerts}
               keyAccessor={detectionIdAccessor}
               yAccessor={xAccessorScaled}
