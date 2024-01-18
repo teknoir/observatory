@@ -32,6 +32,8 @@ console.log(
   'VITE_HISTORIAN_MIDDLE_END_API',
   import.meta.env.VITE_HISTORIAN_MIDDLE_END_API
 );
+console.log('VITE_MEDIA_MP4_API', import.meta.env.VITE_MEDIA_MP4_API);
+console.log('VITE_MEDIA_JPEG_API', import.meta.env.VITE_MEDIA_JPEG_API);
 console.log('import.meta.env.DEV', import.meta.env.DEV);
 console.log('import.meta.env.PROD', import.meta.env.PROD);
 

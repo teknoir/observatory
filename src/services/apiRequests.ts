@@ -24,6 +24,9 @@ import {
 } from 'ts/types';
 import { useMockDb } from 'enums/mockData';
 
+const mediaJpegApi = import.meta.env.VITE_MEDIA_JPEG_API || '';
+const mediaMp4Api = import.meta.env.VITE_MEDIA_MP4_API || '';
+
 // TODO: remove this function in future
 const shouldUseMockData = (): boolean =>
   location?.search.includes(useMockDb) ||
@@ -40,13 +43,12 @@ export const fetchAlert = (detectionId: DetectionId) => {
     const res = data[0];
     if (res) {
       // TODO: pass test video url and snapshot, remove these conditions in future
-      if (!res.video_url) {
-        res.video_url =
-          'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
-      }
-      if (!res.video_snapshot) {
-        res.video_snapshot = 'https://picsum.photos/600/300';
-      }
+      res.video_url = res.video_url
+        ? `${mediaMp4Api}/${res.video_url}`
+        : 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
+      res.video_snapshot = res.video_snapshot
+        ? `${mediaJpegApi}/${res.video_snapshot}`
+        : 'https://picsum.photos/600/300';
     }
     return res;
   });
