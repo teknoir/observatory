@@ -33,7 +33,7 @@ const useMovementsTimelineDataVertical = ({
   peripherals,
   period,
   initialDimensions,
-  scrollLengthMultiplier = 6,
+  scrollLengthMultiplier = period * 10,
 }: Props) => {
   const [ref, dimensions] = useChartDimensions(
     initialDimensions,
@@ -82,7 +82,6 @@ const useMovementsTimelineDataVertical = ({
   const xAccessorScaled = (d: object) => xScale(xAccessor(d));
   const yAccessorScaled = (d: object) => yScale(yAccessor(d));
   const formatDate = formatDateFunction(period);
-  // const numberOfTicks = 24;
 
   const debounceResize = _debounce(
     () =>
@@ -143,7 +142,6 @@ const useMovementsTimelineDataVertical = ({
       scrollGroup
         .transition()
         .duration(duration)
-        // .attr('transform', `0, translate(${translateX})`);
         .attr('transform', `translate(0, ${translateX})`);
     },
     [defaultTranslate, dimensions.boundedScrollWidth, dimensions.boundedWidth]
@@ -168,7 +166,6 @@ const useMovementsTimelineDataVertical = ({
       );
     timelineContainer.call(d3Zoom);
     timelineContainer.call(d3Zoom.transform, d3.zoomIdentity);
-    // scrollGroup.attr('transform', `translate(${defaultTranslate}, 0)`);
     scrollGroup.attr('transform', `translate(0, ${defaultTranslate})`);
   }, [defaultTranslate, ref, onScroll]);
 
