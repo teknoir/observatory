@@ -31,6 +31,9 @@ $redAlert: #fa4e4e;
 //Positioning
 $movementsTimelineEmbedHeight: 112px;
 
+//Header
+$headerHeight: 64px;
+
 // Sizes
 $xs: 390px;
 $s: 480px;
@@ -49,5 +52,6 @@ $smallSize: $md;
   greenSuccess: $greenSuccess;
   redAlert: $redAlert;
   movementsTimelineEmbedHeight: $movementsTimelineEmbedHeight;
+  headerHeight: $headerHeight;
   smallSize: $smallSize;
 }

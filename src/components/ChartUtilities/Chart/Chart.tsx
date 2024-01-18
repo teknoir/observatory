@@ -1,15 +1,15 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
+import { ReactNode } from 'react';
+import { ChartDimensions } from 'ts/types';
 import ChartContext from './ChartContext';
-import styles from './Chart.module.scss';
 
-const Chart = ({ dimensions, children }) => (
+interface ChartProps {
+  dimensions: ChartDimensions;
+  children: ReactNode;
+}
+
+const Chart = ({ dimensions, children }: ChartProps) => (
   <ChartContext.Provider value={dimensions}>
-    <svg
-      className={styles.Chart}
-      width={dimensions.width}
-      height={dimensions.height}
-    >
+    <svg width={dimensions.width} height={dimensions.height}>
       <g
         transform={`translate(
         ${dimensions.marginLeft},

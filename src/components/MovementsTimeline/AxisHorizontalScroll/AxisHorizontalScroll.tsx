@@ -1,30 +1,33 @@
 import { ScaleTime } from 'd3';
-import classNames from 'classnames';
 import Typography from '@mui/material/Typography';
-import { useChartDimensions } from 'components/ChartUtilities/Chart/ChartContext';
 import styles from './AxisHorizontalScroll.module.scss';
+import { ChartDimensions } from 'ts/types';
 
 interface AxisHorizontalScrollProps {
   scale: ScaleTime<number, number, never>;
   formatTick: (date: Date) => string;
   numberOfTicks?: number;
+  dimensions?: ChartDimensions;
 }
 
 const AxisHorizontalScroll = ({
   scale,
   formatTick,
   numberOfTicks,
+  dimensions,
 }: AxisHorizontalScrollProps) => {
-  const dimensions = useChartDimensions();
-  const autoNumberOfTicks =
-    dimensions.boundedScrollWidth < 600
-      ? dimensions.boundedScrollWidth / 100
-      : dimensions.boundedScrollWidth / 100;
+  let autoNumberOfTicks = 0;
+  if (dimensions) {
+    autoNumberOfTicks =
+      dimensions.boundedScrollWidth < 600
+        ? dimensions.boundedScrollWidth / 100
+        : dimensions.boundedScrollWidth / 100;
+  }
 
   const ticks = scale.ticks(numberOfTicks ? numberOfTicks : autoNumberOfTicks);
 
   return (
-    <g className={classNames(styles.Axis, styles.AxisHorizontal)}>
+    <g>
       {ticks.map((tick) => (
         <foreignObject
           key={String(tick)}

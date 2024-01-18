@@ -1,6 +1,8 @@
 import { useContext } from 'react';
+import classNames from 'classnames';
 import Divider from '@mui/material/Divider';
 import { SelectChangeEvent } from '@mui/material/Select';
+import Typography from '@mui/material/Typography';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import { Chart, Circles } from 'components/ChartUtilities';
 import { detectionIdAccessor } from 'components/ChartUtilities/accessors';
@@ -31,6 +33,8 @@ interface MovementsTimeLineParams {
   period: MovementsTimelinePeriod;
   handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;
   isLoading: boolean;
+  isFullHeight?: boolean;
+  isFixToolbar?: boolean;
 }
 
 export const MovementsTimeline = ({
@@ -44,11 +48,14 @@ export const MovementsTimeline = ({
   period,
   handleChangePeriod,
   isLoading,
+  isFullHeight,
+  isFixToolbar = false,
 }: MovementsTimeLineParams) => {
   const {
     dimensions,
     ref,
     scrollGroupRef,
+    translateXPos,
     xScale,
     yScale,
     xAccessorScaled,
@@ -64,37 +71,68 @@ export const MovementsTimeline = ({
     peripherals,
     period,
     initialDimensions: {
+      marginTop: isFixToolbar ? 20 : -20,
       marginLeft: 180,
-      marginRight: 160,
+      marginRight: 114,
     },
   });
   const { setMainImageCarousel } = useContext(HomeContext);
   const numberOfTicks = period === MovementsTimelinePeriod.DAYS_1 ? 24 : period;
+  const toolbarProps = {
+    filter,
+    handleChangeFilter,
+    period,
+    handleChangePeriod,
+  };
 
   return (
-    <div className={styles.root}>
-      <ToolBar
-        filter={filter}
-        handleChangeFilter={handleChangeFilter}
-        period={period}
-        handleChangePeriod={handleChangePeriod}
-      />
-      <Divider variant="middle" />
+    <div
+      className={classNames(styles.root, isFullHeight ? styles.fullHeight : '')}
+    >
+      {!isFixToolbar && <ToolBar {...toolbarProps} />}
       <div
-        className={styles.timeline}
+        className={classNames(
+          styles.areaBackground,
+          isFixToolbar ? styles.fixedArea : styles.stickyArea
+        )}
+      >
+        {isFixToolbar && <ToolBar {...toolbarProps} />}
+        <Divider variant="fullWidth" />
+        <div className={styles.timestamps}>
+          <div style={{ width: dimensions.marginLeft }}>
+            <Typography variant="LabelMedium">
+              Cameras ({peripherals.length ?? 0})
+            </Typography>
+          </div>
+          <svg width={dimensions.boundedWidth} height={24}>
+            <g transform={`translate(${translateXPos}, 0)`}>
+              <AxisHorizontalScroll
+                scale={xScale}
+                formatTick={formatDate}
+                numberOfTicks={numberOfTicks}
+                dimensions={dimensions}
+              />
+            </g>
+          </svg>
+          <div
+            style={{
+              width: dimensions.marginRight,
+            }}
+          ></div>
+        </div>
+      </div>
+      <div
         ref={ref}
+        className={styles.timeline}
         style={{
+          display: peripherals.length > 0 ? 'block' : '',
           height: peripherals.length * 64 + 200,
+          marginTop: isFixToolbar ? 80 : 0,
         }}
       >
         <Chart dimensions={dimensions}>
           <GridLines scale={yScale} />
           <g ref={scrollGroupRef}>
-            <AxisHorizontalScroll
-              scale={xScale}
-              formatTick={formatDate}
-              numberOfTicks={numberOfTicks}
-            />
             <Circles
               data={dataMotions}
               keyAccessor={detectionIdAccessor}
