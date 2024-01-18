@@ -1,1 +1,1 @@
-export { default as MovementsTimelineSingle } from './MovementsTimelineSingleContainer';
+export { default as MovementsTimelineContainer } from './MovementsTimelineContainer';

@@ -1,12 +1,14 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, Fragment } from 'react';
 import { useInterval } from 'usehooks-ts';
 import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import ContentBar from 'components/ContentBar/ContentBar';
 import MainContent from 'components/MainContent/MainContent';
-import { MovementsTimelineSingle } from 'components/MovementsTimelineVertical';
+import MovementsTimelineEmbed from 'components/MovementsTimelineEmbed/MovementsTimelineEmbed';
+import MovementsTimelineContainer from 'components/MovementsTimelineVertical/MovementsTimelineContainer';
 import { Source, SourceStatus } from 'ts/types';
+import { useMainLayoutContext } from 'context/mainLayoutContext';
 import { useWSSContext } from 'context/webSocketContext';
 import { wsSources } from 'enums/queryKeys';
 import { TOPICS, TYPES } from 'enums/wss';
@@ -25,6 +27,7 @@ const Device = () => {
   const [source, setSource] = useState<Source>(sources?.[peripheralId]);
 
   const { lastMessage, sendMessage, isOpened } = useWSSContext();
+  const { isSmall } = useMainLayoutContext();
 
   const playVideo = useCallback(() => {
     if (isOpened && peripheralId) {
@@ -72,14 +75,20 @@ const Device = () => {
     }
   }, [lastMessage, peripheralId]);
 
+  const EmbedComponent = isSmall ? Fragment : MovementsTimelineEmbed;
+
   return (
     <>
       <ContentBar>
         <Typography variant="LabelMedium">{peripheralId}</Typography>
       </ContentBar>
       <MainContent>
-        <ImageViewer src={source?.src} />
-        <MovementsTimelineSingle peripheralId={peripheralId} />
+        <EmbedComponent peripheralId={peripheralId} showToolbar initiallyLoaded>
+          <ImageViewer src={source?.src} />
+          {isSmall && (
+            <MovementsTimelineContainer peripheralId={peripheralId} />
+          )}
+        </EmbedComponent>
       </MainContent>
     </>
   );

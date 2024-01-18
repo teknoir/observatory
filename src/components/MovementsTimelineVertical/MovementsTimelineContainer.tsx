@@ -24,7 +24,7 @@ interface Props {
   peripheralName?: string;
 }
 
-function MovementsTimelineSingleContainer({
+function MovementsTimelineContainer({
   peripheralId = '',
   peripheralName: peripheralNameFromDevice = '',
 }: Props) {
@@ -55,8 +55,6 @@ function MovementsTimelineSingleContainer({
       period == MovementsTimelinePeriod.DAYS_1,
     refetchInterval: TimelineRefetchInterval.SINGLE_DEVICE,
   });
-
-  console.log(dataMotionsByPeripheralId);
 
   const {
     data: dataAlertsByPeripheralId,
@@ -119,4 +117,4 @@ function MovementsTimelineSingleContainer({
   );
 }
 
-export default MovementsTimelineSingleContainer;
+export default MovementsTimelineContainer;
