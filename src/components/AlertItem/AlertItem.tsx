@@ -26,6 +26,8 @@ interface Props {
   style: CSSProperties;
 }
 
+const mediaJpegApi = import.meta.env.VITE_MEDIA_JPEG_API || '';
+
 const AlertItem = ({ data, index, style }: Props) => {
   const { detectionId: detectionIdUrl } = useParams();
   const item = data[index];
@@ -39,11 +41,11 @@ const AlertItem = ({ data, index, style }: Props) => {
     duration,
     status,
   } = item;
-  // TODO: remove it
   let { video_snapshot: videoSnapshot } = item;
-  if (!videoSnapshot) {
-    videoSnapshot = 'https://picsum.photos/200/300';
-  }
+  // TODO: remove test url in future
+  videoSnapshot = videoSnapshot
+    ? `${mediaJpegApi}/${videoSnapshot}`
+    : 'https://picsum.photos/200/300';
   const startDate = moment(startTime);
   const durationSecs = Math.round(duration / 1000);
   const startDateFormat = startDate.format('HH:mm');
