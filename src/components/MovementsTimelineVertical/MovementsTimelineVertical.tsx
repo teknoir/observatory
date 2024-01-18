@@ -65,15 +65,7 @@ export const MovementsTimelineVertical = ({
         handleChangePeriod={handleChangePeriod}
       />
       <Divider variant="middle" />
-      <div
-        className={styles.timeline}
-        ref={ref}
-        style={
-          {
-            // height: peripherals.length * 64 + 200,
-          }
-        }
-      >
+      <div className={styles.timeline} ref={ref}>
         <Chart dimensions={dimensions}>
           <GridLines scale={yScale} />
           <g ref={scrollGroupRef}>
