@@ -25,6 +25,7 @@ interface Props {
   period: number;
   startTime: Date;
   initialDimensions?: IDimensions;
+  scrollLengthMultiplier?: number;
 }
 
 const useMovementsTimelineDataVertical = ({
@@ -32,8 +33,12 @@ const useMovementsTimelineDataVertical = ({
   peripherals,
   period,
   initialDimensions,
+  scrollLengthMultiplier = 6,
 }: Props) => {
-  const [ref, dimensions] = useChartDimensions(initialDimensions);
+  const [ref, dimensions] = useChartDimensions(
+    initialDimensions,
+    scrollLengthMultiplier
+  );
   const [defaultTranslate, setDefaultTranslate] = useState<number>(0);
   const scrollGroupRef = useRef<SVGGElement | null>(null);
   const [anchorEl, setAnchorEl] = useState<SVGCircleElement | null>(null);
