@@ -6,7 +6,8 @@ import Typography from '@mui/material/Typography';
 import ContentBar from 'components/ContentBar/ContentBar';
 import MainContent from 'components/MainContent/MainContent';
 import MovementsTimelineEmbed from 'components/MovementsTimelineEmbed/MovementsTimelineEmbed';
-import MovementsTimelineContainer from 'components/MovementsTimelineVertical/MovementsTimelineContainer';
+// import MovementsTimelineContainer from 'components/MovementsTimelineVertical/MovementsTimelineContainer';
+import { MovementsTimelineVerticalV2Single } from 'components/MovementsTimelineVerticalV2';
 import { Source, SourceStatus } from 'ts/types';
 import { useMainLayoutContext } from 'context/mainLayoutContext';
 import { useWSSContext } from 'context/webSocketContext';
@@ -14,6 +15,7 @@ import { wsSources } from 'enums/queryKeys';
 import { TOPICS, TYPES } from 'enums/wss';
 import { getStartImagesStreamMsg } from 'services/wsMessage';
 import ImageViewer from './ImageViewer/ImageViewer';
+import styles from './Device.module.scss';
 
 const DURATION = 10;
 const INTERVAL = DURATION * 1000;
@@ -84,10 +86,13 @@ const Device = () => {
       </ContentBar>
       <MainContent>
         <EmbedComponent peripheralId={peripheralId} showToolbar initiallyLoaded>
-          <ImageViewer src={source?.src} />
-          {isSmall && (
-            <MovementsTimelineContainer peripheralId={peripheralId} />
-          )}
+          <div className={styles.mainContent}>
+            <ImageViewer src={source?.src} />
+            {isSmall && (
+              // <MovementsTimelineContainer peripheralId={peripheralId} />
+              <MovementsTimelineVerticalV2Single peripheralId={peripheralId} />
+            )}
+          </div>
         </EmbedComponent>
       </MainContent>
     </>

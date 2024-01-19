@@ -1,0 +1,10 @@
+@import 'enums/styleVariables.module';
+
+.rectBackground {
+  fill: $fadedBlack;
+}
+
+.foreignObject {
+  overflow: visible;
+  text-wrap: nowrap;
+}
