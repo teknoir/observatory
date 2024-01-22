@@ -14,16 +14,16 @@ import APP_URLS from 'enums/urls';
 import { durationToMMSS } from 'utils/moment';
 import styles from './Popover.module.scss';
 
-enum ALERT_INFO_KEYS {
-  DETECTION_ID = 'detection_id',
-  DURATION = 'duration',
-  PERIPHERAL_ID = 'peripheral_id',
-  PERIPHERAL_NAME = 'peripheral_name',
-  SEVERITY = 'severity',
-  START_TIME = 'start_time',
-  TYPE = 'type',
-  VIDEO_URL = 'video_url',
-}
+// enum ALERT_INFO_KEYS {
+//   DETECTION_ID = 'detection_id',
+//   DURATION = 'duration',
+//   PERIPHERAL_ID = 'peripheral_id',
+//   PERIPHERAL_NAME = 'peripheral_name',
+//   SEVERITY = 'severity',
+//   START_TIME = 'start_time',
+//   TYPE = 'type',
+//   VIDEO_URL = 'video_url',
+// }
 
 interface MovementsTimelinePopoverProps {
   anchorEl: SVGCircleElement | null;
@@ -36,6 +36,7 @@ const PopoverComponent = ({
   alertInfo,
   handleClose,
 }: MovementsTimelinePopoverProps) => {
+  console.log(alertInfo?.type);
   return (
     <Popover
       open={!!anchorEl}
@@ -62,7 +63,8 @@ const PopoverComponent = ({
               Alert type:
             </Typography>
             <Typography variant="LabelMedium" className={styles.value}>
-              &emsp;{_upperFirst(alertInfo[ALERT_INFO_KEYS.TYPE])}
+              {/* &emsp;{_upperFirst(alertInfo[ALERT_INFO_KEYS.TYPE])} */}
+              &emsp;{_upperFirst(alertInfo?.type)}
             </Typography>
           </Box>
           <Box>
@@ -70,7 +72,7 @@ const PopoverComponent = ({
               Camera:
             </Typography>
             <Typography variant="LabelMedium" className={styles.value}>
-              &emsp;{alertInfo[ALERT_INFO_KEYS.PERIPHERAL_NAME]}
+              &emsp;{alertInfo?.peripheral_name}
             </Typography>
           </Box>
           <Box>
@@ -78,7 +80,7 @@ const PopoverComponent = ({
               Duration:
             </Typography>
             <Typography variant="LabelMedium" className={styles.value}>
-              &emsp;{durationToMMSS(alertInfo[ALERT_INFO_KEYS.DURATION])}
+              &emsp;{durationToMMSS(alertInfo?.duration)}
             </Typography>
           </Box>
         </CardContent>
@@ -86,14 +88,14 @@ const PopoverComponent = ({
           <Link
             component={RouterLink}
             to={generatePath(APP_URLS.alerts, {
-              peripheralId: alertInfo[ALERT_INFO_KEYS.PERIPHERAL_ID],
-              detectionId: alertInfo[ALERT_INFO_KEYS.DETECTION_ID],
+              peripheralId: alertInfo?.peripheral_id,
+              detectionId: alertInfo?.detection_id,
             })}
             color="inherit"
             align="center"
           >
             <VideoPlayer
-              url={alertInfo[ALERT_INFO_KEYS.VIDEO_URL]}
+              url={alertInfo?.video_url}
               width={250}
               height="auto"
               autoPlay
