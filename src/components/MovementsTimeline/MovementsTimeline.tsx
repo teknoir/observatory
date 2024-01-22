@@ -9,7 +9,6 @@ import { detectionIdAccessor } from 'components/ChartUtilities/accessors';
 import { peripheralIdAccessor } from 'components/ChartUtilities/accessors';
 import CarouselArrows from 'components/MovementsTimelineComponents/CarouselArrows/CarouselArrows';
 import ToolBar from 'components/MovementsTimelineComponents/ToolBar/ToolBar';
-// import Popover from 'components/MovementsTimelineComponents/Popover/Popover';
 import PopoverContainer from 'components/MovementsTimelineComponents/Popover/PopoverContainer';
 import { HomeContext } from 'context/HomeContext/HomeContext';
 import { IAlertEvent, IEventDocumentWithPeripheral } from 'ts/types';
@@ -63,7 +62,6 @@ export const MovementsTimeline = ({
     yAccessorScaled,
     formatDate,
     anchorEl,
-    // alertInfo,
     detectionId,
     handlePopoverOpen,
     handlePopoverClose,
@@ -159,7 +157,6 @@ export const MovementsTimeline = ({
               detectionId={detectionId}
               handleClose={handlePopoverClose}
             />
-            {/* <PopoverContainer detectionId={detectionId} /> */}
           </g>
           <CarouselArrows
             leftBtnHeight={dimensions.boundedHeight}

@@ -3,7 +3,7 @@ import CarouselArrows from 'components/MovementsTimelineComponents/CarouselArrow
 import { Chart, Circles } from 'components/ChartUtilities';
 import { detectionIdAccessor } from 'components/ChartUtilities/accessors';
 import { MovementsTimelinePeriod } from 'components/MovementsTimeline/enums';
-import Popover from 'components/MovementsTimelineComponents/Popover/Popover';
+import PopoverContainer from 'components/MovementsTimelineComponents/Popover/PopoverContainer';
 import ToolBar from 'components/MovementsTimelineComponents/ToolBar/ToolBar';
 import { IEventDocumentWithPeripheral } from 'ts/types';
 import useMovementsTimelineData from 'hooks/useMovementsTimelineData';
@@ -42,7 +42,7 @@ const MovementsTimeline = ({
     yAccessorScaled,
     formatDate,
     anchorEl,
-    alertInfo,
+    detectionId,
     handlePopoverOpen,
     handlePopoverClose,
     handleCarouselArrows,
@@ -96,9 +96,9 @@ const MovementsTimeline = ({
               className={styles.circleAlert}
               onCircleHover={handlePopoverOpen}
             />
-            <Popover
+            <PopoverContainer
               anchorEl={anchorEl}
-              alertInfo={alertInfo}
+              detectionId={detectionId}
               handleClose={handlePopoverClose}
             />
           </g>

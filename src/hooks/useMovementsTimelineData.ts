@@ -10,15 +10,11 @@ import {
   IDimensions,
 } from 'components/ChartUtilities/utils';
 import { CarouselArrowsOptions } from 'enums/timeline';
-// import { PopoverInfoProps } from 'ts/types';
 import {
   formatDate as formatDateFunction,
   xScale as xScaleFunction,
   yScale as yScaleFunction,
 } from '../components/MovementsTimeline/utils.ts';
-
-// const fallbackVideoUrl =
-//   'https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4';
 
 interface Props {
   peripherals: string[];
@@ -43,16 +39,6 @@ const useMovementsTimelineData = ({
   const scrollGroupRef = useRef<SVGGElement | null>(null);
   const [translateXPos, setTranslateXPos] = useState(0);
   const [anchorEl, setAnchorEl] = useState<SVGCircleElement | null>(null);
-  // const [alertInfo, setAlertInfo] = useState<PopoverInfoProps>({
-  //   detection_id: '',
-  //   duration: 0,
-  //   peripheral_id: '',
-  //   peripheral_name: '',
-  //   severity: '',
-  //   start_time: '',
-  //   type: '',
-  //   video_url: fallbackVideoUrl,
-  // });
   const [detectionId, setDetectionId] = useState<string>('');
 
   const handleCarouselArrows = (d: CarouselArrowsOptions) => {
@@ -66,11 +52,6 @@ const useMovementsTimelineData = ({
   // @ts-ignore
   function handlePopoverOpen(event: MouseEvent<SVGCircleElement>, info) {
     setAnchorEl(event.currentTarget);
-    // setAlertInfo((prevAlertInfo) => ({
-    //   ...info,
-    //   peripheral_id: info!.peripheral_id ?? prevAlertInfo.peripheral_id,
-    //   video_url: info!.video_url ?? prevAlertInfo.video_url,
-    // }));
     setDetectionId(info.detection_id);
   }
 
@@ -185,7 +166,6 @@ const useMovementsTimelineData = ({
     yAccessorScaled,
     formatDate,
     anchorEl,
-    // alertInfo,
     detectionId,
     handlePopoverOpen,
     handlePopoverClose,
