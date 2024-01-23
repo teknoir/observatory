@@ -9,7 +9,7 @@ type Sources = Map<CameraId, Source>;
 
 const useSortableSources = (sources: Sources) => {
   const [sourcesKeys, setSourcesKeys] = useState<string[]>([...sources.keys()]);
-  // const [activeId, setActiveId] = useState(null);
+  const [, setActiveId] = useState(null);
   // const activeItem = sources.get(activeId) ?? {};
 
   useEffect(() => {
