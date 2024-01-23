@@ -11,6 +11,7 @@ import theftIcon from 'assets/icons/theftIcon.svg';
 import Icon from 'components/Icon/Icon';
 import Verified, { Sizes } from 'components/Verified/Verified';
 import APP_URLS from 'enums/urls';
+import { API_MEDIA_JPEG } from 'enums/api';
 import { generatePath } from 'utils/router';
 import {
   IEventDocumentWithPeripheral,
@@ -39,11 +40,11 @@ const AlertItem = ({ data, index, style }: Props) => {
     duration,
     status,
   } = item;
-  // TODO: remove it
   let { video_snapshot: videoSnapshot } = item;
-  if (!videoSnapshot) {
-    videoSnapshot = 'https://picsum.photos/200/300';
-  }
+  // TODO: remove test url in future
+  videoSnapshot = videoSnapshot
+    ? `${API_MEDIA_JPEG}/${videoSnapshot}`
+    : 'https://picsum.photos/200/300';
   const startDate = moment(startTime);
   const durationSecs = Math.round(duration / 1000);
   const startDateFormat = startDate.format('HH:mm');
