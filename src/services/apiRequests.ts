@@ -1,5 +1,5 @@
 import Fetch from 'services/fetch';
-import API from 'enums/api';
+import API, { API_MEDIA_JPEG, API_MEDIA_MP4 } from 'enums/api';
 import {
   fetchAllMotionsMock,
   fetchMotionsByPeripheralIdMock,
@@ -41,13 +41,12 @@ export const fetchAlert = (detectionId: DetectionId) => {
     const res = data[0];
     if (res) {
       // TODO: pass test video url and snapshot, remove these conditions in future
-      if (!res.video_url) {
-        res.video_url =
-          'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
-      }
-      if (!res.video_snapshot) {
-        res.video_snapshot = 'https://picsum.photos/600/300';
-      }
+      res.video_url = res.video_url
+        ? `${API_MEDIA_MP4}/${res.video_url}`
+        : 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
+      res.video_snapshot = res.video_snapshot
+        ? `${API_MEDIA_JPEG}/${res.video_snapshot}`
+        : 'https://picsum.photos/600/300';
     }
     return res;
   });

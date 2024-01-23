@@ -3,7 +3,7 @@ import { useInterval } from 'usehooks-ts';
 import { HomeContext } from 'context/HomeContext/HomeContext';
 import { CarouselMode, SurveillanceCarouselProps } from 'ts/types';
 import AllCamerasView from './AllCamerasView/AllCamerasView';
-import AlternativeView from './AlternativeView/AlternativeView';
+import AlternativeView from './AlternativeView';
 import DetailView from './DetailView/DetailView';
 import GeneralView from './GeneralView/GeneralView';
 

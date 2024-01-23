@@ -36,7 +36,7 @@ export interface IDimensions {
   boundedScrollWidth?: number;
 }
 
-export const combineChartDimensions = (dimensions) => {
+export const combineChartDimensions = (dimensions, scrollLengthMultiplier) => {
   const parsedDimensions = {
     marginTop: 40,
     marginRight: 100,
@@ -63,15 +63,21 @@ export const combineChartDimensions = (dimensions) => {
       (parsedDimensions.width -
         parsedDimensions.marginLeft -
         parsedDimensions.marginRight) *
-        6,
+        scrollLengthMultiplier,
       0
     ),
   };
 };
 
-export const useChartDimensions = (passedSettings = {}) => {
+export const useChartDimensions = (
+  passedSettings = {},
+  scrollLengthMultiplier
+) => {
   const ref = useRef(null);
-  const dimensions = combineChartDimensions(passedSettings);
+  const dimensions = combineChartDimensions(
+    passedSettings,
+    scrollLengthMultiplier
+  );
 
   const [width, changeWidth] = useState(0);
   const [height, changeHeight] = useState(0);
@@ -97,11 +103,14 @@ export const useChartDimensions = (passedSettings = {}) => {
     return () => resizeObserver.unobserve(element);
   }, [passedSettings, height, width, dimensions]);
 
-  const newSettings = combineChartDimensions({
-    ...dimensions,
-    width: dimensions.width || width,
-    height: dimensions.height || height,
-  });
+  const newSettings = combineChartDimensions(
+    {
+      ...dimensions,
+      width: dimensions.width || width,
+      height: dimensions.height || height,
+    },
+    scrollLengthMultiplier
+  );
 
   return [ref, newSettings] as const;
 };
