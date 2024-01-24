@@ -1,4 +1,4 @@
-import { Source, CameraId, SourceStatus } from 'ts/types';
+import { Source, CameraId, SourceStatus, CarouselProps } from 'ts/types';
 
 // export function createRandomImages(quantity: number) {
 //   const images = []
@@ -33,3 +33,23 @@ export function generateRandomNum() {
   const randomNum = Math.ceil(Math.random() * 100);
   return randomNum;
 }
+
+export const getImagesFromSources = (
+  sourcesKeys: string[],
+  sources: CarouselProps['sources']
+) =>
+  sourcesKeys.map((sourceKey) => {
+    const {
+      src = '',
+      peripheralName = '',
+      status = 0,
+      peripheralId = '',
+    } = sources.get(sourceKey) ?? {};
+    return {
+      sourceKey,
+      src,
+      peripheralName,
+      status,
+      peripheralId,
+    };
+  });

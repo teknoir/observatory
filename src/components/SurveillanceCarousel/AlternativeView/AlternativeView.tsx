@@ -3,7 +3,7 @@ import { CarouselProps, ViewImagesProps } from 'ts/types';
 import useOrderedSourcesKeys from 'hooks/useOrderedSourcesKeys';
 import ResizableContainer from './ResizableContainer/ResizableContainer';
 import ListItems from './ListItems/ListItems';
-import { getImagesFromSources } from './utils';
+import { getImagesFromSources } from '../utils';
 import styles from './AlternativeView.module.scss';
 
 function AlternativeView({ sources, peripheralIdNotified }: CarouselProps) {

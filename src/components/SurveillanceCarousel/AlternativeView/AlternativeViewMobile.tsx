@@ -5,7 +5,7 @@ import SortableItem from 'components/SurveillanceCarousel/SortableSources/Sortab
 import useSortableSources from 'components/SurveillanceCarousel/SortableSources/useSortableSources';
 import ResizableContainer from './ResizableContainer/ResizableContainer';
 import ListItems from './ListItems/ListItems';
-import { getImagesFromSources } from './utils';
+import { getImagesFromSources } from '../utils';
 import styles from './AlternativeView.module.scss';
 
 function AlternativeView({ sources, peripheralIdNotified }: CarouselProps) {
