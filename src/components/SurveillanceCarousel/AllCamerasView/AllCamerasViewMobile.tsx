@@ -2,6 +2,8 @@ import { useMemo, ReactNode } from 'react';
 import { CarouselProps, ViewImagesProps } from 'ts/types';
 import SortableContext from 'components/SurveillanceCarousel/SortableSources/Context';
 import SortableItem from 'components/SurveillanceCarousel/SortableSources/SortableItem';
+import DragOverlay from 'components/SurveillanceCarousel/SortableSources/DragOverlay';
+import CarouselImagePreviewDnD from 'components/SurveillanceCarousel/CarouselImagePreview/CarouselImagePreviewDnD';
 import useSortableSources from 'components/SurveillanceCarousel/SortableSources/useSortableSources';
 import Container from './Container/Container';
 import ListItems from './ListItems/ListItems';
@@ -11,7 +13,8 @@ import { imagesPerPage } from './enums';
 import styles from './AllCamerasView.module.scss';
 
 function AllCamerasView({ sources, peripheralIdNotified }: CarouselProps) {
-  const { sourcesKeys, onDragStart, onDragEnd } = useSortableSources(sources);
+  const { sourcesKeys, activeItem, onDragStart, onDragEnd } =
+    useSortableSources(sources);
 
   // FIXME: This is a workaround to render using an array
   const images: ViewImagesProps[] = useMemo(
@@ -59,6 +62,13 @@ function AllCamerasView({ sources, peripheralIdNotified }: CarouselProps) {
           peripheralIdNotified={peripheralIdNotified}
           DraggableComponent={DraggableComponent}
         />
+        <DragOverlay>
+          <CarouselImagePreviewDnD
+            src={activeItem.src}
+            title={activeItem.peripheralName}
+            status={activeItem.status}
+          />
+        </DragOverlay>
       </SortableContext>
     </Container>
   );

@@ -9,8 +9,8 @@ type Sources = Map<CameraId, Source>;
 
 const useSortableSources = (sources: Sources) => {
   const [sourcesKeys, setSourcesKeys] = useState<string[]>([...sources.keys()]);
-  const [, setActiveId] = useState(null);
-  // const activeItem = sources.get(activeId) ?? {};
+  const [activeId, setActiveId] = useState(null);
+  const activeItem = sources.get(activeId) ?? ({} as Source);
 
   useEffect(() => {
     setSourcesKeys((prev) => _union(prev, [...sources.keys()]));
@@ -34,10 +34,13 @@ const useSortableSources = (sources: Sources) => {
     const { active, over } = event;
     console.log('handleDragEnd', active.id, over.id);
     swapBoxes(active.id, over.id);
+    setActiveId(null);
   };
 
   return {
     sourcesKeys,
+    activeId,
+    activeItem,
     onDragStart,
     onDragEnd,
   };
