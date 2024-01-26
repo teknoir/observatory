@@ -12,6 +12,7 @@ import VideoPlayer from 'components/VideoPlayer/VideoPlayer';
 import { PopoverInfoProps } from 'ts/types';
 import APP_URLS from 'enums/urls';
 import { durationToMMSS } from 'utils/moment';
+import { getUrlMp4 } from 'utils/media';
 import styles from './Popover.module.scss';
 
 enum ALERT_INFO_KEYS {
@@ -31,11 +32,17 @@ interface MovementsTimelinePopoverProps {
   handleClose: () => void;
 }
 
+const fallbackVideoUrl =
+  'https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4';
+
 const PopoverComponent = ({
   anchorEl,
   alertInfo,
   handleClose,
 }: MovementsTimelinePopoverProps) => {
+  const videoUrl = alertInfo[ALERT_INFO_KEYS.VIDEO_URL]
+    ? getUrlMp4(alertInfo[ALERT_INFO_KEYS.VIDEO_URL])
+    : fallbackVideoUrl;
   return (
     <Popover
       open={!!anchorEl}
@@ -92,12 +99,7 @@ const PopoverComponent = ({
             color="inherit"
             align="center"
           >
-            <VideoPlayer
-              url={alertInfo[ALERT_INFO_KEYS.VIDEO_URL]}
-              width={250}
-              height="auto"
-              autoPlay
-            />
+            <VideoPlayer url={videoUrl} width={250} height="auto" autoPlay />
           </Link>
         </CardActions>
       </Card>
