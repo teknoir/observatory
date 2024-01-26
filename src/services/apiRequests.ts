@@ -9,6 +9,7 @@ import {
   fetchAlertMock,
   fetchNotificationsMock,
   fetchNotificationsPaginatedMock,
+  fetchFeedbackMock,
 } from 'services/fetchMock';
 import {
   getSearchQuery,
@@ -53,6 +54,10 @@ export const fetchAlert = (detectionId: DetectionId) => {
 };
 
 export const fetchFeedback = (detectionId: DetectionId) => {
+  // TODO: remove this condition in future
+  if (shouldUseMockData()) {
+    return fetchFeedbackMock(detectionId);
+  }
   return Fetch.get(API.feedback(detectionId)).then(({ data }) => data[0]);
 };
 
