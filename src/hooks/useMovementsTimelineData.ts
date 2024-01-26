@@ -17,9 +17,6 @@ import {
   yScale as yScaleFunction,
 } from '../components/MovementsTimeline/utils.ts';
 
-const fallbackVideoUrl =
-  'https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4';
-
 interface Props {
   peripherals: string[];
   period: number;
@@ -51,7 +48,7 @@ const useMovementsTimelineData = ({
     severity: '',
     start_time: '',
     type: '',
-    video_url: fallbackVideoUrl,
+    video_url: '',
   });
 
   const handleCarouselArrows = (d: CarouselArrowsOptions) => {

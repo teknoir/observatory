@@ -11,8 +11,8 @@ import theftIcon from 'assets/icons/theftIcon.svg';
 import Icon from 'components/Icon/Icon';
 import Verified, { Sizes } from 'components/Verified/Verified';
 import APP_URLS from 'enums/urls';
-import { API_MEDIA_JPEG } from 'enums/api';
 import { generatePath } from 'utils/router';
+import { getUrlJpeg } from 'utils/media';
 import {
   IEventDocumentWithPeripheral,
   IconSizes,
@@ -43,7 +43,7 @@ const AlertItem = ({ data, index, style }: Props) => {
   let { video_snapshot: videoSnapshot } = item;
   // TODO: remove test url in future
   videoSnapshot = videoSnapshot
-    ? `${API_MEDIA_JPEG}/${videoSnapshot}`
+    ? getUrlJpeg(videoSnapshot)
     : 'https://picsum.photos/200/300';
   const startDate = moment(startTime);
   const durationSecs = Math.round(duration / 1000);
