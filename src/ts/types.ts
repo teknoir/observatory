@@ -199,6 +199,8 @@ export interface INotifications {
   severity: string;
   start_time: string;
   type: string;
+  video_url: string;
+  video_snapshot: string;
 }
 
 export interface INotificationsExtended extends INotifications {
