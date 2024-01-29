@@ -16,7 +16,7 @@ import VideoPlayer from 'components/VideoPlayer/VideoPlayer';
 import VideoPlayerStub from 'components/VideoPlayerStub/VideoPlayerStub';
 import APP_URLS from 'enums/urls';
 import { generatePath } from 'utils/router';
-import { IAlertFormValues, EventStatus } from 'ts/types';
+import { IAlertFormValues, EventStatus, IEventDocument } from 'ts/types';
 import Form from './Form/Form';
 import Info from './Info/Info';
 import styles from './Alert.module.scss';
@@ -39,6 +39,10 @@ const Alert = () => {
         queryKey,
         queryFn: () => fetchAlert(detectionId),
         refetchOnWindowFocus: false,
+        refetchInterval: (data: IEventDocument) => {
+          if (data?.video_url) return false;
+          return 3000;
+        },
       },
       {
         queryKey: queryFeedbackKey,
