@@ -12,6 +12,8 @@ import Icon from 'components/Icon/Icon';
 import Verified, { Sizes } from 'components/Verified/Verified';
 import APP_URLS from 'enums/urls';
 import { generatePath } from 'utils/router';
+import { getUrlJpeg } from 'utils/media';
+import { durationToMMSS } from 'utils/moment';
 import {
   IEventDocumentWithPeripheral,
   IconSizes,
@@ -39,13 +41,12 @@ const AlertItem = ({ data, index, style }: Props) => {
     duration,
     status,
   } = item;
-  // TODO: remove it
   let { video_snapshot: videoSnapshot } = item;
-  if (!videoSnapshot) {
-    videoSnapshot = 'https://picsum.photos/200/300';
-  }
+  // TODO: remove test url in future
+  videoSnapshot = videoSnapshot
+    ? getUrlJpeg(videoSnapshot)
+    : 'https://picsum.photos/200/300';
   const startDate = moment(startTime);
-  const durationSecs = Math.round(duration / 1000);
   const startDateFormat = startDate.format('HH:mm');
   const isVerified = status === EventStatus.Verified;
 
@@ -87,7 +88,7 @@ const AlertItem = ({ data, index, style }: Props) => {
         <div className={styles.leftTitleLine}>
           <CircleIcon color="error" className={styles.statusIcon} />
           <Typography variant="LabelMedium">
-            {`${startDateFormat} (${durationSecs}s)`}
+            {`${startDateFormat} (${durationToMMSS(duration)})`}
           </Typography>
         </div>
         <div className={styles.status}>

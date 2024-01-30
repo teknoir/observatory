@@ -5,6 +5,7 @@ import CircleIcon from '@mui/icons-material/Circle';
 import { generatePath } from 'utils/router';
 import { NotificationStatus } from 'enums/notifications';
 import APP_URLS from 'enums/urls';
+import { durationToMMSS } from 'utils/moment';
 import { INotificationsExtended } from 'ts/types';
 import styles from './NotificationItem.module.scss';
 
@@ -13,7 +14,6 @@ interface NotificationItemProps {
 }
 
 const NotificationItem = ({ data }: NotificationItemProps) => {
-  const durationSeconds = Math.ceil(data.duration / 1000);
   const startDate = moment(data.start_time);
   const startDateFormat = startDate.format('hh:mm A');
   const href = generatePath(APP_URLS.alerts, {
@@ -30,7 +30,7 @@ const NotificationItem = ({ data }: NotificationItemProps) => {
         <Typography variant="BodyMedium" className={styles.text}>
           <span>
             {data.type} in Camera: {data.peripheral_name} -{' '}
-            {`${startDateFormat} (${durationSeconds}s)`}.
+            {`${startDateFormat} (${durationToMMSS(data.duration)})`}.
           </span>
           <br />
           <span>Severity: {data.severity}</span>
