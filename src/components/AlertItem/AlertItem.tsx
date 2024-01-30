@@ -14,6 +14,7 @@ import VideoStub from 'components/VideoStub/VideoStub';
 import APP_URLS from 'enums/urls';
 import { generatePath } from 'utils/router';
 import { getUrlJpeg } from 'utils/media';
+import { durationToMMSS } from 'utils/moment';
 import {
   IEventDocumentWithPeripheral,
   IconSizes,
@@ -49,7 +50,6 @@ const AlertItem = ({ data, index, style }: Props) => {
     : 'https://picsum.photos/200/300';
   const hasVideo = !!videoUrl;
   const startDate = moment(startTime);
-  const durationSecs = Math.round(duration / 1000);
   const startDateFormat = startDate.format('HH:mm');
   const isVerified = status === EventStatus.Verified;
 
@@ -91,7 +91,7 @@ const AlertItem = ({ data, index, style }: Props) => {
         <div className={styles.leftTitleLine}>
           <CircleIcon color="error" className={styles.statusIcon} />
           <Typography variant="LabelMedium">
-            {`${startDateFormat} (${durationSecs}s)`}
+            {`${startDateFormat} (${durationToMMSS(duration)})`}
           </Typography>
         </div>
         <div className={styles.status}>

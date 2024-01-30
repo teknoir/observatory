@@ -6,6 +6,7 @@ import VideoStub from 'components/VideoStub/VideoStub';
 import { generatePath } from 'utils/router';
 import { NotificationStatus } from 'enums/notifications';
 import APP_URLS from 'enums/urls';
+import { durationToMMSS } from 'utils/moment';
 import { INotificationsExtended } from 'ts/types';
 import styles from './NotificationItem.module.scss';
 
@@ -16,14 +17,16 @@ interface NotificationItemProps {
 const NotificationItem = ({ data }: NotificationItemProps) => {
   const {
     duration,
+    type,
+    severity,
     start_time: startTime,
     status,
     detection_id: detectionId,
     peripheral_id: peripheralId,
+    peripheral_name: peripheralName,
     video_snapshot: videoSnapshot,
     video_url: videoUrl,
   } = data;
-  const durationSeconds = Math.ceil(duration / 1000);
   const startDate = moment(startTime);
   const startDateFormat = startDate.format('hh:mm A');
   const href = generatePath(APP_URLS.alerts, {
@@ -43,11 +46,11 @@ const NotificationItem = ({ data }: NotificationItemProps) => {
       <div>
         <Typography variant="BodyMedium" className={styles.text}>
           <span>
-            {data.type} in Camera: {data.peripheral_name} -{' '}
-            {`${startDateFormat} (${durationSeconds}s)`}.
+            {type} in Camera: {peripheralName} -{' '}
+            {`${startDateFormat} (${durationToMMSS(duration)})`}.
           </span>
           <br />
-          <span>Severity: {data.severity}</span>
+          <span>Severity: {severity}</span>
         </Typography>
       </div>
       <Link to={href} className={styles.buttonLink}>
