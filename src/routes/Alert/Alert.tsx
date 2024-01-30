@@ -13,6 +13,9 @@ import {
 import ContentBar from 'components/ContentBar/ContentBar';
 import MainContent from 'components/MainContent/MainContent';
 import VideoPlayer from 'components/VideoPlayer/VideoPlayer';
+import VideoPlayerStub from 'components/VideoPlayerStub/VideoPlayerStub';
+import APP_URLS from 'enums/urls';
+import { generatePath } from 'utils/router';
 import { IAlertFormValues, EventStatus } from 'ts/types';
 import Form from './Form/Form';
 import Info from './Info/Info';
@@ -45,11 +48,15 @@ const Alert = () => {
     ],
   });
 
+  const refetchAll = () => {
+    refetch();
+    refetchFeedback();
+  };
+
   const mutation = useMutation({
     mutationFn: sendFeedback,
     onSuccess: () => {
-      refetch();
-      refetchFeedback();
+      refetchAll();
     },
   });
 
@@ -72,7 +79,8 @@ const Alert = () => {
   const {
     type,
     severity,
-    peripheral_name,
+    peripheral_id: peripheralId,
+    peripheral_name: peripheralName,
     start_time,
     duration,
     status,
@@ -81,29 +89,45 @@ const Alert = () => {
   } = data;
   const { ground_truth, username, comment, creation_time } = dataFeedback || {};
   const isVerified = status === EventStatus.Verified;
+  const hasVideo = !!videoUrl;
+  const deviceUrl = generatePath(APP_URLS.devices, {
+    peripheralId,
+    peripheralName,
+  });
 
   return (
     <>
       <ContentBar>
-        <Typography variant="LabelMedium">{data.peripheral_name}</Typography>
+        <Typography variant="LabelMedium">{peripheralName}</Typography>
       </ContentBar>
       <MainContent className={styles.mainContent}>
-        <div className={styles.videoPlayerWrapper}>
-          <VideoPlayer
-            url={videoUrl}
-            posterUrl={videoSnapshot}
-            autoPlay
-            width="100%"
-            height="100%"
-          />
-        </div>
+        {hasVideo ? (
+          <div className={styles.videoPlayerWrapper}>
+            <VideoPlayer
+              url={videoUrl}
+              posterUrl={videoSnapshot}
+              autoPlay
+              width="100%"
+              className={styles.videoPlayer}
+            />
+          </div>
+        ) : (
+          <div className={styles.videoStub}>
+            <img
+              src={videoSnapshot}
+              alt="img"
+              className={styles.videoSnapshot}
+            />
+            <VideoPlayerStub deviceUrl={deviceUrl} onClick={refetchAll} />
+          </div>
+        )}
         {isVerified ? (
           <Info
             username={username}
             creation_time={creation_time}
             type={type}
             severity={severity}
-            peripheral_name={peripheral_name}
+            peripheral_name={peripheralName}
             start_time={start_time}
             duration={duration}
             comment={comment}

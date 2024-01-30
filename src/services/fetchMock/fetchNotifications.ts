@@ -26,6 +26,8 @@ export const fetchNotificationsMock = (params: INotificationsRequest) => {
       // @ts-ignore
       start_time: dateFrom.format(),
       type: type,
+      video_snapshot: '',
+      video_url: '',
     };
     res.push(item);
   }

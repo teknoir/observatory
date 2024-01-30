@@ -4,6 +4,7 @@ import thumbUpIcon from 'assets/icons/thumbUp.svg';
 import thumbUpRedIcon from 'assets/icons/thumbUpRed.svg';
 import Icon from 'components/Icon/Icon';
 import Verified from 'components/Verified/Verified';
+import { durationToMMSS } from 'utils/moment';
 import { IAlertEvent, IFeedback } from 'ts/types';
 import styles from './Info.module.scss';
 
@@ -35,7 +36,6 @@ const Info = ({
   ground_truth: isGroundTruth,
 }: Props) => {
   const startDate = moment(startTime);
-  const durationSec = Math.round(duration / 1000);
   const startDateFormat = startDate.format('hh:mm A');
 
   return (
@@ -72,7 +72,9 @@ const Info = ({
         </div>
         <div className={styles.valueItem}>
           <Typography variant="LabelXLBold">Duration:</Typography>
-          <Typography variant="BodyLarge">{durationSec}s</Typography>
+          <Typography variant="BodyLarge">
+            {durationToMMSS(duration)}
+          </Typography>
         </div>
         <div className={styles.valueItem}>
           <Typography variant="LabelXLBold">Severity:</Typography>

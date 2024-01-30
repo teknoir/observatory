@@ -1,7 +1,5 @@
 import { ReactNode } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import styleVariables from 'enums/styleVariables.module.scss';
 
 interface Props {
   id: string | number;
@@ -10,13 +8,10 @@ interface Props {
   className?: string;
 }
 
-const SortableItem = ({ id, isDragging, className = '', children }: Props) => {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id });
+const SortableItem = ({ id, className = '', children }: Props) => {
+  const { attributes, listeners, setNodeRef, transition } = useSortable({ id });
 
   const style = {
-    border: isDragging ? `6px solid ${styleVariables.offWhite}` : '',
-    transform: CSS.Transform.toString(transform),
     transition,
   };
 
