@@ -8,6 +8,7 @@ import { NotificationStatus } from 'enums/notifications';
 import APP_URLS from 'enums/urls';
 import { INotificationsExtended } from 'ts/types';
 import { generatePath } from 'utils/router';
+import { durationToMMSS } from 'utils/moment';
 import styles from './NotificationItem.module.scss';
 
 interface NotificationItemProps {
@@ -15,7 +16,6 @@ interface NotificationItemProps {
 }
 
 const NotificationItem = ({ data }: NotificationItemProps) => {
-  const durationSeconds = Math.ceil(data.duration / 1000);
   const startDate = moment(data.start_time);
   const startDateFormat = startDate.format('hh:mm A');
   const href = generatePath(APP_URLS.alerts, {
@@ -33,7 +33,7 @@ const NotificationItem = ({ data }: NotificationItemProps) => {
         <div>
           <Typography variant="body2" display="block" className={styles.text}>
             {data.type} in Camera: {data.peripheral_name} -{' '}
-            {`${startDateFormat} (${durationSeconds}s)`}. Severity:{' '}
+            {`${startDateFormat} (${durationToMMSS(data.duration)})`}. Severity:{' '}
             {data.severity}
           </Typography>
         </div>
