@@ -9,6 +9,7 @@ import {
   fetchAlertMock,
   fetchNotificationsMock,
   fetchNotificationsPaginatedMock,
+  fetchFeedbackMock,
 } from 'services/fetchMock';
 import {
   getSearchQuery,
@@ -40,19 +41,22 @@ export const fetchAlert = (detectionId: DetectionId) => {
   return Fetch.get(API.eventAlert(detectionId)).then(({ data }) => {
     const res = data[0];
     if (res) {
-      // TODO: pass test video url and snapshot, remove these conditions in future
-      res.video_url = res.video_url
-        ? getUrlMp4(res.video_url)
-        : 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
-      res.video_snapshot = res.video_snapshot
-        ? getUrlJpeg(res.video_snapshot)
-        : 'https://picsum.photos/600/300';
+      if (res.video_url) {
+        res.video_url = getUrlMp4(res.video_url);
+      }
+      if (res.video_snapshot) {
+        res.video_snapshot = getUrlJpeg(res.video_snapshot);
+      }
     }
     return res;
   });
 };
 
 export const fetchFeedback = (detectionId: DetectionId) => {
+  // TODO: remove this condition in future
+  if (shouldUseMockData()) {
+    return fetchFeedbackMock(detectionId);
+  }
   return Fetch.get(API.feedback(detectionId)).then(({ data }) => data[0]);
 };
 
