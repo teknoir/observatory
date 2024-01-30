@@ -1,5 +1,5 @@
 import Fetch from 'services/fetch';
-import API, { API_MEDIA_JPEG, API_MEDIA_MP4 } from 'enums/api';
+import API from 'enums/api';
 import {
   fetchAllMotionsMock,
   fetchMotionsByPeripheralIdMock,
@@ -24,6 +24,7 @@ import {
   INotificationsRequest,
 } from 'ts/types';
 import { useMockDb } from 'enums/mockData';
+import { getUrlJpeg, getUrlMp4 } from 'utils/media';
 
 // TODO: remove this function in future
 const shouldUseMockData = (): boolean =>
@@ -40,21 +41,21 @@ export const fetchAlert = (detectionId: DetectionId) => {
   return Fetch.get(API.eventAlert(detectionId)).then(({ data }) => {
     const res = data[0];
     if (res) {
-      // TODO: pass test video url and snapshot, remove these conditions in future
-      res.video_url = res.video_url
-        ? `${API_MEDIA_MP4}/${res.video_url}`
-        : 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
-      res.video_snapshot = res.video_snapshot
-        ? `${API_MEDIA_JPEG}/${res.video_snapshot}`
-        : 'https://picsum.photos/600/300';
+      if (res.video_url) {
+        res.video_url = getUrlMp4(res.video_url);
+      }
+      if (res.video_snapshot) {
+        res.video_snapshot = getUrlJpeg(res.video_snapshot);
+      }
     }
     return res;
   });
 };
 
 export const fetchFeedback = (detectionId: DetectionId) => {
+  // TODO: remove this condition in future
   if (shouldUseMockData()) {
-    return fetchFeedbackMock();
+    return fetchFeedbackMock(detectionId);
   }
   return Fetch.get(API.feedback(detectionId)).then(({ data }) => data[0]);
 };
