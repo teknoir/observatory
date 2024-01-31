@@ -132,7 +132,7 @@ const Alert = () => {
             ground_truth={ground_truth}
           />
         ) : (
-          <Form onSubmit={onSubmit} />
+          <Form onSubmit={onSubmit} typeDetected={type} />
         )}
       </MainContent>
     </>

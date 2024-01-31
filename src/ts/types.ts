@@ -242,6 +242,7 @@ export interface IMotionsAggregationResponse {
 export interface IAlertFormValues {
   ground_truth: boolean;
   comment: string;
+  alert_type: AlertTypes;
 }
 
 export enum IconSizes {

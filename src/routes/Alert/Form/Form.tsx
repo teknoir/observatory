@@ -11,20 +11,24 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import FormHelperText from '@mui/material/FormHelperText';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 import thumbUpIcon from 'assets/icons/thumbUp.svg';
 import thumbUpRedIcon from 'assets/icons/thumbUpRed.svg';
-import { IAlertFormValues } from 'ts/types';
+import { AlertTypes, IAlertFormValues } from 'ts/types';
 import styles from './Form.module.scss';
 
 const schema = zod
   .object({
     ground_truth: zod.boolean(),
     comment: zod.string().min(1, { message: 'Comment is required' }),
+    alert_type: zod.nativeEnum(AlertTypes),
   })
   .required();
 
 interface Props {
   onSubmit: (values: IAlertFormValues) => void;
+  typeDetected: AlertTypes;
 }
 
 const Icon = styled('span')(() => ({
@@ -69,7 +73,7 @@ function RadioThumbRotated(props: RadioProps) {
   );
 }
 
-const Form = ({ onSubmit }: Props) => {
+const Form = ({ onSubmit, typeDetected }: Props) => {
   const navigate = useNavigate();
   const {
     control,
@@ -79,6 +83,7 @@ const Form = ({ onSubmit }: Props) => {
     defaultValues: {
       ground_truth: false,
       comment: '',
+      alert_type: typeDetected,
     },
     resolver: zodResolver(schema),
   });
@@ -115,6 +120,22 @@ const Form = ({ onSubmit }: Props) => {
                   label=""
                 />
               </RadioGroup>
+            )}
+          />
+        </div>
+        <div className={styles.row}>
+          <Typography variant="LabelXLBold">Detected alert:</Typography>
+          <br />
+          <Controller
+            name="alert_type"
+            control={control}
+            render={({ field }) => (
+              <Select labelId="alert-type-select" {...field}>
+                {/* TODO: Remove options if API provides list of alert types */}
+                <MenuItem value={AlertTypes.theft}>Theft</MenuItem>
+                <MenuItem value={AlertTypes.loitering}>Loitering</MenuItem>
+                <MenuItem value={AlertTypes.on_ground}>Man down</MenuItem>
+              </Select>
             )}
           />
         </div>
