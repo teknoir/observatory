@@ -5,7 +5,7 @@ import { CarouselMode, SurveillanceCarouselProps } from 'ts/types';
 import AllCamerasView from './AllCamerasView';
 import AlternativeView from './AlternativeView';
 import DetailView from './DetailView/DetailView';
-import GeneralView from './GeneralView/GeneralView';
+import GeneralView from './GeneralView';
 
 const surveillanceCarouselComponentsByMode = {
   [CarouselMode.AllCamerasView]: AllCamerasView,
