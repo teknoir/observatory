@@ -19,9 +19,9 @@ export const durationToMMSS = (milliseconds: number) => {
 export const dateFormat = (date: string) => {
   const startDate = moment(date);
   let dayName = '';
-  if (startDate.isSame(moment(), 'day')) {
+  if (isToday(startDate)) {
     dayName = 'Today, ';
-  } else if (startDate.isSame(moment().subtract(1, 'day'), 'day')) {
+  } else if (isYesterday(startDate)) {
     dayName = 'Yesterday, ';
   } else {
     dayName = startDate.format('MMMM DD, YYYY') + ', ';
