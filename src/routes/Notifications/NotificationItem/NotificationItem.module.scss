@@ -23,9 +23,15 @@
 .imgWrapper {
   width: 80px;
   height: 40px;
+  position: relative;
   flex-shrink: 0;
-  background-color: $silver;
   margin-right: 12px;
+}
+
+.videoSnapshot {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .buttonLink {
