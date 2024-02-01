@@ -20,7 +20,7 @@ const API = {
   notifications: (query: string) =>
     `${API_HOST_MIDDLE_END}/notifications?${query}`,
   sendNotificationSeen: (query: string) =>
-    `${API_HOST_MIDDLE_END}/notifications?${query}`,
+    `${API_HOST_MIDDLE_END}/notifications/${query}`,
   sendFeedback: `${API_HOST_MIDDLE_END}/feedbacks`,
 };
 
