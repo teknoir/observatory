@@ -86,8 +86,10 @@ export const sendFeedback = (
   return Fetch.post(API.sendFeedback, data).then(({ data }) => data);
 };
 
-export const sendNotificationSeen = (data: DetectionId) => {
-  return Fetch.put(API.sendNotificationSeen(data)).then(({ data }) => data);
+export const sendNotificationSeen = (detectionId: DetectionId) => {
+  return Fetch.put(API.sendNotificationSeen(detectionId)).then(
+    ({ data }) => data
+  );
 };
 
 export const fetchMotionsAggregation = (
