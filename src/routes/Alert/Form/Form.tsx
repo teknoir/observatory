@@ -12,6 +12,7 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import FormHelperText from '@mui/material/FormHelperText';
 import thumbUpIcon from 'assets/icons/thumbUp.svg';
+import thumbUpGreenIcon from 'assets/icons/thumbUpGreen.svg';
 import thumbUpRedIcon from 'assets/icons/thumbUpRed.svg';
 import { IAlertFormValues } from 'ts/types';
 import styles from './Form.module.scss';
@@ -38,7 +39,7 @@ const IconRotated = styled(Icon)({
 });
 
 const IconChecked = styled(Icon)({
-  backgroundImage: `url(${thumbUpRedIcon})`,
+  backgroundImage: `url(${thumbUpGreenIcon})`,
 });
 
 const IconCheckedRotated = styled(IconRotated)({
