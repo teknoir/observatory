@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { isMobile } from 'react-device-detect';
 import ContentBar from 'components/ContentBar/ContentBar';
 import MainContent from 'components/MainContent/MainContent';
 import MovementsTimelineContainer from 'components/MovementsTimeline/MovementsTimelineContainer';
@@ -31,7 +32,9 @@ function Home() {
         </div>
       </ContentBar>
       <MainContent>
-        <div className={styles.mainContent}>
+        <div
+          className={isMobile ? styles.mainContentMobile : styles.mainContent}
+        >
           <SurveillanceCarousel />
           {!hideMotionsAlerts && !isSmall && <MovementsTimelineContainer />}
         </div>

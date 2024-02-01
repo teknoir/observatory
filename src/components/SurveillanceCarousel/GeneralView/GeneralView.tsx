@@ -1,10 +1,9 @@
-import { useEffect, useRef, DragEvent, Fragment } from 'react';
+import { useEffect, useRef, DragEvent } from 'react';
 import Resizable from 'components/Resizable/Resizable';
 import classNames from 'classnames';
 import CarouselImage from 'components/SurveillanceCarousel/CarouselImage';
 import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImagePreview';
 import MovementsTimelineEmbed from 'components/MovementsTimelineEmbed/MovementsTimelineEmbed';
-import { useMainLayoutContext } from 'context/mainLayoutContext';
 import { CarouselProps, RefImage, CameraId } from 'ts/types';
 import useOrderedSourcesKeys from 'hooks/useOrderedSourcesKeys';
 import styles from './GeneralView.module.scss';
@@ -24,9 +23,7 @@ function GeneralView({
     handleDragOver,
     handleDrop,
   } = useOrderedSourcesKeys(sources);
-  const { isSmall } = useMainLayoutContext();
-
-  const EmbedComponent = isSmall ? Fragment : MovementsTimelineEmbed;
+  const EmbedComponent = MovementsTimelineEmbed;
 
   useEffect(() => {
     if (selectedImageRef.current && galleryRef.current) {
@@ -89,7 +86,7 @@ function GeneralView({
           left: true,
         }}
       >
-        <div className={styles.galleryScroll}>
+        <div className={styles.galleryScrollBrowser}>
           {sources.size > 0 ? (
             sourcesKeys.map((sourceKey) => {
               const {

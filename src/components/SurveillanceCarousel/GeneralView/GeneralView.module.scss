@@ -1,12 +1,21 @@
 @import 'enums/styleVariables.module.scss';
 
 .galleryScroll {
-  height: calc(100vh - $headerHeight);
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   grid-auto-rows: min-content;
   overflow-y: auto;
+}
+
+.galleryScrollBrowser {
+  composes: galleryScroll;
+  height: calc(100vh - $headerHeight);
   border-left: 1px solid $offWhite;
+}
+
+.galleryScrollMobile {
+  composes: galleryScroll;
+  height: calc(70vh - $headerHeight * 2);
 }
 
 .mainImage {
@@ -19,6 +28,11 @@
       display: flex;
     }
   }
+}
+
+.mainImageMobile {
+  position: relative;
+  height: 30vh;
 }
 
 .mainImageEmbed {

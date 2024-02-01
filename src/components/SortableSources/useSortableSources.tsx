@@ -1,16 +1,18 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import { useEffect, useState } from 'react';
 import _union from 'lodash/union';
 import { DragStartEvent, DragEndEvent } from '@dnd-kit/core';
-import { Source, CameraId } from 'ts/types.ts';
+import { Source, CameraId } from 'ts/types';
+import { Main } from './enums';
 
 type Sources = Map<CameraId, Source>;
 
-const useSortableSources = (sources: Sources) => {
+const useSortableSources = (
+  sources: Sources,
+  onMain?: (index: CameraId) => void
+) => {
   const [sourcesKeys, setSourcesKeys] = useState<string[]>([...sources.keys()]);
-  const [activeId, setActiveId] = useState(null);
-  const activeItem = sources.get(activeId) ?? ({} as Source);
+  const [activeId, setActiveId] = useState<CameraId | null>(null);
+  const activeItem = sources.get(activeId!) ?? ({} as Source);
 
   useEffect(() => {
     setSourcesKeys((prev) => _union(prev, [...sources.keys()]));
@@ -26,14 +28,20 @@ const useSortableSources = (sources: Sources) => {
   };
 
   const onDragStart = (event: DragStartEvent) => {
-    console.log('handleDragStart', event.active.id);
-    setActiveId(event.active.id);
+    setActiveId(event.active.id as CameraId);
   };
 
   const onDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
-    console.log('handleDragEnd', active.id, over.id);
-    swapBoxes(active.id, over.id);
+    if (over?.id === Main) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      onMain(active.id);
+    } else {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      swapBoxes(active.id, over.id);
+    }
     setActiveId(null);
   };
 

@@ -1,10 +1,11 @@
 import { useMemo, ReactNode } from 'react';
 import { CarouselProps, ViewImagesProps } from 'ts/types';
-import SortableContext from 'components/SurveillanceCarousel/SortableSources/Context';
-import SortableItem from 'components/SurveillanceCarousel/SortableSources/SortableItem';
-import DragOverlay from 'components/SurveillanceCarousel/SortableSources/DragOverlay';
+import DnDContext from 'components/SortableSources/DnDContext';
+import SortableContext from 'components/SortableSources/SortableContext';
+import SortableItem from 'components/SortableSources/SortableItem';
+import DragOverlay from 'components/SortableSources/DragOverlay/DragOverlay';
+import useSortableSources from 'components/SortableSources/useSortableSources';
 import CarouselImagePreviewDnD from 'components/SurveillanceCarousel/CarouselImagePreview/CarouselImagePreviewDnD';
-import useSortableSources from 'components/SurveillanceCarousel/SortableSources/useSortableSources';
 import Container from './Container/Container';
 import ListItems from './ListItems/ListItems';
 import { usePager } from './hooks';
@@ -52,24 +53,26 @@ function AllCamerasView({ sources, peripheralIdNotified }: CarouselProps) {
       changePage={changePage}
       changePageThrottle={changePageThrottle}
     >
-      <SortableContext
+      <DnDContext
         sourcesKeys={sourcesKeys}
         onDragStart={onDragStart}
         onDragEnd={onDragEnd}
       >
-        <ListItems
-          images={visibleImages}
-          peripheralIdNotified={peripheralIdNotified}
-          DraggableComponent={DraggableComponent}
-        />
-        <DragOverlay>
-          <CarouselImagePreviewDnD
-            src={activeItem.src}
-            title={activeItem.peripheralName}
-            status={activeItem.status}
+        <SortableContext sourcesKeys={sourcesKeys}>
+          <ListItems
+            images={visibleImages}
+            peripheralIdNotified={peripheralIdNotified}
+            DraggableComponent={DraggableComponent}
           />
-        </DragOverlay>
-      </SortableContext>
+          <DragOverlay>
+            <CarouselImagePreviewDnD
+              src={activeItem.src}
+              title={activeItem.peripheralName}
+              status={activeItem.status}
+            />
+          </DragOverlay>
+        </SortableContext>
+      </DnDContext>
     </Container>
   );
 }

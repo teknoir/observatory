@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import {
   DndContext,
-  closestCenter,
+  pointerWithin,
   MouseSensor,
   TouchSensor,
   useSensor,
@@ -9,7 +9,7 @@ import {
   DragStartEvent,
   DragEndEvent,
 } from '@dnd-kit/core';
-import { SortableContext, rectSwappingStrategy } from '@dnd-kit/sortable';
+import _sortBy from 'lodash/sortBy';
 import { CameraId } from 'ts/types.ts';
 
 interface Props {
@@ -19,7 +19,17 @@ interface Props {
   onDragEnd: (event: DragEndEvent) => void;
 }
 
-const Context = ({ sourcesKeys, onDragStart, onDragEnd, children }: Props) => {
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+const pointerWithinCustom = (args) => {
+  const res = pointerWithin(args);
+  if (res.length > 0 && res.find(({ id }) => id === 'main')) {
+    return _sortBy(res, ({ id }) => (id === 'main' ? 0 : 1));
+  }
+  return res;
+};
+
+const Context = ({ onDragStart, onDragEnd, children }: Props) => {
   const sensors = useSensors(
     useSensor(MouseSensor, {
       activationConstraint: {
@@ -38,13 +48,12 @@ const Context = ({ sourcesKeys, onDragStart, onDragEnd, children }: Props) => {
   return (
     <DndContext
       sensors={sensors}
-      collisionDetection={closestCenter}
+      collisionDetection={pointerWithinCustom}
       onDragStart={onDragStart}
       onDragEnd={onDragEnd}
+      autoScroll={false}
     >
-      <SortableContext items={sourcesKeys} strategy={rectSwappingStrategy}>
-        {children}
-      </SortableContext>
+      {children}
     </DndContext>
   );
 };
