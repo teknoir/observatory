@@ -19,8 +19,8 @@ const API = {
     `${API_HOST_MIDDLE_END}/feedbacks?detection_id=${detectionId}`,
   notifications: (query: string) =>
     `${API_HOST_MIDDLE_END}/notifications?${query}`,
-  sendNotificationSeen: (query: string) =>
-    `${API_HOST_MIDDLE_END}/notifications/${query}`,
+  sendNotificationSeen: (detectionId: string) =>
+    `${API_HOST_MIDDLE_END}/notifications/${detectionId}`,
   sendFeedback: `${API_HOST_MIDDLE_END}/feedbacks`,
 };
 
