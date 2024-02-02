@@ -1,31 +1,14 @@
-import { useEffect, useMemo, useState, useCallback, Fragment } from 'react';
-import _throttle from 'lodash/throttle';
-import { useInterval } from 'usehooks-ts';
-import classNames from 'classnames';
-import ArrowBackIos from '@mui/icons-material/ArrowBackIos';
-import ArrowForwardIos from '@mui/icons-material/ArrowForwardIos';
-import Box from '@mui/material/Box';
-import CarouselImagePreview from 'components/SurveillanceCarousel/CarouselImagePreview';
-import MovementsTimelineEmbed from 'components/MovementsTimelineEmbed/MovementsTimelineEmbed';
+import { useMemo, ReactNode } from 'react';
 import useOrderedSourcesKeys from 'hooks/useOrderedSourcesKeys';
-import { useMainLayoutContext } from 'context/mainLayoutContext';
-import { CarouselProps } from 'ts/types';
-import { NextPageOptions, nextPage } from './utils';
+import { CarouselProps, ViewImagesProps } from 'ts/types';
+import Container from './Container/Container';
+import ListItems from './ListItems/ListItems';
+import { usePager } from './hooks';
+import { getImagesFromSources } from '../utils';
+import { imagesPerPage } from './enums';
 import styles from './AllCamerasView.module.scss';
 
-interface ImagesProps {
-  sourceKey: string;
-  src: string;
-  peripheralName: string;
-  status: number;
-  peripheralId: string;
-}
-
-const imagesPerPage = 9;
-const delay = 30000;
-
 function AllCamerasView({ sources, peripheralIdNotified }: CarouselProps) {
-  const [page, setPage] = useState<number>(0);
   const {
     sourcesKeys,
     handleDragStart,
@@ -33,121 +16,52 @@ function AllCamerasView({ sources, peripheralIdNotified }: CarouselProps) {
     handleDragOver,
     handleDrop,
   } = useOrderedSourcesKeys(sources);
-  const { isSmall } = useMainLayoutContext();
-
-  const EmbedComponent = isSmall ? Fragment : MovementsTimelineEmbed;
 
   // FIXME: This is a workaround to render using an array
-  const images: ImagesProps[] = useMemo(() => {
-    const generatedImages = sourcesKeys.map((sourceKey) => {
-      const {
-        src = '',
-        peripheralName = '',
-        status = 0,
-        peripheralId = '',
-      } = sources.get(sourceKey) ?? {};
-      return {
-        sourceKey,
-        src,
-        peripheralName,
-        status,
-        peripheralId,
-      };
-    });
-    return generatedImages;
-  }, [sourcesKeys, sources]);
+  const images: ViewImagesProps[] = useMemo(
+    () => getImagesFromSources(sourcesKeys, sources),
+    [sourcesKeys, sources]
+  );
+  const { page, pages, changePage, changePageThrottle } = usePager(
+    images,
+    peripheralIdNotified
+  );
   const visibleImages = images.slice(
     page * imagesPerPage,
     page * imagesPerPage + imagesPerPage
   );
 
-  const pages = Math.ceil(images.length / imagesPerPage);
-
-  const changePage = (direction: NextPageOptions) => {
-    setPage((prevPage) => nextPage(direction, prevPage, pages));
-  };
-
-  const changePageThrottle = useCallback(
-    _throttle(
-      (direction) => {
-        changePage(direction);
-      },
-      3000,
-      { trailing: false }
-    ),
-    []
+  const DraggableComponent = ({
+    sourceKey,
+    children,
+  }: {
+    sourceKey: string;
+    children: ReactNode;
+  }) => (
+    <div
+      className={styles.imagePreviewContainer}
+      onDragStart={handleDragStart(sourceKey)}
+      onDragEnd={handleDragEnd}
+      onDragOver={handleDragOver}
+      onDrop={handleDrop(sourceKey)}
+      draggable
+    >
+      {children}
+    </div>
   );
 
-  useEffect(() => {
-    if (peripheralIdNotified) {
-      const notifiedDeviceIndex = images.findIndex(
-        (image) => image.peripheralId === peripheralIdNotified
-      );
-      if (notifiedDeviceIndex > -1) {
-        const notifiedDevicePage = Math.floor(
-          notifiedDeviceIndex / imagesPerPage
-        ) as number;
-        setPage(notifiedDevicePage);
-      }
-    }
-  }, [peripheralIdNotified, images]);
-
-  useInterval(() => {
-    changePage(NextPageOptions.forward);
-  }, delay);
-
   return (
-    <Box className={styles.root}>
-      <button
-        className={classNames(styles.button, styles.buttonLeft, {
-          [styles.buttonHoverState]: pages > 1,
-        })}
-        onClick={() => changePage(NextPageOptions.backward)}
-        onDragOver={() => changePageThrottle(NextPageOptions.backward)}
-      >
-        <ArrowBackIos />
-      </button>
-      <div className={styles.grid}>
-        {visibleImages.map((image) => (
-          <div
-            key={image.peripheralId}
-            onDragStart={handleDragStart(image.sourceKey)}
-            onDragEnd={handleDragEnd}
-            onDragOver={handleDragOver}
-            onDrop={handleDrop(image.sourceKey)}
-            draggable
-            className={styles.imagePreviewContainer}
-          >
-            <EmbedComponent
-              peripheralId={image.peripheralId}
-              classNameContainer={styles.imagePreview}
-            >
-              <CarouselImagePreview
-                id={image.peripheralName}
-                src={image.src}
-                title={image.peripheralName}
-                status={image.status}
-                classNameContainer={styles.imagePreview}
-                className={`${
-                  peripheralIdNotified === image.peripheralId
-                    ? styles.borderNotified
-                    : ''
-                }`}
-              />
-            </EmbedComponent>
-          </div>
-        ))}
-      </div>
-      <button
-        className={classNames(styles.button, styles.buttonRight, {
-          [styles.buttonHoverState]: pages > 1,
-        })}
-        onClick={() => changePage(NextPageOptions.forward)}
-        onDragOver={() => changePageThrottle(NextPageOptions.forward)}
-      >
-        <ArrowForwardIos />
-      </button>
-    </Box>
+    <Container
+      pages={pages}
+      changePage={changePage}
+      changePageThrottle={changePageThrottle}
+    >
+      <ListItems
+        images={visibleImages}
+        peripheralIdNotified={peripheralIdNotified}
+        DraggableComponent={DraggableComponent}
+      />
+    </Container>
   );
 }
 

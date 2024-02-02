@@ -49,6 +49,14 @@ export interface ImageProps {
   status: SourceStatus;
 }
 
+export interface ViewImagesProps {
+  sourceKey: string;
+  src: string;
+  peripheralName: string;
+  status: number;
+  peripheralId: string;
+}
+
 export type RefImage = HTMLImageElement;
 
 export interface ImagePreviewProps {
