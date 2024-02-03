@@ -11,7 +11,7 @@ import { generatePath } from 'utils/router';
 import VideoPlayer from 'components/VideoPlayer/VideoPlayer';
 import { PopoverInfoProps } from 'ts/types';
 import APP_URLS from 'enums/urls';
-import { durationToMMSS } from 'utils/moment';
+import { dateFormat, durationToMMSS } from 'utils/moment';
 import { getUrlMp4 } from 'utils/media';
 import styles from './Popover.module.scss';
 
@@ -78,6 +78,14 @@ const PopoverComponent = ({
             </Typography>
             <Typography variant="LabelMedium" className={styles.value}>
               &emsp;{alertInfo[ALERT_INFO_KEYS.PERIPHERAL_NAME]}
+            </Typography>
+          </Box>
+          <Box>
+            <Typography variant="LabelMedium" className={styles.field}>
+              Date:
+            </Typography>
+            <Typography variant="LabelMedium" className={styles.value}>
+              &emsp;{dateFormat(alertInfo[ALERT_INFO_KEYS.START_TIME])}
             </Typography>
           </Box>
           <Box>
