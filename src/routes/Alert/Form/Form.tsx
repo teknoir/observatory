@@ -2,28 +2,21 @@ import { useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as zod from 'zod';
-import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import Radio, { RadioProps } from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import FormHelperText from '@mui/material/FormHelperText';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import thumbUpIcon from 'assets/icons/thumbUp.svg';
-import thumbUpGreenIcon from 'assets/icons/thumbUpGreen.svg';
-import thumbUpRedIcon from 'assets/icons/thumbUpRed.svg';
 import { AlertTypes, IAlertFormValues } from 'ts/types';
+import styleVariables from 'enums/styleVariables.module.scss';
 import styles from './Form.module.scss';
 
 const schema = zod
   .object({
-    ground_truth: zod.boolean(),
+    ground_truth: zod.nativeEnum(AlertTypes),
     comment: zod.string().min(1, { message: 'Comment is required' }),
-    alert_type: zod.nativeEnum(AlertTypes),
   })
   .required();
 
@@ -32,47 +25,19 @@ interface Props {
   typeDetected: AlertTypes;
 }
 
-const Icon = styled('span')(() => ({
-  width: 20,
-  height: 20,
-  backgroundImage: `url(${thumbUpIcon})`,
-}));
+const selectOptions = [
+  { value: AlertTypes.theft, label: 'Theft' },
+  { value: AlertTypes.loitering, label: 'Loitering' },
+  { value: AlertTypes.on_ground, label: 'Man down' },
+  { value: AlertTypes.no_alert, label: 'No alert' },
+];
 
-const IconRotated = styled(Icon)({
-  transform: 'rotate(180deg)',
-});
-
-const IconChecked = styled(Icon)({
-  backgroundImage: `url(${thumbUpGreenIcon})`,
-});
-
-const IconCheckedRotated = styled(IconRotated)({
-  backgroundImage: `url(${thumbUpRedIcon})`,
-});
-
-function RadioThumb(props: RadioProps) {
-  return (
-    <Radio
-      disableRipple
-      color="default"
-      checkedIcon={<IconChecked />}
-      icon={<Icon />}
-      {...props}
-    />
-  );
-}
-
-function RadioThumbRotated(props: RadioProps) {
-  return (
-    <Radio
-      disableRipple
-      color="default"
-      checkedIcon={<IconCheckedRotated />}
-      icon={<IconRotated />}
-      {...props}
-    />
-  );
-}
+const styleBorders = {
+  '& .MuiOutlinedInput-notchedOutline': {
+    borderRadius: '0',
+    borderColor: styleVariables.offWhite,
+  },
+};
 
 const Form = ({ onSubmit, typeDetected }: Props) => {
   const navigate = useNavigate();
@@ -82,9 +47,8 @@ const Form = ({ onSubmit, typeDetected }: Props) => {
     formState: { errors, isSubmitting },
   } = useForm<IAlertFormValues>({
     defaultValues: {
-      ground_truth: false,
+      ground_truth: typeDetected,
       comment: '',
-      alert_type: typeDetected,
     },
     resolver: zodResolver(schema),
   });
@@ -92,50 +56,24 @@ const Form = ({ onSubmit, typeDetected }: Props) => {
   return (
     <div className={styles.root}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className={styles.rowRadio}>
-          <Typography variant="LabelXLBold">
-            Was this an actual theft?
-          </Typography>
-          <Controller
-            name="ground_truth"
-            control={control}
-            render={({ field }) => (
-              <RadioGroup
-                {...field}
-                row
-                aria-labelledby="demo-row-radio-buttons-group-label"
-                name="row-radio-buttons-group"
-                onChange={(e) => {
-                  const value = e.target.value === 'true';
-                  field.onChange(value);
-                }}
-              >
-                <FormControlLabel
-                  value={true}
-                  control={<RadioThumb />}
-                  label=""
-                />
-                <FormControlLabel
-                  value={false}
-                  control={<RadioThumbRotated />}
-                  label=""
-                />
-              </RadioGroup>
-            )}
-          />
-        </div>
         <div className={styles.row}>
           <Typography variant="LabelXLBold">Detected alert:</Typography>
           <br />
           <Controller
-            name="alert_type"
+            name="ground_truth"
             control={control}
             render={({ field }) => (
-              <Select labelId="alert-type-select" {...field}>
-                {/* TODO: Remove options if API provides list of alert types */}
-                <MenuItem value={AlertTypes.theft}>Theft</MenuItem>
-                <MenuItem value={AlertTypes.loitering}>Loitering</MenuItem>
-                <MenuItem value={AlertTypes.on_ground}>Man down</MenuItem>
+              <Select
+                labelId="alert-type-select"
+                className={styles.select}
+                sx={styleBorders}
+                {...field}
+              >
+                {selectOptions.map((option) => (
+                  <MenuItem value={option.value}>
+                    <Typography variant="BodyLarge">{option.label}</Typography>
+                  </MenuItem>
+                ))}
               </Select>
             )}
           />
@@ -151,6 +89,7 @@ const Form = ({ onSubmit, typeDetected }: Props) => {
                 rows={4}
                 multiline
                 fullWidth
+                sx={styleBorders}
               />
             )}
           />

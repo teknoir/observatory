@@ -240,9 +240,8 @@ export interface IMotionsAggregationResponse {
 }
 
 export interface IAlertFormValues {
-  ground_truth: boolean;
+  ground_truth: AlertTypes;
   comment: string;
-  alert_type: AlertTypes;
 }
 
 export enum IconSizes {
@@ -267,13 +266,17 @@ export interface ChartDimensions {
 export interface IFeedback {
   detection_id: DetectionId;
   creation_time: string;
-  ground_truth: boolean;
+  ground_truth: AlertTypes;
   comment: string;
 }
 
 export enum AlertTypes {
-  nearvehicle = 'nearvehicle',
+  // TODO: Remove when testing alerts work correctly
+  // nearvehicle = 'nearvehicle',
+  // on_ground = 'on_ground',
+  // theft = 'theft',
   loitering = 'loitering',
-  on_ground = 'on_ground',
-  theft = 'theft',
+  no_alert = 'no_alert',
+  on_ground = 'person_down',
+  theft = 'catalytic_theft',
 }
