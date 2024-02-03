@@ -3,10 +3,11 @@ import moment from 'moment';
 import Typography from '@mui/material/Typography';
 import CircleIcon from '@mui/icons-material/Circle';
 import VideoStub from 'components/VideoStub/VideoStub';
-import { generatePath } from 'utils/router';
 import { NotificationStatus } from 'enums/notifications';
 import APP_URLS from 'enums/urls';
+import { generatePath } from 'utils/router';
 import { durationToMMSS } from 'utils/moment';
+import { getUrlJpeg } from 'utils/media';
 import { INotificationsExtended } from 'ts/types';
 import styles from './NotificationItem.module.scss';
 
@@ -24,16 +25,20 @@ const NotificationItem = ({ data }: NotificationItemProps) => {
     detection_id: detectionId,
     peripheral_id: peripheralId,
     peripheral_name: peripheralName,
-    video_snapshot: videoSnapshot,
     video_url: videoUrl,
   } = data;
+  let { video_snapshot: videoSnapshot } = data;
+  // TODO: remove test url in future
+  videoSnapshot = videoSnapshot
+    ? getUrlJpeg(videoSnapshot)
+    : 'https://picsum.photos/200/300';
+  const hasVideo = !!videoUrl;
   const startDate = moment(startTime);
   const startDateFormat = startDate.format('hh:mm A');
   const href = generatePath(APP_URLS.alerts, {
     detectionId,
     peripheralId,
   });
-  const hasVideo = !!videoUrl;
   return (
     <div className={styles.root}>
       {status === NotificationStatus.New && (

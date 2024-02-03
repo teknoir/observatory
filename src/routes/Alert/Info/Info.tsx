@@ -1,6 +1,7 @@
 import moment from 'moment';
 import Typography from '@mui/material/Typography';
 import thumbUpIcon from 'assets/icons/thumbUp.svg';
+import thumbUpGreenIcon from 'assets/icons/thumbUpGreen.svg';
 import thumbUpRedIcon from 'assets/icons/thumbUpRed.svg';
 import Icon from 'components/Icon/Icon';
 import Verified from 'components/Verified/Verified';
@@ -51,7 +52,7 @@ const Info = ({
       <div className={styles.itemWithTheft}>
         <Typography variant="LabelXLBold">Was this an actual theft?</Typography>
         <div className={styles.hasTheftIcons}>
-          <Icon icon={isGroundTruth ? thumbUpRedIcon : thumbUpIcon} />
+          <Icon icon={isGroundTruth ? thumbUpGreenIcon : thumbUpIcon} />
           <Icon icon={isGroundTruth ? thumbUpIcon : thumbUpRedIcon} rotated />
         </div>
       </div>

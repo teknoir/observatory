@@ -14,6 +14,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import thumbUpIcon from 'assets/icons/thumbUp.svg';
+import thumbUpGreenIcon from 'assets/icons/thumbUpGreen.svg';
 import thumbUpRedIcon from 'assets/icons/thumbUpRed.svg';
 import { AlertTypes, IAlertFormValues } from 'ts/types';
 import styles from './Form.module.scss';
@@ -42,7 +43,7 @@ const IconRotated = styled(Icon)({
 });
 
 const IconChecked = styled(Icon)({
-  backgroundImage: `url(${thumbUpRedIcon})`,
+  backgroundImage: `url(${thumbUpGreenIcon})`,
 });
 
 const IconCheckedRotated = styled(IconRotated)({
