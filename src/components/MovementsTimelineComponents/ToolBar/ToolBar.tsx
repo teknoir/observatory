@@ -13,6 +13,8 @@ import {
 import { generatePath } from 'utils/router';
 import APP_URLS from 'enums/urls';
 import styles from './ToolBar.module.scss';
+import SelectCheckbox from 'muiComponents/SelectCheckbox/SelectCheckbox';
+import { AlertTypes } from 'ts/types';
 
 const timelineOptions = [
   { value: TimelineFilterBy.MOTIONS_ALERTS, label: 'All' },
@@ -24,6 +26,11 @@ const periodOptions = [
   { value: MovementsTimelinePeriod.DAYS_1, label: 'Today' },
   { value: MovementsTimelinePeriod.DAYS_7, label: 'Last 7 days' },
   { value: MovementsTimelinePeriod.DAYS_30, label: 'Last 30 days' },
+];
+
+const filterByOptions = [
+  { value: AlertTypes.loitering, label: 'Loitering' },
+  { value: AlertTypes.theft, label: 'Theft' },
 ];
 
 interface ToolBarProps {
@@ -51,6 +58,20 @@ const ToolBar = ({
           <InputLabel id="timelineFilterByLabel" className={styles.inputLabel}>
             <Typography variant="LabelLarge">Filter by: </Typography>
           </InputLabel>
+          <SelectCheckbox
+            labelId="timelineFilterBy"
+            value={filter}
+            options={filterByOptions}
+            onChange={handleChangeFilter}
+            sx={{
+              '& .MuiSelect-select.MuiInputBase-input.MuiOutlinedInput-input': {
+                paddingLeft: 0,
+              },
+              '& .MuiOutlinedInput-notchedOutline': {
+                border: 'none',
+              },
+            }}
+          />
           <Select
             labelId="timelineFilterByLabel"
             value={filter}
