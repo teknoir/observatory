@@ -20,6 +20,7 @@ export interface Source {
   peripheralName: string;
   device: string;
   status: SourceStatus;
+  detections: Array<Detection>;
 }
 
 export type CameraId = string;
@@ -47,6 +48,30 @@ export interface ImageProps {
   src: string;
   title: string;
   status: SourceStatus;
+  detections: Array<Detection>;
+}
+
+export interface Detection {
+  detection: DetectionDetail;
+  lineage: Array<object>;
+  location: object;
+  nearest_neighbors: object;
+  peripheral: object;
+  proximity: Array<object>;
+  state: object;
+  timestamp: string;
+  type: string;
+}
+
+export interface DetectionDetail {
+  label: string;
+  x1: number;
+  y1: number;
+  x_center: number;
+  y_center: number;
+  width: number;
+  height: number;
+  id: string,
 }
 
 export type RefImage = HTMLImageElement;
