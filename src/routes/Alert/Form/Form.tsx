@@ -69,11 +69,15 @@ const Form = ({ onSubmit, typeDetected }: Props) => {
                 sx={styleBorders}
                 {...field}
               >
-                {selectOptions.map((option) => (
-                  <MenuItem value={option.value}>
-                    <Typography variant="BodyLarge">{option.label}</Typography>
-                  </MenuItem>
-                ))}
+                {selectOptions.map((option) => {
+                  return (
+                    <MenuItem key={option.value} value={option.value}>
+                      <Typography variant="BodyLarge">
+                        {option.label}
+                      </Typography>
+                    </MenuItem>
+                  );
+                })}
               </Select>
             )}
           />
