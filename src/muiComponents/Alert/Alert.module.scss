@@ -1,0 +1,29 @@
+@import 'enums/styleVariables.module';
+
+.alert {
+  position: relative;
+  background-color: $offWhite;
+  color: $fadedBlack;
+  width: 375px;
+  height: 220px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2px;
+}
+
+.successRoot {
+  width: 60px;
+  height: 60px;
+  border-radius: 100%;
+  background-color: $greenSuccess;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  outline: 3px solid rgba($greenSuccess, 0.5);
+}
+
+.successIcon {
+  color: $totalWhite;
+}

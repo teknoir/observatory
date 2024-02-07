@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQueries, useMutation } from '@tanstack/react-query';
 import Typography from '@mui/material/Typography';
+import AlertComponentMUI from 'muiComponents/Alert/Alert';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import { alertKey, feedbackKey } from 'enums/queryKeys';
 import {
@@ -132,7 +133,16 @@ const Alert = () => {
             ground_truth={ground_truth}
           />
         ) : (
-          <Form onSubmit={onSubmit} typeDetected={type} />
+          <>
+            <Form onSubmit={onSubmit} typeDetected={type} />
+            {mutation.isSuccess && (
+              <AlertComponentMUI>
+                <Typography variant="BodyLarge">
+                  The alert has been verified
+                </Typography>
+              </AlertComponentMUI>
+            )}
+          </>
         )}
       </MainContent>
     </>
