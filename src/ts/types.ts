@@ -271,10 +271,6 @@ export interface IFeedback {
 }
 
 export enum AlertTypes {
-  // TODO: Remove when testing alerts work correctly
-  // nearvehicle = 'nearvehicle',
-  // on_ground = 'on_ground',
-  // theft = 'theft',
   loitering = 'loitering',
   no_alert = 'no_alert',
   on_ground = 'person_down',
