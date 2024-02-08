@@ -99,7 +99,7 @@ const Alert = () => {
     peripheralName,
   });
 
-  if (mutation.isError) {
+  if (mutation.isSuccess) {
     setTimeout(() => {
       navigate(-1);
     }, 3000);
