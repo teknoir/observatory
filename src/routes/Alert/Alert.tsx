@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useQueries, useMutation } from '@tanstack/react-query';
 import Typography from '@mui/material/Typography';
 import AlertComponentMUI from 'muiComponents/Alert/Alert';
@@ -24,6 +24,7 @@ import styles from './Alert.module.scss';
 
 const Alert = () => {
   const { detectionId = '' } = useParams();
+  const navigate = useNavigate();
   const queryKey = [alertKey, detectionId];
   const queryFeedbackKey = [feedbackKey, detectionId];
 
@@ -97,6 +98,12 @@ const Alert = () => {
     peripheralId,
     peripheralName,
   });
+
+  if (mutation.isError) {
+    setTimeout(() => {
+      navigate(-1);
+    }, 3000);
+  }
 
   return (
     <>
