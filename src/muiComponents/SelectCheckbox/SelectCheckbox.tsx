@@ -20,7 +20,7 @@ interface Option {
 
 interface SelectCheckboxProps {
   options: Option[];
-  onChangeValue: (value: string) => void;
+  onChangeValue: (value: AlertTypes) => void;
 }
 
 const SelectCheckbox = ({

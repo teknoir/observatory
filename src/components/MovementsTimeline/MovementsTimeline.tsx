@@ -11,7 +11,11 @@ import CarouselArrows from 'components/MovementsTimelineComponents/CarouselArrow
 import ToolBar from 'components/MovementsTimelineComponents/ToolBar/ToolBar';
 import Popover from 'components/MovementsTimelineComponents/Popover/Popover';
 import { HomeContext } from 'context/HomeContext/HomeContext';
-import { IAlertEvent, IEventDocumentWithPeripheral } from 'ts/types';
+import {
+  AlertTypes,
+  IAlertEvent,
+  IEventDocumentWithPeripheral,
+} from 'ts/types';
 import useMovementsTimelineData from 'hooks/useMovementsTimelineData';
 import AxisHorizontalScroll from './AxisHorizontalScroll/AxisHorizontalScroll';
 import AxisVerticalLeft from './AxisVerticalLeft/AxisVerticalLeft';
@@ -32,7 +36,7 @@ interface MovementsTimeLineParams {
   handleChangeFilter: (e: SelectChangeEvent<unknown>) => void;
   period: MovementsTimelinePeriod;
   handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;
-  handleChangeFilterBy: (value: string) => void;
+  handleChangeFilterBy: (value: AlertTypes) => void;
   isLoading: boolean;
   isFullHeight?: boolean;
   isFixToolbar?: boolean;

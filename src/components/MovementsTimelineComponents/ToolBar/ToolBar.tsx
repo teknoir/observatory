@@ -38,7 +38,7 @@ interface ToolBarProps {
   handleChangeFilter: (e: SelectChangeEvent<unknown>) => void;
   period: MovementsTimelinePeriod;
   handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;
-  handleChangeFilterBy: (value: string) => void;
+  handleChangeFilterBy: (value: AlertTypes) => void;
   className?: string;
 }
 

@@ -11,7 +11,7 @@ import {
 } from 'components/ChartUtilities/accessors';
 import { fetchMovements, fetchAlerts } from 'services/apiRequests';
 import { motions, alerts, wsSources } from 'enums/queryKeys';
-import { IEventDocumentWithPeripheral, Source } from 'ts/types';
+import { AlertTypes, IEventDocumentWithPeripheral, Source } from 'ts/types';
 import { getFlattenDocuments } from 'utils/events';
 import { MovementsTimeline } from './MovementsTimeline';
 import {
@@ -44,9 +44,9 @@ function MovementsTimelineContainer({
 
   const [filter, setFilter] = useState<string>(TimelineFilterBy.MOTIONS_ALERTS);
   const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1);
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([
-    'loitering',
-    'theft',
+  const [selectedOptions, setSelectedOptions] = useState<AlertTypes[]>([
+    AlertTypes.loitering,
+    AlertTypes.theft,
   ]);
 
   const [dataAlertsFiltered, setDataAlertsFiltered] = useState<
@@ -123,9 +123,9 @@ function MovementsTimelineContainer({
     }
   };
 
-  const handleCheckboxChange = (optionValue: string) => {
+  const handleCheckboxChange = (optionValue: AlertTypes) => {
     setSelectedOptions((prevSelectedOptions) => {
-      if (prevSelectedOptions.includes(optionValue as string)) {
+      if (prevSelectedOptions.includes(optionValue)) {
         return prevSelectedOptions.filter((value) => value !== optionValue);
       }
       return [...prevSelectedOptions, optionValue];
@@ -135,14 +135,10 @@ function MovementsTimelineContainer({
   const dataAlertsFlatten = getFlattenDocuments(dataAlerts);
   const dataMotionsFlatten = getFlattenDocuments(dataMotions);
 
-  // const dataAlertsFiltered = dataAlertsFlatten.filter((item) => {
-  //   return !selectedOptions.includes(item.type);
-  // });
-
   useEffect(() => {
     setDataAlertsFiltered(
       dataAlertsFlatten.filter((item) => {
-        return selectedOptions.includes(item.type);
+        return selectedOptions.includes(item.type as AlertTypes);
       })
     );
   }, [selectedOptions]);
