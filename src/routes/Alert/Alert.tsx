@@ -80,8 +80,7 @@ const Alert = () => {
       username: 'username',
     });
 
-  if (isLoading || isLoadingFeedback || mutation.isLoading)
-    return <CircularProgress />;
+  if (isLoading || isLoadingFeedback) return <CircularProgress />;
 
   const {
     type,
