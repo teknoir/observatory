@@ -32,6 +32,7 @@ interface MovementsTimeLineParams {
   handleChangeFilter: (e: SelectChangeEvent<unknown>) => void;
   period: MovementsTimelinePeriod;
   handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;
+  handleChangeFilterBy: (value: string) => void;
   isLoading: boolean;
   isFullHeight?: boolean;
   isFixToolbar?: boolean;
@@ -47,6 +48,7 @@ export const MovementsTimeline = ({
   handleChangeFilter,
   period,
   handleChangePeriod,
+  handleChangeFilterBy,
   isLoading,
   isFullHeight,
   isFixToolbar = false,
@@ -83,6 +85,7 @@ export const MovementsTimeline = ({
     handleChangeFilter,
     period,
     handleChangePeriod,
+    handleChangeFilterBy,
   };
 
   return (

@@ -7,29 +7,31 @@ import FormGroup from '@mui/material/FormGroup';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import { SelectProps } from '@mui/material/Select';
-// import Typography from '@mui/material/Typography';
-import { LabelSize } from 'ts/types';
+import { AlertTypes } from 'ts/types';
 import styles from './SelectCheckbox.module.scss';
 
 interface Option {
+  value: AlertTypes;
   label: string;
-  value: string;
   required?: boolean;
   disabled?: boolean;
   defaultChecked?: boolean;
 }
 
+interface SelectCheckboxProps {
+  options: Option[];
+  onChangeValue: (value: string) => void;
+}
+
 const SelectCheckbox = ({
   label,
   labelId,
-  value,
   options,
   variant = 'outlined',
   size = 'small',
-  onChange,
-  //   labelSize = LabelSize.large,
+  onChangeValue,
   ...props
-}: SelectProps & { options: Option[] } & { labelSize?: LabelSize }) => {
+}: SelectProps & SelectCheckboxProps) => {
   return (
     <FormControl variant={variant} size={size}>
       {!!label && <InputLabel>{label}</InputLabel>}
@@ -42,8 +44,6 @@ const SelectCheckbox = ({
         }}
         label={label}
         labelId={labelId}
-        value={value}
-        onChange={onChange}
         sx={{
           border: '1px solid red',
           '& .MuiOutlinedInput-notchedOutline': {
@@ -74,7 +74,15 @@ const SelectCheckbox = ({
                 sx={{ gap: '12px' }}
               >
                 <FormControlLabel
-                  control={<Checkbox defaultChecked={option.defaultChecked} />}
+                  control={
+                    <Checkbox
+                      defaultChecked={option.defaultChecked}
+                      onClick={(e) => {
+                        onChangeValue(option.value);
+                        e.stopPropagation();
+                      }}
+                    />
+                  }
                   label={option.label}
                   labelPlacement="start"
                   required={option.required}

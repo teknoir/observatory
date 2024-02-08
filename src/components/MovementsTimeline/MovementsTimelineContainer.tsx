@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import moment from 'moment/moment';
 import _flatten from 'lodash/flatten';
@@ -11,7 +11,7 @@ import {
 } from 'components/ChartUtilities/accessors';
 import { fetchMovements, fetchAlerts } from 'services/apiRequests';
 import { motions, alerts, wsSources } from 'enums/queryKeys';
-import { Source } from 'ts/types';
+import { IEventDocumentWithPeripheral, Source } from 'ts/types';
 import { getFlattenDocuments } from 'utils/events';
 import { MovementsTimeline } from './MovementsTimeline';
 import {
@@ -44,6 +44,15 @@ function MovementsTimelineContainer({
 
   const [filter, setFilter] = useState<string>(TimelineFilterBy.MOTIONS_ALERTS);
   const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1);
+  const [selectedOptions, setSelectedOptions] = useState<string[]>([
+    'loitering',
+    'theft',
+  ]);
+
+  const [dataAlertsFiltered, setDataAlertsFiltered] = useState<
+    IEventDocumentWithPeripheral[]
+  >([]);
+
   const fromDate = useMemo(
     () => moment().subtract(period, 'days').startOf('day'),
     [period]
@@ -99,9 +108,6 @@ function MovementsTimelineContainer({
     ];
   }, [dataMotions, dataAlerts, sourcesFromWS]);
 
-  const dataAlertsFlatten = getFlattenDocuments(dataAlerts);
-  const dataMotionsFlatten = getFlattenDocuments(dataMotions);
-
   const handleChangeFilterBy = (e: SelectChangeEvent<unknown>) => {
     const filterByValue = String(e.target.value);
     setFilter(filterByValue);
@@ -117,11 +123,36 @@ function MovementsTimelineContainer({
     }
   };
 
+  const handleCheckboxChange = (optionValue: string) => {
+    setSelectedOptions((prevSelectedOptions) => {
+      if (prevSelectedOptions.includes(optionValue as string)) {
+        return prevSelectedOptions.filter((value) => value !== optionValue);
+      }
+      return [...prevSelectedOptions, optionValue];
+    });
+  };
+
+  const dataAlertsFlatten = getFlattenDocuments(dataAlerts);
+  const dataMotionsFlatten = getFlattenDocuments(dataMotions);
+
+  // const dataAlertsFiltered = dataAlertsFlatten.filter((item) => {
+  //   return !selectedOptions.includes(item.type);
+  // });
+
+  useEffect(() => {
+    setDataAlertsFiltered(
+      dataAlertsFlatten.filter((item) => {
+        return selectedOptions.includes(item.type);
+      })
+    );
+  }, [selectedOptions]);
+
   return (
     <MovementsTimeline
       startTime={startTime}
       dataMotions={dataMotionsFlatten}
-      dataAlerts={dataAlertsFlatten}
+      // dataAlerts={dataAlertsFlatten}
+      dataAlerts={dataAlertsFiltered}
       xAccessor={startTimeAccessor}
       yAccessor={peripheralNameAccessor}
       peripherals={peripherals}
@@ -130,6 +161,7 @@ function MovementsTimelineContainer({
       handleChangeFilter={handleChangeFilterBy}
       period={period}
       handleChangePeriod={handleChangePeriod}
+      handleChangeFilterBy={handleCheckboxChange}
       isLoading={isLoadingMotions || isLoadingAlerts}
       isFullHeight={isFullHeight}
       isFixToolbar={isFixToolbar}

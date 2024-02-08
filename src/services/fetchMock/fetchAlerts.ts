@@ -6,6 +6,7 @@ import { IAlertEvent } from 'ts/types';
 import { getUniqueID, dataWithDelay } from './utils';
 
 const defaultPeripheralId = 'parkinglot1';
+const types = ['loitering', 'theft'];
 
 const alertsSchemaList = [
   [
@@ -157,6 +158,7 @@ export const fetchAllAlertsMock = ({ fromDate }): Promise<IAlertEvent[]> => {
   const res = [];
   const alertsSchema = new Map(_shuffle(alertsSchemaList));
   alertsSchema.forEach((value, key) => {
+    console.log(key);
     const documents = [];
     const now = moment();
     const dateFrom = fromDate.clone();
@@ -169,7 +171,7 @@ export const fetchAllAlertsMock = ({ fromDate }): Promise<IAlertEvent[]> => {
         const startTime = time.add().minute(minute);
         const item = {
           detection_id: getUniqueID(),
-          type: alertItemBase.type,
+          type: types[Math.floor(Math.random() * types.length)],
           start_time: startTime.format(),
           duration: duration * 1000,
           severity: 'low',
@@ -222,6 +224,6 @@ export const alertItemBase = {
   severity: 'WARNING',
   site: 'teknoir',
   start_time: '2023-10-02T22:06:32.609Z',
-  type: 'nearvehicle',
+  type: 'loitering',
   zone: 'office',
 };

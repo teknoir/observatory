@@ -6,15 +6,15 @@ import Link from '@mui/material/Link';
 import { SelectChangeEvent } from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
 import Select from 'muiComponents/Select/Select';
+import SelectCheckbox from 'muiComponents/SelectCheckbox/SelectCheckbox';
 import {
   MovementsTimelinePeriod,
   TimelineFilterBy,
 } from 'components/MovementsTimeline/enums';
 import { generatePath } from 'utils/router';
+import { AlertTypes } from 'ts/types';
 import APP_URLS from 'enums/urls';
 import styles from './ToolBar.module.scss';
-import SelectCheckbox from 'muiComponents/SelectCheckbox/SelectCheckbox';
-import { AlertTypes } from 'ts/types';
 
 const timelineOptions = [
   { value: TimelineFilterBy.MOTIONS_ALERTS, label: 'All' },
@@ -29,8 +29,8 @@ const periodOptions = [
 ];
 
 const filterByOptions = [
-  { value: AlertTypes.loitering, label: 'Loitering' },
-  { value: AlertTypes.theft, label: 'Theft' },
+  { value: AlertTypes.loitering, label: 'Loitering', defaultChecked: true },
+  { value: AlertTypes.theft, label: 'Theft', defaultChecked: true },
 ];
 
 interface ToolBarProps {
@@ -38,6 +38,7 @@ interface ToolBarProps {
   handleChangeFilter: (e: SelectChangeEvent<unknown>) => void;
   period: MovementsTimelinePeriod;
   handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;
+  handleChangeFilterBy: (value: string) => void;
   className?: string;
 }
 
@@ -46,6 +47,7 @@ const ToolBar = ({
   handleChangeFilter,
   period,
   handleChangePeriod,
+  handleChangeFilterBy,
   className,
 }: ToolBarProps) => {
   return (
@@ -60,9 +62,8 @@ const ToolBar = ({
           </InputLabel>
           <SelectCheckbox
             labelId="timelineFilterBy"
-            value={filter}
             options={filterByOptions}
-            onChange={handleChangeFilter}
+            onChangeValue={handleChangeFilterBy}
             sx={{
               '& .MuiSelect-select.MuiInputBase-input.MuiOutlinedInput-input': {
                 paddingLeft: 0,
