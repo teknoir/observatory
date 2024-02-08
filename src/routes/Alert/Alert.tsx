@@ -59,6 +59,9 @@ const Alert = () => {
     mutationFn: sendFeedback,
     onSuccess: () => {
       refetchAll();
+      setTimeout(() => {
+        navigate(-1);
+      }, 3000);
     },
   });
 
@@ -98,12 +101,6 @@ const Alert = () => {
     peripheralId,
     peripheralName,
   });
-
-  if (mutation.isSuccess) {
-    setTimeout(() => {
-      navigate(-1);
-    }, 3000);
-  }
 
   return (
     <>
