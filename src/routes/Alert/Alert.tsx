@@ -76,7 +76,9 @@ const Alert = () => {
       username: 'username',
     });
 
-  if (isLoading || isLoadingFeedback) return <CircularProgress />;
+  if (isLoading || isLoadingFeedback || mutation.isLoading)
+    return <CircularProgress />;
+
   const {
     type,
     severity,
@@ -136,10 +138,8 @@ const Alert = () => {
           <>
             <Form onSubmit={onSubmit} typeDetected={type} />
             {mutation.isSuccess && (
-              <AlertComponentMUI>
-                <Typography variant="BodyLarge">
-                  The alert has been verified
-                </Typography>
+              <AlertComponentMUI severity="success">
+                The alert has been verified
               </AlertComponentMUI>
             )}
           </>

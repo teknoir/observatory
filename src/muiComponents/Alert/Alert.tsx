@@ -3,27 +3,46 @@ import Alert from '@mui/material/Alert';
 import Backdrop from '@mui/material/Backdrop';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
+import styleVariables from 'enums/styleVariables.module.scss';
 import styles from './Alert.module.scss';
+
+type AlertSeverity = 'success' | 'error';
 
 interface AlertComponentMUIProps {
   children: ReactNode;
+  severity: AlertSeverity;
 }
 
-const successIcon = (
-  <div className={styles.successRoot}>
-    <CheckIcon className={styles.successIcon} />
-  </div>
-);
+const iconColor = {
+  success: styleVariables.greenSuccess,
+  error: styleVariables.redAlert,
+};
 
-const AlertComponentMUI = ({ children }: AlertComponentMUIProps) => {
+const iconContainer = (children: ReactNode, severity: AlertSeverity) => {
+  const color = { backgroundColor: iconColor[severity] };
+  return (
+    <div className={styles.iconContainer} style={color}>
+      <div className={styles.iconBackground} style={color} />
+      {children}
+    </div>
+  );
+};
+
+const iconMapping = {
+  success: iconContainer(<CheckIcon />, 'success'),
+  error: iconContainer(<CloseIcon />, 'error'),
+};
+
+const AlertComponentMUI = ({ children, severity }: AlertComponentMUIProps) => {
   const [open, setOpen] = useState(true);
   return (
     <Backdrop open={open} onClick={() => setOpen(false)}>
       <Collapse in={open}>
         <Alert
-          severity="success"
+          severity={severity}
           className={styles.alert}
           sx={{
             '& .MuiAlert-icon': {
@@ -38,10 +57,11 @@ const AlertComponentMUI = ({ children }: AlertComponentMUIProps) => {
               top: 10,
               right: 20,
             },
+            '&::after': {
+              backgroundColor: iconColor[severity],
+            },
           }}
-          iconMapping={{
-            success: successIcon,
-          }}
+          iconMapping={iconMapping}
           action={
             <IconButton
               aria-label="close"
@@ -55,7 +75,7 @@ const AlertComponentMUI = ({ children }: AlertComponentMUIProps) => {
             </IconButton>
           }
         >
-          {children}
+          <Typography variant="BodyLarge">{children}</Typography>
         </Alert>
       </Collapse>
     </Backdrop>
