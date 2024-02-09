@@ -1,0 +1,47 @@
+@import 'enums/styleVariables.module';
+
+.alert {
+  position: relative;
+  background-color: $offWhite;
+  color: $fadedBlack;
+  width: 375px;
+  height: 220px;
+  border-radius: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2px;
+}
+
+.alert::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  border-radius: 0 0 2px 2px;
+}
+
+.iconContainer {
+  width: 60px;
+  height: 60px;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.iconBackground {
+  width: 66px;
+  height: 66px;
+  border-radius: 100%;
+  opacity: 0.5;
+  z-index: -1;
+}
+
+.iconContainer * {
+  position: absolute;
+  color: $totalWhite;
+}

@@ -222,6 +222,6 @@ export const alertItemBase = {
   severity: 'WARNING',
   site: 'teknoir',
   start_time: '2023-10-02T22:06:32.609Z',
-  type: 'nearvehicle',
+  type: 'loitering',
   zone: 'office',
 };
