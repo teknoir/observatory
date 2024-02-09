@@ -139,7 +139,7 @@ const Alert = () => {
           />
         ) : (
           <>
-            <Form onSubmit={onSubmit} typeDetected={type} />
+            <Form onSubmit={onSubmit} typeDetected={ground_truth || type} />
             {mutation.isSuccess && (
               <AlertComponentMUI severity="success">
                 The alert has been verified
