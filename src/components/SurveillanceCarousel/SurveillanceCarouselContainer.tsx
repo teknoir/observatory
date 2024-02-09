@@ -7,7 +7,7 @@ import { wsSources } from 'enums/queryKeys';
 import { TOPICS, TYPES, CAROUSEL_REFRESH_RATE } from 'enums/wss';
 import { useTestImages } from 'enums/mockData';
 import { CarouselMode, HomeContextProps, Source, SourceStatus } from 'ts/types';
-import { getStartImagesStreamMsg } from 'services/wsMessage';
+import {getStartImagesStreamMsg, getStartRawImagesStreamMsg} from 'services/wsMessage';
 import SurveillanceCarousel from './SurveillanceCarousel';
 import Skeleton from './Skeleton/Skeleton';
 import { createRandomSources } from './utils';
@@ -25,6 +25,7 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
       ? new Map(Object.entries(cachedSources))
       : createRandomSources(0)
   );
+  const [mainImage, setMainImage] = useState('');
   const { lastMessage, sendMessage } = useWSSContext();
   const { layout, setNumCameras } = useContext(HomeContext) as HomeContextProps;
 
@@ -53,6 +54,20 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
     }
   }, CAROUSEL_REFRESH_RATE);
 
+  useInterval(() => {
+    if (mainImage !== null) {
+      const {
+        peripheralId = '',
+        device = '',
+      } = sources.get(mainImage) ?? {};
+      const messageObj = getStartRawImagesStreamMsg(
+          peripheralId,
+          device
+      );
+      sendMessage(JSON.stringify(messageObj));
+    }
+  }, CAROUSEL_REFRESH_RATE);
+
   useEffect(() => {
     if (!isLoaded && sourcesSize > 0) {
       setIsLoaded(true);
@@ -68,7 +83,9 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
         case TYPES.MESSAGE: {
           const { topic, image, peripheral, device } = data;
           const peripheralId = peripheral?.id;
-          if (topic === TOPICS.FRONT_END_VIDEO) {
+
+          // prevent updates from slow source to interfer with the fast updates from raw video source
+          if (topic === TOPICS.FRONT_END_VIDEO && mainImage !== peripheralId) {
             const source = {
               src: image,
               peripheralId,
@@ -77,6 +94,16 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
               status: SourceStatus.Active,
             };
             updateSourceByCameraId(peripheralId, source);
+          }
+          if (topic === TOPICS.RAW_FRONT_END_VIDEO && mainImage === peripheralId) {
+              const source = {
+                src: image,
+                peripheralId,
+                peripheralName: peripheral?.name,
+                device,
+                status: SourceStatus.Active,
+              };
+              updateSourceByCameraId(peripheralId, source);
           }
           break;
         }
@@ -123,7 +150,7 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
 
   if (!isLoaded) return <Skeleton />;
 
-  return <SurveillanceCarousel mode={selectedLayout} sources={sources} />;
+  return <SurveillanceCarousel mode={selectedLayout} sources={sources} parentSetMainImage={setMainImage} />;
 };
 
 export default SurveillanceCarouselContainer;

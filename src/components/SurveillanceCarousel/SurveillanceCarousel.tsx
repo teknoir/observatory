@@ -6,6 +6,8 @@ import AllCamerasView from './AllCamerasView/AllCamerasView';
 import AlternativeView from './AlternativeView/AlternativeView';
 import DetailView from './DetailView/DetailView';
 import GeneralView from './GeneralView/GeneralView';
+import {useWSSContext} from "../../context/webSocketContext.tsx";
+import {getStartRawImagesStreamMsg} from "../../services/wsMessage.ts";
 
 const surveillanceCarouselComponentsByMode = {
   [CarouselMode.AllCamerasView]: AllCamerasView,
@@ -14,10 +16,11 @@ const surveillanceCarouselComponentsByMode = {
   [CarouselMode.General]: GeneralView,
 };
 
-const SurveillanceCarousel = ({ mode, sources }: SurveillanceCarouselProps) => {
+const SurveillanceCarousel = ({ mode, sources, parentSetMainImage }: SurveillanceCarouselProps) => {
   const [mainImage, setMainImage] = useState('');
   const { mainImageCarousel, setMainImageCarousel, peripheralIdNotified } =
     useContext(HomeContext);
+  const { sendMessage } = useWSSContext();
 
   useEffect(() => {
     if (peripheralIdNotified) {
@@ -58,6 +61,20 @@ const SurveillanceCarousel = ({ mode, sources }: SurveillanceCarouselProps) => {
 
   const setMainSource = (cameraId: string) => {
     setMainImage(cameraId);
+
+    // upon changing main camera source immediately update state in parent
+    // and request changes on the cloud
+    parentSetMainImage(cameraId);
+
+    const {
+      peripheralId = '',
+      device = '',
+    } = sources.get(cameraId) ?? {};
+    const messageObj = getStartRawImagesStreamMsg(
+        peripheralId,
+        device
+    );
+    sendMessage(JSON.stringify(messageObj));
   };
 
   const Component = surveillanceCarouselComponentsByMode[mode];

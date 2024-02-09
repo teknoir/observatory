@@ -55,7 +55,7 @@ const Device = () => {
         case TYPES.MESSAGE: {
           const { topic, image, peripheral, device } = data;
           if (
-            topic === TOPICS.FRONT_END_VIDEO &&
+              (topic === TOPICS.FRONT_END_VIDEO || topic === TOPICS.RAW_FRONT_END_VIDEO) &&
             peripheralId === peripheral?.id
           ) {
             setSource({

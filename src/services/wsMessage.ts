@@ -12,3 +12,14 @@ export const getStartImagesStreamMsg = (
     device,
   };
 };
+
+export const getStartRawImagesStreamMsg = (
+    peripheralId: string,
+    device: string,
+) => {
+  return {
+    type: TYPES.START_RAW_IMAGES_STREAM,
+    peripheralId,
+    device,
+  };
+};
