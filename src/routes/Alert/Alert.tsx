@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { useQueries, useMutation } from '@tanstack/react-query';
 import Typography from '@mui/material/Typography';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
@@ -23,6 +23,7 @@ import styles from './Alert.module.scss';
 
 const Alert = () => {
   const { detectionId = '' } = useParams();
+  const [searchParams] = useSearchParams();
   const queryKey = [alertKey, detectionId];
   const queryFeedbackKey = [feedbackKey, detectionId];
 
@@ -37,7 +38,7 @@ const Alert = () => {
     queries: [
       {
         queryKey,
-        queryFn: () => fetchAlert(detectionId),
+        queryFn: () => fetchAlert(detectionId, searchParams.get('type')),
         refetchOnWindowFocus: false,
       },
       {

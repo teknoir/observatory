@@ -3,11 +3,15 @@ import { useMockDb, useTestImages } from 'enums/mockData';
 
 type Params = { [key: string]: string };
 
-export const generatePath = (path: string, params?: Params) => {
+export const generatePath = (
+  path: string,
+  params?: Params,
+  searchParamsObj: Params = {}
+) => {
   const pathnameBase = generatePathBase(path, params);
   const isMultipleQueryParams = pathnameBase.includes('?');
   const searchParams = new URLSearchParams(location.search);
-  const newSearchParams = new URLSearchParams();
+  const newSearchParams = new URLSearchParams(searchParamsObj);
   if (searchParams.has(useMockDb)) {
     newSearchParams.set(useMockDb, '');
   }
