@@ -113,7 +113,9 @@ const Form = ({ onSubmit, typeDetected }: Props) => {
             variant="contained"
             fullWidth
             type="submit"
-            disabled={isSubmitting}
+            // disabled={isSubmitting}
+            // TODO: hotfix for PRO-1887
+            disabled
           >
             <Typography variant="LabelLarge">Verify</Typography>
           </Button>
