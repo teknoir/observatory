@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useQueries, useMutation } from '@tanstack/react-query';
 import Typography from '@mui/material/Typography';
+import AlertComponentMUI from 'muiComponents/Alert/Alert';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import { alertKey, feedbackKey } from 'enums/queryKeys';
 import {
@@ -23,6 +24,7 @@ import styles from './Alert.module.scss';
 
 const Alert = () => {
   const { detectionId = '' } = useParams();
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const queryKey = [alertKey, detectionId];
   const queryFeedbackKey = [feedbackKey, detectionId];
@@ -58,6 +60,9 @@ const Alert = () => {
     mutationFn: sendFeedback,
     onSuccess: () => {
       refetchAll();
+      setTimeout(() => {
+        navigate(-1);
+      }, 3000);
     },
   });
 
@@ -77,6 +82,7 @@ const Alert = () => {
     });
 
   if (isLoading || isLoadingFeedback) return <CircularProgress />;
+
   const {
     type,
     severity,
@@ -133,7 +139,14 @@ const Alert = () => {
             ground_truth={ground_truth}
           />
         ) : (
-          <Form onSubmit={onSubmit} />
+          <>
+            <Form onSubmit={onSubmit} typeDetected={ground_truth || type} />
+            {mutation.isSuccess && (
+              <AlertComponentMUI severity="success">
+                The alert has been verified
+              </AlertComponentMUI>
+            )}
+          </>
         )}
       </MainContent>
     </>
