@@ -100,10 +100,14 @@ const PopoverComponent = ({
         <CardActions className={styles.cardActions}>
           <Link
             component={RouterLink}
-            to={generatePath(APP_URLS.alerts, {
-              peripheralId: alertInfo[ALERT_INFO_KEYS.PERIPHERAL_ID],
-              detectionId: alertInfo[ALERT_INFO_KEYS.DETECTION_ID],
-            })}
+            to={generatePath(
+              APP_URLS.alerts,
+              {
+                peripheralId: alertInfo[ALERT_INFO_KEYS.PERIPHERAL_ID],
+                detectionId: alertInfo[ALERT_INFO_KEYS.DETECTION_ID],
+              },
+              { type: alertInfo[ALERT_INFO_KEYS.TYPE] }
+            )}
             color="inherit"
             align="center"
           >
