@@ -1,8 +1,11 @@
-import { useEffect } from 'react';
+import {
+  useEffect,
+  // useState
+} from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useQueries, useMutation } from '@tanstack/react-query';
 import Typography from '@mui/material/Typography';
-import AlertComponentMUI from 'muiComponents/Alert/Alert';
+// import AlertComponentMUI from 'muiComponents/Alert/Alert';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import { alertKey, feedbackKey } from 'enums/queryKeys';
 import {
@@ -28,6 +31,7 @@ const Alert = () => {
   const [searchParams] = useSearchParams();
   const queryKey = [alertKey, detectionId];
   const queryFeedbackKey = [feedbackKey, detectionId];
+  // const [isVerified, setIsVerified] = useState(false);
 
   const [
     { data, isLoading, refetch },
@@ -90,6 +94,10 @@ const Alert = () => {
   } = data || {};
   const isNew = status === EventStatus.New;
 
+  // useEffect(() => {
+  //   setIsVerified(status === EventStatus.Verified);
+  // }, [data]);
+
   useEffect(() => {
     if (isNew) {
       mutationNotification.mutate(detectionId);
@@ -134,7 +142,7 @@ const Alert = () => {
           <Info
             username={username}
             creation_time={creation_time}
-            type={ground_truth || type}
+            type={type}
             severity={severity}
             peripheral_name={peripheralName}
             start_time={start_time}
@@ -145,11 +153,12 @@ const Alert = () => {
         ) : (
           <>
             <Form onSubmit={onSubmit} typeDetected={ground_truth || type} />
-            {mutation.isSuccess && (
+            {/* TODO: Fix when to show alert popup */}
+            {/* {mutation.isSuccess && (
               <AlertComponentMUI severity="success">
                 The alert has been verified
               </AlertComponentMUI>
-            )}
+            )} */}
           </>
         )}
       </MainContent>

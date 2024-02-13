@@ -139,7 +139,7 @@ export interface IAlertEvent {
   peripheral_type: string;
   severity: string;
   start_time: string;
-  type: string;
+  type: AlertTypes;
   video_snapshot: string;
 }
 
