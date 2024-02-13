@@ -134,7 +134,7 @@ const Alert = () => {
           <Info
             username={username}
             creation_time={creation_time}
-            type={type}
+            type={ground_truth || type}
             severity={severity}
             peripheral_name={peripheralName}
             start_time={start_time}

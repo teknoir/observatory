@@ -1,9 +1,5 @@
 import moment from 'moment';
 import Typography from '@mui/material/Typography';
-import thumbUpIcon from 'assets/icons/thumbUp.svg';
-import thumbUpGreenIcon from 'assets/icons/thumbUpGreen.svg';
-import thumbUpRedIcon from 'assets/icons/thumbUpRed.svg';
-import Icon from 'components/Icon/Icon';
 import Verified from 'components/Verified/Verified';
 import { durationToMMSS } from 'utils/moment';
 import { IAlertEvent, IFeedback } from 'ts/types';
@@ -34,7 +30,7 @@ const Info = ({
   duration,
   peripheral_name: peripheralName,
   comment,
-  ground_truth: isGroundTruth,
+  ground_truth: groundTruth,
 }: Props) => {
   const startDate = moment(startTime);
   const startDateFormat = startDate.format('hh:mm A');
@@ -49,12 +45,9 @@ const Info = ({
           </Typography>
         </div>
       </div>
-      <div className={styles.itemWithTheft}>
-        <Typography variant="LabelXLBold">Was this an actual theft?</Typography>
-        <div className={styles.hasTheftIcons}>
-          <Icon icon={isGroundTruth ? thumbUpGreenIcon : thumbUpIcon} />
-          <Icon icon={isGroundTruth ? thumbUpIcon : thumbUpRedIcon} rotated />
-        </div>
+      <div className={styles.item}>
+        <Typography variant="LabelXLBold">Detected alert: </Typography>
+        <Typography variant="BodyLarge">{groundTruth}</Typography>
       </div>
       <div className={styles.item}>
         <Typography variant="LabelXLBold">Comment: </Typography>
