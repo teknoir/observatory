@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useQueries, useMutation } from '@tanstack/react-query';
 import Typography from '@mui/material/Typography';
 import AlertComponentMUI from 'muiComponents/Alert/Alert';
@@ -25,6 +25,7 @@ import styles from './Alert.module.scss';
 const Alert = () => {
   const { detectionId = '' } = useParams();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const queryKey = [alertKey, detectionId];
   const queryFeedbackKey = [feedbackKey, detectionId];
 
@@ -39,7 +40,7 @@ const Alert = () => {
     queries: [
       {
         queryKey,
-        queryFn: () => fetchAlert(detectionId),
+        queryFn: () => fetchAlert(detectionId, searchParams.get('type')),
         refetchOnWindowFocus: false,
       },
       {
@@ -69,18 +70,12 @@ const Alert = () => {
     mutationFn: sendNotificationSeen,
   });
 
-  useEffect(() => {
-    mutationNotification.mutate(detectionId);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
   const onSubmit = (values: IAlertFormValues) =>
     mutation.mutate({
       ...values,
       detection_id: detectionId,
       username: 'username',
     });
-
-  if (isLoading || isLoadingFeedback) return <CircularProgress />;
 
   const {
     type,
@@ -92,7 +87,17 @@ const Alert = () => {
     status,
     video_url: videoUrl,
     video_snapshot: videoSnapshot,
-  } = data;
+  } = data || {};
+  const isNew = status === EventStatus.New;
+
+  useEffect(() => {
+    if (isNew) {
+      mutationNotification.mutate(detectionId);
+    }
+  }, [isNew]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (isLoading || isLoadingFeedback) return <CircularProgress />;
+
   const { ground_truth, username, comment, creation_time } = dataFeedback || {};
   const isVerified = status === EventStatus.Verified;
   const hasVideo = !!videoUrl;

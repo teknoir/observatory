@@ -37,10 +37,14 @@ const NotificationItem = ({ data }: NotificationItemProps) => {
   const hasVideo = !!videoUrl;
   const startDate = moment(startTime);
   const startDateFormat = startDate.format('hh:mm A');
-  const href = generatePath(APP_URLS.alerts, {
-    detectionId,
-    peripheralId,
-  });
+  const href = generatePath(
+    APP_URLS.alerts,
+    {
+      detectionId,
+      peripheralId,
+    },
+    { type }
+  );
 
   return (
     <div className={styles.root}>

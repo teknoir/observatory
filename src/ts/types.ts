@@ -215,6 +215,7 @@ export interface INotificationsRequest {
 }
 
 export enum EventStatus {
+  New = 'new',
   Verified = 'verified',
 }
 
