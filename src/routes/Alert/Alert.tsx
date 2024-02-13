@@ -70,18 +70,12 @@ const Alert = () => {
     mutationFn: sendNotificationSeen,
   });
 
-  useEffect(() => {
-    mutationNotification.mutate(detectionId);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
   const onSubmit = (values: IAlertFormValues) =>
     mutation.mutate({
       ...values,
       detection_id: detectionId,
       username: 'username',
     });
-
-  if (isLoading || isLoadingFeedback) return <CircularProgress />;
 
   const {
     type,
@@ -93,7 +87,17 @@ const Alert = () => {
     status,
     video_url: videoUrl,
     video_snapshot: videoSnapshot,
-  } = data;
+  } = data || {};
+  const isNew = status === EventStatus.New;
+
+  useEffect(() => {
+    if (isNew) {
+      mutationNotification.mutate(detectionId);
+    }
+  }, [isNew]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (isLoading || isLoadingFeedback) return <CircularProgress />;
+
   const { ground_truth, username, comment, creation_time } = dataFeedback || {};
   const isVerified = status === EventStatus.Verified;
   const hasVideo = !!videoUrl;
