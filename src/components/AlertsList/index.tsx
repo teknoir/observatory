@@ -67,7 +67,7 @@ const AlertsListContainer = ({ peripheralId = '' }: Props) => {
       _groupBy(alertsValidStatus, function (item) {
         return moment(item.start_time).startOf('day').format();
       }),
-    [isLoading, period, peripheralId]
+    [isLoading, period, peripheralId, dataAlertsByPeripheralId]
   );
   const groupsKeys = _keys(groups).sort((a, b) => moment(b).diff(moment(a)));
 

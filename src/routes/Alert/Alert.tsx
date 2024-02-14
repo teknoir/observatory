@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { useQueries, useMutation } from '@tanstack/react-query';
+import { useQueries, useMutation, useQueryClient } from '@tanstack/react-query';
 import Typography from '@mui/material/Typography';
 import AlertComponentMUI from 'muiComponents/Alert/Alert';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
-import { alertKey, feedbackKey } from 'enums/queryKeys';
+import { alertKey, alertsById, feedbackKey } from 'enums/queryKeys';
 import {
   fetchAlert,
   fetchFeedback,
@@ -29,6 +29,7 @@ const Alert = () => {
   const queryKey = [alertKey, detectionId];
   const queryFeedbackKey = [feedbackKey, detectionId];
   const [showAlert, setShowAlert] = useState(false);
+  const queryClient = useQueryClient();
 
   const [
     { data, isLoading, refetch },
@@ -60,6 +61,7 @@ const Alert = () => {
   const mutation = useMutation({
     mutationFn: sendFeedback,
     onSuccess: () => {
+      queryClient.refetchQueries([alertsById]);
       refetchAll();
       setShowAlert(true);
       setTimeout(() => {
