@@ -1,11 +1,8 @@
-import {
-  useEffect,
-  // useState
-} from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useQueries, useMutation } from '@tanstack/react-query';
 import Typography from '@mui/material/Typography';
-// import AlertComponentMUI from 'muiComponents/Alert/Alert';
+import AlertComponentMUI from 'muiComponents/Alert/Alert';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import { alertKey, feedbackKey } from 'enums/queryKeys';
 import {
@@ -31,7 +28,7 @@ const Alert = () => {
   const [searchParams] = useSearchParams();
   const queryKey = [alertKey, detectionId];
   const queryFeedbackKey = [feedbackKey, detectionId];
-  // const [isVerified, setIsVerified] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
 
   const [
     { data, isLoading, refetch },
@@ -64,6 +61,11 @@ const Alert = () => {
     mutationFn: sendFeedback,
     onSuccess: () => {
       refetchAll();
+      setShowAlert(true);
+      setTimeout(() => {
+        mutation.reset();
+        setShowAlert(false);
+      }, 2000);
       setTimeout(() => {
         navigate(-1);
       }, 3000);
@@ -93,10 +95,6 @@ const Alert = () => {
     video_snapshot: videoSnapshot,
   } = data || {};
   const isNew = status === EventStatus.New;
-
-  // useEffect(() => {
-  //   setIsVerified(status === EventStatus.Verified);
-  // }, [data]);
 
   useEffect(() => {
     if (isNew) {
@@ -138,7 +136,7 @@ const Alert = () => {
             <VideoPlayerStub deviceUrl={deviceUrl} onClick={refetchAll} />
           </div>
         )}
-        {isVerified ? (
+        {isVerified && !showAlert ? (
           <Info
             username={username}
             creation_time={creation_time}
@@ -151,15 +149,12 @@ const Alert = () => {
             ground_truth={ground_truth}
           />
         ) : (
-          <>
-            <Form onSubmit={onSubmit} typeDetected={ground_truth || type} />
-            {/* TODO: Fix when to show alert popup */}
-            {/* {mutation.isSuccess && (
-              <AlertComponentMUI severity="success">
-                The alert has been verified
-              </AlertComponentMUI>
-            )} */}
-          </>
+          <Form onSubmit={onSubmit} typeDetected={ground_truth || type} />
+        )}
+        {showAlert && (
+          <AlertComponentMUI severity="success">
+            The alert has been verified
+          </AlertComponentMUI>
         )}
       </MainContent>
     </>
