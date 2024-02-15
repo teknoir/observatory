@@ -62,7 +62,8 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
       } = sources.get(mainImage) ?? {};
       const messageObj = getStartRawImagesStreamMsg(
           peripheralId,
-          device
+          device,
+          (CAROUSEL_REFRESH_RATE / 1000) // duration set to 10s as we also send command to maintain rate every 10s
       );
       sendMessage(JSON.stringify(messageObj));
     }

@@ -6,8 +6,8 @@ import AllCamerasView from './AllCamerasView/AllCamerasView';
 import AlternativeView from './AlternativeView/AlternativeView';
 import DetailView from './DetailView/DetailView';
 import GeneralView from './GeneralView/GeneralView';
-import {useWSSContext} from "../../context/webSocketContext.tsx";
-import {getStartRawImagesStreamMsg} from "../../services/wsMessage.ts";
+import { useWSSContext } from "context/webSocketContext.tsx";
+import { getStartRawImagesStreamMsg } from "services/wsMessage.ts";
 
 const surveillanceCarouselComponentsByMode = {
   [CarouselMode.AllCamerasView]: AllCamerasView,
@@ -72,7 +72,8 @@ const SurveillanceCarousel = ({ mode, sources, parentSetMainImage }: Surveillanc
     } = sources.get(cameraId) ?? {};
     const messageObj = getStartRawImagesStreamMsg(
         peripheralId,
-        device
+        device,
+        10
     );
     sendMessage(JSON.stringify(messageObj));
   };
