@@ -1,10 +1,15 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { useQueries, useMutation } from '@tanstack/react-query';
+import { useQueries, useMutation, useQueryClient } from '@tanstack/react-query';
 import Typography from '@mui/material/Typography';
 import AlertComponentMUI from 'muiComponents/Alert/Alert';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
-import { alertKey, feedbackKey } from 'enums/queryKeys';
+import {
+  alertKey,
+  alertsRing,
+  alertsByIdRing,
+  feedbackKey,
+} from 'enums/queryKeys';
 import {
   fetchAlert,
   fetchFeedback,
@@ -28,6 +33,8 @@ const Alert = () => {
   const [searchParams] = useSearchParams();
   const queryKey = [alertKey, detectionId];
   const queryFeedbackKey = [feedbackKey, detectionId];
+  const [showAlert, setShowAlert] = useState(false);
+  const queryClient = useQueryClient();
 
   const [
     { data, isLoading, refetch },
@@ -59,7 +66,18 @@ const Alert = () => {
   const mutation = useMutation({
     mutationFn: sendFeedback,
     onSuccess: () => {
+      queryClient.refetchQueries({
+        predicate: (query) => {
+          const queryKey = query.queryKey[0];
+          return queryKey === alertsRing || queryKey === alertsByIdRing;
+        },
+      });
       refetchAll();
+      setShowAlert(true);
+      setTimeout(() => {
+        mutation.reset();
+        setShowAlert(false);
+      }, 2000);
       setTimeout(() => {
         navigate(-1);
       }, 3000);
@@ -130,7 +148,7 @@ const Alert = () => {
             <VideoPlayerStub deviceUrl={deviceUrl} onClick={refetchAll} />
           </div>
         )}
-        {isVerified ? (
+        {isVerified && !showAlert ? (
           <Info
             username={username}
             creation_time={creation_time}
@@ -143,14 +161,12 @@ const Alert = () => {
             ground_truth={ground_truth}
           />
         ) : (
-          <>
-            <Form onSubmit={onSubmit} typeDetected={ground_truth || type} />
-            {mutation.isSuccess && (
-              <AlertComponentMUI severity="success">
-                The alert has been verified
-              </AlertComponentMUI>
-            )}
-          </>
+          <Form onSubmit={onSubmit} typeDetected={ground_truth || type} />
+        )}
+        {showAlert && (
+          <AlertComponentMUI severity="success">
+            The alert has been verified
+          </AlertComponentMUI>
         )}
       </MainContent>
     </>
