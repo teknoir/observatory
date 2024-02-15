@@ -1,12 +1,8 @@
 import moment from 'moment';
 import Typography from '@mui/material/Typography';
-import thumbUpIcon from 'assets/icons/thumbUp.svg';
-import thumbUpGreenIcon from 'assets/icons/thumbUpGreen.svg';
-import thumbUpRedIcon from 'assets/icons/thumbUpRed.svg';
-import Icon from 'components/Icon/Icon';
 import Verified from 'components/Verified/Verified';
 import { durationToMMSS } from 'utils/moment';
-import { IAlertEvent, IFeedback } from 'ts/types';
+import { AlertTypes, IAlertEvent, IFeedback } from 'ts/types';
 import styles from './Info.module.scss';
 
 type Props = Pick<
@@ -25,6 +21,13 @@ type Props = Pick<
   | 'ground_truth'
 >;
 
+const alertOptions = {
+  [AlertTypes.theft]: 'Theft',
+  [AlertTypes.loitering]: 'Loitering',
+  [AlertTypes.no_alert]: 'No alert',
+  [AlertTypes.on_ground]: 'Man down',
+};
+
 const Info = ({
   username,
   creation_time: creationTime,
@@ -34,7 +37,7 @@ const Info = ({
   duration,
   peripheral_name: peripheralName,
   comment,
-  ground_truth: isGroundTruth,
+  ground_truth: groundTruth,
 }: Props) => {
   const startDate = moment(startTime);
   const startDateFormat = startDate.format('hh:mm A');
@@ -49,12 +52,9 @@ const Info = ({
           </Typography>
         </div>
       </div>
-      <div className={styles.itemWithTheft}>
-        <Typography variant="LabelXLBold">Was this an actual theft?</Typography>
-        <div className={styles.hasTheftIcons}>
-          <Icon icon={isGroundTruth ? thumbUpGreenIcon : thumbUpIcon} />
-          <Icon icon={isGroundTruth ? thumbUpIcon : thumbUpRedIcon} rotated />
-        </div>
+      <div className={styles.item}>
+        <Typography variant="LabelXLBold">Detected alert: </Typography>
+        <Typography variant="BodyLarge">{alertOptions[groundTruth]}</Typography>
       </div>
       <div className={styles.item}>
         <Typography variant="LabelXLBold">Comment: </Typography>
@@ -62,17 +62,17 @@ const Info = ({
       </div>
       <div className={styles.item}>
         <div className={styles.valueItem}>
-          <Typography variant="LabelXLBold">Type:</Typography>
-          <Typography variant="BodyLarge">{type}</Typography>
+          <Typography variant="LabelXLBold">Type: </Typography>
+          <Typography variant="BodyLarge">{alertOptions[type]}</Typography>
         </div>
         <div className={styles.valueItem}>
-          <Typography variant="LabelXLBold">Camera:</Typography>
+          <Typography variant="LabelXLBold">Camera: </Typography>
           <Typography variant="BodyLarge">
             {peripheralName} - {startDateFormat}
           </Typography>
         </div>
         <div className={styles.valueItem}>
-          <Typography variant="LabelXLBold">Duration:</Typography>
+          <Typography variant="LabelXLBold">Duration: </Typography>
           <Typography variant="BodyLarge">
             {durationToMMSS(duration)}
           </Typography>
