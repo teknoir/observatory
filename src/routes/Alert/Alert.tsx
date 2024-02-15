@@ -4,7 +4,12 @@ import { useQueries, useMutation, useQueryClient } from '@tanstack/react-query';
 import Typography from '@mui/material/Typography';
 import AlertComponentMUI from 'muiComponents/Alert/Alert';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
-import { alertKey, alertsById, feedbackKey } from 'enums/queryKeys';
+import {
+  alertKey,
+  alertsRing,
+  alertsByIdRing,
+  feedbackKey,
+} from 'enums/queryKeys';
 import {
   fetchAlert,
   fetchFeedback,
@@ -61,7 +66,12 @@ const Alert = () => {
   const mutation = useMutation({
     mutationFn: sendFeedback,
     onSuccess: () => {
-      queryClient.refetchQueries([alertsById]);
+      queryClient.refetchQueries({
+        predicate: (query) => {
+          const queryKey = query.queryKey[0];
+          return queryKey === alertsRing || queryKey === alertsByIdRing;
+        },
+      });
       refetchAll();
       setShowAlert(true);
       setTimeout(() => {
