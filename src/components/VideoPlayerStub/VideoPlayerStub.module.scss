@@ -1,0 +1,31 @@
+@import 'enums/styleVariables.module.scss';
+
+.root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba($deepSpaceBlack, 0.6);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 420px;
+  padding: 0 8px;
+  text-align: center;
+}
+
+.btn {
+  margin-top: 32px;
+}
+
+.deviceLink {
+  color: $totalWhite;
+  text-decoration-color: $totalWhite;
+}

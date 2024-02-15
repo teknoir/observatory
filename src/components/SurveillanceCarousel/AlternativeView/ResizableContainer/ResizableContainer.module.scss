@@ -1,0 +1,17 @@
+@import 'enums/styleVariables.module.scss';
+
+.container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  height: 100%;
+  border-bottom: 1px solid $offWhite;
+}
+
+@media (min-width: $smallSize) {
+  .container {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 25%);
+    aspect-ratio: auto 5/2;
+  }
+}

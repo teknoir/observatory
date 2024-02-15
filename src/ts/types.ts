@@ -49,6 +49,14 @@ export interface ImageProps {
   status: SourceStatus;
 }
 
+export interface ViewImagesProps {
+  sourceKey: string;
+  src: string;
+  peripheralName: string;
+  status: number;
+  peripheralId: string;
+}
+
 export type RefImage = HTMLImageElement;
 
 export interface ImagePreviewProps {
@@ -199,6 +207,8 @@ export interface INotifications {
   severity: string;
   start_time: string;
   type: string;
+  video_url: string;
+  video_snapshot: string;
 }
 
 export interface INotificationsExtended extends INotifications {

@@ -10,6 +10,7 @@ import personDownIcon from 'assets/icons/personDownIcon.svg';
 import theftIcon from 'assets/icons/theftIcon.svg';
 import Icon from 'components/Icon/Icon';
 import Verified, { Sizes } from 'components/Verified/Verified';
+import VideoStub from 'components/VideoStub/VideoStub';
 import APP_URLS from 'enums/urls';
 import { generatePath } from 'utils/router';
 import { getUrlJpeg } from 'utils/media';
@@ -40,12 +41,14 @@ const AlertItem = ({ data, index, style }: Props) => {
     start_time: startTime,
     duration,
     status,
+    video_url: videoUrl,
   } = item;
   let { video_snapshot: videoSnapshot } = item;
   // TODO: remove test url in future
   videoSnapshot = videoSnapshot
     ? getUrlJpeg(videoSnapshot)
     : 'https://picsum.photos/200/300';
+  const hasVideo = !!videoUrl;
   const startDate = moment(startTime);
   const startDateFormat = startDate.format('HH:mm');
   const isVerified = status === EventStatus.Verified;
@@ -99,6 +102,7 @@ const AlertItem = ({ data, index, style }: Props) => {
       <div className={styles.content}>
         <div className={styles.imgWrapper}>
           <img src={videoSnapshot} alt="img" className={styles.videoSnapshot} />
+          {!hasVideo && <VideoStub />}
         </div>
         <div className={styles.details}>
           <Typography variant="BodySmall" display="block" gutterBottom>
