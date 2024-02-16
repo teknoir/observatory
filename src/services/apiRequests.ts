@@ -22,6 +22,7 @@ import {
   IRetrieveEventsRequestById,
   IMotionsAggregationRequest,
   INotificationsRequest,
+  IAlertEvent,
 } from 'ts/types';
 import { useMockDb } from 'enums/mockData';
 import { getUrlJpeg, getUrlMp4 } from 'utils/media';
@@ -33,13 +34,15 @@ const shouldUseMockData = (): boolean =>
 const shouldUseMotionsDb = (): boolean => true;
 const shouldUseNotificationsPaginatedDb = (): boolean => false;
 
-export const fetchAlert = (detectionId: DetectionId) => {
+export const fetchAlert = (detectionId: DetectionId, type: string | null) => {
   // TODO: remove this condition in future
   if (shouldUseMockData()) {
     return fetchAlertMock(detectionId);
   }
   return Fetch.get(API.eventAlert(detectionId)).then(({ data }) => {
-    const res = data[0];
+    const res = type
+      ? data.find((item: IAlertEvent) => item.type === type)
+      : data[0];
     if (res) {
       if (res.video_url) {
         res.video_url = getUrlMp4(res.video_url);
@@ -86,8 +89,10 @@ export const sendFeedback = (
   return Fetch.post(API.sendFeedback, data).then(({ data }) => data);
 };
 
-export const sendNotificationSeen = (data: DetectionId) => {
-  return Fetch.post(API.sendNotificationSeen(data)).then(({ data }) => data);
+export const sendNotificationSeen = (detectionId: DetectionId) => {
+  return Fetch.put(API.sendNotificationSeen(detectionId)).then(
+    ({ data }) => data
+  );
 };
 
 export const fetchMotionsAggregation = (
