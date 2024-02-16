@@ -16,7 +16,7 @@ export const xScale = (startTime: Date, dimensions: ChartDimensions) => {
   return d3
     .scaleTime()
     .domain([startTime, moment().toDate()])
-    .range([0, dimensions.boundedScrollWidth]);
+    .range([0, dimensions.boundedScrollHeight]);
 };
 
 export const yScale = (

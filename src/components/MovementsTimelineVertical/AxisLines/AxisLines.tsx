@@ -21,7 +21,7 @@ const AxisLines = ({
       data.map((d) => (
         <foreignObject
           key={keyAccessor(d)}
-          transform={`translate(120, ${yAccessor(d)})`}
+          transform={`translate(53, ${yAccessor(d)})`}
           width={1}
           height={1}
           className={styles.foreignObject}

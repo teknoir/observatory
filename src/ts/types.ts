@@ -101,7 +101,8 @@ export type Accessor = (d: object) => number | undefined;
 export interface CirclesProps {
   data: Array<object>;
   keyAccessor: Accessor;
-  xAccessor: Accessor;
+  xAccessor?: Accessor;
+  xPosition?: number;
   yAccessor: Accessor;
   radius?: number;
   className?: string;
@@ -269,6 +270,7 @@ export interface ChartDimensions {
   boundedHeight: number;
   boundedWidth: number;
   boundedScrollWidth: number;
+  boundedScrollHeight: number;
 }
 
 export interface IFeedback {

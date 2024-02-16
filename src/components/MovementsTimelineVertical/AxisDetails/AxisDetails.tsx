@@ -21,7 +21,7 @@ const AxisDetails = ({ data, keyAccessor, yAccessor }: AxisDetailsProps) => {
         data.map((d) => (
           <foreignObject
             key={keyAccessor(d)}
-            transform={`translate(245, ${yAccessor(d) - 30} )`}
+            transform={`translate(160, ${yAccessor(d) - 30} )`}
             width={1}
             height={1}
             className={styles.foreignObject}

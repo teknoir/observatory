@@ -1,27 +1,20 @@
-import { ScalePoint } from 'd3';
 import { useChartDimensions } from 'components/ChartUtilities/Chart/ChartContext';
 import styles from './GridLines.module.scss';
 
 interface GridLinesProps {
-  scale: ScalePoint<string>;
+  xPos: number;
 }
 
-const GridLines = ({ scale }: GridLinesProps) => {
+const GridLines = ({ xPos }: GridLinesProps) => {
   const dimensions = useChartDimensions();
-  const ticks = scale.domain();
 
   return (
     <g>
-      {ticks.map((tick, i) => (
-        <line
-          key={i}
-          className={styles.line}
-          // x2={dimensions.boundedWidth}
-          // transform={`translate(0, ${scale(tick)})`}
-          y2={dimensions.boundedWidth}
-          transform={`translate(${scale(tick)}, 0)`}
-        />
-      ))}
+      <line
+        className={styles.line}
+        y2={dimensions.boundedHeight}
+        transform={`translate(${xPos}, 0)`}
+      />
     </g>
   );
 };

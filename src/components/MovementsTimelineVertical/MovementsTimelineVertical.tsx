@@ -16,6 +16,8 @@ import GridLines from './GridLines/GridLines';
 import { MovementsTimelinePeriod } from './enums';
 import styles from './MovementsTimelineVertical.module.scss';
 
+const xPos = 130;
+
 interface MovementsTimeLineParams {
   startTime: Date;
   dataMotions: IEventDocumentWithPeripheral[];
@@ -47,15 +49,17 @@ export const MovementsTimelineVertical = ({
     ref,
     scrollGroupRef,
     xScale,
-    yScale,
     xAccessorScaled,
-    yAccessorScaled,
     formatDate,
     handlePopoverOpen,
   } = useMovementsTimelineDataVertical({
     startTime,
     peripherals,
     period,
+    initialDimensions: {
+      marginLeft: 0,
+      marginRight: 0,
+    },
   });
   const { setMainImageCarousel } = useContext(HomeContext);
   const numberOfTicks = period * 24 * 4; // 4 ticks per hour = 15 minutes per tick
@@ -71,7 +75,7 @@ export const MovementsTimelineVertical = ({
       <Divider variant="middle" />
       <div className={styles.timeline} ref={ref}>
         <Chart dimensions={dimensions}>
-          <GridLines scale={yScale} />
+          <GridLines xPos={xPos} />
           <g ref={scrollGroupRef}>
             <AxisTimestamps
               scale={xScale}
@@ -94,7 +98,7 @@ export const MovementsTimelineVertical = ({
             <Circles
               data={dataMotions}
               keyAccessor={detectionIdAccessor}
-              xAccessor={yAccessorScaled}
+              xPosition={xPos}
               yAccessor={xAccessorScaled}
               onCircleClick={setMainImageCarousel}
               onClickAccessor={peripheralIdAccessor}
@@ -103,7 +107,7 @@ export const MovementsTimelineVertical = ({
             <Circles
               data={dataAlerts}
               keyAccessor={detectionIdAccessor}
-              xAccessor={yAccessorScaled}
+              xPosition={xPos}
               yAccessor={xAccessorScaled}
               onCircleClick={setMainImageCarousel}
               onClickAccessor={peripheralIdAccessor}
