@@ -15,3 +15,16 @@ export const durationToMMSS = (milliseconds: number) => {
   const duration = moment.duration(milliseconds);
   return formatUnit(duration.minutes()) + ':' + formatUnit(duration.seconds());
 };
+
+export const dateFormat = (date: string) => {
+  const startDate = moment(date);
+  let dayName = '';
+  if (isToday(startDate)) {
+    dayName = 'Today, ';
+  } else if (isYesterday(startDate)) {
+    dayName = 'Yesterday, ';
+  } else {
+    dayName = startDate.format('MMMM DD, YYYY') + ', ';
+  }
+  return dayName + ' ' + startDate.format('HH:mm');
+};

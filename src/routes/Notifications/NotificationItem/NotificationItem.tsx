@@ -4,11 +4,13 @@ import classNames from 'classnames';
 import CircleIcon from '@mui/icons-material/Circle';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import VideoStub from 'components/VideoStub/VideoStub';
 import { NotificationStatus } from 'enums/notifications';
 import APP_URLS from 'enums/urls';
-import { INotificationsExtended } from 'ts/types';
 import { generatePath } from 'utils/router';
 import { durationToMMSS } from 'utils/moment';
+import { getUrlJpeg } from 'utils/media';
+import { INotificationsExtended } from 'ts/types';
 import styles from './NotificationItem.module.scss';
 
 interface NotificationItemProps {
@@ -16,25 +18,49 @@ interface NotificationItemProps {
 }
 
 const NotificationItem = ({ data }: NotificationItemProps) => {
-  const startDate = moment(data.start_time);
+  const {
+    duration,
+    type,
+    severity,
+    start_time: startTime,
+    status,
+    detection_id: detectionId,
+    peripheral_id: peripheralId,
+    peripheral_name: peripheralName,
+    video_url: videoUrl,
+  } = data;
+  let { video_snapshot: videoSnapshot } = data;
+  // TODO: remove test url in future
+  videoSnapshot = videoSnapshot
+    ? getUrlJpeg(videoSnapshot)
+    : 'https://picsum.photos/200/300';
+  const hasVideo = !!videoUrl;
+  const startDate = moment(startTime);
   const startDateFormat = startDate.format('hh:mm A');
-  const href = generatePath(APP_URLS.alerts, {
-    detectionId: data.detection_id,
-    peripheralId: data.peripheral_id,
-  });
+  const href = generatePath(
+    APP_URLS.alerts,
+    {
+      detectionId,
+      peripheralId,
+    },
+    { type }
+  );
 
   return (
     <div className={styles.root}>
       <Box className={styles.generalInfoContainer}>
-        {data.status === NotificationStatus.New && (
+        {status === NotificationStatus.New && (
           <CircleIcon color="error" className={styles.statusIcon} />
         )}
-        <div className={styles.imgWrapper}></div>
+        <div className={styles.imgWrapper}>
+          <img src={videoSnapshot} alt="img" className={styles.videoSnapshot} />
+          {!hasVideo && <VideoStub />}
+        </div>
         <div>
           <Typography variant="body2" display="block" className={styles.text}>
-            {data.type} in Camera: {data.peripheral_name} -{' '}
-            {`${startDateFormat} (${durationToMMSS(data.duration)})`}. Severity:{' '}
-            {data.severity}
+            {type} in Camera: {peripheralName} -{' '}
+            {`${startDateFormat} (${durationToMMSS(duration)})`}. Severity:{' '}
+            {severity}
           </Typography>
         </div>
       </Box>

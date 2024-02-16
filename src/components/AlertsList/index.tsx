@@ -3,14 +3,15 @@
 import { useState, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import moment from 'moment/moment';
+import _filter from 'lodash/filter';
 import _groupBy from 'lodash/groupBy';
 import _keys from 'lodash/keys';
 import { SelectChangeEvent } from '@mui/material/Select';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import { fetchAlerts, fetchAlertsByPeripheralId } from 'services/apiRequests';
 import { getFlattenDocuments } from 'utils/events';
-import { alerts, alertsById } from 'enums/queryKeys';
-import { RetrieveEventsResponse } from 'ts/types';
+import { alertsRing, alertsByIdRing } from 'enums/queryKeys';
+import { AlertTypes, RetrieveEventsResponse } from 'ts/types';
 import AlertsList from './AlertsList';
 import { AlertPeriod } from './enums';
 
@@ -29,7 +30,7 @@ const AlertsListContainer = ({ peripheralId = '' }: Props) => {
   const toDate = useMemo(() => moment(), [period]);
 
   const { data: dataAlerts, isLoading: isLoadingAlerts } = useQuery({
-    queryKey: [alerts, startDate],
+    queryKey: [alertsRing, startDate],
     queryFn: () => fetchAlerts({ fromDate: startDate, toDate }),
     enabled: !isPeripheral,
   });
@@ -38,7 +39,7 @@ const AlertsListContainer = ({ peripheralId = '' }: Props) => {
     data: dataAlertsByPeripheralId,
     isLoading: isLoadingAlertsByPeripheralId,
   } = useQuery({
-    queryKey: [alertsById, startDate, peripheralId],
+    queryKey: [alertsByIdRing, startDate, peripheralId],
     queryFn: () =>
       fetchAlertsByPeripheralId({ fromDate: startDate, toDate, peripheralId }),
     enabled: isPeripheral,
@@ -56,12 +57,17 @@ const AlertsListContainer = ({ peripheralId = '' }: Props) => {
     ? isLoadingAlertsByPeripheralId
     : isLoadingAlerts;
 
+  const alertsValidStatus = _filter(
+    data,
+    (item) => item.type !== AlertTypes.no_alert
+  );
+
   const groups = useMemo(
     () =>
-      _groupBy(data, function (item) {
+      _groupBy(alertsValidStatus, function (item) {
         return moment(item.start_time).startOf('day').format();
       }),
-    [isLoading, period, peripheralId]
+    [isLoading, period, peripheralId, alertsValidStatus]
   );
   const groupsKeys = _keys(groups).sort((a, b) => moment(b).diff(moment(a)));
 

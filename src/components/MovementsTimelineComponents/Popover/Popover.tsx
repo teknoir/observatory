@@ -11,7 +11,7 @@ import { generatePath } from 'utils/router';
 import VideoPlayer from 'components/VideoPlayer/VideoPlayer';
 import { PopoverInfoProps } from 'ts/types';
 import APP_URLS from 'enums/urls';
-import { durationToMMSS } from 'utils/moment';
+import { dateFormat, durationToMMSS } from 'utils/moment';
 import { getUrlMp4 } from 'utils/media';
 import styles from './Popover.module.scss';
 
@@ -82,6 +82,14 @@ const PopoverComponent = ({
           </Box>
           <Box>
             <Typography variant="LabelMedium" className={styles.field}>
+              Date:
+            </Typography>
+            <Typography variant="LabelMedium" className={styles.value}>
+              &emsp;{dateFormat(alertInfo[ALERT_INFO_KEYS.START_TIME])}
+            </Typography>
+          </Box>
+          <Box>
+            <Typography variant="LabelMedium" className={styles.field}>
               Duration:
             </Typography>
             <Typography variant="LabelMedium" className={styles.value}>
@@ -92,10 +100,14 @@ const PopoverComponent = ({
         <CardActions className={styles.cardActions}>
           <Link
             component={RouterLink}
-            to={generatePath(APP_URLS.alerts, {
-              peripheralId: alertInfo[ALERT_INFO_KEYS.PERIPHERAL_ID],
-              detectionId: alertInfo[ALERT_INFO_KEYS.DETECTION_ID],
-            })}
+            to={generatePath(
+              APP_URLS.alerts,
+              {
+                peripheralId: alertInfo[ALERT_INFO_KEYS.PERIPHERAL_ID],
+                detectionId: alertInfo[ALERT_INFO_KEYS.DETECTION_ID],
+              },
+              { type: alertInfo[ALERT_INFO_KEYS.TYPE] }
+            )}
             color="inherit"
             align="center"
           >
