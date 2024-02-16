@@ -16,13 +16,13 @@ interface AxisDetailsProps {
 const AxisDetails = ({ data, keyAccessor, yAccessor }: AxisDetailsProps) => {
   const videoSnapshot = 'https://picsum.photos/200/300';
   return (
-    <g>
+    <g transform="translate(160, 0)">
       {data &&
         data.map((d) => (
           <foreignObject
             key={keyAccessor(d)}
-            transform={`translate(160, ${yAccessor(d) - 30} )`}
-            width={1}
+            y={yAccessor(d) - 30}
+            width="100%"
             height={1}
             className={styles.foreignObject}
           >
