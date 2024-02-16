@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import ContentBar from 'components/ContentBar/ContentBar';
 import MainContent from 'components/MainContent/MainContent';
 import MovementsTimelineEmbed from 'components/MovementsTimelineEmbed/MovementsTimelineEmbed';
-import MovementsTimelineContainer from 'components/MovementsTimelineVertical/MovementsTimelineContainer';
+import MovementsTimelineVertical from 'components/MovementsTimelineVertical/MovementsTimelineContainer';
 import { Source, SourceStatus } from 'ts/types';
 import { useMainLayoutContext } from 'context/mainLayoutContext';
 import { useWSSContext } from 'context/webSocketContext';
@@ -88,7 +88,7 @@ const Device = () => {
           <div className={styles.mainContent}>
             <ImageViewer src={source?.src} />
             {isSmall && (
-              <MovementsTimelineContainer peripheralId={peripheralId} />
+              <MovementsTimelineVertical peripheralId={peripheralId} />
             )}
           </div>
         </EmbedComponent>
