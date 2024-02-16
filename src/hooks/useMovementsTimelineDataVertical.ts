@@ -86,7 +86,7 @@ const useMovementsTimelineDataVertical = ({
   const debounceResize = _debounce(
     () =>
       setDefaultTranslate(
-        -dimensions.boundedScrollWidth + dimensions.boundedWidth
+        -dimensions.boundedScrollHeight + dimensions.boundedHeight
       ),
     200
   );
@@ -104,7 +104,7 @@ const useMovementsTimelineDataVertical = ({
       let duration = 0;
       const maxStartTranslate = 0;
       const maxEndTranslate =
-        dimensions.boundedScrollWidth - dimensions.boundedWidth;
+        dimensions.boundedScrollHeight - dimensions.boundedHeight;
 
       // TODO: Replace these @ts-ignore comments for a different logic where is
       // no necessary to replace the x property of transformObj (which comes from
@@ -122,9 +122,9 @@ const useMovementsTimelineDataVertical = ({
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         transformObj.y =
-          transformObj.y + dimensions.boundedWidth / 2 > maxEndTranslate
+          transformObj.y + dimensions.boundedHeight / 2 > maxEndTranslate
             ? maxEndTranslate
-            : transformObj.y + dimensions.boundedWidth / 2;
+            : transformObj.y + dimensions.boundedHeight / 2;
         duration = 500;
       }
 
@@ -132,19 +132,19 @@ const useMovementsTimelineDataVertical = ({
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         transformObj.y =
-          transformObj.y - dimensions.boundedWidth / 2 < maxStartTranslate
+          transformObj.y - dimensions.boundedHeight / 2 < maxStartTranslate
             ? maxStartTranslate
-            : transformObj.y - dimensions.boundedWidth / 2;
+            : transformObj.y - dimensions.boundedHeight / 2;
         duration = 500;
       }
 
-      const translateX = defaultTranslate + transformObj.x;
+      const translateX = defaultTranslate + transformObj.y;
       scrollGroup
         .transition()
         .duration(duration)
         .attr('transform', `translate(0, ${translateX})`);
     },
-    [defaultTranslate, dimensions.boundedScrollWidth, dimensions.boundedWidth]
+    [defaultTranslate, dimensions.boundedScrollHeight, dimensions.boundedHeight]
   );
 
   useEffect(() => {

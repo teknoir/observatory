@@ -6,8 +6,8 @@ import Typography from '@mui/material/Typography';
 import ContentBar from 'components/ContentBar/ContentBar';
 import MainContent from 'components/MainContent/MainContent';
 import MovementsTimelineEmbed from 'components/MovementsTimelineEmbed/MovementsTimelineEmbed';
-// import MovementsTimelineContainer from 'components/MovementsTimelineVertical/MovementsTimelineContainer';
-import { MovementsTimelineVerticalV2Single } from 'components/MovementsTimelineVerticalV2';
+import MovementsTimelineContainer from 'components/MovementsTimelineVerticalV1/MovementsTimelineContainer';
+// import { MovementsTimelineVerticalV2Single } from 'components/MovementsTimelineVerticalV2';
 import { Source, SourceStatus } from 'ts/types';
 import { useMainLayoutContext } from 'context/mainLayoutContext';
 import { useWSSContext } from 'context/webSocketContext';
@@ -89,8 +89,8 @@ const Device = () => {
           <div className={styles.mainContent}>
             <ImageViewer src={source?.src} />
             {isSmall && (
-              // <MovementsTimelineContainer peripheralId={peripheralId} />
-              <MovementsTimelineVerticalV2Single peripheralId={peripheralId} />
+              <MovementsTimelineContainer peripheralId={peripheralId} />
+              // <MovementsTimelineVerticalV2Single peripheralId={peripheralId} />
             )}
           </div>
         </EmbedComponent>
