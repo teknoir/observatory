@@ -125,6 +125,7 @@ export interface PopoverInfoProps {
   start_time: string;
   type: string;
   video_url: string;
+  ground_truth: AlertTypes;
 }
 
 export type DetectionId = string;
@@ -146,6 +147,7 @@ export interface IAlertEvent {
 export interface IEventDocument {
   detection_id: DetectionId;
   type: string;
+  ground_truth?: AlertTypes;
   start_time: string;
   duration: number;
   severity: string;
