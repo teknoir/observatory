@@ -1,9 +1,5 @@
-import loiteringIcon from 'assets/icons/loiteringIcon.svg';
-import personDownIcon from 'assets/icons/personDownIcon.svg';
-import theftIcon from 'assets/icons/theftIcon.svg';
+import DetailsItem from 'components/MovementsTimelineVertical/DetailsItem/DetailsItem';
 import styles from './AxisDetails.module.scss';
-import Icon from 'components/Icon/Icon';
-import { IconSizes } from 'ts/types';
 
 type Accessor = (d: object) => number;
 
@@ -14,39 +10,18 @@ interface AxisDetailsProps {
 }
 
 const AxisDetails = ({ data, keyAccessor, yAccessor }: AxisDetailsProps) => {
-  const videoSnapshot = 'https://picsum.photos/200/300';
   return (
-    <g transform="translate(160, 0)">
+    <g transform="translate(150, -30)">
       {data &&
         data.map((d) => (
           <foreignObject
             key={keyAccessor(d)}
-            y={yAccessor(d) - 30}
+            y={yAccessor(d)}
             width="100%"
             height={1}
             className={styles.foreignObject}
           >
-            <div className={styles.details}>
-              <div className={styles.icons}>
-                <div className={styles.iconsLine} />
-                <div className={styles.iconWrapper}>
-                  <Icon icon={loiteringIcon} size={IconSizes.lg} />
-                </div>
-                <div className={styles.iconWrapper}>
-                  <Icon icon={theftIcon} size={IconSizes.lg} />
-                </div>
-                <div className={styles.iconWrapper}>
-                  <Icon icon={personDownIcon} size={IconSizes.lg} />
-                </div>
-              </div>
-              <div className={styles.imgWrapper}>
-                <img
-                  src={videoSnapshot}
-                  alt="img"
-                  className={styles.videoSnapshot}
-                />
-              </div>
-            </div>
+            <DetailsItem data={d} />
           </foreignObject>
         ))}
     </g>

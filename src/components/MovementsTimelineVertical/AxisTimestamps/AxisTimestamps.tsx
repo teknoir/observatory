@@ -27,7 +27,7 @@ const AxisTimestamps = ({
   const ticks = scale?.ticks(numberOfTicks ? numberOfTicks : autoNumberOfTicks);
 
   return (
-    <g>
+    <g transform="translate(0, -12)">
       {ticks.map((tick) => (
         <foreignObject
           key={String(tick)}
