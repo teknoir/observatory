@@ -1,11 +1,11 @@
 import DetailsItem from 'components/MovementsTimelineVertical/DetailsItem/DetailsItem';
 import styles from './AxisDetails.module.scss';
-import { IAlertEvent } from 'ts/types';
+import { IEventDocumentWithPeripheral } from 'ts/types';
 
 type Accessor = (d: object) => number;
 
 interface AxisDetailsProps {
-  data: IAlertEvent[];
+  data: IEventDocumentWithPeripheral[];
   keyAccessor: Accessor;
   yAccessor: Accessor;
 }

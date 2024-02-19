@@ -7,7 +7,7 @@ import { detectionIdAccessor } from 'components/ChartUtilities/accessors';
 import { peripheralIdAccessor } from 'components/ChartUtilities/accessors';
 import ToolBar from 'components/MovementsTimelineComponents/ToolBar/ToolBar';
 import { HomeContext } from 'context/HomeContext/HomeContext';
-import { IAlertEvent } from 'ts/types';
+import { IAlertEvent, IEventDocumentWithPeripheral } from 'ts/types';
 import useMovementsTimelineDataVertical from 'hooks/useMovementsTimelineDataVertical';
 import AxisDetails from './AxisDetails/AxisDetails';
 import AxisLines from './AxisLines/AxisLines';
@@ -20,8 +20,8 @@ const xPos = 130;
 
 interface MovementsTimeLineParams {
   startTime: Date;
-  dataMotions: IAlertEvent[];
-  dataAlerts: IAlertEvent[];
+  dataMotions: IEventDocumentWithPeripheral[];
+  dataAlerts: IEventDocumentWithPeripheral[];
   xAccessor: (d: IAlertEvent) => Date | null;
   yAccessor: (d: object) => string;
   peripherals: Array<string>;

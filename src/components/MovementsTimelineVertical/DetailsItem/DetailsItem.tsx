@@ -4,11 +4,11 @@ import personDownIcon from 'assets/icons/personDownIcon.svg';
 import theftIcon from 'assets/icons/theftIcon.svg';
 import Icon from 'components/Icon/Icon';
 import { getUrlJpeg } from 'utils/media';
-import { AlertTypes, IAlertEvent, IconSizes } from 'ts/types';
+import { AlertTypes, IEventDocumentWithPeripheral, IconSizes } from 'ts/types';
 import styles from './DetailsItem.module.scss';
 
 interface DetailsItemProps {
-  data: IAlertEvent & { ground_truth?: AlertTypes };
+  data: IEventDocumentWithPeripheral & { ground_truth?: AlertTypes };
 }
 
 const DetailsItem = ({ data }: DetailsItemProps) => {
