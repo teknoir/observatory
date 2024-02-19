@@ -1,5 +1,4 @@
 import { NavLink as RouterLink } from 'react-router-dom';
-import _upperFirst from 'lodash/upperFirst';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -9,11 +8,12 @@ import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 import { generatePath } from 'utils/router';
 import VideoPlayer from 'components/VideoPlayer/VideoPlayer';
-import { PopoverInfoProps } from 'ts/types';
+import { AlertTypes, PopoverInfoProps } from 'ts/types';
 import APP_URLS from 'enums/urls';
 import { dateFormat, durationToMMSS } from 'utils/moment';
 import { getUrlMp4 } from 'utils/media';
 import styles from './Popover.module.scss';
+import { useCallback } from 'react';
 
 enum ALERT_INFO_KEYS {
   DETECTION_ID = 'detection_id',
@@ -24,6 +24,7 @@ enum ALERT_INFO_KEYS {
   START_TIME = 'start_time',
   TYPE = 'type',
   VIDEO_URL = 'video_url',
+  GROUND_TRUTH = 'ground_truth',
 }
 
 interface MovementsTimelinePopoverProps {
@@ -43,6 +44,24 @@ const PopoverComponent = ({
   const videoUrl = alertInfo[ALERT_INFO_KEYS.VIDEO_URL]
     ? getUrlMp4(alertInfo[ALERT_INFO_KEYS.VIDEO_URL])
     : fallbackVideoUrl;
+
+  const alertType =
+    alertInfo[ALERT_INFO_KEYS.GROUND_TRUTH] || alertInfo[ALERT_INFO_KEYS.TYPE];
+  const getTooltipText = useCallback(() => {
+    switch (alertType) {
+      case AlertTypes.loitering:
+        return 'Loitering';
+      case AlertTypes.theft:
+        return 'Theft';
+      case AlertTypes.on_ground:
+        return 'Person Down';
+      default:
+        return '';
+    }
+  }, [alertType]);
+
+  const tooltipText = getTooltipText();
+
   return (
     <Popover
       open={!!anchorEl}
@@ -69,7 +88,7 @@ const PopoverComponent = ({
               Alert type:
             </Typography>
             <Typography variant="LabelMedium" className={styles.value}>
-              &emsp;{_upperFirst(alertInfo[ALERT_INFO_KEYS.TYPE])}
+              &emsp;{tooltipText}
             </Typography>
           </Box>
           <Box>
@@ -100,10 +119,14 @@ const PopoverComponent = ({
         <CardActions className={styles.cardActions}>
           <Link
             component={RouterLink}
-            to={generatePath(APP_URLS.alerts, {
-              peripheralId: alertInfo[ALERT_INFO_KEYS.PERIPHERAL_ID],
-              detectionId: alertInfo[ALERT_INFO_KEYS.DETECTION_ID],
-            })}
+            to={generatePath(
+              APP_URLS.alerts,
+              {
+                peripheralId: alertInfo[ALERT_INFO_KEYS.PERIPHERAL_ID],
+                detectionId: alertInfo[ALERT_INFO_KEYS.DETECTION_ID],
+              },
+              { type: alertInfo[ALERT_INFO_KEYS.TYPE] }
+            )}
             color="inherit"
             align="center"
           >

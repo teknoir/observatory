@@ -11,20 +11,17 @@ function CarouselImage({ id, src, title, status }: ImageProps) {
     <div className={styles.root}>
       <img src={src} className={styles.image} />
       <TitleContainer title={title} status={status} />
-      <div className={styles.hoverState}>
-        <Link
-          component={RouterLink}
-          to={generatePath(APP_URLS.devices, {
-            peripheralId: id,
-            peripheralName: title,
-          })}
-          color="inherit"
-          underline="none"
-          className={styles.hoverStateLink}
-        >
-          View device
-        </Link>
-      </div>
+      <Link
+        component={RouterLink}
+        to={generatePath(APP_URLS.devices, {
+          peripheralId: id,
+          peripheralName: title,
+        })}
+        color="inherit"
+        underline="none"
+      >
+        <div className={styles.hoverState} />
+      </Link>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { useCallback, CSSProperties } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
 import moment from 'moment';
 import classNames from 'classnames';
 import Typography from '@mui/material/Typography';
@@ -31,12 +31,14 @@ interface Props {
 
 const AlertItem = ({ data, index, style }: Props) => {
   const { detectionId: detectionIdUrl } = useParams();
+  const [searchParams] = useSearchParams();
   const item = data[index];
   const {
     detection_id: detectionId,
     peripheral_id: peripheralId,
     peripheral_name: name,
     type,
+    ground_truth: groundTruth,
     severity,
     start_time: startTime,
     duration,
@@ -54,10 +56,12 @@ const AlertItem = ({ data, index, style }: Props) => {
   const isVerified = status === EventStatus.Verified;
 
   const hasLink = detectionId && peripheralId;
-  const isSelected = detectionIdUrl === detectionId;
+  const isSelected =
+    detectionIdUrl === detectionId && type === searchParams.get('type');
+  const alertType = groundTruth || type;
 
   const getIcon = useCallback(() => {
-    switch (type) {
+    switch (alertType) {
       case AlertTypes.loitering:
         return loiteringIcon;
       case AlertTypes.theft:
@@ -67,10 +71,10 @@ const AlertItem = ({ data, index, style }: Props) => {
       default:
         return '';
     }
-  }, [type]);
+  }, [alertType]);
 
   const getTooltipText = useCallback(() => {
-    switch (type) {
+    switch (alertType) {
       case AlertTypes.loitering:
         return 'Loitering';
       case AlertTypes.theft:
@@ -80,7 +84,7 @@ const AlertItem = ({ data, index, style }: Props) => {
       default:
         return '';
     }
-  }, [type]);
+  }, [alertType]);
 
   const icon = getIcon();
   const tooltipText = getTooltipText();
@@ -134,7 +138,11 @@ const AlertItem = ({ data, index, style }: Props) => {
     >
       {hasLink ? (
         <Link
-          to={generatePath(APP_URLS.alerts, { detectionId, peripheralId })}
+          to={generatePath(
+            APP_URLS.alerts,
+            { detectionId, peripheralId },
+            { type }
+          )}
           className={styles.rootLink}
         >
           {renderContent()}

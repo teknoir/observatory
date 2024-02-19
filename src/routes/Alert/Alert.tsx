@@ -1,9 +1,15 @@
-import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useQueries, useMutation } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useQueries, useMutation, useQueryClient } from '@tanstack/react-query';
 import Typography from '@mui/material/Typography';
+import AlertComponentMUI from 'muiComponents/Alert/Alert';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
-import { alertKey, feedbackKey } from 'enums/queryKeys';
+import {
+  alertKey,
+  alertsRing,
+  alertsByIdRing,
+  feedbackKey,
+} from 'enums/queryKeys';
 import {
   fetchAlert,
   fetchFeedback,
@@ -23,8 +29,12 @@ import styles from './Alert.module.scss';
 
 const Alert = () => {
   const { detectionId = '' } = useParams();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const queryKey = [alertKey, detectionId];
   const queryFeedbackKey = [feedbackKey, detectionId];
+  const [showAlert, setShowAlert] = useState(false);
+  const queryClient = useQueryClient();
 
   const [
     { data, isLoading, refetch },
@@ -37,7 +47,7 @@ const Alert = () => {
     queries: [
       {
         queryKey,
-        queryFn: () => fetchAlert(detectionId),
+        queryFn: () => fetchAlert(detectionId, searchParams.get('type')),
         refetchOnWindowFocus: false,
       },
       {
@@ -56,17 +66,27 @@ const Alert = () => {
   const mutation = useMutation({
     mutationFn: sendFeedback,
     onSuccess: () => {
+      queryClient.refetchQueries({
+        predicate: (query) => {
+          const queryKey = query.queryKey[0];
+          return queryKey === alertsRing || queryKey === alertsByIdRing;
+        },
+      });
       refetchAll();
+      setShowAlert(true);
+      setTimeout(() => {
+        mutation.reset();
+        setShowAlert(false);
+      }, 2000);
+      setTimeout(() => {
+        navigate(-1);
+      }, 3000);
     },
   });
 
   const mutationNotification = useMutation({
     mutationFn: sendNotificationSeen,
   });
-
-  useEffect(() => {
-    mutationNotification.mutate(detectionId);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onSubmit = (values: IAlertFormValues) =>
     mutation.mutate({
@@ -75,7 +95,6 @@ const Alert = () => {
       username: 'username',
     });
 
-  if (isLoading || isLoadingFeedback) return <CircularProgress />;
   const {
     type,
     severity,
@@ -86,7 +105,17 @@ const Alert = () => {
     status,
     video_url: videoUrl,
     video_snapshot: videoSnapshot,
-  } = data;
+  } = data || {};
+  const isNew = status === EventStatus.New;
+
+  useEffect(() => {
+    if (isNew) {
+      mutationNotification.mutate(detectionId);
+    }
+  }, [isNew]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (isLoading || isLoadingFeedback) return <CircularProgress />;
+
   const { ground_truth, username, comment, creation_time } = dataFeedback || {};
   const isVerified = status === EventStatus.Verified;
   const hasVideo = !!videoUrl;
@@ -119,7 +148,7 @@ const Alert = () => {
             <VideoPlayerStub deviceUrl={deviceUrl} onClick={refetchAll} />
           </div>
         )}
-        {isVerified ? (
+        {isVerified && !showAlert ? (
           <Info
             username={username}
             creation_time={creation_time}
@@ -132,7 +161,12 @@ const Alert = () => {
             ground_truth={ground_truth}
           />
         ) : (
-          <Form onSubmit={onSubmit} />
+          <Form onSubmit={onSubmit} typeDetected={ground_truth || type} />
+        )}
+        {showAlert && (
+          <AlertComponentMUI severity="success">
+            The alert has been verified
+          </AlertComponentMUI>
         )}
       </MainContent>
     </>
