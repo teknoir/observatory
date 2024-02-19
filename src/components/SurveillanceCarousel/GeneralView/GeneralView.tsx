@@ -69,22 +69,22 @@ function GeneralView({
           draggable
         >
           <MovementsTimelineEmbed
-              peripheralId={mainPeripheralId}
-              classNameContainer={styles.mainImageEmbed}
+            peripheralId={mainPeripheralId}
+            classNameContainer={styles.mainImageEmbed}
           >
             <CarouselImage
-                id={mainPeripheralId}
-                src={mainSrc}
-                title={mainPeripheralName}
-                status={status}
-                detections={detections}
+              id={mainPeripheralId}
+              src={mainSrc}
+              title={mainPeripheralName}
+              status={status}
+              detections={detections}
             />
             <canvas id="canvas" className="coveringCanvas"></canvas>
           </MovementsTimelineEmbed>
         </div>
       </Resizable>
       <Resizable
-          enable={{
+        enable={{
           left: true,
         }}
       >
