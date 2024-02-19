@@ -1,19 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import _debounce from 'lodash/debounce';
-import {
-  startTimeAccessor as xAccessor,
-  peripheralNameAccessor as yAccessor,
-} from 'components/ChartUtilities/accessors';
+import { startTimeAccessor as yAccessor } from 'components/ChartUtilities/accessors';
 import {
   useChartDimensions,
   IDimensions,
 } from 'components/ChartUtilities/utils';
-import { CarouselArrowsOptions } from 'enums/timeline';
 import { PopoverInfoProps } from 'ts/types';
 import {
   formatDate as formatDateFunction,
-  xScale as xScaleFunction,
   yScale as yScaleFunction,
 } from '../components/MovementsTimelineVertical/utils.ts';
 
@@ -30,7 +25,6 @@ interface Props {
 
 const useMovementsTimelineDataVertical = ({
   startTime,
-  peripherals,
   period,
   initialDimensions,
   scrollLengthMultiplier = period * 10,
@@ -53,13 +47,6 @@ const useMovementsTimelineDataVertical = ({
     video_url: fallbackVideoUrl,
   });
 
-  const handleCarouselArrows = (d: CarouselArrowsOptions) => {
-    const scrollGroup = d3.select<SVGGElement, unknown>(
-      scrollGroupRef.current!
-    );
-    onScroll(scrollGroup, d);
-  };
-
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   function handlePopoverOpen(event: MouseEvent<SVGCircleElement>, info) {
@@ -75,11 +62,9 @@ const useMovementsTimelineDataVertical = ({
     setAnchorEl(null);
   }
 
-  const xScale = xScaleFunction(startTime, dimensions);
-  const yScale = yScaleFunction(peripherals, dimensions);
+  const yScale = yScaleFunction(startTime, dimensions);
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  const xAccessorScaled = (d: object) => xScale(xAccessor(d));
   const yAccessorScaled = (d: object) => yScale(yAccessor(d));
   const formatDate = formatDateFunction(period);
 
@@ -92,16 +77,12 @@ const useMovementsTimelineDataVertical = ({
   );
 
   const onScroll = useCallback(
-    (
-      scrollGroup: d3.Selection<SVGGElement, unknown, null, undefined>,
-      move: CarouselArrowsOptions | undefined = undefined
-    ) => {
+    (scrollGroup: d3.Selection<SVGGElement, unknown, null, undefined>) => {
       const transformObj = d3.zoomTransform(scrollGroup.node() as SVGGElement);
       // TODO: This approach is an alternative to not modify the resulting
       // d3.zoomTransform() object, but it needs some logic to work
       // const transformObj = { ...d3.zoomTransform(scrollGroup.node()) }
 
-      let duration = 0;
       const maxStartTranslate = 0;
       const maxEndTranslate =
         dimensions.boundedScrollHeight - dimensions.boundedHeight;
@@ -118,31 +99,11 @@ const useMovementsTimelineDataVertical = ({
       // @ts-ignore
       transformObj.y = Math.min(transformObj.y, maxEndTranslate);
 
-      if (move === CarouselArrowsOptions.LEFT) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        transformObj.y =
-          transformObj.y + dimensions.boundedHeight / 2 > maxEndTranslate
-            ? maxEndTranslate
-            : transformObj.y + dimensions.boundedHeight / 2;
-        duration = 500;
-      }
-
-      if (move === CarouselArrowsOptions.RIGHT) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        transformObj.y =
-          transformObj.y - dimensions.boundedHeight / 2 < maxStartTranslate
-            ? maxStartTranslate
-            : transformObj.y - dimensions.boundedHeight / 2;
-        duration = 500;
-      }
-
-      const translateX = defaultTranslate + transformObj.y;
+      const translateY = defaultTranslate + transformObj.y;
       scrollGroup
         .transition()
-        .duration(duration)
-        .attr('transform', `translate(0, ${translateX})`);
+        .duration(0)
+        .attr('transform', `translate(0, ${translateY})`);
     },
     [defaultTranslate, dimensions.boundedScrollHeight, dimensions.boundedHeight]
   );
@@ -173,16 +134,13 @@ const useMovementsTimelineDataVertical = ({
     dimensions,
     ref,
     scrollGroupRef,
-    xScale,
     yScale,
-    xAccessorScaled,
     yAccessorScaled,
     formatDate,
     anchorEl,
     alertInfo,
     handlePopoverOpen,
     handlePopoverClose,
-    handleCarouselArrows,
   };
 };
 

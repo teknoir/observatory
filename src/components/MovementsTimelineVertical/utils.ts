@@ -12,20 +12,9 @@ export const formatDate = (period: MovementsTimelinePeriod) => {
     : formatDateByDay;
 };
 
-export const xScale = (startTime: Date, dimensions: ChartDimensions) => {
+export const yScale = (startTime: Date, dimensions: ChartDimensions) => {
   return d3
     .scaleTime()
     .domain([startTime, moment().toDate()])
     .range([0, dimensions.boundedScrollHeight]);
-};
-
-export const yScale = (
-  peripherals: Array<string>,
-  dimensions: ChartDimensions
-) => {
-  return d3
-    .scalePoint()
-    .domain(peripherals)
-    .range([dimensions.boundedHeight, 0])
-    .padding(1);
 };

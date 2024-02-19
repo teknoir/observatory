@@ -48,8 +48,8 @@ export const MovementsTimelineVertical = ({
     dimensions,
     ref,
     scrollGroupRef,
-    xScale,
-    xAccessorScaled,
+    yScale,
+    yAccessorScaled,
     formatDate,
     handlePopoverOpen,
   } = useMovementsTimelineDataVertical({
@@ -78,7 +78,7 @@ export const MovementsTimelineVertical = ({
           <GridLines xPos={xPos} />
           <g ref={scrollGroupRef}>
             <AxisTimestamps
-              scale={xScale}
+              scale={yScale}
               formatTick={formatDate}
               numberOfTicks={numberOfTicks}
               dimensions={dimensions}
@@ -86,20 +86,20 @@ export const MovementsTimelineVertical = ({
             <AxisLines
               data={dataMotions}
               keyAccessor={detectionIdAccessor}
-              yAccessor={xAccessorScaled}
+              yAccessor={yAccessorScaled}
               className={styles.lineMotion}
             />
             <AxisLines
               data={dataAlerts}
               keyAccessor={detectionIdAccessor}
-              yAccessor={xAccessorScaled}
+              yAccessor={yAccessorScaled}
               className={styles.lineAlert}
             />
             <Circles
               data={dataMotions}
               keyAccessor={detectionIdAccessor}
               xPosition={xPos}
-              yAccessor={xAccessorScaled}
+              yAccessor={yAccessorScaled}
               onCircleClick={setMainImageCarousel}
               onClickAccessor={peripheralIdAccessor}
               className={styles.circleMotion}
@@ -108,7 +108,7 @@ export const MovementsTimelineVertical = ({
               data={dataAlerts}
               keyAccessor={detectionIdAccessor}
               xPosition={xPos}
-              yAccessor={xAccessorScaled}
+              yAccessor={yAccessorScaled}
               onCircleClick={setMainImageCarousel}
               onClickAccessor={peripheralIdAccessor}
               className={styles.circleAlert}
@@ -117,7 +117,7 @@ export const MovementsTimelineVertical = ({
             <AxisDetails
               data={dataAlerts}
               keyAccessor={detectionIdAccessor}
-              yAccessor={xAccessorScaled}
+              yAccessor={yAccessorScaled}
             />
           </g>
         </Chart>
