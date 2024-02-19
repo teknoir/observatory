@@ -71,6 +71,7 @@ export const MovementsTimelineVertical = ({
         handleChangeFilter={handleChangeFilter}
         period={period}
         handleChangePeriod={handleChangePeriod}
+        isViewAll={false}
       />
       <Divider variant="middle" />
       <div className={styles.timeline} ref={ref}>
