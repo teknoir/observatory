@@ -9,11 +9,10 @@ const GridLines = ({ xPos }: GridLinesProps) => {
   const dimensions = useChartDimensions();
 
   return (
-    <g>
+    <g transform={`translate(${xPos}, 0)`}>
       <line
         className={styles.line}
-        y2={dimensions.boundedHeight}
-        transform={`translate(${xPos}, 0)`}
+        y2={dimensions.boundedHeight + dimensions.marginBottom}
       />
     </g>
   );
