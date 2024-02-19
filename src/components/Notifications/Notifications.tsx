@@ -5,7 +5,7 @@ import _last from 'lodash/last';
 import Typography from '@mui/material/Typography';
 import bellIcon from 'assets/icons/bellIcon.svg';
 import bellRedIcon from 'assets/icons/bellRedIcon.svg';
-import { fetchNotifications } from 'services/apiRequests';
+import { fetchNotifications, fetchCountEvents } from 'services/apiRequests';
 import { HomeContext } from 'context/HomeContext/HomeContext';
 import { useWSSContext } from 'context/webSocketContext';
 import Icon from 'components/Icon/Icon';
@@ -14,11 +14,18 @@ import {
   NotificationsCount,
   NotificationsPeriod,
 } from 'enums/notifications';
-import { notificationsNew, notificationsUnverified } from 'enums/queryKeys';
+import {
+  notificationsNew,
+  notificationsUnverified,
+  countEvents,
+} from 'enums/queryKeys';
 import { TOPICS, TYPES } from 'enums/wss';
-import { INotifications } from 'ts/types';
+import { INotifications, EventStatus } from 'ts/types';
 import Popover from './Popover/Popover';
 import styles from './Notifications.module.scss';
+
+const COLLECTION = 'alerts';
+const STATUS = EventStatus.New;
 
 const Notifications = () => {
   const { lastMessage } = useWSSContext();
@@ -32,6 +39,11 @@ const Notifications = () => {
     .startOf('day');
   const toDate = moment();
   const isOpen = Boolean(anchorEl);
+
+  const { data: dataCount } = useQuery({
+    queryKey: [countEvents, COLLECTION, STATUS],
+    queryFn: () => fetchCountEvents(STATUS, COLLECTION),
+  });
 
   const {
     data: dataNew,
@@ -64,6 +76,12 @@ const Notifications = () => {
       }),
     enabled: isOpen,
   });
+
+  useEffect(() => {
+    if (dataCount) {
+      setCount(dataCount.count);
+    }
+  }, [dataCount]);
 
   useEffect(() => {
     if (peripheralIdNotified) {

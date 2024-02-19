@@ -279,3 +279,8 @@ export enum AlertTypes {
   on_ground = 'person_down',
   theft = 'catalytic_theft',
 }
+
+export interface ICountEventsRequest {
+  status: EventStatus;
+  collection: string;
+}
