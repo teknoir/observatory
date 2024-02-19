@@ -74,6 +74,15 @@ export interface DetectionDetail {
   id: string,
 }
 
+export interface AnnotationsCanvasProps {
+  src: string;
+  detections: Array<Detection>;
+  stylesImage: string;
+  labelFontSize: number;
+  showBoundingBoxes: boolean;
+  showLabels: boolean;
+}
+
 export type RefImage = HTMLImageElement;
 
 export interface ImagePreviewProps {
