@@ -7,7 +7,7 @@ import { detectionIdAccessor } from 'components/ChartUtilities/accessors';
 import { peripheralIdAccessor } from 'components/ChartUtilities/accessors';
 import ToolBar from 'components/MovementsTimelineComponents/ToolBar/ToolBar';
 import { HomeContext } from 'context/HomeContext/HomeContext';
-import { IAlertEvent, IEventDocumentWithPeripheral } from 'ts/types';
+import { IAlertEvent } from 'ts/types';
 import useMovementsTimelineDataVertical from 'hooks/useMovementsTimelineDataVertical';
 import AxisDetails from './AxisDetails/AxisDetails';
 import AxisLines from './AxisLines/AxisLines';
@@ -20,8 +20,8 @@ const xPos = 130;
 
 interface MovementsTimeLineParams {
   startTime: Date;
-  dataMotions: IEventDocumentWithPeripheral[];
-  dataAlerts: IEventDocumentWithPeripheral[];
+  dataMotions: IAlertEvent[];
+  dataAlerts: IAlertEvent[];
   xAccessor: (d: IAlertEvent) => Date | null;
   yAccessor: (d: object) => string;
   peripherals: Array<string>;
@@ -50,7 +50,6 @@ export const MovementsTimelineVertical = ({
     scrollGroupRef,
     yScale,
     yAccessorScaled,
-    formatDate,
     handlePopoverOpen,
   } = useMovementsTimelineDataVertical({
     startTime,
@@ -80,7 +79,6 @@ export const MovementsTimelineVertical = ({
           <g ref={scrollGroupRef}>
             <AxisTimestamps
               scale={yScale}
-              formatTick={formatDate}
               numberOfTicks={numberOfTicks}
               dimensions={dimensions}
             />

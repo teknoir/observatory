@@ -1,18 +1,20 @@
 import { ScaleTime } from 'd3';
 import Typography from '@mui/material/Typography';
+import {
+  formatDateByDay,
+  formatDateByTime,
+} from 'components/MovementsTimelineVertical/utils';
 import { ChartDimensions } from 'ts/types';
 import styles from './AxisTimestamps.module.scss';
 
 interface AxisTimestampsProps {
   scale: ScaleTime<number, number, never>;
-  formatTick: (date: Date) => string;
   numberOfTicks?: number;
   dimensions?: ChartDimensions;
 }
 
 const AxisTimestamps = ({
   scale,
-  formatTick,
   numberOfTicks,
   dimensions,
 }: AxisTimestampsProps) => {
@@ -28,24 +30,25 @@ const AxisTimestamps = ({
 
   return (
     <g transform="translate(0, -12)">
-      {ticks.map((tick) => (
-        <foreignObject
-          key={String(tick)}
-          transform={`translate(0, ${scale(tick)})`}
-          width={1}
-          height={1}
-          className={styles.foreignObject}
-        >
-          <div className={styles.text}>
-            <Typography variant="BodySmall">
-              {formatTick(tick).split(',')[0]}
-            </Typography>
-            <Typography variant="BodySmall">
-              {formatTick(tick).split(',')[1]}
-            </Typography>
-          </div>
-        </foreignObject>
-      ))}
+      {ticks.map((tick) => {
+        let tickText = formatDateByTime(tick);
+        if (tick.getHours() === 0 && tick.getMinutes() === 0) {
+          tickText = formatDateByDay(tick);
+        }
+        return (
+          <foreignObject
+            key={String(tick)}
+            transform={`translate(0, ${scale(tick)})`}
+            width={1}
+            height={1}
+            className={styles.foreignObject}
+          >
+            <div className={styles.text}>
+              <Typography variant="BodySmall">{tickText}</Typography>
+            </div>
+          </foreignObject>
+        );
+      })}
     </g>
   );
 };
