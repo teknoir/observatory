@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, Fragment } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useInterval } from 'usehooks-ts';
 import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
@@ -76,7 +76,22 @@ const Device = () => {
     }
   }, [lastMessage, peripheralId]);
 
-  const EmbedComponent = isSmall ? Fragment : MovementsTimelineEmbed;
+  const renderVerticalTimeline = () => (
+    <div className={styles.mainContent}>
+      <ImageViewer src={source?.src} />
+      <MovementsTimelineVertical peripheralId={peripheralId} />
+    </div>
+  );
+
+  const renderTimelineEmbed = () => (
+    <MovementsTimelineEmbed
+      peripheralId={peripheralId}
+      showToolbar
+      initiallyLoaded
+    >
+      <ImageViewer src={source?.src} />
+    </MovementsTimelineEmbed>
+  );
 
   return (
     <>
@@ -84,14 +99,7 @@ const Device = () => {
         <Typography variant="LabelMedium">{peripheralId}</Typography>
       </ContentBar>
       <MainContent>
-        <EmbedComponent peripheralId={peripheralId} showToolbar initiallyLoaded>
-          <div className={styles.mainContent}>
-            <ImageViewer src={source?.src} />
-            {isSmall && (
-              <MovementsTimelineVertical peripheralId={peripheralId} />
-            )}
-          </div>
-        </EmbedComponent>
+        {isSmall ? renderVerticalTimeline() : renderTimelineEmbed()}
       </MainContent>
     </>
   );
