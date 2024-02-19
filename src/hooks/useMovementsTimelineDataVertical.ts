@@ -24,7 +24,7 @@ const useMovementsTimelineDataVertical = ({
   startTime,
   period,
   initialDimensions,
-  scrollLengthMultiplier = period * 10,
+  scrollLengthMultiplier = period * 15,
 }: Props) => {
   const [ref, dimensions] = useChartDimensions(
     initialDimensions,
