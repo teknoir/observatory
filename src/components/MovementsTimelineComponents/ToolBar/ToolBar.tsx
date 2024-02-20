@@ -7,11 +7,13 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
 import Select from 'muiComponents/Select/Select';
 import SelectCheckbox from 'muiComponents/SelectCheckbox/SelectCheckbox';
+import carIcon from 'assets/icons/carIcon.svg';
 import loiteringIcon from 'assets/icons/loiteringIcon.svg';
+import peopleIcon from 'assets/icons/peopleIcon.svg';
 import personDownIcon from 'assets/icons/personDownIcon.svg';
 import theftIcon from 'assets/icons/theftIcon.svg';
 import { MovementsTimelinePeriod } from 'components/MovementsTimeline/enums';
-import { AlertTypes } from 'ts/types';
+import { AlertTypes, EventLabels } from 'ts/types';
 import { generatePath } from 'utils/router';
 import APP_URLS from 'enums/urls';
 import styles from './ToolBar.module.scss';
@@ -20,6 +22,8 @@ const timelineOptions = [
   { value: AlertTypes.theft, label: 'Theft', icon: theftIcon },
   { value: AlertTypes.loitering, label: 'Loitering', icon: loiteringIcon },
   { value: AlertTypes.on_ground, label: 'Man down', icon: personDownIcon },
+  { value: EventLabels.car, label: 'Cars', icon: carIcon },
+  { value: EventLabels.person, label: 'People', icon: peopleIcon },
 ];
 
 const periodOptions = [
@@ -29,7 +33,7 @@ const periodOptions = [
 ];
 
 interface ToolBarProps {
-  filter: AlertTypes[];
+  filter: AlertTypes[] | EventLabels[];
   handleChangeFilter: (e: SelectChangeEvent<unknown>) => void;
   period: MovementsTimelinePeriod;
   handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;

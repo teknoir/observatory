@@ -163,12 +163,16 @@ export interface IQuery {
 export interface IRetrieveEventsRequest {
   fromDate: Date | Moment;
   toDate: Date | Moment;
+  types?: AlertTypes[];
+  labels?: EventLabels[];
 }
 
 export interface IRetrieveEventsRequestById {
   fromDate: Date | Moment;
   toDate: Date | Moment;
   peripheralId: string;
+  types?: AlertTypes[];
+  labels?: EventLabels[];
 }
 
 export type RetrieveEventsResponse = {
@@ -278,4 +282,9 @@ export enum AlertTypes {
   no_alert = 'no_alert',
   on_ground = 'person_down',
   theft = 'catalytic_theft',
+}
+
+export enum EventLabels {
+  person = 'person',
+  car = 'car',
 }

@@ -18,7 +18,7 @@ export const getSearchQuery = (
   params: IRetrieveEventsRequest | IRetrieveEventsRequestById
 ) => {
   let query = '';
-  const { peripheralId, fromDate, toDate } =
+  const { peripheralId, fromDate, toDate, types, labels } =
     params as IRetrieveEventsRequestById;
   const queryObj: IQuery = {};
   if (peripheralId) {
@@ -30,6 +30,12 @@ export const getSearchQuery = (
   }
   if (toDate) {
     query = query + `to_date=${toDate.toISOString()}&`;
+  }
+  if (types) {
+    query = query + `types=${types.join()}&`;
+  }
+  if (labels) {
+    query = query + `labels=${labels.join()}&`;
   }
   return query;
 };

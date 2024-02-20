@@ -11,7 +11,7 @@ import {
 } from 'components/ChartUtilities/accessors';
 import { fetchMovements, fetchAlerts } from 'services/apiRequests';
 import { motions, alerts, wsSources } from 'enums/queryKeys';
-import { AlertTypes, Source } from 'ts/types';
+import { AlertTypes, EventLabels, Source } from 'ts/types';
 import { getFlattenDocuments } from 'utils/events';
 import { MovementsTimeline } from './MovementsTimeline';
 import { MovementsTimelinePeriod, TimelineRefetchInterval } from './enums';
@@ -38,7 +38,9 @@ function MovementsTimelineContainer({
     };
   });
 
-  const [filter, setFilter] = useState<AlertTypes[]>([]);
+  const [filter, setFilter] = useState<AlertTypes[] | EventLabels[]>([]);
+  const [labelsFilter, setLabelsFilter] = useState<EventLabels[]>([]);
+  const [typesFilter, setTypesFilter] = useState<AlertTypes[]>([]);
   const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1);
   const fromDate = useMemo(
     () => moment().subtract(period, 'days').startOf('day'),
@@ -51,15 +53,17 @@ function MovementsTimelineContainer({
   const toDate = useMemo(() => moment(), [period]);
 
   const { data: dataMotions, isInitialLoading: isLoadingMotions } = useQuery({
-    queryKey: [motions, fromDate, toDate, filter],
-    queryFn: () => fetchMovements({ fromDate, toDate }),
+    queryKey: [motions, fromDate, toDate, labelsFilter],
+    queryFn: () => fetchMovements({ fromDate, toDate, labels: labelsFilter }),
     refetchInterval: TimelineRefetchInterval.ALL_DEVICES,
+    enabled: labelsFilter.length > 0,
   });
 
   const { data: dataAlerts, isInitialLoading: isLoadingAlerts } = useQuery({
-    queryKey: [alerts, fromDate, toDate, filter],
-    queryFn: () => fetchAlerts({ fromDate, toDate }),
+    queryKey: [alerts, fromDate, toDate, typesFilter],
+    queryFn: () => fetchAlerts({ fromDate, toDate, types: typesFilter }),
     refetchInterval: TimelineRefetchInterval.ALL_DEVICES,
+    enabled: typesFilter.length > 0,
   });
 
   const [peripherals, ids] = useMemo(() => {
@@ -91,11 +95,28 @@ function MovementsTimelineContainer({
   const dataAlertsFlatten = getFlattenDocuments(dataAlerts);
   const dataMotionsFlatten = getFlattenDocuments(dataMotions);
 
+  const splitFilter = (filter: string[]) => {
+    const alertsFilter = filter.filter((item) =>
+      [AlertTypes.loitering, AlertTypes.theft, AlertTypes.on_ground].includes(
+        item as AlertTypes
+      )
+    );
+    const motionsFilter = filter.filter((item) =>
+      [EventLabels.person, EventLabels.car].includes(item as EventLabels)
+    );
+    return [alertsFilter, motionsFilter];
+  };
+
   const handleChangeFilterBy = (e: SelectChangeEvent<unknown>) => {
     const {
       target: { value },
     } = e;
-    setFilter(value as AlertTypes[]);
+    setFilter(value as AlertTypes[] | EventLabels[]);
+    const [alertsFilter, motionsFilter] = splitFilter(
+      value as AlertTypes[] | EventLabels[]
+    );
+    setTypesFilter(alertsFilter as AlertTypes[]);
+    setLabelsFilter(motionsFilter as EventLabels[]);
   };
   const handleChangePeriod = (e: SelectChangeEvent<unknown>) => {
     const periodValue = Number(e.target.value);

@@ -8,11 +8,11 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { SelectProps } from '@mui/material/Select';
 import styles from './SelectCheckbox.module.scss';
 import Icon from 'components/Icon/Icon';
-import { AlertTypes, IconSizes } from 'ts/types';
+import { IconSizes } from 'ts/types';
 import { OutlinedInput } from '@mui/material';
 
 interface Option {
-  value: AlertTypes;
+  value: string;
   label: string;
   icon: string;
   required?: boolean;
@@ -22,7 +22,7 @@ interface Option {
 
 interface SelectCheckboxProps {
   options: Option[];
-  value: AlertTypes[];
+  value: string[];
   onChange: (e: SelectChangeEvent<unknown>) => void;
 }
 
