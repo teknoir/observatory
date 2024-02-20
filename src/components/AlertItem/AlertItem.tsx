@@ -38,6 +38,7 @@ const AlertItem = ({ data, index, style }: Props) => {
     peripheral_id: peripheralId,
     peripheral_name: name,
     type,
+    ground_truth: groundTruth,
     severity,
     start_time: startTime,
     duration,
@@ -57,9 +58,10 @@ const AlertItem = ({ data, index, style }: Props) => {
   const hasLink = detectionId && peripheralId;
   const isSelected =
     detectionIdUrl === detectionId && type === searchParams.get('type');
+  const alertType = groundTruth || type;
 
   const getIcon = useCallback(() => {
-    switch (type) {
+    switch (alertType) {
       case AlertTypes.loitering:
         return loiteringIcon;
       case AlertTypes.theft:
@@ -69,10 +71,10 @@ const AlertItem = ({ data, index, style }: Props) => {
       default:
         return '';
     }
-  }, [type]);
+  }, [alertType]);
 
   const getTooltipText = useCallback(() => {
-    switch (type) {
+    switch (alertType) {
       case AlertTypes.loitering:
         return 'Loitering';
       case AlertTypes.theft:
@@ -82,7 +84,7 @@ const AlertItem = ({ data, index, style }: Props) => {
       default:
         return '';
     }
-  }, [type]);
+  }, [alertType]);
 
   const icon = getIcon();
   const tooltipText = getTooltipText();
