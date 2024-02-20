@@ -33,27 +33,24 @@ const CarouselImagePreview = forwardRef<HTMLImageElement, ImagePreviewProps>(
           ref={ref}
         />
         <TitleContainer title={title} status={status} />
-        <div
-          className={styles.hoverState}
-          style={{
-            paddingBottom: centered
-              ? 0
-              : styleVariables.movementsTimelineEmbedHeight,
-          }}
+        <Link
+          component={RouterLink}
+          to={generatePath(APP_URLS.devices, {
+            peripheralId: id,
+            peripheralName: title,
+          })}
+          color="inherit"
+          underline="none"
         >
-          <Link
-            component={RouterLink}
-            to={generatePath(APP_URLS.devices, {
-              peripheralId: id,
-              peripheralName: title,
-            })}
-            color="inherit"
-            underline="none"
-            className={styles.hoverStateLink}
-          >
-            View device
-          </Link>
-        </div>
+          <div
+            className={styles.hoverState}
+            style={{
+              paddingBottom: centered
+                ? 0
+                : styleVariables.movementsTimelineEmbedHeight,
+            }}
+          />
+        </Link>
         {children}
       </div>
     );

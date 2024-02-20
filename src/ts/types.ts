@@ -101,7 +101,8 @@ export type Accessor = (d: object) => number | undefined;
 export interface CirclesProps {
   data: Array<object>;
   keyAccessor: Accessor;
-  xAccessor: Accessor;
+  xAccessor?: Accessor;
+  xPosition?: number;
   yAccessor: Accessor;
   radius?: number;
   className?: string;
@@ -133,6 +134,7 @@ export interface PopoverInfoProps {
   start_time: string;
   type: string;
   video_url: string;
+  ground_truth: AlertTypes;
 }
 
 export type DetectionId = string;
@@ -147,13 +149,14 @@ export interface IAlertEvent {
   peripheral_type: string;
   severity: string;
   start_time: string;
-  type: string;
+  type: AlertTypes;
   video_snapshot: string;
 }
 
 export interface IEventDocument {
   detection_id: DetectionId;
   type: string;
+  ground_truth?: AlertTypes;
   start_time: string;
   duration: number;
   severity: string;
@@ -223,6 +226,7 @@ export interface INotificationsRequest {
 }
 
 export enum EventStatus {
+  New = 'new',
   Verified = 'verified',
 }
 
@@ -248,7 +252,7 @@ export interface IMotionsAggregationResponse {
 }
 
 export interface IAlertFormValues {
-  ground_truth: boolean;
+  ground_truth: AlertTypes;
   comment: string;
 }
 
@@ -269,18 +273,19 @@ export interface ChartDimensions {
   boundedHeight: number;
   boundedWidth: number;
   boundedScrollWidth: number;
+  boundedScrollHeight: number;
 }
 
 export interface IFeedback {
   detection_id: DetectionId;
   creation_time: string;
-  ground_truth: boolean;
+  ground_truth: AlertTypes;
   comment: string;
 }
 
 export enum AlertTypes {
-  nearvehicle = 'nearvehicle',
   loitering = 'loitering',
-  on_ground = 'on_ground',
-  theft = 'theft',
+  no_alert = 'no_alert',
+  on_ground = 'person_down',
+  theft = 'catalytic_theft',
 }
