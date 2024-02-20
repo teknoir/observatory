@@ -1,3 +1,19 @@
-.movementsChart {
-  margin-top: 32px;
+@import 'enums/styleVariables.module.scss';
+
+.mainContent {
+  height: calc(100vh - ($headerHeight * 2));
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    'A'
+    'B';
+
+  & > div:last-child {
+    grid-area: B;
+  }
+
+  & > div:first-child {
+    grid-area: A;
+  }
 }
