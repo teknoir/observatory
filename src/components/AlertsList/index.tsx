@@ -59,7 +59,7 @@ const AlertsListContainer = ({ peripheralId = '' }: Props) => {
 
   const alertsValidStatus = _filter(
     data,
-    (item) => item.type !== AlertTypes.no_alert
+    (item) => item.ground_truth !== AlertTypes.no_alert
   );
 
   const groups = useMemo(
