@@ -57,7 +57,7 @@ export const getSearchCountsEvents = (params: ICountEventsRequest) => {
   let query = '';
   const { collection, status } = params;
   if (collection) {
-    query = query + `collection=${collection}&`;
+    query = query + `collection_name=${collection}&`;
   }
   if (status) {
     query = query + `status=${status}`;

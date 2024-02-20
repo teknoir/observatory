@@ -15,6 +15,7 @@ import {
   NotificationsPeriod,
 } from 'enums/notifications';
 import {
+  alerts,
   notificationsNew,
   notificationsUnverified,
   countEvents,
@@ -24,7 +25,7 @@ import { INotifications, EventStatus } from 'ts/types';
 import Popover from './Popover/Popover';
 import styles from './Notifications.module.scss';
 
-const COLLECTION = 'alerts';
+const COLLECTION = alerts;
 const STATUS = EventStatus.New;
 
 const Notifications = () => {
@@ -79,7 +80,7 @@ const Notifications = () => {
 
   useEffect(() => {
     if (dataCount) {
-      setCount(dataCount.count);
+      setCount(dataCount);
     }
   }, [dataCount]);
 

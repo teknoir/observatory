@@ -151,5 +151,5 @@ export const fetchCountEvents = (status: EventStatus, collection: string) => {
     return fetchCountEventsMock();
   }
   const query = getSearchCountsEvents({ status, collection });
-  return Fetch.get(API.countEvents(query)).then(({ data }) => data);
+  return Fetch.get(API.countEvents(query)).then(({ count }) => count);
 };
