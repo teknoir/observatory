@@ -49,6 +49,9 @@ const useMovementsTimelineData = ({
     start_time: '',
     type: '',
     video_url: '',
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    ground_truth: '',
   });
 
   const handleCarouselArrows = (d: CarouselArrowsOptions) => {

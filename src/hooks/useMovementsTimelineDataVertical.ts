@@ -42,6 +42,9 @@ const useMovementsTimelineDataVertical = ({
     start_time: '',
     type: '',
     video_url: fallbackVideoUrl,
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    ground_truth: '',
   });
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
