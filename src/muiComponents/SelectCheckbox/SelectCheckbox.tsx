@@ -1,18 +1,20 @@
 import Checkbox from '@mui/material/Checkbox';
-import ExpandMore from '@mui/icons-material/ExpandMore';
+import FilterList from '@mui/icons-material/FilterList';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormGroup from '@mui/material/FormGroup';
+import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { SelectProps } from '@mui/material/Select';
-import { AlertTypes } from 'ts/types';
 import styles from './SelectCheckbox.module.scss';
+import Icon from 'components/Icon/Icon';
+import { AlertTypes, IconSizes } from 'ts/types';
+import { OutlinedInput } from '@mui/material';
 
 interface Option {
   value: AlertTypes;
   label: string;
+  icon: string;
   required?: boolean;
   disabled?: boolean;
   defaultChecked?: boolean;
@@ -20,7 +22,8 @@ interface Option {
 
 interface SelectCheckboxProps {
   options: Option[];
-  onChangeValue: (value: AlertTypes) => void;
+  value: AlertTypes[];
+  onChange: (e: SelectChangeEvent<unknown>) => void;
 }
 
 const SelectCheckbox = ({
@@ -29,73 +32,42 @@ const SelectCheckbox = ({
   options,
   variant = 'outlined',
   size = 'small',
-  onChangeValue,
+  value,
+  onChange,
   ...props
 }: SelectProps & SelectCheckboxProps) => {
   return (
     <FormControl variant={variant} size={size}>
-      {!!label && <InputLabel>{label}</InputLabel>}
+      <InputLabel>{label}</InputLabel>
       <Select
-        className={styles.select}
-        inputProps={{
-          classes: {
-            icon: styles.icon,
-          },
-        }}
         label={label}
         labelId={labelId}
-        sx={{
-          border: '1px solid red',
-          '& .MuiOutlinedInput-notchedOutline': {
-            border: 'none',
-          },
-          '& .MuiSelect-select.MuiInputBase-input.MuiOutlinedInput-input': {
-            display: 'flex',
-            alignItems: 'center',
-            gap: '12px',
-          },
-        }}
+        multiple
+        value={value}
+        onChange={onChange}
+        input={<OutlinedInput label={label} />}
+        renderValue={() => null}
         MenuProps={{
-          disableScrollLock: true,
           transformOrigin: {
             vertical: 'top',
             horizontal: 'right',
           },
         }}
-        IconComponent={(props) => <ExpandMore fontSize="16" {...props} />}
+        IconComponent={(props) => <FilterList fontSize="16" {...props} />}
         {...props}
       >
-        <FormGroup className={styles.form}>
-          {options &&
-            options.map((option) => (
-              <MenuItem
-                key={option.value}
-                value={option.value}
-                sx={{ gap: '12px' }}
-              >
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      defaultChecked={option.defaultChecked}
-                      onClick={(e) => {
-                        onChangeValue(option.value);
-                        e.stopPropagation();
-                      }}
-                    />
-                  }
-                  label={option.label}
-                  labelPlacement="start"
-                  required={option.required}
-                  disabled={option.disabled}
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    width: '100%',
-                  }}
-                />
-              </MenuItem>
-            ))}
-        </FormGroup>
+        {options &&
+          options.map((option) => (
+            <MenuItem
+              className={styles.menuItem}
+              key={option.value}
+              value={option.value}
+            >
+              <Icon icon={option.icon} size={IconSizes.lg} />
+              <Checkbox checked={value.indexOf(option.value) > -1} />
+              <ListItemText primary={option.label} />
+            </MenuItem>
+          ))}
       </Select>
     </FormControl>
   );

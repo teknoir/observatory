@@ -6,7 +6,6 @@ import { IAlertEvent } from 'ts/types';
 import { getUniqueID, dataWithDelay } from './utils';
 
 const defaultPeripheralId = 'parkinglot1';
-const types = ['loitering', 'theft'];
 
 const alertsSchemaList = [
   [
@@ -158,7 +157,6 @@ export const fetchAllAlertsMock = ({ fromDate }): Promise<IAlertEvent[]> => {
   const res = [];
   const alertsSchema = new Map(_shuffle(alertsSchemaList));
   alertsSchema.forEach((value, key) => {
-    console.log(key);
     const documents = [];
     const now = moment();
     const dateFrom = fromDate.clone();
@@ -171,7 +169,7 @@ export const fetchAllAlertsMock = ({ fromDate }): Promise<IAlertEvent[]> => {
         const startTime = time.add().minute(minute);
         const item = {
           detection_id: getUniqueID(),
-          type: types[Math.floor(Math.random() * types.length)],
+          type: alertItemBase.type,
           start_time: startTime.format(),
           duration: duration * 1000,
           severity: 'low',

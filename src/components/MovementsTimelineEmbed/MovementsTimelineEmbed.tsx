@@ -1,23 +1,22 @@
-import { useState, useRef, useMemo, ReactNode, useEffect } from 'react';
+import { useState, useRef, useMemo, ReactNode } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import { useQuery } from '@tanstack/react-query';
+import { SelectChangeEvent } from '@mui/material/Select';
 import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import {
   fetchMovementsByPeripheralId,
   fetchAlertsByPeripheralId,
 } from 'services/apiRequests';
 import { motionsById, alertsById } from 'enums/queryKeys';
+import { AlertTypes } from 'ts/types.ts';
 import { getFlattenDocuments } from 'utils/events';
 import MovementsTimeline from './MovementsTimeline/MovementsTimeline';
 import {
   MovementsTimelinePeriod,
-  TimelineFilterBy,
   TimelineRefetchInterval,
 } from '../MovementsTimeline/enums.ts';
 import styles from './MovementsTimelineEmbed.module.scss';
-import { SelectChangeEvent } from '@mui/material/Select';
-import { AlertTypes, IEventDocumentWithPeripheral } from 'ts/types.ts';
 
 interface Props {
   peripheralId: string;
@@ -36,16 +35,8 @@ const MovementsTimelineEmbed = ({
 }: Props) => {
   const [isShow, setIsShow] = useState(initiallyLoaded);
   const ref = useRef<HTMLDivElement>(null);
-  const [filter, setFilter] = useState<string>(TimelineFilterBy.MOTIONS_ALERTS);
+  const [filter, setFilter] = useState<AlertTypes[]>([]);
   const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1);
-  const [selectedOptions, setSelectedOptions] = useState<AlertTypes[]>([
-    AlertTypes.loitering,
-    AlertTypes.theft,
-  ]);
-
-  const [dataAlertsFiltered, setDataAlertsFiltered] = useState<
-    IEventDocumentWithPeripheral[]
-  >([]);
   const fromDate = useMemo(
     () => moment().subtract(period, 'days').startOf('day'),
     [period]
@@ -64,11 +55,6 @@ const MovementsTimelineEmbed = ({
     queryFn: () =>
       fetchMovementsByPeripheralId({ fromDate, toDate, peripheralId }),
     refetchInterval: TimelineRefetchInterval.SINGLE_DEVICE,
-    enabled:
-      isShow &&
-      (filter == TimelineFilterBy.MOTIONS ||
-        filter == TimelineFilterBy.MOTIONS_ALERTS) &&
-      period == MovementsTimelinePeriod.DAYS_1,
   });
 
   const {
@@ -79,9 +65,6 @@ const MovementsTimelineEmbed = ({
     queryFn: () =>
       fetchAlertsByPeripheralId({ fromDate, toDate, peripheralId }),
     refetchInterval: TimelineRefetchInterval.SINGLE_DEVICE,
-    enabled:
-      (isShow && filter == TimelineFilterBy.ALERTS) ||
-      filter == TimelineFilterBy.MOTIONS_ALERTS,
   });
 
   const handleMouseOver = () => {
@@ -100,35 +83,15 @@ const MovementsTimelineEmbed = ({
   );
 
   const handleChangeFilterBy = (e: SelectChangeEvent<unknown>) => {
-    const filterByValue = String(e.target.value);
-    setFilter(filterByValue);
-    if (filterByValue !== TimelineFilterBy.ALERTS) {
-      setPeriod(MovementsTimelinePeriod.DAYS_1);
-    }
+    const {
+      target: { value },
+    } = e;
+    setFilter(value as AlertTypes[]);
   };
   const handleChangePeriod = (e: SelectChangeEvent<unknown>) => {
     const periodValue = Number(e.target.value);
     setPeriod(periodValue);
-    if (periodValue !== MovementsTimelinePeriod.DAYS_1) {
-      setFilter(TimelineFilterBy.ALERTS);
-    }
   };
-  const handleCheckboxChange = (optionValue: AlertTypes) => {
-    setSelectedOptions((prevSelectedOptions) => {
-      if (prevSelectedOptions.includes(optionValue)) {
-        return prevSelectedOptions.filter((value) => value !== optionValue);
-      }
-      return [...prevSelectedOptions, optionValue];
-    });
-  };
-
-  useEffect(() => {
-    setDataAlertsFiltered(
-      dataAlertsByPeripheralIdFlatten.filter((item) => {
-        return selectedOptions.includes(item.type as AlertTypes);
-      })
-    );
-  }, [selectedOptions]);
 
   const renderContent = () => {
     if (isLoadingMotionsByPeripheralId || isLoadingAlertsByPeripheralId) {
@@ -139,13 +102,11 @@ const MovementsTimelineEmbed = ({
       <MovementsTimeline
         startTime={startTime}
         dataMotions={dataMotionsByPeripheralIdFlatten}
-        // dataAlerts={dataAlertsByPeripheralIdFlatten}
-        dataAlerts={dataAlertsFiltered}
+        dataAlerts={dataAlertsByPeripheralIdFlatten}
         filter={filter}
         handleChangeFilter={handleChangeFilterBy}
         period={period}
         handleChangePeriod={handleChangePeriod}
-        handleChangeFilterBy={handleCheckboxChange}
         showToolbar={showToolbar}
       />
     );

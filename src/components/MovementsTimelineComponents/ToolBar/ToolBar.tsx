@@ -7,19 +7,19 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
 import Select from 'muiComponents/Select/Select';
 import SelectCheckbox from 'muiComponents/SelectCheckbox/SelectCheckbox';
-import {
-  MovementsTimelinePeriod,
-  TimelineFilterBy,
-} from 'components/MovementsTimeline/enums';
-import { generatePath } from 'utils/router';
+import loiteringIcon from 'assets/icons/loiteringIcon.svg';
+import personDownIcon from 'assets/icons/personDownIcon.svg';
+import theftIcon from 'assets/icons/theftIcon.svg';
+import { MovementsTimelinePeriod } from 'components/MovementsTimeline/enums';
 import { AlertTypes } from 'ts/types';
+import { generatePath } from 'utils/router';
 import APP_URLS from 'enums/urls';
 import styles from './ToolBar.module.scss';
 
 const timelineOptions = [
-  { value: TimelineFilterBy.MOTIONS_ALERTS, label: 'All' },
-  { value: TimelineFilterBy.MOTIONS, label: 'Motions' },
-  { value: TimelineFilterBy.ALERTS, label: 'Alerts' },
+  { value: AlertTypes.theft, label: 'Theft', icon: theftIcon },
+  { value: AlertTypes.loitering, label: 'Loitering', icon: loiteringIcon },
+  { value: AlertTypes.on_ground, label: 'Man down', icon: personDownIcon },
 ];
 
 const periodOptions = [
@@ -28,17 +28,11 @@ const periodOptions = [
   { value: MovementsTimelinePeriod.DAYS_30, label: 'Last 30 days' },
 ];
 
-const filterByOptions = [
-  { value: AlertTypes.loitering, label: 'Loitering', defaultChecked: true },
-  { value: AlertTypes.theft, label: 'Theft', defaultChecked: true },
-];
-
 interface ToolBarProps {
-  filter: string;
+  filter: AlertTypes[];
   handleChangeFilter: (e: SelectChangeEvent<unknown>) => void;
   period: MovementsTimelinePeriod;
   handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;
-  handleChangeFilterBy: (value: AlertTypes) => void;
   className?: string;
 }
 
@@ -47,47 +41,29 @@ const ToolBar = ({
   handleChangeFilter,
   period,
   handleChangePeriod,
-  handleChangeFilterBy,
   className,
 }: ToolBarProps) => {
   return (
     <nav className={classNames(styles.menuLayout, className)}>
-      <div className={styles.menuItem}>
-        <Typography variant="LabelLarge">Motions & Alerts</Typography>
-      </div>
-      <div className={styles.menuItem}>
-        <Box className={styles.menuItemBox}>
-          <InputLabel id="timelineFilterByLabel" className={styles.inputLabel}>
-            <Typography variant="LabelLarge">Filter by: </Typography>
-          </InputLabel>
-          <SelectCheckbox
-            labelId="timelineFilterBy"
-            options={filterByOptions}
-            onChangeValue={handleChangeFilterBy}
-            sx={{
-              '& .MuiSelect-select.MuiInputBase-input.MuiOutlinedInput-input': {
-                paddingLeft: 0,
-              },
-              '& .MuiOutlinedInput-notchedOutline': {
-                border: 'none',
-              },
-            }}
-          />
-          <Select
-            labelId="timelineFilterByLabel"
-            value={filter}
-            options={timelineOptions}
-            onChange={handleChangeFilter}
-            sx={{
-              '& .MuiSelect-select.MuiInputBase-input.MuiOutlinedInput-input': {
-                paddingLeft: 0,
-              },
-              '& .MuiOutlinedInput-notchedOutline': {
-                border: 'none',
-              },
-            }}
-          />
-        </Box>
+      <Typography variant="LabelLarge">Motions & Alerts</Typography>
+      <Box className={styles.filters}>
+        <InputLabel id="timelineFilterByLabel" className={styles.inputLabel}>
+          <Typography variant="LabelLarge">Filter by: </Typography>
+        </InputLabel>
+        <SelectCheckbox
+          labelId="timelineFilterByLabel"
+          options={timelineOptions}
+          value={filter}
+          onChange={handleChangeFilter}
+          sx={{
+            '& .MuiSelect-select.MuiInputBase-input.MuiOutlinedInput-input': {
+              paddingLeft: 0,
+            },
+            '& .MuiOutlinedInput-notchedOutline': {
+              border: 'none',
+            },
+          }}
+        />
         <Select
           labelId="movementsTimelinePeriodLabel"
           value={period}
@@ -109,7 +85,7 @@ const ToolBar = ({
         >
           <Typography variant="LabelLarge">View all</Typography>
         </Link>
-      </div>
+      </Box>
     </nav>
   );
 };

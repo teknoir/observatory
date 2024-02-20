@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import moment from 'moment/moment';
 import _flatten from 'lodash/flatten';
@@ -11,14 +11,10 @@ import {
 } from 'components/ChartUtilities/accessors';
 import { fetchMovements, fetchAlerts } from 'services/apiRequests';
 import { motions, alerts, wsSources } from 'enums/queryKeys';
-import { AlertTypes, IEventDocumentWithPeripheral, Source } from 'ts/types';
+import { AlertTypes, Source } from 'ts/types';
 import { getFlattenDocuments } from 'utils/events';
 import { MovementsTimeline } from './MovementsTimeline';
-import {
-  MovementsTimelinePeriod,
-  TimelineFilterBy,
-  TimelineRefetchInterval,
-} from './enums';
+import { MovementsTimelinePeriod, TimelineRefetchInterval } from './enums';
 
 interface MovementsTimelineContainerParams {
   isFullHeight?: boolean;
@@ -42,17 +38,8 @@ function MovementsTimelineContainer({
     };
   });
 
-  const [filter, setFilter] = useState<string>(TimelineFilterBy.MOTIONS_ALERTS);
+  const [filter, setFilter] = useState<AlertTypes[]>([]);
   const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1);
-  const [selectedOptions, setSelectedOptions] = useState<AlertTypes[]>([
-    AlertTypes.loitering,
-    AlertTypes.theft,
-  ]);
-
-  const [dataAlertsFiltered, setDataAlertsFiltered] = useState<
-    IEventDocumentWithPeripheral[]
-  >([]);
-
   const fromDate = useMemo(
     () => moment().subtract(period, 'days').startOf('day'),
     [period]
@@ -67,19 +54,12 @@ function MovementsTimelineContainer({
     queryKey: [motions, fromDate, toDate, filter],
     queryFn: () => fetchMovements({ fromDate, toDate }),
     refetchInterval: TimelineRefetchInterval.ALL_DEVICES,
-    enabled:
-      (filter == TimelineFilterBy.MOTIONS ||
-        filter == TimelineFilterBy.MOTIONS_ALERTS) &&
-      period == MovementsTimelinePeriod.DAYS_1,
   });
 
   const { data: dataAlerts, isInitialLoading: isLoadingAlerts } = useQuery({
     queryKey: [alerts, fromDate, toDate, filter],
     queryFn: () => fetchAlerts({ fromDate, toDate }),
     refetchInterval: TimelineRefetchInterval.ALL_DEVICES,
-    enabled:
-      filter == TimelineFilterBy.ALERTS ||
-      filter == TimelineFilterBy.MOTIONS_ALERTS,
   });
 
   const [peripherals, ids] = useMemo(() => {
@@ -108,47 +88,25 @@ function MovementsTimelineContainer({
     ];
   }, [dataMotions, dataAlerts, sourcesFromWS]);
 
+  const dataAlertsFlatten = getFlattenDocuments(dataAlerts);
+  const dataMotionsFlatten = getFlattenDocuments(dataMotions);
+
   const handleChangeFilterBy = (e: SelectChangeEvent<unknown>) => {
-    const filterByValue = String(e.target.value);
-    setFilter(filterByValue);
-    if (filterByValue !== TimelineFilterBy.ALERTS) {
-      setPeriod(MovementsTimelinePeriod.DAYS_1);
-    }
+    const {
+      target: { value },
+    } = e;
+    setFilter(value as AlertTypes[]);
   };
   const handleChangePeriod = (e: SelectChangeEvent<unknown>) => {
     const periodValue = Number(e.target.value);
     setPeriod(periodValue);
-    if (periodValue !== MovementsTimelinePeriod.DAYS_1) {
-      setFilter(TimelineFilterBy.ALERTS);
-    }
   };
-
-  const handleCheckboxChange = (optionValue: AlertTypes) => {
-    setSelectedOptions((prevSelectedOptions) => {
-      if (prevSelectedOptions.includes(optionValue)) {
-        return prevSelectedOptions.filter((value) => value !== optionValue);
-      }
-      return [...prevSelectedOptions, optionValue];
-    });
-  };
-
-  const dataAlertsFlatten = getFlattenDocuments(dataAlerts);
-  const dataMotionsFlatten = getFlattenDocuments(dataMotions);
-
-  useEffect(() => {
-    setDataAlertsFiltered(
-      dataAlertsFlatten.filter((item) => {
-        return selectedOptions.includes(item.type as AlertTypes);
-      })
-    );
-  }, [selectedOptions]);
 
   return (
     <MovementsTimeline
       startTime={startTime}
       dataMotions={dataMotionsFlatten}
-      // dataAlerts={dataAlertsFlatten}
-      dataAlerts={dataAlertsFiltered}
+      dataAlerts={dataAlertsFlatten}
       xAccessor={startTimeAccessor}
       yAccessor={peripheralNameAccessor}
       peripherals={peripherals}
@@ -157,7 +115,6 @@ function MovementsTimelineContainer({
       handleChangeFilter={handleChangeFilterBy}
       period={period}
       handleChangePeriod={handleChangePeriod}
-      handleChangeFilterBy={handleCheckboxChange}
       isLoading={isLoadingMotions || isLoadingAlerts}
       isFullHeight={isFullHeight}
       isFixToolbar={isFixToolbar}

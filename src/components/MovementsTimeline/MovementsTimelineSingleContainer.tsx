@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import moment from 'moment/moment';
 import { SelectChangeEvent } from '@mui/material/Select';
@@ -12,13 +12,9 @@ import {
 } from 'services/apiRequests';
 import { getFlattenDocuments } from 'utils/events';
 import { motionsById, alertsById } from 'enums/queryKeys';
-import { AlertTypes, IEventDocumentWithPeripheral } from 'ts/types';
 import { MovementsTimeline } from './MovementsTimeline';
-import {
-  MovementsTimelinePeriod,
-  TimelineFilterBy,
-  TimelineRefetchInterval,
-} from './enums';
+import { MovementsTimelinePeriod, TimelineRefetchInterval } from './enums';
+import { AlertTypes } from 'ts/types';
 
 interface Props {
   peripheralId?: string;
@@ -29,15 +25,8 @@ function MovementsTimelineSingleContainer({
   peripheralId = '',
   peripheralName: peripheralNameFromDevice = '',
 }: Props) {
-  const [filter, setFilter] = useState<string>(TimelineFilterBy.MOTIONS_ALERTS);
+  const [filter, setFilter] = useState<AlertTypes[]>([]);
   const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1);
-  const [selectedOptions, setSelectedOptions] = useState<AlertTypes[]>([
-    AlertTypes.loitering,
-    AlertTypes.theft,
-  ]);
-  const [dataAlertsFiltered, setDataAlertsFiltered] = useState<
-    IEventDocumentWithPeripheral[]
-  >([]);
 
   const fromDate = useMemo(
     () => moment().subtract(period, 'days').startOf('day'),
@@ -56,11 +45,6 @@ function MovementsTimelineSingleContainer({
     queryKey: [motionsById, fromDate, toDate, filter, peripheralId],
     queryFn: () =>
       fetchMovementsByPeripheralId({ fromDate, toDate, peripheralId }),
-    enabled:
-      !!peripheralId &&
-      (filter == TimelineFilterBy.MOTIONS ||
-        filter == TimelineFilterBy.MOTIONS_ALERTS) &&
-      period == MovementsTimelinePeriod.DAYS_1,
     refetchInterval: TimelineRefetchInterval.SINGLE_DEVICE,
   });
 
@@ -71,9 +55,6 @@ function MovementsTimelineSingleContainer({
     queryKey: [alertsById, fromDate, toDate, filter, peripheralId],
     queryFn: () =>
       fetchAlertsByPeripheralId({ fromDate, toDate, peripheralId }),
-    enabled:
-      (!!peripheralId && filter == TimelineFilterBy.ALERTS) ||
-      filter == TimelineFilterBy.MOTIONS_ALERTS,
     refetchInterval: TimelineRefetchInterval.SINGLE_DEVICE,
   });
 
@@ -91,42 +72,21 @@ function MovementsTimelineSingleContainer({
   );
 
   const handleChangeFilterBy = (e: SelectChangeEvent<unknown>) => {
-    const filterByValue = String(e.target.value);
-    setFilter(filterByValue);
-    if (filterByValue !== TimelineFilterBy.ALERTS) {
-      setPeriod(MovementsTimelinePeriod.DAYS_1);
-    }
+    const {
+      target: { value },
+    } = e;
+    setFilter(value as AlertTypes[]);
   };
   const handleChangePeriod = (e: SelectChangeEvent<unknown>) => {
     const periodValue = Number(e.target.value);
     setPeriod(periodValue);
-    if (periodValue !== MovementsTimelinePeriod.DAYS_1) {
-      setFilter(TimelineFilterBy.ALERTS);
-    }
   };
-  const handleCheckboxChange = (optionValue: AlertTypes) => {
-    setSelectedOptions((prevSelectedOptions) => {
-      if (prevSelectedOptions.includes(optionValue as AlertTypes)) {
-        return prevSelectedOptions.filter((value) => value !== optionValue);
-      }
-      return [...prevSelectedOptions, optionValue];
-    });
-  };
-
-  useEffect(() => {
-    setDataAlertsFiltered(
-      dataAlertsByPeripheralIdFlatten.filter((item) => {
-        return selectedOptions.includes(item.type as AlertTypes);
-      })
-    );
-  }, [selectedOptions]);
 
   return (
     <MovementsTimeline
       startTime={startTime}
       dataMotions={dataMotionsByPeripheralIdFlatten}
-      // dataAlerts={dataAlertsByPeripheralIdFlatten}
-      dataAlerts={dataAlertsFiltered}
+      dataAlerts={dataAlertsByPeripheralIdFlatten}
       xAccessor={startTimeAccessor}
       yAccessor={peripheralNameAccessor}
       peripherals={[peripheralName]}
@@ -135,7 +95,6 @@ function MovementsTimelineSingleContainer({
       handleChangeFilter={handleChangeFilterBy}
       period={period}
       handleChangePeriod={handleChangePeriod}
-      handleChangeFilterBy={handleCheckboxChange}
       isLoading={
         isLoadingMotionsByPeripheralId || isLoadingAlertsByPeripheralId
       }

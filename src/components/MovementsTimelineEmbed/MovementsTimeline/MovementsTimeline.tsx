@@ -17,11 +17,10 @@ interface MovementsTimelineProps {
   dataMotions: IEventDocumentWithPeripheral[];
   dataAlerts: IEventDocumentWithPeripheral[];
   showToolbar?: boolean;
-  filter: string;
+  filter: AlertTypes[];
   handleChangeFilter: (e: SelectChangeEvent<unknown>) => void;
   period: MovementsTimelinePeriod;
   handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;
-  handleChangeFilterBy: (value: AlertTypes) => void;
 }
 
 const MovementsTimeline = ({
@@ -33,7 +32,6 @@ const MovementsTimeline = ({
   filter,
   period,
   handleChangePeriod,
-  handleChangeFilterBy,
 }: MovementsTimelineProps) => {
   const {
     dimensions,
@@ -64,7 +62,6 @@ const MovementsTimeline = ({
           handleChangeFilter={handleChangeFilter}
           period={period}
           handleChangePeriod={handleChangePeriod}
-          handleChangeFilterBy={handleChangeFilterBy}
         />
       )}
       <div
