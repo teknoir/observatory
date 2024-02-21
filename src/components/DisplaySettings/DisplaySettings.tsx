@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useContext} from "react";
 import styles from "./DisplaySettings.module.scss";
 import classNames from "classnames";
 import IconButton from "@mui/material/IconButton";
@@ -11,12 +11,18 @@ import Checkbox from "@mui/material/Checkbox";
 import {Typography} from "@mui/material";
 import Divider from "@mui/material/Divider";
 import {useMainLayoutContext} from "context/mainLayoutContext.tsx";
+import {DisplaySettingsContext} from "context/DisplaySettingsContext/DisplaySettingsContext.ts";
 
 const DisplaySettings = () => {
   const { closeRightOverlay } = useMainLayoutContext();
-  const [boundaryBoxesChecked, setBoundaryBoxesChecked] = useState(true);
-  const [objectLabelsChecked, setObjectLabelsChecked] = useState(false);
-  const [colorFillBoxesChecked, setColorFillBoxesChecked] = useState(false);
+  const {
+    boundaryBoxesChecked,
+    setBoundaryBoxesChecked,
+    objectLabelsChecked,
+    setObjectLabelsChecked,
+    colorFillBoxesChecked,
+    setColorFillBoxesChecked
+  } = useContext(DisplaySettingsContext);
 
   const handleCheckedSettingsChange = (setSettingsChecked: (value: (((prevState: boolean) => boolean) | boolean)) => void) => {
     setSettingsChecked((prev) => !prev);

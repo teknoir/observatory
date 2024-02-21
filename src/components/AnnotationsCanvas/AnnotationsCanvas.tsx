@@ -1,15 +1,19 @@
 import { AnnotationsCanvasProps } from 'ts/types';
-import { useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
+import {AnnotationsCanvasProps} from 'ts/types';
+import { DisplaySettingsContext } from "context/DisplaySettingsContext/DisplaySettingsContext.ts";
 
 function AnnotationsCanvas({
   src,
   detections,
   stylesImage,
   labelFontSize = 12,
-  showBoundingBoxes,
-  showLabels,
 }: AnnotationsCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const {
+    boundaryBoxesChecked,
+    objectLabelsChecked,
+  } = useContext(DisplaySettingsContext);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -48,11 +52,11 @@ function AnnotationsCanvas({
           context.strokeStyle = 'white';
           context.fillStyle = 'white';
 
-          if (showBoundingBoxes) {
+          if (boundaryBoxesChecked) {
             context.strokeRect(x, y, w, h);
           }
 
-          if (showLabels) {
+          if (objectLabelsChecked) {
             context.fillText(
               label,
               xc - w / 2 + fontSize,
@@ -63,8 +67,8 @@ function AnnotationsCanvas({
           }
         });
       }
-    };
-  }, [src, detections, labelFontSize, showBoundingBoxes, showLabels]);
+    }
+  }, [src, detections, labelFontSize, boundaryBoxesChecked, objectLabelsChecked])
 
   return <canvas ref={canvasRef} className={stylesImage} />;
 }
