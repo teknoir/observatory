@@ -7,6 +7,7 @@ export enum CarouselMode {
   AlternativeView = 'alternativeView',
   Detail = 'detail',
   General = 'general',
+  SideSettingsView = 'sideSettingsView',
 }
 
 export enum SourceStatus {

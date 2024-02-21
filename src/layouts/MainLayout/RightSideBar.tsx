@@ -7,25 +7,27 @@ import DrawerHeader from './components/DrawerHeader.tsx';
 import { rightSideBarWidth, rightSideBarClosedWidth } from './enums.ts';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
 import styleVariables from 'enums/styleVariables.module.scss';
+import DisplaySettings from "components/DisplaySettings/DisplaySettings.tsx";
+
 
 const RightSideBar = () => {
-  const { isOpenedRight, openRight, closeRight } = useMainLayoutContext();
+  const { isOpenedRight, openRight, closeRight, isOpenedRightOverlay } = useMainLayoutContext();
 
   return (
     <Drawer
       sx={{
-        width: isOpenedRight ? rightSideBarWidth : rightSideBarClosedWidth,
+        width: isOpenedRight || isOpenedRightOverlay ? rightSideBarWidth : rightSideBarClosedWidth,
         flexShrink: 0,
         '& .MuiDrawer-paper': {
-          width: isOpenedRight ? rightSideBarWidth : rightSideBarClosedWidth,
+          width: isOpenedRight || isOpenedRightOverlay ? rightSideBarWidth : rightSideBarClosedWidth,
           boxSizing: 'border-box',
-          alignItems: isOpenedRight ? 'inherit' : 'center',
+          alignItems: isOpenedRight || isOpenedRightOverlay ? 'inherit' : 'center',
           backgroundColor: styleVariables.fadedBlack,
         },
       }}
       variant="permanent"
       anchor="right"
-      open={isOpenedRight}
+      open={isOpenedRight || isOpenedRightOverlay}
     >
       <DrawerHeader direction="center">
         <IconButton onClick={isOpenedRight ? closeRight : openRight}>
@@ -35,6 +37,7 @@ const RightSideBar = () => {
       <div style={{ display: isOpenedRight ? 'block' : 'none' }}>
         <RightSideBarTabs />
       </div>
+      {isOpenedRightOverlay && <DisplaySettings />}
     </Drawer>
   );
 };

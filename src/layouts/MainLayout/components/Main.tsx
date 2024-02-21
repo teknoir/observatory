@@ -34,9 +34,9 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
 }));
 
 const MainContent = ({ children, className }: MainContentProps) => {
-  const { isOpenedLeft, isOpenedRight } = useMainLayoutContext();
+  const { isOpenedLeft, isOpenedRight, isOpenedRightOverlay } = useMainLayoutContext();
   return (
-    <Main open={isOpenedLeft} openRight={isOpenedRight} className={className}>
+    <Main open={isOpenedLeft} openRight={isOpenedRight || isOpenedRightOverlay} className={className}>
       {children}
     </Main>
   );
