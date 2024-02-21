@@ -44,8 +44,8 @@ function MovementsTimelineContainer({
   });
 
   const [filter, setFilter] = useState<IFilter>({
-    types: [],
-    labels: [],
+    types: [AlertTypes.theft, AlertTypes.loitering, AlertTypes.on_ground],
+    labels: [EventLabels.person, EventLabels.car],
   });
   const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1);
   const fromDate = useMemo(
