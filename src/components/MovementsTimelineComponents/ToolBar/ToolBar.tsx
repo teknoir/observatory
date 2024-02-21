@@ -6,7 +6,7 @@ import Link from '@mui/material/Link';
 import { SelectChangeEvent } from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
 import Select from 'muiComponents/Select/Select';
-import SelectCheckbox from 'muiComponents/SelectCheckbox/SelectCheckbox';
+import MultiSelect from 'muiComponents/MultiSelectCheckbox/MultiSelectCheckbox';
 import carIcon from 'assets/icons/carIcon.svg';
 import loiteringIcon from 'assets/icons/loiteringIcon.svg';
 import peopleIcon from 'assets/icons/peopleIcon.svg';
@@ -54,7 +54,7 @@ const ToolBar = ({
         <InputLabel id="timelineFilterByLabel" className={styles.inputLabel}>
           <Typography variant="LabelLarge">Filter by: </Typography>
         </InputLabel>
-        <SelectCheckbox
+        <MultiSelect
           labelId="timelineFilterByLabel"
           options={timelineOptions}
           value={filter}

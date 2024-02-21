@@ -4,12 +4,12 @@ import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
+import OutlinedInput from '@mui/material/OutlinedInput';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { SelectProps } from '@mui/material/Select';
-import styles from './SelectCheckbox.module.scss';
 import Icon from 'components/Icon/Icon';
 import { IconSizes } from 'ts/types';
-import { OutlinedInput } from '@mui/material';
+import styles from './MultiSelectCheckbox.module.scss';
 
 interface Option {
   value: string;
