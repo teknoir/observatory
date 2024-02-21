@@ -26,10 +26,10 @@ interface Props {
 }
 
 const selectOptions = [
-  { value: AlertTypes.theft, label: 'Theft' },
-  { value: AlertTypes.loitering, label: 'Loitering' },
-  { value: AlertTypes.on_ground, label: 'Man down' },
-  { value: AlertTypes.no_alert, label: 'No alert' },
+  { value: AlertTypes.Theft, label: 'Theft' },
+  { value: AlertTypes.Loitering, label: 'Loitering' },
+  { value: AlertTypes.OnGround, label: 'Man down' },
+  { value: AlertTypes.NoAlert, label: 'No alert' },
 ];
 
 const styleBorders = {

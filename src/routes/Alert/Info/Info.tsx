@@ -22,10 +22,10 @@ type Props = Pick<
 >;
 
 const alertOptions = {
-  [AlertTypes.theft]: 'Theft',
-  [AlertTypes.loitering]: 'Loitering',
-  [AlertTypes.no_alert]: 'No alert',
-  [AlertTypes.on_ground]: 'Man down',
+  [AlertTypes.Theft]: 'Theft',
+  [AlertTypes.Loitering]: 'Loitering',
+  [AlertTypes.NoAlert]: 'No alert',
+  [AlertTypes.OnGround]: 'Man down',
 };
 
 const Info = ({

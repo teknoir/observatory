@@ -44,7 +44,7 @@ function MovementsTimelineContainer({
   });
 
   const [filter, setFilter] = useState<IFilter>({
-    types: [AlertTypes.theft, AlertTypes.loitering, AlertTypes.on_ground],
+    types: [AlertTypes.Theft, AlertTypes.Loitering, AlertTypes.OnGround],
     labels: [EventLabels.Person, EventLabels.Car],
   });
   const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1);
@@ -103,7 +103,7 @@ function MovementsTimelineContainer({
 
   const splitFilter = (filter: (AlertTypes | EventLabels)[]) => {
     const alertsFilter = filter.filter((item) =>
-      [AlertTypes.loitering, AlertTypes.theft, AlertTypes.on_ground].includes(
+      [AlertTypes.Loitering, AlertTypes.Theft, AlertTypes.OnGround].includes(
         item as AlertTypes
       )
     );

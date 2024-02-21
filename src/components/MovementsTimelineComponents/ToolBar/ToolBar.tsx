@@ -19,9 +19,9 @@ import APP_URLS from 'enums/urls';
 import styles from './ToolBar.module.scss';
 
 const timelineOptions = [
-  { value: AlertTypes.theft, label: 'Theft', icon: theftIcon },
-  { value: AlertTypes.loitering, label: 'Loitering', icon: loiteringIcon },
-  { value: AlertTypes.on_ground, label: 'Man down', icon: personDownIcon },
+  { value: AlertTypes.Theft, label: 'Theft', icon: theftIcon },
+  { value: AlertTypes.Loitering, label: 'Loitering', icon: loiteringIcon },
+  { value: AlertTypes.OnGround, label: 'Man down', icon: personDownIcon },
   { value: EventLabels.Car, label: 'Cars', icon: carIcon },
   { value: EventLabels.Person, label: 'People', icon: peopleIcon },
 ];

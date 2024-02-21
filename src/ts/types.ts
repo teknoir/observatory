@@ -278,10 +278,10 @@ export interface IFeedback {
 }
 
 export enum AlertTypes {
-  loitering = 'loitering',
-  no_alert = 'no_alert',
-  on_ground = 'person_down',
-  theft = 'catalytic_theft',
+  Loitering = 'loitering',
+  NoAlert = 'no_alert',
+  OnGround = 'person_down',
+  Theft = 'catalytic_theft',
 }
 
 export enum EventLabels {
