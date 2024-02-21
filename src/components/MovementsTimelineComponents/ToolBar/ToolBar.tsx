@@ -60,9 +60,6 @@ const ToolBar = ({
           value={filter}
           onChange={handleChangeFilter}
           sx={{
-            '& .MuiSelect-select.MuiInputBase-input.MuiOutlinedInput-input': {
-              paddingLeft: 0,
-            },
             '& .MuiOutlinedInput-notchedOutline': {
               border: 'none',
             },

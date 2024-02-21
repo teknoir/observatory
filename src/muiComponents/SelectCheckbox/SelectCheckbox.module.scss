@@ -1,3 +1,6 @@
-.form {
+@import 'enums/styleVariables.module';
+
+.menu {
+  background: $deepSpaceBlack;
   width: 240px;
 }

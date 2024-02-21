@@ -52,6 +52,7 @@ const SelectCheckbox = ({
             vertical: 'top',
             horizontal: 'right',
           },
+          classes: { paper: styles.menu },
         }}
         IconComponent={(props) => <FilterList fontSize="16" {...props} />}
         {...props}
