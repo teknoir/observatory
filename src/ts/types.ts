@@ -285,6 +285,6 @@ export enum AlertTypes {
 }
 
 export enum EventLabels {
-  person = 'person',
-  car = 'car',
+  Person = 'person',
+  Car = 'car',
 }

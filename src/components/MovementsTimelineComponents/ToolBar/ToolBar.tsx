@@ -22,8 +22,8 @@ const timelineOptions = [
   { value: AlertTypes.theft, label: 'Theft', icon: theftIcon },
   { value: AlertTypes.loitering, label: 'Loitering', icon: loiteringIcon },
   { value: AlertTypes.on_ground, label: 'Man down', icon: personDownIcon },
-  { value: EventLabels.car, label: 'Cars', icon: carIcon },
-  { value: EventLabels.person, label: 'People', icon: peopleIcon },
+  { value: EventLabels.Car, label: 'Cars', icon: carIcon },
+  { value: EventLabels.Person, label: 'People', icon: peopleIcon },
 ];
 
 const periodOptions = [

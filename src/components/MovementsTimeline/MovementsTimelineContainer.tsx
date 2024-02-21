@@ -45,7 +45,7 @@ function MovementsTimelineContainer({
 
   const [filter, setFilter] = useState<IFilter>({
     types: [AlertTypes.theft, AlertTypes.loitering, AlertTypes.on_ground],
-    labels: [EventLabels.person, EventLabels.car],
+    labels: [EventLabels.Person, EventLabels.Car],
   });
   const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1);
   const fromDate = useMemo(
@@ -108,7 +108,7 @@ function MovementsTimelineContainer({
       )
     );
     const motionsFilter = filter.filter((item) =>
-      [EventLabels.person, EventLabels.car].includes(item as EventLabels)
+      [EventLabels.Person, EventLabels.Car].includes(item as EventLabels)
     );
     return [alertsFilter, motionsFilter];
   };
