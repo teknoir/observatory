@@ -21,6 +21,11 @@ interface MovementsTimelineContainerParams {
   isFixToolbar?: boolean;
 }
 
+interface IFilter {
+  types: AlertTypes[];
+  labels: EventLabels[];
+}
+
 function MovementsTimelineContainer({
   isFullHeight,
   isFixToolbar,
@@ -38,9 +43,10 @@ function MovementsTimelineContainer({
     };
   });
 
-  const [filter, setFilter] = useState<AlertTypes[] | EventLabels[]>([]);
-  const [labelsFilter, setLabelsFilter] = useState<EventLabels[]>([]);
-  const [typesFilter, setTypesFilter] = useState<AlertTypes[]>([]);
+  const [filter, setFilter] = useState<IFilter>({
+    types: [],
+    labels: [],
+  });
   const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1);
   const fromDate = useMemo(
     () => moment().subtract(period, 'days').startOf('day'),
@@ -53,17 +59,17 @@ function MovementsTimelineContainer({
   const toDate = useMemo(() => moment(), [period]);
 
   const { data: dataMotions, isInitialLoading: isLoadingMotions } = useQuery({
-    queryKey: [motions, fromDate, toDate, labelsFilter],
-    queryFn: () => fetchMovements({ fromDate, toDate, labels: labelsFilter }),
+    queryKey: [motions, fromDate, toDate, filter.labels],
+    queryFn: () => fetchMovements({ fromDate, toDate, labels: filter.labels }),
     refetchInterval: TimelineRefetchInterval.ALL_DEVICES,
-    enabled: labelsFilter.length > 0,
+    enabled: filter.labels.length > 0,
   });
 
   const { data: dataAlerts, isInitialLoading: isLoadingAlerts } = useQuery({
-    queryKey: [alerts, fromDate, toDate, typesFilter],
-    queryFn: () => fetchAlerts({ fromDate, toDate, types: typesFilter }),
+    queryKey: [alerts, fromDate, toDate, filter.types],
+    queryFn: () => fetchAlerts({ fromDate, toDate, types: filter.types }),
     refetchInterval: TimelineRefetchInterval.ALL_DEVICES,
-    enabled: typesFilter.length > 0,
+    enabled: filter.types.length > 0,
   });
 
   const [peripherals, ids] = useMemo(() => {
@@ -95,7 +101,7 @@ function MovementsTimelineContainer({
   const dataAlertsFlatten = getFlattenDocuments(dataAlerts);
   const dataMotionsFlatten = getFlattenDocuments(dataMotions);
 
-  const splitFilter = (filter: string[]) => {
+  const splitFilter = (filter: (AlertTypes | EventLabels)[]) => {
     const alertsFilter = filter.filter((item) =>
       [AlertTypes.loitering, AlertTypes.theft, AlertTypes.on_ground].includes(
         item as AlertTypes
@@ -111,17 +117,20 @@ function MovementsTimelineContainer({
     const {
       target: { value },
     } = e;
-    setFilter(value as AlertTypes[] | EventLabels[]);
     const [alertsFilter, motionsFilter] = splitFilter(
-      value as AlertTypes[] | EventLabels[]
+      value as (AlertTypes | EventLabels)[]
     );
-    setTypesFilter(alertsFilter as AlertTypes[]);
-    setLabelsFilter(motionsFilter as EventLabels[]);
+    setFilter({
+      types: alertsFilter as AlertTypes[],
+      labels: motionsFilter as EventLabels[],
+    });
   };
   const handleChangePeriod = (e: SelectChangeEvent<unknown>) => {
     const periodValue = Number(e.target.value);
     setPeriod(periodValue);
   };
+
+  const filterArr = [...filter.types, ...filter.labels];
 
   return (
     <MovementsTimeline
@@ -132,7 +141,7 @@ function MovementsTimelineContainer({
       yAccessor={peripheralNameAccessor}
       peripherals={peripherals}
       ids={ids}
-      filter={filter}
+      filter={filterArr}
       handleChangeFilter={handleChangeFilterBy}
       period={period}
       handleChangePeriod={handleChangePeriod}

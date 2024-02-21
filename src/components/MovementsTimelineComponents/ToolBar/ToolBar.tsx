@@ -33,7 +33,7 @@ const periodOptions = [
 ];
 
 interface ToolBarProps {
-  filter: AlertTypes[] | EventLabels[];
+  filter: (AlertTypes | EventLabels)[];
   handleChangeFilter: (e: SelectChangeEvent<unknown>) => void;
   period: MovementsTimelinePeriod;
   handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;
