@@ -10,7 +10,7 @@ import Icon from 'components/Icon/Icon';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { CarouselMode, IconSizes, LabelSize } from 'ts/types';
 import styles from './SelectLayout.module.scss';
-import {useMainLayoutContext} from "context/mainLayoutContext.tsx";
+import { useMainLayoutContext } from 'context/mainLayoutContext.tsx';
 
 // TODO: Replace icons
 const options = [
@@ -40,7 +40,8 @@ function SelectLayout() {
   const { layout, setLayout } = useContext(HomeContext);
   const [selectOption, setSelectOption] = useState(CarouselMode.General);
   const [searchParams, setSearchParams] = useSearchParams();
-  const { isOpenedRightOverlay, openRightOverlay, closeRightOverlay } = useMainLayoutContext();
+  const { isOpenedRightOverlay, openRightOverlay, closeRightOverlay } =
+    useMainLayoutContext();
 
   function handleSelectChange(e: SelectChangeEvent<unknown>) {
     const { value } = e.target;

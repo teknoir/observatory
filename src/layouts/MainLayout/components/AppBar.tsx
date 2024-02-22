@@ -64,7 +64,8 @@ const AppBarComponent = ({
   hasRightSideBar?: boolean;
   children: ReactNode;
 }) => {
-  const { isOpenedLeft, isOpenedRight, isOpenedRightOverlay } = useMainLayoutContext();
+  const { isOpenedLeft, isOpenedRight, isOpenedRightOverlay } =
+    useMainLayoutContext();
   const location = useLocation();
   return (
     <AppBar

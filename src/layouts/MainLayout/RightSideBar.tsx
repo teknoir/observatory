@@ -7,21 +7,28 @@ import DrawerHeader from './components/DrawerHeader.tsx';
 import { rightSideBarWidth, rightSideBarClosedWidth } from './enums.ts';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
 import styleVariables from 'enums/styleVariables.module.scss';
-import DisplaySettings from "components/DisplaySettings/DisplaySettings.tsx";
-
+import DisplaySettings from 'components/DisplaySettings/DisplaySettings.tsx';
 
 const RightSideBar = () => {
-  const { isOpenedRight, openRight, closeRight, isOpenedRightOverlay } = useMainLayoutContext();
+  const { isOpenedRight, openRight, closeRight, isOpenedRightOverlay } =
+    useMainLayoutContext();
 
   return (
     <Drawer
       sx={{
-        width: isOpenedRight || isOpenedRightOverlay ? rightSideBarWidth : rightSideBarClosedWidth,
+        width:
+          isOpenedRight || isOpenedRightOverlay
+            ? rightSideBarWidth
+            : rightSideBarClosedWidth,
         flexShrink: 0,
         '& .MuiDrawer-paper': {
-          width: isOpenedRight || isOpenedRightOverlay ? rightSideBarWidth : rightSideBarClosedWidth,
+          width:
+            isOpenedRight || isOpenedRightOverlay
+              ? rightSideBarWidth
+              : rightSideBarClosedWidth,
           boxSizing: 'border-box',
-          alignItems: isOpenedRight || isOpenedRightOverlay ? 'inherit' : 'center',
+          alignItems:
+            isOpenedRight || isOpenedRightOverlay ? 'inherit' : 'center',
           backgroundColor: styleVariables.fadedBlack,
         },
       }}
