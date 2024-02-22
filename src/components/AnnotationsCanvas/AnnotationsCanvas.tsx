@@ -9,9 +9,8 @@ function AnnotationsCanvas({
   labelFontSize = 12,
 }: AnnotationsCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const { boundaryBoxesChecked, objectLabelsChecked } = useContext(
-    DisplaySettingsContext
-  );
+  const { boundaryBoxesChecked, objectLabelsChecked, colorFillBoxesChecked } =
+    useContext(DisplaySettingsContext);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -50,10 +49,6 @@ function AnnotationsCanvas({
           context.strokeStyle = 'white';
           context.fillStyle = 'white';
 
-          if (boundaryBoxesChecked) {
-            context.strokeRect(x, y, w, h);
-          }
-
           if (objectLabelsChecked) {
             context.fillText(
               label,
@@ -62,6 +57,15 @@ function AnnotationsCanvas({
                 ? fontSize
                 : yc - h / 2 + 2 * fontSize
             );
+          }
+
+          if (boundaryBoxesChecked) {
+            context.strokeRect(x, y, w, h);
+
+            if (colorFillBoxesChecked) {
+              context.fillStyle = 'rgba(59, 97, 191, 0.3)';
+              context.fillRect(x, y, w, h);
+            }
           }
         });
       }
@@ -72,6 +76,7 @@ function AnnotationsCanvas({
     labelFontSize,
     boundaryBoxesChecked,
     objectLabelsChecked,
+    colorFillBoxesChecked,
   ]);
 
   return <canvas ref={canvasRef} className={stylesImage} />;
