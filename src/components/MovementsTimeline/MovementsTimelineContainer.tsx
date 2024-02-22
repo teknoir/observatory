@@ -21,10 +21,12 @@ interface MovementsTimelineContainerParams {
   isFixToolbar?: boolean;
 }
 
-interface IFilter {
-  types: AlertTypes[];
-  labels: EventLabels[];
-}
+const defaultTypes = [
+  AlertTypes.Theft,
+  AlertTypes.Loitering,
+  AlertTypes.OnGround,
+];
+const defaultLabels = [EventLabels.Person, EventLabels.Car];
 
 function MovementsTimelineContainer({
   isFullHeight,
@@ -43,9 +45,9 @@ function MovementsTimelineContainer({
     };
   });
 
-  const [filter, setFilter] = useState<IFilter>({
-    types: [AlertTypes.Theft, AlertTypes.Loitering, AlertTypes.OnGround],
-    labels: [EventLabels.Person, EventLabels.Car],
+  const [filter, setFilter] = useState({
+    types: defaultTypes,
+    labels: defaultLabels,
   });
   const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1);
   const fromDate = useMemo(
@@ -63,6 +65,7 @@ function MovementsTimelineContainer({
     queryFn: () => fetchMovements({ fromDate, toDate, labels: filter.labels }),
     refetchInterval: TimelineRefetchInterval.ALL_DEVICES,
     enabled: filter.labels.length > 0,
+    cacheTime: 0,
   });
 
   const { data: dataAlerts, isInitialLoading: isLoadingAlerts } = useQuery({
@@ -70,6 +73,7 @@ function MovementsTimelineContainer({
     queryFn: () => fetchAlerts({ fromDate, toDate, types: filter.types }),
     refetchInterval: TimelineRefetchInterval.ALL_DEVICES,
     enabled: filter.types.length > 0,
+    cacheTime: 0,
   });
 
   const [peripherals, ids] = useMemo(() => {
@@ -101,30 +105,20 @@ function MovementsTimelineContainer({
   const dataAlertsFlatten = getFlattenDocuments(dataAlerts);
   const dataMotionsFlatten = getFlattenDocuments(dataMotions);
 
-  const splitFilter = (filter: (AlertTypes | EventLabels)[]) => {
-    const alertsFilter = filter.filter((item) =>
-      [AlertTypes.Loitering, AlertTypes.Theft, AlertTypes.OnGround].includes(
-        item as AlertTypes
-      )
-    );
-    const motionsFilter = filter.filter((item) =>
-      [EventLabels.Person, EventLabels.Car].includes(item as EventLabels)
-    );
-    return [alertsFilter, motionsFilter];
-  };
-
   const handleChangeFilterBy = (e: SelectChangeEvent<unknown>) => {
-    const {
-      target: { value },
-    } = e;
-    const [alertsFilter, motionsFilter] = splitFilter(
-      value as (AlertTypes | EventLabels)[]
+    const { value } = e.target as { value: (AlertTypes | EventLabels)[] };
+    const alertsFilter = value.filter((item) =>
+      defaultTypes.includes(item as AlertTypes)
+    );
+    const motionsFilter = value.filter((item) =>
+      defaultLabels.includes(item as EventLabels)
     );
     setFilter({
       types: alertsFilter as AlertTypes[],
       labels: motionsFilter as EventLabels[],
     });
   };
+
   const handleChangePeriod = (e: SelectChangeEvent<unknown>) => {
     const periodValue = Number(e.target.value);
     setPeriod(periodValue);
