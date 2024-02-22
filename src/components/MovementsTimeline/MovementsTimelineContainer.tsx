@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import moment from 'moment/moment';
 import _flatten from 'lodash/flatten';
@@ -64,7 +64,8 @@ function MovementsTimelineContainer({
     queryKey: [motions, fromDate, toDate, filter.labels],
     queryFn: () => fetchMovements({ fromDate, toDate, labels: filter.labels }),
     refetchInterval: TimelineRefetchInterval.ALL_DEVICES,
-    enabled: filter.labels.length > 0,
+    enabled:
+      filter.labels.length > 0 && period === MovementsTimelinePeriod.DAYS_1,
     cacheTime: 0,
   });
 
@@ -75,6 +76,18 @@ function MovementsTimelineContainer({
     enabled: filter.types.length > 0,
     cacheTime: 0,
   });
+
+  useEffect(() => {
+    if (period !== MovementsTimelinePeriod.DAYS_1) {
+      setFilter((prev) => ({ ...prev, labels: [] }));
+    }
+  }, [period]);
+
+  useEffect(() => {
+    if (filter.labels.length > 0) {
+      setPeriod(MovementsTimelinePeriod.DAYS_1);
+    }
+  }, [filter]);
 
   const [peripherals, ids] = useMemo(() => {
     const flattenArr = [];
