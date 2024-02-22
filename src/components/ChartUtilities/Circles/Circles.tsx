@@ -16,10 +16,10 @@ const Circles = ({
   return (
     <g>
       {data &&
-        data.map((d) => (
+        data.map((d, i) => (
           <circle
             className={classNames(styles.circle, className)}
-            key={keyAccessor(d)}
+            key={keyAccessor(d) + '_' + i}
             cx={xAccessor(d)}
             cy={yAccessor(d)}
             r={radius}
