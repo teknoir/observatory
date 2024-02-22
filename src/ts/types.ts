@@ -71,14 +71,14 @@ export interface DetectionDetail {
   y_center: number;
   width: number;
   height: number;
-  id: string,
+  id: string;
 }
 
 export interface AnnotationsCanvasProps {
   src: string;
   detections: Array<Detection>;
   stylesImage: string;
-  labelFontSize: number;
+  labelFontSize?: number;
   showBoundingBoxes: boolean;
   showLabels: boolean;
 }

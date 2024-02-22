@@ -1,7 +1,14 @@
-import {AnnotationsCanvasProps} from 'ts/types';
-import {useEffect, useRef} from "react";
+import { AnnotationsCanvasProps } from 'ts/types';
+import { useEffect, useRef } from 'react';
 
-function AnnotationsCanvas({ src, detections, stylesImage, labelFontSize, showBoundingBoxes, showLabels }: AnnotationsCanvasProps) {
+function AnnotationsCanvas({
+  src,
+  detections,
+  stylesImage,
+  labelFontSize = 12,
+  showBoundingBoxes,
+  showLabels,
+}: AnnotationsCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
@@ -20,7 +27,7 @@ function AnnotationsCanvas({ src, detections, stylesImage, labelFontSize, showBo
       canvas.width = image.width;
       canvas.height = image.height;
       context.clearRect(0, 0, canvas.width, canvas.height);
-      context.drawImage(image, 0, 0)
+      context.drawImage(image, 0, 0);
 
       const fontSize = labelFontSize;
       context.font = `bold ${fontSize}px Verdana`;
@@ -28,15 +35,8 @@ function AnnotationsCanvas({ src, detections, stylesImage, labelFontSize, showBo
 
       if (detections) {
         detections.forEach((detection) => {
-          const {
-            label,
-            x1,
-            y1,
-            x_center,
-            y_center,
-            width,
-            height,
-          } = detection.detection;
+          const { label, x1, y1, x_center, y_center, width, height } =
+            detection.detection;
 
           const x = x1 * canvas.width;
           const y = y1 * canvas.height;
@@ -56,17 +56,17 @@ function AnnotationsCanvas({ src, detections, stylesImage, labelFontSize, showBo
             context.fillText(
               label,
               xc - w / 2 + fontSize,
-              (yc - h / 2 - fontSize) < fontSize ? fontSize : (yc - h / 2 + 2 * fontSize)
+              yc - h / 2 - fontSize < fontSize
+                ? fontSize
+                : yc - h / 2 + 2 * fontSize
             );
           }
         });
       }
-    }
-  }, [src, detections, labelFontSize, showBoundingBoxes, showLabels])
+    };
+  }, [src, detections, labelFontSize, showBoundingBoxes, showLabels]);
 
-  return (
-    <canvas ref={canvasRef} className={stylesImage} />
-  );
+  return <canvas ref={canvasRef} className={stylesImage} />;
 }
 
 export default AnnotationsCanvas;

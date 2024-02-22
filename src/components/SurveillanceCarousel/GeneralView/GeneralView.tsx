@@ -79,7 +79,6 @@ function GeneralView({
               status={status}
               detections={detections}
             />
-            <canvas id="canvas" className="coveringCanvas"></canvas>
           </MovementsTimelineEmbed>
         </div>
       </Resizable>

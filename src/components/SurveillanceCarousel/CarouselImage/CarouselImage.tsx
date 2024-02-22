@@ -5,19 +5,18 @@ import { ImageProps } from 'ts/types';
 import APP_URLS from 'enums/urls';
 import { generatePath } from 'utils/router';
 import styles from './CarouselImage.module.scss';
-import AnnotationsCanvas from "components/AnnotationsCanvas/AnnotationsCanvas.tsx";
+import AnnotationsCanvas from 'components/AnnotationsCanvas/AnnotationsCanvas.tsx';
 
 function CarouselImage({ id, src, title, status, detections }: ImageProps) {
-
   return (
     <div className={styles.root}>
       <AnnotationsCanvas
         src={src}
         detections={detections}
         stylesImage={styles.image}
-        labelFontSize={12}
         showBoundingBoxes={false}
-        showLabels={false} />
+        showLabels={false}
+      />
       <TitleContainer title={title} status={status} />
       <div className={styles.hoverState}>
         <Link

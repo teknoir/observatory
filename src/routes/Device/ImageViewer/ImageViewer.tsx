@@ -1,7 +1,7 @@
 import Resizable from 'components/Resizable/Resizable';
 import styles from './ImageViewer.module.scss';
-import AnnotationsCanvas from "components/AnnotationsCanvas/AnnotationsCanvas.tsx";
-import {Detection} from "ts/types.ts";
+import AnnotationsCanvas from 'components/AnnotationsCanvas/AnnotationsCanvas.tsx';
+import { Detection } from 'ts/types.ts';
 
 interface Props {
   src: string;
@@ -27,7 +27,8 @@ const ImageViewer = ({ src, detections }: Props) => {
         stylesImage={styles.image}
         labelFontSize={20}
         showBoundingBoxes={false}
-        showLabels={false} />
+        showLabels={false}
+      />
     </Resizable>
   );
 };
