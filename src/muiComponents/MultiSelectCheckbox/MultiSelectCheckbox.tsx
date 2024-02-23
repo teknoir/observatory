@@ -7,6 +7,7 @@ import MenuItem from '@mui/material/MenuItem';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { SelectProps } from '@mui/material/Select';
+import Typography from '@mui/material/Typography';
 import Icon from 'components/Icon/Icon';
 import { IconSizes } from 'ts/types';
 import styles from './MultiSelectCheckbox.module.scss';
@@ -37,7 +38,18 @@ const SelectCheckbox = ({
   ...props
 }: SelectProps & SelectCheckboxProps) => {
   return (
-    <FormControl variant={variant} size={size}>
+    <FormControl
+      variant={variant}
+      size={size}
+      sx={{
+        '& .MuiSvgIcon-root': {
+          marginRight: '12px',
+        },
+        '& .MuiSelect-iconOpen': {
+          transform: 'none',
+        },
+      }}
+    >
       <InputLabel>{label}</InputLabel>
       <Select
         label={label}
@@ -63,10 +75,32 @@ const SelectCheckbox = ({
               className={styles.menuItem}
               key={option.value}
               value={option.value}
+              sx={{
+                '&.Mui-selected': {
+                  backgroundColor: 'transparent',
+                },
+                '& .MuiListItemText-root': {
+                  marginLeft: '16px',
+                },
+              }}
             >
               <Icon icon={option.icon} size={IconSizes.lg} />
-              <Checkbox checked={value.indexOf(option.value) > -1} />
-              <ListItemText primary={option.label} />
+              <ListItemText
+                primary={
+                  <Typography variant="BodyMedium">{option.label}</Typography>
+                }
+              />
+              <Checkbox
+                checked={value.indexOf(option.value) > -1}
+                sx={{
+                  '&.MuiButtonBase-root.MuiCheckbox-root': {
+                    borderRadius: '5px',
+                    width: '18px',
+                    height: '18px',
+                    backgroundColor: 'white',
+                  },
+                }}
+              ></Checkbox>
             </MenuItem>
           ))}
       </Select>
