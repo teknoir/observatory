@@ -12,6 +12,9 @@ import { CarouselMode, IconSizes, LabelSize } from 'ts/types';
 import styles from './SelectLayout.module.scss';
 import { useMainLayoutContext } from 'context/mainLayoutContext.tsx';
 
+// TODO: remove this after ready to go to production
+const annotationsFlag = false;
+
 // TODO: Replace icons
 const options = [
   {
@@ -29,11 +32,15 @@ const options = [
     value: CarouselMode.AllCamerasView,
     icon: <Icon icon={allCamerasIcon} size={IconSizes.lg} />,
   },
-  {
-    label: 'Display Settings',
-    value: CarouselMode.SideSettingsView,
-    icon: <SettingsOutlinedIcon />,
-  },
+  ...(annotationsFlag
+    ? [
+        {
+          label: 'Display Settings',
+          value: CarouselMode.SideSettingsView,
+          icon: <SettingsOutlinedIcon />,
+        },
+      ]
+    : []),
 ];
 
 function SelectLayout() {

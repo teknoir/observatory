@@ -13,6 +13,9 @@ function AnnotationsCanvas({
   const { boundaryBoxesChecked, objectLabelsChecked, colorFillBoxesChecked } =
     useContext(DisplaySettingsContext);
 
+  // TODO: remove this after ready to go to production
+  const annotationsFlag = false;
+
   useEffect(() => {
     const canvas = canvasRef.current;
 
@@ -35,7 +38,7 @@ function AnnotationsCanvas({
       context.font = `bold ${fontSize}px Verdana`;
       context.lineWidth = 1;
 
-      if (detections) {
+      if (detections && annotationsFlag) {
         detections.forEach((detection) => {
           const { label, x1, y1, x_center, y_center, width, height } =
             detection.detection;
