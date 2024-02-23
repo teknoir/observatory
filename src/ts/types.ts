@@ -7,7 +7,6 @@ export enum CarouselMode {
   AlternativeView = 'alternativeView',
   Detail = 'detail',
   General = 'general',
-  SideSettingsView = 'sideSettingsView',
 }
 
 export enum SourceStatus {
@@ -80,6 +79,8 @@ export interface AnnotationsCanvasProps {
   detections: Array<Detection>;
   stylesImage: string;
   labelFontSize?: number;
+  showBoundingBoxes: boolean;
+  showLabels: boolean;
 }
 
 export type RefImage = HTMLImageElement;
@@ -147,15 +148,6 @@ export interface HomeContextProps {
   setNumCameras: Dispatch<SetStateAction<number>>;
   peripheralIdNotified: string;
   setPeripheralIdNotified: Dispatch<SetStateAction<string>>;
-}
-
-export interface DisplaySettingsContextProps {
-  boundaryBoxesChecked: boolean;
-  setBoundaryBoxesChecked: Dispatch<SetStateAction<boolean>>;
-  objectLabelsChecked: boolean;
-  setObjectLabelsChecked: Dispatch<SetStateAction<boolean>>;
-  colorFillBoxesChecked: boolean;
-  setColorFillBoxesChecked: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface PopoverInfoProps {
