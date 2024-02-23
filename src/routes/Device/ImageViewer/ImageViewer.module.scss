@@ -9,3 +9,11 @@
   height: 100%;
   object-fit: contain;
 }
+
+.settingsIcon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: $offWhite;
+  z-index: 999;
+}

@@ -14,8 +14,7 @@ function CarouselImage({ id, src, title, status, detections }: ImageProps) {
         src={src}
         detections={detections}
         stylesImage={styles.image}
-        showBoundingBoxes={false}
-        showLabels={false}
+        labelFontSize={12}
       />
       <TitleContainer title={title} status={status} />
       <Link
