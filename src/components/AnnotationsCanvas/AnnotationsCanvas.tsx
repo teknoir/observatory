@@ -1,6 +1,7 @@
 import { AnnotationsCanvasProps } from 'ts/types';
 import { useContext, useEffect, useRef } from 'react';
 import { DisplaySettingsContext } from 'context/DisplaySettingsContext/DisplaySettingsContext.ts';
+import styleVariables from 'enums/styleVariables.module.scss';
 
 function AnnotationsCanvas({
   src,
@@ -63,7 +64,7 @@ function AnnotationsCanvas({
             context.strokeRect(x, y, w, h);
 
             if (colorFillBoxesChecked) {
-              context.fillStyle = 'rgba(59, 97, 191, 0.3)';
+              context.fillStyle = styleVariables.blueBoundaryBoxFill;
               context.fillRect(x, y, w, h);
             }
           }

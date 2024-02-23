@@ -3,7 +3,7 @@ import styles from './ImageViewer.module.scss';
 import AnnotationsCanvas from 'components/AnnotationsCanvas/AnnotationsCanvas.tsx';
 import { Detection } from 'ts/types.ts';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
-import { useMainLayoutContext } from '../../../context/mainLayoutContext.tsx';
+import { useMainLayoutContext } from 'context/mainLayoutContext.tsx';
 import IconButton from '@mui/material/IconButton';
 
 interface Props {
