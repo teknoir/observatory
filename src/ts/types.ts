@@ -7,6 +7,7 @@ export enum CarouselMode {
   AlternativeView = 'alternativeView',
   Detail = 'detail',
   General = 'general',
+  SideSettingsView = 'sideSettingsView',
 }
 
 export enum SourceStatus {
@@ -20,6 +21,7 @@ export interface Source {
   peripheralName: string;
   device: string;
   status: SourceStatus;
+  detections: Array<Detection>;
 }
 
 export type CameraId = string;
@@ -47,6 +49,37 @@ export interface ImageProps {
   src: string;
   title: string;
   status: SourceStatus;
+  detections: Array<Detection>;
+}
+
+export interface Detection {
+  detection: DetectionDetail;
+  lineage: Array<object>;
+  location: object;
+  nearest_neighbors: object;
+  peripheral: object;
+  proximity: Array<object>;
+  state: object;
+  timestamp: string;
+  type: string;
+}
+
+export interface DetectionDetail {
+  label: string;
+  x1: number;
+  y1: number;
+  x_center: number;
+  y_center: number;
+  width: number;
+  height: number;
+  id: string;
+}
+
+export interface AnnotationsCanvasProps {
+  src: string;
+  detections: Array<Detection>;
+  stylesImage: string;
+  labelFontSize?: number;
 }
 
 export type RefImage = HTMLImageElement;
@@ -114,6 +147,15 @@ export interface HomeContextProps {
   setNumCameras: Dispatch<SetStateAction<number>>;
   peripheralIdNotified: string;
   setPeripheralIdNotified: Dispatch<SetStateAction<string>>;
+}
+
+export interface DisplaySettingsContextProps {
+  boundaryBoxesChecked: boolean;
+  setBoundaryBoxesChecked: Dispatch<SetStateAction<boolean>>;
+  objectLabelsChecked: boolean;
+  setObjectLabelsChecked: Dispatch<SetStateAction<boolean>>;
+  colorFillBoxesChecked: boolean;
+  setColorFillBoxesChecked: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface PopoverInfoProps {

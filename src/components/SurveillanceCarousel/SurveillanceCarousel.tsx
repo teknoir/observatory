@@ -12,6 +12,7 @@ const surveillanceCarouselComponentsByMode = {
   [CarouselMode.AlternativeView]: AlternativeView,
   [CarouselMode.Detail]: DetailView,
   [CarouselMode.General]: GeneralView,
+  [CarouselMode.SideSettingsView]: null,
 };
 
 const SurveillanceCarousel = ({ mode, sources }: SurveillanceCarouselProps) => {

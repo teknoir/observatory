@@ -53,7 +53,7 @@ const Device = () => {
       const { type } = data;
       switch (type) {
         case TYPES.MESSAGE: {
-          const { topic, image, peripheral, device } = data;
+          const { topic, image, peripheral, device, detections } = data;
           if (
             topic === TOPICS.FRONT_END_VIDEO &&
             peripheralId === peripheral?.id
@@ -64,6 +64,7 @@ const Device = () => {
               peripheralName: peripheral?.name,
               device,
               status: SourceStatus.Active,
+              detections,
             });
           }
           break;
@@ -83,7 +84,7 @@ const Device = () => {
           showToolbar
           initiallyLoaded
         >
-          <ImageViewer src={source?.src} />
+          <ImageViewer src={source?.src} detections={source?.detections} />
         </MovementsTimelineEmbed>
       </MainContent>
     </>
