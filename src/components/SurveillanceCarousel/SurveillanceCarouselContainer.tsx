@@ -7,7 +7,10 @@ import { wsSources } from 'enums/queryKeys';
 import { TOPICS, TYPES, CAROUSEL_REFRESH_RATE } from 'enums/wss';
 import { useTestImages } from 'enums/mockData';
 import { CarouselMode, HomeContextProps, Source, SourceStatus } from 'ts/types';
-import {getStartImagesStreamMsg, getStartRawImagesStreamMsg} from 'services/wsMessage';
+import {
+  getStartImagesStreamMsg,
+  getStartRawImagesStreamMsg,
+} from 'services/wsMessage';
 import SurveillanceCarousel from './SurveillanceCarousel';
 import Skeleton from './Skeleton/Skeleton';
 import { createRandomSources } from './utils';
@@ -56,14 +59,11 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
 
   useInterval(() => {
     if (mainImage !== null) {
-      const {
-        peripheralId = '',
-        device = '',
-      } = sources.get(mainImage) ?? {};
+      const { peripheralId = '', device = '' } = sources.get(mainImage) ?? {};
       const messageObj = getStartRawImagesStreamMsg(
-          peripheralId,
-          device,
-          (CAROUSEL_REFRESH_RATE / 1000) // duration set to 10s as we also send command to maintain rate every 10s
+        peripheralId,
+        device,
+        CAROUSEL_REFRESH_RATE / 1000 // duration set to 10s as we also send command to maintain rate every 10s
       );
       sendMessage(JSON.stringify(messageObj));
     }
@@ -96,15 +96,18 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
             };
             updateSourceByCameraId(peripheralId, source);
           }
-          if (topic === TOPICS.RAW_FRONT_END_VIDEO && mainImage === peripheralId) {
-              const source = {
-                src: image,
-                peripheralId,
-                peripheralName: peripheral?.name,
-                device,
-                status: SourceStatus.Active,
-              };
-              updateSourceByCameraId(peripheralId, source);
+          if (
+            topic === TOPICS.RAW_FRONT_END_VIDEO &&
+            mainImage === peripheralId
+          ) {
+            const source = {
+              src: image,
+              peripheralId,
+              peripheralName: peripheral?.name,
+              device,
+              status: SourceStatus.Active,
+            };
+            updateSourceByCameraId(peripheralId, source);
           }
           break;
         }
@@ -151,7 +154,13 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
 
   if (!isLoaded) return <Skeleton />;
 
-  return <SurveillanceCarousel mode={selectedLayout} sources={sources} parentSetMainImage={setMainImage} />;
+  return (
+    <SurveillanceCarousel
+      mode={selectedLayout}
+      sources={sources}
+      parentSetMainImage={setMainImage}
+    />
+  );
 };
 
 export default SurveillanceCarouselContainer;

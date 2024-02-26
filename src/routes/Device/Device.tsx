@@ -10,7 +10,10 @@ import { Source, SourceStatus } from 'ts/types';
 import { useWSSContext } from 'context/webSocketContext';
 import { wsSources } from 'enums/queryKeys';
 import { TOPICS, TYPES } from 'enums/wss';
-import { getStartImagesStreamMsg, getStartRawImagesStreamMsg } from 'services/wsMessage';
+import {
+  getStartImagesStreamMsg,
+  getStartRawImagesStreamMsg,
+} from 'services/wsMessage';
 import ImageViewer from './ImageViewer/ImageViewer';
 
 const DURATION = 10;

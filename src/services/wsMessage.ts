@@ -14,9 +14,9 @@ export const getStartImagesStreamMsg = (
 };
 
 export const getStartRawImagesStreamMsg = (
-    peripheralId: string,
-    device: string,
-    duration: number
+  peripheralId: string,
+  device: string,
+  duration: number
 ) => {
   return {
     type: TYPES.START_RAW_IMAGES_STREAM,
