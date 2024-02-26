@@ -93,6 +93,7 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
               peripheralName: peripheral?.name,
               device,
               status: SourceStatus.Active,
+              detections,
             };
             updateSourceByCameraId(peripheralId, source);
           }
