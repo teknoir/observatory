@@ -31,7 +31,7 @@ function deploy_to_gke() {
     kubectl apply -f ${TEMP_FILE} -n ${CONTROLLER_NAMESPACE}
     
     # Trigger a new deployment
-    kubectl delete deployment sdmc -n ${APP_NAMESPACE}
+    # kubectl delete deployment sdmc -n ${APP_NAMESPACE}
 }
 
 # Deploy to GKE demo env
@@ -54,4 +54,5 @@ if [ "${BRANCH_NAME}" == "main" ]; then
     get_credentials "us-central1-c" "teknoir" "teknoir-cluster"
     deploy_to_gke "teknoir-retail" "teknoir"
     deploy_to_gke "boxer-property" "teknoir"
+    deploy_to_gke "prime-communications" "teknoir"
 fi

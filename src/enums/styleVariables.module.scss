@@ -28,6 +28,9 @@ $gold: #a58966;
 $greenSuccess: #00a12d;
 $redAlert: #fa4e4e;
 
+//Annotations
+$blueBoundaryBoxFill: rgba($blue600, 0.3);
+
 //Positioning
 $movementsTimelineEmbedHeight: 112px;
 
@@ -53,5 +56,6 @@ $smallSize: $md;
   redAlert: $redAlert;
   movementsTimelineEmbedHeight: $movementsTimelineEmbedHeight;
   headerHeight: $headerHeight;
+  blueBoundaryBoxFill: $blueBoundaryBoxFill;
   smallSize: $smallSize;
 }

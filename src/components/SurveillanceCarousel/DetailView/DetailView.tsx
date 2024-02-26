@@ -9,6 +9,7 @@ function DetailView({ sources, mainSource, setMainSource }: CarouselProps) {
     peripheralName: mainPeripheralName = '',
     peripheralId: mainPeripheralId = '',
     status = 0,
+    detections: detections = [],
   } = sources.get(mainSource) ?? {};
 
   return (
@@ -18,6 +19,7 @@ function DetailView({ sources, mainSource, setMainSource }: CarouselProps) {
         src={mainSrc}
         title={mainPeripheralName}
         status={status}
+        detections={detections}
       />
       <div className={styles.container}>
         <button>&lt;</button>
