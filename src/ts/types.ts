@@ -29,6 +29,7 @@ export type CameraId = string;
 export interface SurveillanceCarouselProps {
   mode: CarouselMode;
   sources: Map<CameraId, Source>;
+  parentSetMainImage: Dispatch<SetStateAction<string>>;
 }
 
 export interface CarouselProps {
