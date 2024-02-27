@@ -52,6 +52,7 @@ function GeneralView({
     peripheralName: mainPeripheralName = '',
     peripheralId: mainPeripheralId = '',
     status = 0,
+    detections: detections = [],
   } = sources.get(mainSource) ?? {};
 
   return (
@@ -77,6 +78,7 @@ function GeneralView({
               src={mainSrc}
               title={mainPeripheralName}
               status={status}
+              detections={detections}
             />
           </EmbedComponent>
         </div>

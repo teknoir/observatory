@@ -1,4 +1,5 @@
 export enum TOPICS {
+  RAW_FRONT_END_VIDEO = 'raw-front-end-video',
   FRONT_END_VIDEO = 'front-end-video',
   FRONT_END_ALERT = 'front-end-alert',
 }
@@ -7,6 +8,7 @@ export enum TYPES {
   MESSAGE = 'MESSAGE',
   INACTIVE = 'INACTIVE',
   START_IMAGES_STREAM = 'START_IMAGES_STREAM',
+  START_RAW_IMAGES_STREAM = 'START_RAW_IMAGES_STREAM',
 }
 
 export const CAROUSEL_REFRESH_RATE = 10000;
