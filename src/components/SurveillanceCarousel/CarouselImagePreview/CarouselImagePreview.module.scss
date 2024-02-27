@@ -8,6 +8,8 @@
   -webkit-user-select: none;
 
   &:hover {
+    cursor: pointer;
+
     .hoverState {
       display: flex;
     }

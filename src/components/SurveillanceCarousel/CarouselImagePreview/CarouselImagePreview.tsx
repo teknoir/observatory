@@ -1,7 +1,6 @@
-import { forwardRef, memo } from 'react';
-import { NavLink as RouterLink } from 'react-router-dom';
+import { forwardRef, memo, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
-import Link from '@mui/material/Link';
 import TitleContainer from 'components/SurveillanceCarousel/TitleContainer/TitleContainer';
 import APP_URLS from 'enums/urls';
 import { generatePath } from 'utils/router';
@@ -24,8 +23,21 @@ const CarouselImagePreview = forwardRef<HTMLImageElement, ImagePreviewProps>(
     }: ImagePreviewProps,
     ref
   ) => {
+    const navigate = useNavigate();
+
+    const goDevicePage = useCallback(() => {
+      const url = generatePath(APP_URLS.devices, {
+        peripheralId: id,
+        peripheralName: title,
+      });
+      navigate(url);
+    }, [id, title]);
+
     return (
-      <div className={classNames(styles.root, classNameContainer)}>
+      <div
+        className={classNames(styles.root, classNameContainer)}
+        onClick={goDevicePage}
+      >
         <img
           src={src}
           className={classNames(styles.image, className)}
@@ -33,24 +45,14 @@ const CarouselImagePreview = forwardRef<HTMLImageElement, ImagePreviewProps>(
           ref={ref}
         />
         <TitleContainer title={title} status={status} />
-        <Link
-          component={RouterLink}
-          to={generatePath(APP_URLS.devices, {
-            peripheralId: id,
-            peripheralName: title,
-          })}
-          color="inherit"
-          underline="none"
-        >
-          <div
-            className={styles.hoverState}
-            style={{
-              paddingBottom: centered
-                ? 0
-                : styleVariables.movementsTimelineEmbedHeight,
-            }}
-          />
-        </Link>
+        <div
+          className={styles.hoverState}
+          style={{
+            paddingBottom: centered
+              ? 0
+              : styleVariables.movementsTimelineEmbedHeight,
+          }}
+        />
         {children}
       </div>
     );
