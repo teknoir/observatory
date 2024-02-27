@@ -52,24 +52,33 @@ const RightSideBar = () => {
 };
 
 const RightSideBarMobile = () => {
-  const { isOpenedRight, openRight, closeRight } = useMainLayoutContext();
+  const {
+    isOpenedRight,
+    openRight,
+    closeRight,
+    isOpenedRightOverlay,
+    isOpenedRightBar,
+  } = useMainLayoutContext();
   const sxIcon = { color: styleVariables.deepSpaceBlack };
   return (
     <>
       <div
         className={classNames(
           styles.root,
-          isOpenedRight ? styles.visible : styles.hidden
+          isOpenedRightBar ? styles.visible : styles.hidden,
+          isOpenedRightOverlay && styles.visibleRightOverlay
         )}
       >
         <RightSideBarTabs />
+        {isOpenedRightOverlay && <DisplaySettings />}
       </div>
       <div
-        className={
+        className={classNames(
           isOpenedRight
             ? styles.bottomIconWrapperOpened
-            : styles.bottomIconWrapper
-        }
+            : styles.bottomIconWrapper,
+          isOpenedRightOverlay && styles.hidden
+        )}
       >
         <div
           className={
