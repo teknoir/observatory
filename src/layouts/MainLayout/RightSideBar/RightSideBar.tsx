@@ -65,7 +65,8 @@ const RightSideBarMobile = () => {
       <div
         className={classNames(
           styles.root,
-          isOpenedRightBar ? styles.visible : styles.hidden
+          isOpenedRightBar ? styles.visible : styles.hidden,
+          isOpenedRightOverlay && styles.visibleRightOverlay
         )}
       >
         <RightSideBarTabs />
