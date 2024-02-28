@@ -6,9 +6,9 @@ import * as d3 from 'd3';
 import { useChartDimensions } from 'components/ChartUtilities/Chart/ChartContext';
 import { dimensionsPropsType } from '../utils';
 
-const AxisHorizontal = lazy(() => import('./AxisHorizontal.tsx'));
-const AxisVertical = lazy(() => import('./AxisVertical.tsx'));
-const AxisHorizontalScroll = lazy(() => import('./AxisHorizontalScroll.tsx'));
+const AxisHorizontal = lazy(() => import('./AxisHorizontal'));
+const AxisVertical = lazy(() => import('./AxisVertical'));
+const AxisHorizontalScroll = lazy(() => import('./AxisHorizontalScroll'));
 
 const axisComponentsByDimension = {
   x: AxisHorizontal,

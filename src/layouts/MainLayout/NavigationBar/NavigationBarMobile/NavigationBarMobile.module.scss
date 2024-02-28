@@ -1,0 +1,25 @@
+@import 'enums/styleVariables.module';
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  position: absolute;
+  top: 64px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  background-color: $deepSpaceBlack;
+}
+
+.icon {
+  margin-right: 8px;
+}
+
+@media (min-width: $smallSize) {
+  .root {
+    display: none;
+  }
+}

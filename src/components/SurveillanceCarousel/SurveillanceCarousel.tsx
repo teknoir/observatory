@@ -1,13 +1,13 @@
 import { useState, useEffect, useContext } from 'react';
 import { useInterval } from 'usehooks-ts';
 import { HomeContext } from 'context/HomeContext/HomeContext';
+import { useWSSContext } from 'context/webSocketContext';
 import { CarouselMode, SurveillanceCarouselProps } from 'ts/types';
-import AllCamerasView from './AllCamerasView/AllCamerasView';
-import AlternativeView from './AlternativeView/AlternativeView';
+import { getStartRawImagesStreamMsg } from 'services/wsMessage';
+import AllCamerasView from './AllCamerasView';
+import AlternativeView from './AlternativeView';
 import DetailView from './DetailView/DetailView';
-import GeneralView from './GeneralView/GeneralView';
-import { useWSSContext } from 'context/webSocketContext.tsx';
-import { getStartRawImagesStreamMsg } from 'services/wsMessage.ts';
+import GeneralView from './GeneralView';
 
 const surveillanceCarouselComponentsByMode = {
   [CarouselMode.AllCamerasView]: AllCamerasView,

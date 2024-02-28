@@ -15,7 +15,7 @@ import {
   formatDate as formatDateFunction,
   xScale as xScaleFunction,
   yScale as yScaleFunction,
-} from '../components/MovementsTimeline/utils.ts';
+} from '../components/MovementsTimeline/utils';
 
 interface Props {
   peripherals: string[];
@@ -49,6 +49,9 @@ const useMovementsTimelineData = ({
     start_time: '',
     type: '',
     video_url: '',
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    ground_truth: '',
   });
 
   const handleCarouselArrows = (d: CarouselArrowsOptions) => {

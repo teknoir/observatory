@@ -7,9 +7,9 @@ import {
   fetchAllAlertsMock,
   fetchMotionsAggregationMock,
   fetchAlertMock,
+  fetchFeedbackMock,
   fetchNotificationsMock,
   fetchNotificationsPaginatedMock,
-  fetchFeedbackMock,
 } from 'services/fetchMock';
 import {
   getSearchQuery,

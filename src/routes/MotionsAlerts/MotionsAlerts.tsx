@@ -1,14 +1,14 @@
 import { Typography } from '@mui/material';
-import AppBar from 'components/AppBar/AppBar';
+import ContentBar from 'components/ContentBar/ContentBar';
 import MainContent from 'components/MainContent/MainContent';
 import MovementsTimelineContainer from 'components/MovementsTimeline/MovementsTimelineContainer';
 
 const MotionsAlerts = () => {
   return (
     <>
-      <AppBar>
+      <ContentBar>
         <Typography variant="LabelMedium">Motions & Alerts</Typography>
-      </AppBar>
+      </ContentBar>
       <MainContent>
         <MovementsTimelineContainer isFullHeight isFixToolbar />
       </MainContent>
