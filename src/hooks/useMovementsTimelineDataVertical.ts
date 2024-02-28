@@ -6,8 +6,8 @@ import {
   useChartDimensions,
   IDimensions,
 } from 'components/ChartUtilities/utils';
+import { yScale as yScaleFunction } from 'components/MovementsTimelineVertical/utils.ts';
 import { PopoverInfoProps } from 'ts/types';
-import { yScale as yScaleFunction } from '../components/MovementsTimelineVertical/utils.ts';
 
 const fallbackVideoUrl =
   'https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4';
@@ -82,6 +82,7 @@ const useMovementsTimelineDataVertical = ({
       // d3.zoomTransform() object, but it needs some logic to work
       // const transformObj = { ...d3.zoomTransform(scrollGroup.node()) }
 
+      const duration = 0;
       const maxStartTranslate = 0;
       const maxEndTranslate =
         dimensions.boundedScrollHeight - dimensions.boundedHeight;
@@ -91,6 +92,11 @@ const useMovementsTimelineDataVertical = ({
       // d3.zoomTransform). These properties of the object are read-only by definition
       // and should not be modified as I'm currently doing right now:
       //
+      if (defaultTranslate === 0) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        transformObj.y = maxEndTranslate;
+      }
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       transformObj.y = Math.max(transformObj.y, maxStartTranslate);
@@ -101,7 +107,7 @@ const useMovementsTimelineDataVertical = ({
       const translateY = defaultTranslate + transformObj.y;
       scrollGroup
         .transition()
-        .duration(0)
+        .duration(duration)
         .attr('transform', `translate(0, ${translateY})`);
     },
     [defaultTranslate, dimensions.boundedScrollHeight, dimensions.boundedHeight]
@@ -126,7 +132,7 @@ const useMovementsTimelineDataVertical = ({
       );
     timelineContainer.call(d3Zoom);
     timelineContainer.call(d3Zoom.transform, d3.zoomIdentity);
-    scrollGroup.attr('transform', `translate(0, ${defaultTranslate})`);
+    scrollGroup.transition().duration(0).attr('transform', 'translate(0, 0)');
   }, [defaultTranslate, ref, onScroll]);
 
   return {
