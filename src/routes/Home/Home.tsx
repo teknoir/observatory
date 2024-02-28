@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import AppBar from 'components/AppBar/AppBar';
+import { isMobile } from 'react-device-detect';
+import ContentBar from 'components/ContentBar/ContentBar';
 import MainContent from 'components/MainContent/MainContent';
 import MovementsTimelineContainer from 'components/MovementsTimeline/MovementsTimelineContainer';
 import SurveillanceCarousel from 'components/SurveillanceCarousel';
@@ -11,7 +12,7 @@ import CamerasTitle from './CamerasTitle/CamerasTitle';
 import styles from './Home.module.scss';
 
 function Home() {
-  const { closeRight } = useMainLayoutContext();
+  const { closeRight, isSmall } = useMainLayoutContext();
   const [searchParams] = useSearchParams();
   const hideMotionsAlerts =
     Boolean(searchParams.get('hideMotionsAlerts')) || false;
@@ -24,16 +25,18 @@ function Home() {
 
   return (
     <HomeDataProvider>
-      <AppBar>
+      <ContentBar>
         <div className={styles.toolbar}>
           <CamerasTitle />
           <SelectLayout />
         </div>
-      </AppBar>
+      </ContentBar>
       <MainContent>
-        <div className={styles.mainContent}>
+        <div
+          className={isMobile ? styles.mainContentMobile : styles.mainContent}
+        >
           <SurveillanceCarousel />
-          {!hideMotionsAlerts && <MovementsTimelineContainer />}
+          {!hideMotionsAlerts && !isSmall && <MovementsTimelineContainer />}
         </div>
       </MainContent>
     </HomeDataProvider>

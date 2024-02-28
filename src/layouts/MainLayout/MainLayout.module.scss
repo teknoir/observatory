@@ -1,0 +1,18 @@
+@import 'enums/styleVariables.module.scss';
+
+.ThemeProvider {
+  border: 1px solid red;
+}
+
+.root {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+@media (min-width: $smallSize) {
+  .root {
+    flex-direction: row;
+    padding-top: 64px;
+  }
+}

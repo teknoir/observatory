@@ -83,6 +83,14 @@ export interface AnnotationsCanvasProps {
   labelFontSize?: number;
 }
 
+export interface ViewImagesProps {
+  sourceKey: string;
+  src: string;
+  peripheralName: string;
+  status: number;
+  peripheralId: string;
+}
+
 export type RefImage = HTMLImageElement;
 
 export interface ImagePreviewProps {
@@ -127,7 +135,8 @@ export type Accessor = (d: object) => number | undefined;
 export interface CirclesProps {
   data: Array<object>;
   keyAccessor: Accessor;
-  xAccessor: Accessor;
+  xAccessor?: Accessor;
+  xPosition?: number;
   yAccessor: Accessor;
   radius?: number;
   className?: string;
@@ -307,6 +316,7 @@ export interface ChartDimensions {
   boundedHeight: number;
   boundedWidth: number;
   boundedScrollWidth: number;
+  boundedScrollHeight: number;
 }
 
 export interface IFeedback {

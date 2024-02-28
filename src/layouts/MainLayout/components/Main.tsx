@@ -13,7 +13,6 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
 }>(({ theme, open, openRight }) => ({
   overflowX: 'hidden',
   flexGrow: 1,
-  paddingTop: theme.spacing(8),
   transition: theme.transitions.create('margin', {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,

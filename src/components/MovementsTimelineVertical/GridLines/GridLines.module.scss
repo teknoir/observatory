@@ -1,0 +1,6 @@
+@import 'enums/styleVariables.module';
+
+.line {
+  stroke: $offWhite;
+  stroke-width: 2px;
+}

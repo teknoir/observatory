@@ -37,6 +37,15 @@ $movementsTimelineEmbedHeight: 112px;
 //Header
 $headerHeight: 64px;
 
+// Sizes
+$xs: 390px;
+$s: 480px;
+$sm: 800px;
+$md: 1200px;
+$lg: 1920px;
+
+$smallSize: $md;
+
 :export {
   fadedBlack: $fadedBlack;
   offWhite: $offWhite;
@@ -48,4 +57,5 @@ $headerHeight: 64px;
   movementsTimelineEmbedHeight: $movementsTimelineEmbedHeight;
   headerHeight: $headerHeight;
   blueBoundaryBoxFill: $blueBoundaryBoxFill;
+  smallSize: $smallSize;
 }

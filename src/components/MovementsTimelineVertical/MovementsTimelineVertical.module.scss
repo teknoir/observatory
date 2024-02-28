@@ -1,0 +1,28 @@
+@import 'enums/styleVariables.module.scss';
+
+.root {
+  position: relative;
+  background-color: $fadedBlack;
+}
+
+.timeline {
+  height: 500px;
+  max-width: 375px;
+  margin: auto;
+}
+
+.lineMotion {
+  background-color: $bluemotion;
+}
+
+.lineAlert {
+  background-color: $redAlert;
+}
+
+.circleMotion {
+  fill: $bluemotion;
+}
+
+.circleAlert {
+  fill: $redAlert;
+}

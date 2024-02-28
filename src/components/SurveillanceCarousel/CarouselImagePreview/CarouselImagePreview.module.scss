@@ -4,8 +4,12 @@
   position: relative;
   display: flex;
   width: 100%;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
 
   &:hover {
+    cursor: pointer;
+
     .hoverState {
       display: flex;
     }
@@ -16,6 +20,8 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
 }
 
 .hoverState {
@@ -28,4 +34,14 @@
   justify-content: center;
   align-items: center;
   background-color: rgba($fadedBlack, 0.5);
+}
+
+.hoverStateLink {
+  padding: 10px 24px;
+  color: $deepSpaceBlack;
+  background-color: $offWhite;
+}
+
+.mobileLink {
+  width: 100%;
 }

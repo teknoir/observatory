@@ -56,7 +56,7 @@ const Info = ({
         <Typography variant="LabelXLBold">Detected alert: </Typography>
         <Typography variant="BodyLarge">{alertOptions[groundTruth]}</Typography>
       </div>
-      <div className={styles.item}>
+      <div className={styles.itemComment}>
         <Typography variant="LabelXLBold">Comment: </Typography>
         <Typography variant="BodyLarge">{comment && `"${comment}"`}</Typography>
       </div>
