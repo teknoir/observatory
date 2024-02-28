@@ -1,20 +1,19 @@
-import * as d3 from 'd3';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import movements_lines from '../../data/movements_lines.json';
+// import * as d3 from 'd3';
+// import movements_lines from '../../data/movements_lines.json';
 import {
   dateAccessor,
   countAccessor,
-  eventAccessor,
+  // eventAccessor,
 } from 'components/ChartUtilities/accessors';
 import { LineChart } from 'components/LineChart';
 import styles from './LineCharts.module.scss';
 
 function LineCharts() {
-  const dataByEvent = Array.from(
-    d3.group(movements_lines, eventAccessor),
-    ([key, value]) => ({ event_name: key, data: value })
-  );
+  // const dataByEvent = Array.from(
+  //   d3.group(movements_lines, eventAccessor),
+  //   ([key, value]) => ({ event_name: key, data: value })
+  // );
+  const dataByEvent = [{ event_name: 'event_name', data: [] }];
   return (
     <section>
       {dataByEvent.map((eventData) => (
