@@ -6,8 +6,8 @@ import * as d3 from 'd3';
 import { useChartDimensions } from 'components/ChartUtilities/Chart/ChartContext';
 import { dimensionsPropsType } from '../utils';
 
-const GridLineHorizontal = lazy(() => import('./GridLineHorizontal.tsx'));
-const GridLineVertical = lazy(() => import('./GridLineVertical.tsx'));
+const GridLineHorizontal = lazy(() => import('./GridLineHorizontal'));
+const GridLineVertical = lazy(() => import('./GridLineVertical'));
 
 const gridLineComponentsByDimension = {
   x: GridLineHorizontal,

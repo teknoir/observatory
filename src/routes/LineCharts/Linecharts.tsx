@@ -1,10 +1,12 @@
 import * as d3 from 'd3';
-import movements_lines from '../../../datasets/movements_script.json';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import movements_lines from '../../data/movements_lines.json';
 import {
   dateAccessor,
   countAccessor,
   eventAccessor,
-} from 'components/ChartUtilities/accessors.ts';
+} from 'components/ChartUtilities/accessors';
 import { LineChart } from 'components/LineChart';
 import styles from './LineCharts.module.scss';
 

@@ -34,6 +34,7 @@ export interface IDimensions {
   boundedHeight?: number;
   boundedWidth?: number;
   boundedScrollWidth?: number;
+  boundedScrollHeight?: number;
 }
 
 export const combineChartDimensions = (dimensions, scrollLengthMultiplier) => {
@@ -63,6 +64,13 @@ export const combineChartDimensions = (dimensions, scrollLengthMultiplier) => {
       (parsedDimensions.width -
         parsedDimensions.marginLeft -
         parsedDimensions.marginRight) *
+        scrollLengthMultiplier,
+      0
+    ),
+    boundedScrollHeight: Math.max(
+      (parsedDimensions.height -
+        parsedDimensions.marginTop -
+        parsedDimensions.marginBottom) *
         scrollLengthMultiplier,
       0
     ),

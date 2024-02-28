@@ -1,15 +1,20 @@
 import { AnnotationsCanvasProps } from 'ts/types';
-import { useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
+import { DisplaySettingsContext } from 'context/DisplaySettingsContext/DisplaySettingsContext.ts';
+import styleVariables from 'enums/styleVariables.module.scss';
 
 function AnnotationsCanvas({
   src,
   detections,
   stylesImage,
   labelFontSize = 12,
-  showBoundingBoxes,
-  showLabels,
 }: AnnotationsCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const { boundaryBoxesChecked, objectLabelsChecked, colorFillBoxesChecked } =
+    useContext(DisplaySettingsContext);
+
+  // TODO: remove this after ready to go to production
+  const annotationsFlag = false;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -33,7 +38,7 @@ function AnnotationsCanvas({
       context.font = `bold ${fontSize}px Verdana`;
       context.lineWidth = 1;
 
-      if (detections) {
+      if (detections && annotationsFlag) {
         detections.forEach((detection) => {
           const { label, x1, y1, x_center, y_center, width, height } =
             detection.detection;
@@ -48,11 +53,7 @@ function AnnotationsCanvas({
           context.strokeStyle = 'white';
           context.fillStyle = 'white';
 
-          if (showBoundingBoxes) {
-            context.strokeRect(x, y, w, h);
-          }
-
-          if (showLabels) {
+          if (objectLabelsChecked) {
             context.fillText(
               label,
               xc - w / 2 + fontSize,
@@ -61,10 +62,26 @@ function AnnotationsCanvas({
                 : yc - h / 2 + 2 * fontSize
             );
           }
+
+          if (boundaryBoxesChecked) {
+            context.strokeRect(x, y, w, h);
+
+            if (colorFillBoxesChecked) {
+              context.fillStyle = styleVariables.blueBoundaryBoxFill;
+              context.fillRect(x, y, w, h);
+            }
+          }
         });
       }
     };
-  }, [src, detections, labelFontSize, showBoundingBoxes, showLabels]);
+  }, [
+    src,
+    detections,
+    labelFontSize,
+    boundaryBoxesChecked,
+    objectLabelsChecked,
+    colorFillBoxesChecked,
+  ]);
 
   return <canvas ref={canvasRef} className={stylesImage} />;
 }

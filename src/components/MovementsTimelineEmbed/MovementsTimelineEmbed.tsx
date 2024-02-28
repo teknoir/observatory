@@ -15,7 +15,7 @@ import MovementsTimeline from './MovementsTimeline/MovementsTimeline';
 import {
   MovementsTimelinePeriod,
   TimelineRefetchInterval,
-} from '../MovementsTimeline/enums.ts';
+} from '../MovementsTimeline/enums';
 import styles from './MovementsTimelineEmbed.module.scss';
 
 interface Props {

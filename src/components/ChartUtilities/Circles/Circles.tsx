@@ -6,6 +6,7 @@ const Circles = ({
   data,
   keyAccessor,
   xAccessor,
+  xPosition,
   yAccessor,
   radius = 8,
   className,
@@ -20,7 +21,7 @@ const Circles = ({
           <circle
             className={classNames(styles.circle, className)}
             key={keyAccessor(d) + '_' + i}
-            cx={xAccessor(d)}
+            cx={xAccessor ? xAccessor(d) : xPosition}
             cy={yAccessor(d)}
             r={radius}
             onClick={() => {

@@ -3,15 +3,21 @@ import { useInterval } from 'usehooks-ts';
 import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
-import AppBar from 'components/AppBar/AppBar';
+import ContentBar from 'components/ContentBar/ContentBar';
 import MainContent from 'components/MainContent/MainContent';
 import MovementsTimelineEmbed from 'components/MovementsTimelineEmbed/MovementsTimelineEmbed';
+import MovementsTimelineVertical from 'components/MovementsTimelineVertical/MovementsTimelineContainer';
 import { Source, SourceStatus } from 'ts/types';
+import { useMainLayoutContext } from 'context/mainLayoutContext';
 import { useWSSContext } from 'context/webSocketContext';
 import { wsSources } from 'enums/queryKeys';
 import { TOPICS, TYPES } from 'enums/wss';
-import { getStartImagesStreamMsg } from 'services/wsMessage';
+import {
+  getStartImagesStreamMsg,
+  getStartRawImagesStreamMsg,
+} from 'services/wsMessage';
 import ImageViewer from './ImageViewer/ImageViewer';
+import styles from './Device.module.scss';
 
 const DURATION = 10;
 const INTERVAL = DURATION * 1000;
@@ -25,8 +31,9 @@ const Device = () => {
   const [source, setSource] = useState<Source>(sources?.[peripheralId]);
 
   const { lastMessage, sendMessage, isOpened } = useWSSContext();
+  const { isSmall } = useMainLayoutContext();
 
-  const playVideo = useCallback(() => {
+  const fetchInferredData = useCallback(() => {
     if (isOpened && peripheralId) {
       const messageObj = getStartImagesStreamMsg(
         peripheralId,
@@ -37,13 +44,26 @@ const Device = () => {
     }
   }, [isOpened, peripheralId, source]);
 
+  const playVideo = useCallback(() => {
+    if (isOpened && peripheralId) {
+      const messageObj = getStartRawImagesStreamMsg(
+        peripheralId,
+        source?.device,
+        DURATION
+      );
+      sendMessage(JSON.stringify(messageObj));
+    }
+  }, [isOpened, peripheralId, source]);
+
   useEffect(() => {
     if (isOpened) {
+      fetchInferredData();
       playVideo();
     }
   }, [isOpened]);
 
   useInterval(() => {
+    fetchInferredData();
     playVideo();
   }, INTERVAL);
 
@@ -55,7 +75,7 @@ const Device = () => {
         case TYPES.MESSAGE: {
           const { topic, image, peripheral, device, detections } = data;
           if (
-            topic === TOPICS.FRONT_END_VIDEO &&
+            topic === TOPICS.RAW_FRONT_END_VIDEO &&
             peripheralId === peripheral?.id
           ) {
             setSource({
@@ -73,19 +93,30 @@ const Device = () => {
     }
   }, [lastMessage, peripheralId]);
 
+  const renderVerticalTimeline = () => (
+    <div className={styles.mainContent}>
+      <ImageViewer src={source?.src} detections={source?.detections} />
+      <MovementsTimelineVertical peripheralId={peripheralId} />
+    </div>
+  );
+
+  const renderTimelineEmbed = () => (
+    <MovementsTimelineEmbed
+      peripheralId={peripheralId}
+      showToolbar
+      initiallyLoaded
+    >
+      <ImageViewer src={source?.src} detections={source?.detections} />
+    </MovementsTimelineEmbed>
+  );
+
   return (
     <>
-      <AppBar>
+      <ContentBar>
         <Typography variant="LabelMedium">{peripheralId}</Typography>
-      </AppBar>
+      </ContentBar>
       <MainContent>
-        <MovementsTimelineEmbed
-          peripheralId={peripheralId}
-          showToolbar
-          initiallyLoaded
-        >
-          <ImageViewer src={source?.src} detections={source?.detections} />
-        </MovementsTimelineEmbed>
+        {isSmall ? renderVerticalTimeline() : renderTimelineEmbed()}
       </MainContent>
     </>
   );

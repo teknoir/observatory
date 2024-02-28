@@ -18,3 +18,9 @@
   color: $totalWhite;
   margin-right: 6px;
 }
+
+@media (min-width: $smallSize) {
+  .title {
+    display: block;
+  }
+}
