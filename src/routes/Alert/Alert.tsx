@@ -131,15 +131,13 @@ const Alert = () => {
       </ContentBar>
       <MainContent className={styles.mainContent}>
         {hasVideo ? (
-          <div className={styles.videoPlayerWrapper}>
-            <VideoPlayer
-              url={videoUrl}
-              posterUrl={videoSnapshot}
-              autoPlay
-              width="100%"
-              className={styles.videoPlayer}
-            />
-          </div>
+          <VideoPlayer
+            url={videoUrl}
+            posterUrl={videoSnapshot}
+            autoPlay
+            width="100%"
+            className={styles.videoPlayer}
+          />
         ) : (
           <div className={styles.videoStub}>
             <img
