@@ -13,37 +13,11 @@ const SkeletonItem = () => (
 const SkeletonComponent = () => {
   return (
     <div className={styles.root}>
-      <div className={styles.row}>
+      {Array(7).fill(
         <div className={styles.item}>
           <SkeletonItem />
         </div>
-        <div className={styles.item}>
-          <SkeletonItem />
-        </div>
-      </div>
-      <div className={styles.row}>
-        <div className={styles.item}>
-          <SkeletonItem />
-        </div>
-        <div className={styles.item}>
-          <div className={styles.column}>
-            <div className={styles.item}>
-              <SkeletonItem />
-            </div>
-            <div className={styles.item}>
-              <SkeletonItem />
-            </div>
-          </div>
-          <div className={styles.column}>
-            <div className={styles.item}>
-              <SkeletonItem />
-            </div>
-            <div className={styles.item}>
-              <SkeletonItem />
-            </div>
-          </div>
-        </div>
-      </div>
+      )}
     </div>
   );
 };

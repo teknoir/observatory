@@ -31,6 +31,7 @@ interface ToolBarProps {
   handleChangeFilter: (e: SelectChangeEvent<unknown>) => void;
   period: MovementsTimelinePeriod;
   handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;
+  isViewAll?: boolean;
   className?: string;
 }
 
@@ -39,11 +40,12 @@ const ToolBar = ({
   handleChangeFilter,
   period,
   handleChangePeriod,
+  isViewAll = true,
   className,
 }: ToolBarProps) => {
   return (
     <nav className={classNames(styles.menuLayout, className)}>
-      <div className={styles.menuItem}>
+      <div className={classNames(styles.menuItem, styles.title)}>
         <Typography variant="LabelLarge">Motions & Alerts</Typography>
       </div>
       <div className={styles.menuItem}>
@@ -80,13 +82,15 @@ const ToolBar = ({
             },
           }}
         />
-        <Link
-          component={RouterLink}
-          to={generatePath(APP_URLS.motionsAlerts)}
-          color="inherit"
-        >
-          <Typography variant="LabelLarge">View all</Typography>
-        </Link>
+        {isViewAll && (
+          <Link
+            component={RouterLink}
+            to={generatePath(APP_URLS.motionsAlerts)}
+            color="inherit"
+          >
+            <Typography variant="LabelLarge">View all</Typography>
+          </Link>
+        )}
       </div>
     </nav>
   );

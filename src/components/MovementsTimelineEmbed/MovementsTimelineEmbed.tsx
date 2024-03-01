@@ -14,7 +14,7 @@ import {
   MovementsTimelinePeriod,
   TimelineFilterBy,
   TimelineRefetchInterval,
-} from '../MovementsTimeline/enums.ts';
+} from '../MovementsTimeline/enums';
 import styles from './MovementsTimelineEmbed.module.scss';
 import { SelectChangeEvent } from '@mui/material/Select';
 

@@ -9,3 +9,9 @@
   display: flex;
   align-items: center;
 }
+
+@media (min-width: $smallSize) {
+  .root {
+    margin-left: 20px;
+  }
+}

@@ -18,7 +18,7 @@ import {
   sendFeedback,
   sendNotificationSeen,
 } from 'services/apiRequests';
-import AppBar from 'components/AppBar/AppBar';
+import ContentBar from 'components/ContentBar/ContentBar';
 import MainContent from 'components/MainContent/MainContent';
 import VideoPlayer from 'components/VideoPlayer/VideoPlayer';
 import VideoPlayerStub from 'components/VideoPlayerStub/VideoPlayerStub';
@@ -133,9 +133,9 @@ const Alert = () => {
 
   return (
     <>
-      <AppBar>
+      <ContentBar>
         <Typography variant="LabelMedium">{peripheralName}</Typography>
-      </AppBar>
+      </ContentBar>
       <MainContent className={styles.mainContent}>
         {hasVideo ? (
           <VideoPlayer

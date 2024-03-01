@@ -13,7 +13,6 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
 }>(({ theme, open, openRight }) => ({
   overflowX: 'hidden',
   flexGrow: 1,
-  paddingTop: theme.spacing(8),
   transition: theme.transitions.create('margin', {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -34,9 +33,13 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
 }));
 
 const MainContent = ({ children, className }: MainContentProps) => {
-  const { isOpenedLeft, isOpenedRight } = useMainLayoutContext();
+  const { isOpenedLeft, isOpenedRightBar } = useMainLayoutContext();
   return (
-    <Main open={isOpenedLeft} openRight={isOpenedRight} className={className}>
+    <Main
+      open={isOpenedLeft}
+      openRight={isOpenedRightBar}
+      className={className}
+    >
       {children}
     </Main>
   );

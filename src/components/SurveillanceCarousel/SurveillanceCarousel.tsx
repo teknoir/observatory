@@ -1,23 +1,31 @@
 import { useState, useEffect, useContext } from 'react';
 import { useInterval } from 'usehooks-ts';
 import { HomeContext } from 'context/HomeContext/HomeContext';
+import { useWSSContext } from 'context/webSocketContext';
 import { CarouselMode, SurveillanceCarouselProps } from 'ts/types';
-import AllCamerasView from './AllCamerasView/AllCamerasView';
-import AlternativeView from './AlternativeView/AlternativeView';
+import { getStartRawImagesStreamMsg } from 'services/wsMessage';
+import AllCamerasView from './AllCamerasView';
+import AlternativeView from './AlternativeView';
 import DetailView from './DetailView/DetailView';
-import GeneralView from './GeneralView/GeneralView';
+import GeneralView from './GeneralView';
 
 const surveillanceCarouselComponentsByMode = {
   [CarouselMode.AllCamerasView]: AllCamerasView,
   [CarouselMode.AlternativeView]: AlternativeView,
   [CarouselMode.Detail]: DetailView,
   [CarouselMode.General]: GeneralView,
+  [CarouselMode.SideSettingsView]: null,
 };
 
-const SurveillanceCarousel = ({ mode, sources }: SurveillanceCarouselProps) => {
+const SurveillanceCarousel = ({
+  mode,
+  sources,
+  parentSetMainImage,
+}: SurveillanceCarouselProps) => {
   const [mainImage, setMainImage] = useState('');
   const { mainImageCarousel, setMainImageCarousel, peripheralIdNotified } =
     useContext(HomeContext);
+  const { sendMessage } = useWSSContext();
 
   useEffect(() => {
     if (peripheralIdNotified) {
@@ -58,6 +66,14 @@ const SurveillanceCarousel = ({ mode, sources }: SurveillanceCarouselProps) => {
 
   const setMainSource = (cameraId: string) => {
     setMainImage(cameraId);
+
+    // upon changing main camera source immediately update state in parent
+    // and request changes on the cloud
+    parentSetMainImage(cameraId);
+
+    const { peripheralId = '', device = '' } = sources.get(cameraId) ?? {};
+    const messageObj = getStartRawImagesStreamMsg(peripheralId, device, 10);
+    sendMessage(JSON.stringify(messageObj));
   };
 
   const Component = surveillanceCarouselComponentsByMode[mode];

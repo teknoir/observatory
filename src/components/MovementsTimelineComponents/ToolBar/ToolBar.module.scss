@@ -8,6 +8,10 @@
   padding: 1.25rem;
 }
 
+.title {
+  display: none !important;
+}
+
 .menuItem {
   display: flex;
   align-items: center;
@@ -22,4 +26,10 @@
 .inputLabel {
   color: $totalWhite;
   margin-right: 6px;
+}
+
+@media (min-width: $smallSize) {
+  .title {
+    display: block;
+  }
 }

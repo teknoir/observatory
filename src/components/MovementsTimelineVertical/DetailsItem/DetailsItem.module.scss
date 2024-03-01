@@ -1,0 +1,32 @@
+@import 'enums/styleVariables.module';
+
+.details {
+  display: flex;
+  justify-content: space-between;
+  gap: 25px;
+  width: 200px;
+  background-color: $fadedBlack;
+}
+
+.icons {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.iconWrapper {
+  background-color: $fadedBlack;
+}
+
+.imgWrapper {
+  width: 80px;
+  height: 54px;
+}
+
+.videoSnapshot {
+  width: 80px;
+  height: 54px;
+  object-fit: cover;
+}

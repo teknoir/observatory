@@ -3,7 +3,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as d3 from 'd3';
 import { MovementsTimeline } from 'components/MovementsTimeline';
-import movements from '../../../../datasets/movements.json';
+import movements from 'datasets/movements.json';
 // import '../../../App.css';
 
 // MovementsTimelineReact settings

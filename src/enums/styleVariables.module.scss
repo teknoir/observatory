@@ -28,11 +28,23 @@ $gold: #a58966;
 $greenSuccess: #00a12d;
 $redAlert: #fa4e4e;
 
+//Annotations
+$blueBoundaryBoxFill: rgba($blue600, 0.3);
+
 //Positioning
 $movementsTimelineEmbedHeight: 112px;
 
 //Header
 $headerHeight: 64px;
+
+// Sizes
+$xs: 390px;
+$s: 480px;
+$sm: 800px;
+$md: 1200px;
+$lg: 1920px;
+
+$smallSize: $md;
 
 :export {
   fadedBlack: $fadedBlack;
@@ -44,4 +56,6 @@ $headerHeight: 64px;
   redAlert: $redAlert;
   movementsTimelineEmbedHeight: $movementsTimelineEmbedHeight;
   headerHeight: $headerHeight;
+  blueBoundaryBoxFill: $blueBoundaryBoxFill;
+  smallSize: $smallSize;
 }

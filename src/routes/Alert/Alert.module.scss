@@ -1,13 +1,21 @@
+@import 'enums/styleVariables.module.scss';
+
 .mainContent {
-  height: 100vh;
+  height: calc(100vh - 64px);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding-bottom: 20px;
 }
 
-.videoPlayer {
-  flex: 1;
+@media (min-width: $smallSize) {
+  .mainContent {
+    justify-content: space-between;
+  }
+
+  .videoPlayer {
+    flex: 1;
+  }
 }
 
 .videoStub {

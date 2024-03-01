@@ -7,9 +7,9 @@ import {
   fetchAllAlertsMock,
   fetchMotionsAggregationMock,
   fetchAlertMock,
+  fetchFeedbackMock,
   fetchNotificationsMock,
   fetchNotificationsPaginatedMock,
-  fetchFeedbackMock,
   fetchCountEventsMock,
 } from 'services/fetchMock';
 import {
@@ -148,7 +148,9 @@ export const fetchNotificationsPaginated = (page: number, pageSize: number) => {
 export const fetchCountEvents = (status: EventStatus, collection: string) => {
   // TODO: remove this condition in future
   if (shouldUseMockData()) {
-    return fetchCountEventsMock();
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return fetchCountEventsMock().then(({ count }) => count);
   }
   const query = getSearchCountsEvents({ status, collection });
   return Fetch.get(API.countEvents(query)).then(({ count }) => count);
