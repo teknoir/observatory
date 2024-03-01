@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import styles from './DisplaySettings.module.scss';
 import classNames from 'classnames';
 import IconButton from '@mui/material/IconButton';
@@ -13,6 +13,20 @@ import Divider from '@mui/material/Divider';
 import { useMainLayoutContext } from 'context/mainLayoutContext.tsx';
 import { DisplaySettingsContext } from 'context/DisplaySettingsContext/DisplaySettingsContext.ts';
 
+const localStorageNamespace = 'displaySettings';
+
+const getLocalStorage = (key: string, defaultValue: unknown) => {
+  const storedValue = localStorage.getItem(`${localStorageNamespace}.${key}`);
+  return storedValue !== null ? JSON.parse(storedValue) : defaultValue;
+};
+
+const setLocalStorage = (key: string, value: unknown) => {
+  localStorage.setItem(
+    `${localStorageNamespace}.${key}`,
+    JSON.stringify(value)
+  );
+};
+
 const DisplaySettings = () => {
   const { closeRightOverlay } = useMainLayoutContext();
   const {
@@ -24,12 +38,29 @@ const DisplaySettings = () => {
     setColorFillBoxesChecked,
   } = useContext(DisplaySettingsContext);
 
+  useEffect(() => {
+    setBoundaryBoxesChecked(
+      getLocalStorage('boundaryBoxesChecked', boundaryBoxesChecked)
+    );
+    setObjectLabelsChecked(
+      getLocalStorage('objectLabelsChecked', objectLabelsChecked)
+    );
+    setColorFillBoxesChecked(
+      getLocalStorage('colorFillBoxesChecked', colorFillBoxesChecked)
+    );
+  }, []);
+
   const handleCheckedSettingsChange = (
     setSettingsChecked: (
       value: ((prevState: boolean) => boolean) | boolean
-    ) => void
+    ) => void,
+    localStorageKey: string
   ) => {
-    setSettingsChecked((prev) => !prev);
+    setSettingsChecked((prev) => {
+      const newValue = !prev;
+      setLocalStorage(localStorageKey, newValue);
+      return newValue;
+    });
   };
 
   return (
@@ -47,7 +78,10 @@ const DisplaySettings = () => {
               <Switch
                 checked={boundaryBoxesChecked}
                 onChange={() =>
-                  handleCheckedSettingsChange(setBoundaryBoxesChecked)
+                  handleCheckedSettingsChange(
+                    setBoundaryBoxesChecked,
+                    'boundaryBoxesChecked'
+                  )
                 }
               />
             }
@@ -61,7 +95,10 @@ const DisplaySettings = () => {
                 <Checkbox
                   checked={colorFillBoxesChecked}
                   onChange={() =>
-                    handleCheckedSettingsChange(setColorFillBoxesChecked)
+                    handleCheckedSettingsChange(
+                      setColorFillBoxesChecked,
+                      'colorFillBoxesChecked'
+                    )
                   }
                 />
               }
@@ -80,7 +117,10 @@ const DisplaySettings = () => {
               <Switch
                 checked={objectLabelsChecked}
                 onChange={() =>
-                  handleCheckedSettingsChange(setObjectLabelsChecked)
+                  handleCheckedSettingsChange(
+                    setObjectLabelsChecked,
+                    'objectLabelsChecked'
+                  )
                 }
               />
             }
