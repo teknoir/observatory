@@ -18,3 +18,5 @@ export const notificationsUnverified = 'notificationsUnverified';
 export const notificationsByPage = 'notificationsByPage';
 
 export const feedbackKey = 'feedback';
+
+export const countEvents = 'countEvents';

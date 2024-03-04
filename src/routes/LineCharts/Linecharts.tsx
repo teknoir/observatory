@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-import movements_lines from '../../../datasets/movements_script.json';
+import movements_lines from 'datasets/movements_script.json';
 import {
   dateAccessor,
   countAccessor,

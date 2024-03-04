@@ -4,11 +4,8 @@
   height: calc(100vh - 64px);
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   padding-bottom: 20px;
-}
-
-.videoPlayerWrapper {
-  aspect-ratio: auto 5/2;
 }
 
 @media (min-width: $smallSize) {
@@ -16,7 +13,7 @@
     justify-content: space-between;
   }
 
-  .videoPlayerWrapper {
+  .videoPlayer {
     flex: 1;
   }
 }
