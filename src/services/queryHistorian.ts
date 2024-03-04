@@ -4,6 +4,7 @@ import {
   IRetrieveEventsRequestById,
   DetectionId,
   INotificationsRequest,
+  ICountEventsRequest,
 } from 'ts/types';
 
 export const getEventQuery = (detectionId: DetectionId) => {
@@ -54,6 +55,18 @@ export const getSearchQueryNotifications = (params: INotificationsRequest) => {
   }
   if (limit) {
     query = query + `limit=${String(limit)}&`;
+  }
+  return query;
+};
+
+export const getSearchCountsEvents = (params: ICountEventsRequest) => {
+  let query = '';
+  const { collection, status } = params;
+  if (collection) {
+    query = query + `collection_name=${collection}&`;
+  }
+  if (status) {
+    query = query + `status=${status}`;
   }
   return query;
 };

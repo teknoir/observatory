@@ -341,3 +341,8 @@ export enum EventLabels {
   Person = 'person',
   Car = 'car',
 }
+
+export interface ICountEventsRequest {
+  status: EventStatus;
+  collection: string;
+}
