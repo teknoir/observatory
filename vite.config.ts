@@ -39,6 +39,7 @@ export default defineConfig(({ mode }) => {
         services: path.resolve(__dirname, 'src/services'),
         ts: path.resolve(__dirname, 'src/ts'),
         utils: path.resolve(__dirname, 'src/utils'),
+        datasets: path.resolve(__dirname, 'src/datasets'),
       },
     },
     server: {

@@ -22,6 +22,8 @@ const API = {
   sendNotificationSeen: (detectionId: string) =>
     `${API_HOST_MIDDLE_END}/notifications/${detectionId}`,
   sendFeedback: `${API_HOST_MIDDLE_END}/feedbacks`,
+  countEvents: (query: string) =>
+    `${API_HOST_MIDDLE_END}/count_events?${query}`,
 };
 
 export default API;

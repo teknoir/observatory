@@ -15,7 +15,7 @@ import {
   formatDate as formatDateFunction,
   xScale as xScaleFunction,
   yScale as yScaleFunction,
-} from '../components/MovementsTimeline/utils';
+} from 'components/MovementsTimeline/utils';
 
 interface Props {
   peripherals: string[];

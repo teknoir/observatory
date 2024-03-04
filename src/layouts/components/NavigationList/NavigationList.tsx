@@ -7,6 +7,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import homeIcon from 'assets/icons/home.svg';
 import aimIcon from 'assets/icons/aim.svg';
+import settingsIcon from 'assets/icons/settingsIcon.svg';
 import { useMainLayoutContext } from 'context/mainLayoutContext';
 import APP_URLS from 'enums/urls';
 import { generatePath } from 'utils/router';
@@ -24,6 +25,9 @@ const motionsAlertsItem = {
   iconSrc: aimIcon,
 };
 
+// TODO: PRO-1969/PRO-1970 remove this after ready to go to production
+const annotationsFlag = false;
+
 const getNavigationItems = (isSmall: boolean) => {
   const items = [homeItem];
   if (isSmall) return items;
@@ -35,7 +39,13 @@ interface Props {
 }
 
 const NavigationList = ({ onClickItem }: Props) => {
-  const { isOpenedLeft, isSmall } = useMainLayoutContext();
+  const {
+    isOpenedLeft,
+    isSmall,
+    isOpenedRightOverlay,
+    openRightOverlay,
+    closeRightOverlay,
+  } = useMainLayoutContext();
   const navigationItems = useMemo(() => getNavigationItems(isSmall), [isSmall]);
 
   return (
@@ -58,6 +68,23 @@ const NavigationList = ({ onClickItem }: Props) => {
           </ListItemButton>
         </ListItem>
       ))}
+      {annotationsFlag && (
+        <ListItem disablePadding>
+          <ListItemButton
+            className={styles.navItem}
+            onClick={
+              isOpenedRightOverlay ? closeRightOverlay : openRightOverlay
+            }
+          >
+            <div className={styles.link}>
+              <img src={settingsIcon} alt={'Settings'} />
+              <div className={classNames({ [styles.textHide]: !isOpenedLeft })}>
+                {'Settings'}
+              </div>
+            </div>
+          </ListItemButton>
+        </ListItem>
+      )}
     </List>
   );
 };

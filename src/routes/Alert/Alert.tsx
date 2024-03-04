@@ -9,6 +9,8 @@ import {
   alertsRing,
   alertsByIdRing,
   feedbackKey,
+  alerts,
+  countEvents,
 } from 'enums/queryKeys';
 import {
   fetchAlert,
@@ -86,6 +88,11 @@ const Alert = () => {
 
   const mutationNotification = useMutation({
     mutationFn: sendNotificationSeen,
+    onSuccess: () => {
+      queryClient.refetchQueries({
+        queryKey: [countEvents, alerts, EventStatus.New],
+      });
+    },
   });
 
   const onSubmit = (values: IAlertFormValues) =>
@@ -131,15 +138,13 @@ const Alert = () => {
       </ContentBar>
       <MainContent className={styles.mainContent}>
         {hasVideo ? (
-          <div className={styles.videoPlayerWrapper}>
-            <VideoPlayer
-              url={videoUrl}
-              posterUrl={videoSnapshot}
-              autoPlay
-              width="100%"
-              className={styles.videoPlayer}
-            />
-          </div>
+          <VideoPlayer
+            url={videoUrl}
+            posterUrl={videoSnapshot}
+            autoPlay
+            width="100%"
+            className={styles.videoPlayer}
+          />
         ) : (
           <div className={styles.videoStub}>
             <img
