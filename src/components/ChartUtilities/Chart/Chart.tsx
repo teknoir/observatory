@@ -9,7 +9,7 @@ interface ChartProps {
 
 const Chart = ({ dimensions, children }: ChartProps) => (
   <ChartContext.Provider value={dimensions}>
-    <svg width={dimensions.width} height={dimensions.height}>
+    <svg width={dimensions.width} height={dimensions.boundedScrollHeight}>
       <g
         transform={`translate(
         ${dimensions.marginLeft},

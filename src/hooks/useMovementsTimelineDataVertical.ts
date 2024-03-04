@@ -1,6 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import * as d3 from 'd3';
-import _debounce from 'lodash/debounce';
+import {
+  // useCallback, useEffect,
+  useRef,
+  useState,
+} from 'react';
+// import * as d3 from 'd3';
+// import _debounce from 'lodash/debounce';
 import { startTimeAccessor as yAccessor } from 'components/ChartUtilities/accessors';
 import {
   useChartDimensions,
@@ -30,7 +34,7 @@ const useMovementsTimelineDataVertical = ({
     initialDimensions,
     scrollLengthMultiplier
   );
-  const [defaultTranslate, setDefaultTranslate] = useState<number>(0);
+  // const [defaultTranslate, setDefaultTranslate] = useState<number>(0);
   const scrollGroupRef = useRef<SVGGElement | null>(null);
   const [anchorEl, setAnchorEl] = useState<SVGCircleElement | null>(null);
   const [alertInfo, setAlertInfo] = useState<PopoverInfoProps>({
@@ -67,67 +71,67 @@ const useMovementsTimelineDataVertical = ({
   // @ts-ignore
   const yAccessorScaled = (d: object) => yScale(yAccessor(d));
 
-  const debounceResize = _debounce(
-    () =>
-      setDefaultTranslate(
-        -dimensions.boundedScrollHeight + dimensions.boundedHeight
-      ),
-    200
-  );
+  // const debounceResize = _debounce(
+  //   () =>
+  //     setDefaultTranslate(
+  //       -dimensions.boundedScrollHeight + dimensions.boundedHeight
+  //     ),
+  //   200
+  // );
 
-  const onScroll = useCallback(
-    (scrollGroup: d3.Selection<SVGGElement, unknown, null, undefined>) => {
-      const transformObj = d3.zoomTransform(scrollGroup.node() as SVGGElement);
-      // TODO: This approach is an alternative to not modify the resulting
-      // d3.zoomTransform() object, but it needs some logic to work
-      // const transformObj = { ...d3.zoomTransform(scrollGroup.node()) }
+  // const onScroll = useCallback(
+  //   (scrollGroup: d3.Selection<SVGGElement, unknown, null, undefined>) => {
+  //     const transformObj = d3.zoomTransform(scrollGroup.node() as SVGGElement);
+  //     // TODO: This approach is an alternative to not modify the resulting
+  //     // d3.zoomTransform() object, but it needs some logic to work
+  //     // const transformObj = { ...d3.zoomTransform(scrollGroup.node()) }
 
-      const maxStartTranslate = 0;
-      const maxEndTranslate =
-        dimensions.boundedScrollHeight - dimensions.boundedHeight;
+  //     const maxStartTranslate = 0;
+  //     const maxEndTranslate =
+  //       dimensions.boundedScrollHeight - dimensions.boundedHeight;
 
-      // TODO: Replace these @ts-ignore comments for a different logic where is
-      // no necessary to replace the x property of transformObj (which comes from
-      // d3.zoomTransform). These properties of the object are read-only by definition
-      // and should not be modified as I'm currently doing right now:
-      //
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      transformObj.y = Math.max(transformObj.y, maxStartTranslate);
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      transformObj.y = Math.min(transformObj.y, maxEndTranslate);
+  //     // TODO: Replace these @ts-ignore comments for a different logic where is
+  //     // no necessary to replace the x property of transformObj (which comes from
+  //     // d3.zoomTransform). These properties of the object are read-only by definition
+  //     // and should not be modified as I'm currently doing right now:
+  //     //
+  //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //     // @ts-ignore
+  //     transformObj.y = Math.max(transformObj.y, maxStartTranslate);
+  //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //     // @ts-ignore
+  //     transformObj.y = Math.min(transformObj.y, maxEndTranslate);
 
-      const translateY = defaultTranslate + transformObj.y;
-      scrollGroup
-        .transition()
-        .duration(0)
-        .attr('transform', `translate(0, ${translateY})`);
-    },
-    [defaultTranslate, dimensions.boundedScrollHeight, dimensions.boundedHeight]
-  );
+  //     const translateY = defaultTranslate + transformObj.y;
+  //     scrollGroup
+  //       .transition()
+  //       .duration(0)
+  //       .attr('transform', `translate(0, ${translateY})`);
+  //   },
+  //   [defaultTranslate, dimensions.boundedScrollHeight, dimensions.boundedHeight]
+  // );
 
-  useEffect(() => {
-    debounceResize();
-  }, [dimensions, debounceResize]);
+  // useEffect(() => {
+  //   debounceResize();
+  // }, [dimensions, debounceResize]);
 
-  useEffect(() => {
-    const scrollGroup = d3.select<SVGGElement, unknown>(
-      scrollGroupRef.current!
-    );
-    const timelineContainer = d3.select<HTMLElement, unknown>(ref.current!);
-    const d3Zoom = d3
-      .zoom<HTMLElement, unknown>()
-      .scaleExtent([1, 1])
-      .on('zoom', () =>
-        onScroll(
-          scrollGroup as d3.Selection<SVGGElement, unknown, null, undefined>
-        )
-      );
-    timelineContainer.call(d3Zoom);
-    timelineContainer.call(d3Zoom.transform, d3.zoomIdentity);
-    scrollGroup.attr('transform', `translate(0, ${defaultTranslate})`);
-  }, [defaultTranslate, ref, onScroll]);
+  // useEffect(() => {
+  //   const scrollGroup = d3.select<SVGGElement, unknown>(
+  //     scrollGroupRef.current!
+  //   );
+  //   const timelineContainer = d3.select<HTMLElement, unknown>(ref.current!);
+  //   const d3Zoom = d3
+  //     .zoom<HTMLElement, unknown>()
+  //     .scaleExtent([1, 1])
+  //     .on('zoom', () =>
+  //       onScroll(
+  //         scrollGroup as d3.Selection<SVGGElement, unknown, null, undefined>
+  //       )
+  //     );
+  //   timelineContainer.call(d3Zoom);
+  //   timelineContainer.call(d3Zoom.transform, d3.zoomIdentity);
+  //   scrollGroup.attr('transform', `translate(0, ${defaultTranslate})`);
+  // }, [defaultTranslate, ref, onScroll]);
 
   return {
     dimensions,

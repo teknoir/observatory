@@ -12,7 +12,7 @@ const GridLines = ({ xPos }: GridLinesProps) => {
     <g transform={`translate(${xPos}, 0)`}>
       <line
         className={styles.line}
-        y2={dimensions.boundedHeight + dimensions.marginBottom}
+        y2={dimensions.boundedScrollHeight + dimensions.marginBottom}
       />
     </g>
   );
