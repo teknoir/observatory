@@ -1,6 +1,6 @@
 import { AnnotationsCanvasProps } from 'ts/types';
-import { useContext, useEffect, useRef } from 'react';
-import { DisplaySettingsContext } from 'context/DisplaySettingsContext/DisplaySettingsContext.ts';
+import { useEffect, useRef } from 'react';
+import { useDisplaySettingsContext } from 'context/DisplaySettingsContext/displaySettingsContext.tsx';
 import styleVariables from 'enums/styleVariables.module.scss';
 
 function AnnotationsCanvas({
@@ -11,7 +11,7 @@ function AnnotationsCanvas({
 }: AnnotationsCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const { boundaryBoxesChecked, objectLabelsChecked, colorFillBoxesChecked } =
-    useContext(DisplaySettingsContext);
+    useDisplaySettingsContext();
 
   // TODO: remove this after ready to go to production
   const annotationsFlag = false;
