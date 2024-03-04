@@ -44,7 +44,7 @@ export const MovementsTimelineVertical = ({
   handleChangePeriod,
   isLoading,
 }: MovementsTimeLineParams) => {
-  const { dimensions, ref, yScale, yAccessorScaled, handlePopoverOpen } =
+  const { dimensions, ref, yScale, yAccessorScaled } =
     useMovementsTimelineDataVertical({
       startTime,
       peripherals,
@@ -106,7 +106,6 @@ export const MovementsTimelineVertical = ({
               onCircleClick={setMainImageCarousel}
               onClickAccessor={peripheralIdAccessor}
               className={styles.circleAlert}
-              onCircleHover={handlePopoverOpen}
             />
             <AxisDetails
               data={dataAlerts}
