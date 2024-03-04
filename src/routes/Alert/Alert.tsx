@@ -9,6 +9,8 @@ import {
   alertsRing,
   alertsByIdRing,
   feedbackKey,
+  alerts,
+  countEvents,
 } from 'enums/queryKeys';
 import {
   fetchAlert,
@@ -86,6 +88,11 @@ const Alert = () => {
 
   const mutationNotification = useMutation({
     mutationFn: sendNotificationSeen,
+    onSuccess: () => {
+      queryClient.refetchQueries({
+        queryKey: [countEvents, alerts, EventStatus.New],
+      });
+    },
   });
 
   const onSubmit = (values: IAlertFormValues) =>

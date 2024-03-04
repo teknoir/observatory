@@ -7,7 +7,7 @@ import {
   IDimensions,
 } from 'components/ChartUtilities/utils';
 import { PopoverInfoProps } from 'ts/types';
-import { yScale as yScaleFunction } from '../components/MovementsTimelineVertical/utils.ts';
+import { yScale as yScaleFunction } from 'components/MovementsTimelineVertical/utils.ts';
 
 const fallbackVideoUrl =
   'https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4';

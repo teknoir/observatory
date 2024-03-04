@@ -4,3 +4,4 @@ export * from './fetchMotionsAggregation';
 export * from './fetchNotifications';
 export * from './fetchNotificationsPaginated';
 export * from './fetchFedback';
+export * from './fetchCountEvents';
