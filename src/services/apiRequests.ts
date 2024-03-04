@@ -10,8 +10,10 @@ import {
   fetchFeedbackMock,
   fetchNotificationsMock,
   fetchNotificationsPaginatedMock,
+  fetchCountEventsMock,
 } from 'services/fetchMock';
 import {
+  getSearchCountsEvents,
   getSearchQuery,
   getSearchQueryNotifications,
 } from 'services/queryHistorian';
@@ -23,6 +25,7 @@ import {
   IMotionsAggregationRequest,
   INotificationsRequest,
   IAlertEvent,
+  EventStatus,
 } from 'ts/types';
 import { useMockDb } from 'enums/mockData';
 import { getUrlJpeg, getUrlMp4 } from 'utils/media';
@@ -140,4 +143,15 @@ export const fetchNotificationsPaginated = (page: number, pageSize: number) => {
     // TODO: request here
   }
   return fetchNotificationsPaginatedMock(page, pageSize);
+};
+
+export const fetchCountEvents = (status: EventStatus, collection: string) => {
+  // TODO: remove this condition in future
+  if (shouldUseMockData()) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return fetchCountEventsMock().then(({ count }) => count);
+  }
+  const query = getSearchCountsEvents({ status, collection });
+  return Fetch.get(API.countEvents(query)).then(({ count }) => count);
 };
