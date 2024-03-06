@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import moment from 'moment/moment';
 import _flatten from 'lodash/flatten';
@@ -11,19 +11,22 @@ import {
 } from 'components/ChartUtilities/accessors';
 import { fetchMovements, fetchAlerts } from 'services/apiRequests';
 import { motions, alerts, wsSources } from 'enums/queryKeys';
-import { Source } from 'ts/types';
+import { AlertTypes, EventLabels, Source } from 'ts/types';
 import { getFlattenDocuments } from 'utils/events';
 import { MovementsTimeline } from './MovementsTimeline';
-import {
-  MovementsTimelinePeriod,
-  TimelineFilterBy,
-  TimelineRefetchInterval,
-} from './enums';
+import { MovementsTimelinePeriod, TimelineRefetchInterval } from './enums';
 
 interface MovementsTimelineContainerParams {
   isFullHeight?: boolean;
   isFixToolbar?: boolean;
 }
+
+const defaultTypes = [
+  AlertTypes.Theft,
+  AlertTypes.Loitering,
+  AlertTypes.OnGround,
+];
+const defaultLabels = [EventLabels.Person, EventLabels.Car];
 
 function MovementsTimelineContainer({
   isFullHeight,
@@ -42,7 +45,10 @@ function MovementsTimelineContainer({
     };
   });
 
-  const [filter, setFilter] = useState<string>(TimelineFilterBy.MOTIONS_ALERTS);
+  const [filter, setFilter] = useState({
+    types: defaultTypes,
+    labels: defaultLabels,
+  });
   const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1);
   const fromDate = useMemo(
     () => moment().subtract(period, 'days').startOf('day'),
@@ -55,23 +61,33 @@ function MovementsTimelineContainer({
   const toDate = useMemo(() => moment(), [period]);
 
   const { data: dataMotions, isInitialLoading: isLoadingMotions } = useQuery({
-    queryKey: [motions, fromDate, toDate, filter],
-    queryFn: () => fetchMovements({ fromDate, toDate }),
+    queryKey: [motions, fromDate, toDate, filter.labels],
+    queryFn: () => fetchMovements({ fromDate, toDate, labels: filter.labels }),
     refetchInterval: TimelineRefetchInterval.ALL_DEVICES,
     enabled:
-      (filter == TimelineFilterBy.MOTIONS ||
-        filter == TimelineFilterBy.MOTIONS_ALERTS) &&
-      period == MovementsTimelinePeriod.DAYS_1,
+      filter.labels.length > 0 && period === MovementsTimelinePeriod.DAYS_1,
+    cacheTime: 0,
   });
 
   const { data: dataAlerts, isInitialLoading: isLoadingAlerts } = useQuery({
-    queryKey: [alerts, fromDate, toDate, filter],
-    queryFn: () => fetchAlerts({ fromDate, toDate }),
+    queryKey: [alerts, fromDate, toDate, filter.types],
+    queryFn: () => fetchAlerts({ fromDate, toDate, types: filter.types }),
     refetchInterval: TimelineRefetchInterval.ALL_DEVICES,
-    enabled:
-      filter == TimelineFilterBy.ALERTS ||
-      filter == TimelineFilterBy.MOTIONS_ALERTS,
+    enabled: filter.types.length > 0,
+    cacheTime: 0,
   });
+
+  useEffect(() => {
+    if (period !== MovementsTimelinePeriod.DAYS_1) {
+      setFilter((prev) => ({ ...prev, labels: [] }));
+    }
+  }, [period]);
+
+  useEffect(() => {
+    if (filter.labels.length > 0) {
+      setPeriod(MovementsTimelinePeriod.DAYS_1);
+    }
+  }, [filter]);
 
   const [peripherals, ids] = useMemo(() => {
     const flattenArr = [];
@@ -103,19 +119,25 @@ function MovementsTimelineContainer({
   const dataMotionsFlatten = getFlattenDocuments(dataMotions);
 
   const handleChangeFilterBy = (e: SelectChangeEvent<unknown>) => {
-    const filterByValue = String(e.target.value);
-    setFilter(filterByValue);
-    if (filterByValue !== TimelineFilterBy.ALERTS) {
-      setPeriod(MovementsTimelinePeriod.DAYS_1);
-    }
+    const { value } = e.target as { value: (AlertTypes | EventLabels)[] };
+    const alertsFilter = value.filter((item) =>
+      defaultTypes.includes(item as AlertTypes)
+    );
+    const motionsFilter = value.filter((item) =>
+      defaultLabels.includes(item as EventLabels)
+    );
+    setFilter({
+      types: alertsFilter as AlertTypes[],
+      labels: motionsFilter as EventLabels[],
+    });
   };
+
   const handleChangePeriod = (e: SelectChangeEvent<unknown>) => {
     const periodValue = Number(e.target.value);
     setPeriod(periodValue);
-    if (periodValue !== MovementsTimelinePeriod.DAYS_1) {
-      setFilter(TimelineFilterBy.ALERTS);
-    }
   };
+
+  const filterArr = [...filter.types, ...filter.labels];
 
   return (
     <MovementsTimeline
@@ -126,7 +148,7 @@ function MovementsTimelineContainer({
       yAccessor={peripheralNameAccessor}
       peripherals={peripherals}
       ids={ids}
-      filter={filter}
+      filter={filterArr}
       handleChangeFilter={handleChangeFilterBy}
       period={period}
       handleChangePeriod={handleChangePeriod}

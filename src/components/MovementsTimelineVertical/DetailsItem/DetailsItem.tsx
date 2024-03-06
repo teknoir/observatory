@@ -23,11 +23,11 @@ const DetailsItem = ({ data }: DetailsItemProps) => {
 
   const getIcon = useCallback(() => {
     switch (alertType) {
-      case AlertTypes.loitering:
+      case AlertTypes.Loitering:
         return loiteringIcon;
-      case AlertTypes.theft:
+      case AlertTypes.Theft:
         return theftIcon;
-      case AlertTypes.on_ground:
+      case AlertTypes.OnGround:
         return personDownIcon;
       default:
         return '';
