@@ -12,23 +12,30 @@ import {
 } from 'services/apiRequests';
 import { getFlattenDocuments } from 'utils/events';
 import { motionsById, alertsById } from 'enums/queryKeys';
+import { AlertTypes, EventLabels } from 'ts/types';
 import { MovementsTimelineVertical } from './MovementsTimelineVertical';
-import {
-  MovementsTimelinePeriod,
-  TimelineFilterBy,
-  TimelineRefetchInterval,
-} from './enums';
+import { MovementsTimelinePeriod, TimelineRefetchInterval } from './enums';
 
 interface Props {
   peripheralId?: string;
   peripheralName?: string;
 }
 
+const defaultTypes = [
+  AlertTypes.Theft,
+  AlertTypes.Loitering,
+  AlertTypes.OnGround,
+];
+const defaultLabels = [EventLabels.Person, EventLabels.Car];
+
 function MovementsTimelineContainer({
   peripheralId = '',
   peripheralName: peripheralNameFromDevice = '',
 }: Props) {
-  const [filter, setFilter] = useState<string>(TimelineFilterBy.MOTIONS_ALERTS);
+  const [filter, setFilter] = useState({
+    types: defaultTypes,
+    labels: defaultLabels,
+  });
   const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1);
 
   const fromDate = useMemo(
@@ -45,13 +52,17 @@ function MovementsTimelineContainer({
     data: dataMotionsByPeripheralId,
     isInitialLoading: isLoadingMotionsByPeripheralId,
   } = useQuery({
-    queryKey: [motionsById, fromDate, toDate, filter, peripheralId],
+    queryKey: [motionsById, fromDate, toDate, filter.labels, peripheralId],
     queryFn: () =>
-      fetchMovementsByPeripheralId({ fromDate, toDate, peripheralId }),
+      fetchMovementsByPeripheralId({
+        fromDate,
+        toDate,
+        peripheralId,
+        labels: filter.labels,
+      }),
     enabled:
       !!peripheralId &&
-      (filter == TimelineFilterBy.MOTIONS ||
-        filter == TimelineFilterBy.MOTIONS_ALERTS) &&
+      filter.labels.length > 0 &&
       period == MovementsTimelinePeriod.DAYS_1,
     refetchInterval: TimelineRefetchInterval.SINGLE_DEVICE,
   });
@@ -60,12 +71,15 @@ function MovementsTimelineContainer({
     data: dataAlertsByPeripheralId,
     isInitialLoading: isLoadingAlertsByPeripheralId,
   } = useQuery({
-    queryKey: [alertsById, fromDate, toDate, filter, peripheralId],
+    queryKey: [alertsById, fromDate, toDate, filter.types, peripheralId],
     queryFn: () =>
-      fetchAlertsByPeripheralId({ fromDate, toDate, peripheralId }),
-    enabled:
-      (!!peripheralId && filter == TimelineFilterBy.ALERTS) ||
-      filter == TimelineFilterBy.MOTIONS_ALERTS,
+      fetchAlertsByPeripheralId({
+        fromDate,
+        toDate,
+        peripheralId,
+        types: filter.types,
+      }),
+    enabled: !!peripheralId && filter.types.length > 0,
     refetchInterval: TimelineRefetchInterval.SINGLE_DEVICE,
   });
 
@@ -83,19 +97,25 @@ function MovementsTimelineContainer({
   );
 
   const handleChangeFilterBy = (e: SelectChangeEvent<unknown>) => {
-    const filterByValue = String(e.target.value);
-    setFilter(filterByValue);
-    if (filterByValue !== TimelineFilterBy.ALERTS) {
-      setPeriod(MovementsTimelinePeriod.DAYS_1);
-    }
+    const { value } = e.target as { value: (AlertTypes | EventLabels)[] };
+    const alertsFilter = value.filter((item) =>
+      defaultTypes.includes(item as AlertTypes)
+    );
+    const motionsFilter = value.filter((item) =>
+      defaultLabels.includes(item as EventLabels)
+    );
+    setFilter({
+      types: alertsFilter as AlertTypes[],
+      labels: motionsFilter as EventLabels[],
+    });
   };
+
   const handleChangePeriod = (e: SelectChangeEvent<unknown>) => {
     const periodValue = Number(e.target.value);
     setPeriod(periodValue);
-    if (periodValue !== MovementsTimelinePeriod.DAYS_1) {
-      setFilter(TimelineFilterBy.ALERTS);
-    }
   };
+
+  const filterArr = [...filter.types, ...filter.labels];
 
   return (
     <MovementsTimelineVertical
@@ -106,7 +126,7 @@ function MovementsTimelineContainer({
       yAccessor={peripheralNameAccessor}
       peripherals={[peripheralName]}
       ids={[peripheralId]}
-      filter={filter}
+      filter={filterArr}
       handleChangeFilter={handleChangeFilterBy}
       period={period}
       handleChangePeriod={handleChangePeriod}
