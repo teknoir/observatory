@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import useWebSocket from 'react-use-websocket';
-import mockMessagesJson from './mockFrontEndVideoMessages.json';
 import { Options } from 'react-use-websocket/src/lib/types.ts';
-import { useProductionData } from 'enums/mockData';
+import { useProductionData } from 'enums/mockData.ts';
+import { TOPICS } from 'enums/wss';
 
 interface MockMessage {
   type: string;
@@ -10,7 +10,7 @@ interface MockMessage {
   opcode: number;
   data: string;
 }
-const mockMessages: MockMessage[] = mockMessagesJson as MockMessage[];
+let mockMessagesJson: MockMessage[];
 
 // Create a wrapper around useWebSocket
 export function useMockableWebSocket(socketUrl: string, options: Options) {
@@ -20,7 +20,8 @@ export function useMockableWebSocket(socketUrl: string, options: Options) {
   );
   const [mockedLastMessage, setMockedLastMessage] = useState<
     MessageEvent | never
-  >(new MessageEvent('', mockMessages[0])); // State to store the mocked last message
+  >(new MessageEvent('', { data: JSON.stringify({ type: '' }) })); // State to store the mocked last message
+  const isProductionData = location?.search.includes(useProductionData);
 
   const replayMessagesLoop = async () => {
     let delay = 0;
@@ -29,23 +30,25 @@ export function useMockableWebSocket(socketUrl: string, options: Options) {
     // loop through the real production messages forever
     // eslint-disable-next-line no-constant-condition
     while (true) {
-      setMockedLastMessage(new MessageEvent('', mockMessages[messageIndex]));
-      const message = mockMessages[messageIndex];
+      setMockedLastMessage(
+        new MessageEvent('', mockMessagesJson[messageIndex])
+      );
+      const message = mockMessagesJson[messageIndex];
 
       // generate messages also for the device view
       message['data'] = message['data'].replace(
-        'front-end-video',
-        'raw-front-end-video'
+        TOPICS.FRONT_END_VIDEO,
+        TOPICS.RAW_FRONT_END_VIDEO
       );
       await new Promise((r) => setTimeout(r, 200));
 
       setMockedLastMessage(new MessageEvent('', message));
-      messageIndex = (messageIndex + 1) % mockMessages.length;
+      messageIndex = (messageIndex + 1) % mockMessagesJson.length;
 
       delay =
         messageIndex > 0
-          ? (mockMessages[messageIndex].time -
-              mockMessages[messageIndex - 1].time) *
+          ? (mockMessagesJson[messageIndex].time -
+              mockMessagesJson[messageIndex - 1].time) *
             1000
           : 0;
 
@@ -54,15 +57,18 @@ export function useMockableWebSocket(socketUrl: string, options: Options) {
   };
 
   useEffect(() => {
-    if (location?.search.includes(useProductionData)) {
+    if (isProductionData) {
       (async () => {
+        // Dynamically import the JSON file
+        const module = await import('./mockFrontEndVideoMessages.json');
+        mockMessagesJson = module.default as MockMessage[];
         await replayMessagesLoop();
       })();
     }
   }, []);
 
   // If using useProductionData query param, return the mocked lastMessage
-  if (location?.search.includes(useProductionData)) {
+  if (isProductionData) {
     return {
       ...options,
       lastMessage: mockedLastMessage,

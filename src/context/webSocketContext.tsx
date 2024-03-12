@@ -4,7 +4,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { IAlertEvent, Source } from 'ts/types';
 import { TOPICS, TYPES } from 'enums/wss';
 import { wsSources, notifications } from 'enums/queryKeys';
-import { useMockableWebSocket } from './useMockableWebSocket.ts';
+import { useMockableWebSocket } from 'hooks/useMockableWebSocket';
 
 const socketUrl = import.meta.env.VITE_WS_SERVER;
 
