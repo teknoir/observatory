@@ -18,10 +18,34 @@ export function useMockableWebSocket(socketUrl: string, options: Options) {
     socketUrl,
     options
   );
+
+  const { mockedLastMessage } = useMockableData();
+  const useMockProductionData = location?.search.includes(useProductionData);
+
+  return {
+    sendMessage,
+    lastMessage: useMockProductionData ? mockedLastMessage : lastMessage,
+    readyState,
+  };
+}
+
+const useMockableData = () => {
   const [mockedLastMessage, setMockedLastMessage] = useState<
     MessageEvent | never
   >(new MessageEvent('', { data: JSON.stringify({ type: '' }) })); // State to store the mocked last message
+
   const isProductionData = location?.search.includes(useProductionData);
+
+  useEffect(() => {
+    if (isProductionData) {
+      (async () => {
+        // Dynamically import the JSON file
+        const module = await import('./mockFrontEndVideoMessages.json');
+        mockMessagesJson = module.default as MockMessage[];
+        await replayMessagesLoop();
+      })();
+    }
+  }, [isProductionData]);
 
   const replayMessagesLoop = async () => {
     let delay = 0;
@@ -56,31 +80,7 @@ export function useMockableWebSocket(socketUrl: string, options: Options) {
     }
   };
 
-  useEffect(() => {
-    if (isProductionData) {
-      (async () => {
-        // Dynamically import the JSON file
-        const module = await import('./mockFrontEndVideoMessages.json');
-        mockMessagesJson = module.default as MockMessage[];
-        await replayMessagesLoop();
-      })();
-    }
-  }, []);
-
-  // If using useProductionData query param, return the mocked lastMessage
-  if (isProductionData) {
-    return {
-      ...options,
-      lastMessage: mockedLastMessage,
-      sendMessage,
-      readyState,
-    };
-  }
-
-  // otherwise return the real useWebSocket lastMessage values
   return {
-    sendMessage,
-    lastMessage,
-    readyState,
+    mockedLastMessage,
   };
-}
+};
