@@ -14,7 +14,7 @@ function AnnotationsCanvas({
     useDisplaySettingsContext();
 
   // TODO: PRO-1969/PRO-1970 remove this after ready to go to production
-  const annotationsFlag = false;
+  const annotationsFlag = true;
 
   useEffect(() => {
     const canvas = canvasRef.current;

@@ -26,7 +26,7 @@ const motionsAlertsItem = {
 };
 
 // TODO: PRO-1969/PRO-1970 remove this after ready to go to production
-const annotationsFlag = false;
+const annotationsFlag = true;
 
 const getNavigationItems = (isSmall: boolean) => {
   const items = [homeItem];

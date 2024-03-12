@@ -13,7 +13,7 @@ import styles from './SelectLayout.module.scss';
 import { useMainLayoutContext } from 'context/mainLayoutContext.tsx';
 
 // TODO: PRO-1969/PRO-1970 remove this after ready to go to production
-const annotationsFlag = false;
+const annotationsFlag = true;
 
 // TODO: Replace icons
 const options = [
