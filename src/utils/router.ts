@@ -1,5 +1,5 @@
 import { generatePath as generatePathBase } from 'react-router-dom';
-import { useMockDb, useTestImages } from 'enums/mockData';
+import { useMockDb, useProductionData, useTestImages } from 'enums/mockData';
 
 type Params = { [key: string]: string };
 
@@ -17,6 +17,9 @@ export const generatePath = (
   }
   if (searchParams.has(useTestImages)) {
     newSearchParams.set(useTestImages, '');
+  }
+  if (searchParams.has(useProductionData)) {
+    newSearchParams.set(useProductionData, '');
   }
   if (newSearchParams.size) {
     return (
