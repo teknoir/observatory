@@ -13,7 +13,7 @@ function AnnotationsCanvas({
   const { boundaryBoxesChecked, objectLabelsChecked, colorFillBoxesChecked } =
     useDisplaySettingsContext();
 
-  // TODO: remove this after ready to go to production
+  // TODO: PRO-1969/PRO-1970 remove this after ready to go to production
   const annotationsFlag = false;
 
   useEffect(() => {
