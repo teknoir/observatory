@@ -37,7 +37,7 @@ const ImageViewer = ({ src, detections }: Props) => {
         src={src}
         detections={detections}
         stylesImage={styles.image}
-        labelFontSize={20}
+        labelFontSize={16}
       />
     </Resizable>
   );
