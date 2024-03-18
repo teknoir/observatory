@@ -1,4 +1,3 @@
-import { useContext } from 'react';
 import styles from './DisplaySettings.module.scss';
 import classNames from 'classnames';
 import IconButton from '@mui/material/IconButton';
@@ -11,7 +10,8 @@ import Checkbox from '@mui/material/Checkbox';
 import { Typography } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import { useMainLayoutContext } from 'context/mainLayoutContext.tsx';
-import { DisplaySettingsContext } from 'context/DisplaySettingsContext/DisplaySettingsContext.ts';
+import { useDisplaySettingsContext } from 'context/DisplaySettingsContext/displaySettingsContext.tsx';
+import { ChangeEvent } from 'react';
 
 const DisplaySettings = () => {
   const { closeRightOverlay } = useMainLayoutContext();
@@ -22,15 +22,17 @@ const DisplaySettings = () => {
     setObjectLabelsChecked,
     colorFillBoxesChecked,
     setColorFillBoxesChecked,
-  } = useContext(DisplaySettingsContext);
+  } = useDisplaySettingsContext();
 
-  const handleCheckedSettingsChange = (
-    setSettingsChecked: (
-      value: ((prevState: boolean) => boolean) | boolean
-    ) => void
-  ) => {
-    setSettingsChecked((prev) => !prev);
-  };
+  const handleCheckedSettingsChange =
+    (
+      setSettingsChecked: (
+        value: ((prevState: boolean) => boolean) | boolean
+      ) => void
+    ) =>
+    (event: ChangeEvent<HTMLInputElement>) => {
+      setSettingsChecked(event.target.checked);
+    };
 
   return (
     <div className={styles.overlay}>
@@ -46,12 +48,12 @@ const DisplaySettings = () => {
             control={
               <Switch
                 checked={boundaryBoxesChecked}
-                onChange={() =>
-                  handleCheckedSettingsChange(setBoundaryBoxesChecked)
+                onChange={(event) =>
+                  handleCheckedSettingsChange(setBoundaryBoxesChecked)(event)
                 }
               />
             }
-            label="Boundary Boxes"
+            label="Bounding Boxes"
             labelPlacement={'start'}
             className={styles.displaySetting}
           />
@@ -60,8 +62,8 @@ const DisplaySettings = () => {
               control={
                 <Checkbox
                   checked={colorFillBoxesChecked}
-                  onChange={() =>
-                    handleCheckedSettingsChange(setColorFillBoxesChecked)
+                  onChange={(event) =>
+                    handleCheckedSettingsChange(setColorFillBoxesChecked)(event)
                   }
                 />
               }
@@ -79,8 +81,8 @@ const DisplaySettings = () => {
             control={
               <Switch
                 checked={objectLabelsChecked}
-                onChange={() =>
-                  handleCheckedSettingsChange(setObjectLabelsChecked)
+                onChange={(event) =>
+                  handleCheckedSettingsChange(setObjectLabelsChecked)(event)
                 }
               />
             }

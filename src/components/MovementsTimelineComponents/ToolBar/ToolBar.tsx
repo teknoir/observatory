@@ -6,18 +6,24 @@ import Link from '@mui/material/Link';
 import { SelectChangeEvent } from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
 import Select from 'muiComponents/Select/Select';
-import {
-  MovementsTimelinePeriod,
-  TimelineFilterBy,
-} from 'components/MovementsTimeline/enums';
+import MultiSelect from 'muiComponents/MultiSelectCheckbox/MultiSelectCheckbox';
+import carIcon from 'assets/icons/carIcon.svg';
+import loiteringIcon from 'assets/icons/loiteringIcon.svg';
+import peopleIcon from 'assets/icons/peopleIcon.svg';
+import personDownIcon from 'assets/icons/personDownIcon.svg';
+import theftIcon from 'assets/icons/theftIcon.svg';
+import { MovementsTimelinePeriod } from 'components/MovementsTimeline/enums';
+import { AlertTypes, EventLabels } from 'ts/types';
 import { generatePath } from 'utils/router';
 import APP_URLS from 'enums/urls';
 import styles from './ToolBar.module.scss';
 
 const timelineOptions = [
-  { value: TimelineFilterBy.MOTIONS_ALERTS, label: 'All' },
-  { value: TimelineFilterBy.MOTIONS, label: 'Motions' },
-  { value: TimelineFilterBy.ALERTS, label: 'Alerts' },
+  { value: AlertTypes.Theft, label: 'Theft', icon: theftIcon },
+  { value: AlertTypes.Loitering, label: 'Loitering', icon: loiteringIcon },
+  { value: AlertTypes.OnGround, label: 'Man down', icon: personDownIcon },
+  { value: EventLabels.Car, label: 'Cars', icon: carIcon },
+  { value: EventLabels.Person, label: 'People', icon: peopleIcon },
 ];
 
 const periodOptions = [
@@ -27,7 +33,7 @@ const periodOptions = [
 ];
 
 interface ToolBarProps {
-  filter: string;
+  filter: (AlertTypes | EventLabels)[];
   handleChangeFilter: (e: SelectChangeEvent<unknown>) => void;
   period: MovementsTimelinePeriod;
   handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;
@@ -45,29 +51,22 @@ const ToolBar = ({
 }: ToolBarProps) => {
   return (
     <nav className={classNames(styles.menuLayout, className)}>
-      <div className={classNames(styles.menuItem, styles.title)}>
-        <Typography variant="LabelLarge">Motions & Alerts</Typography>
-      </div>
-      <div className={styles.menuItem}>
-        <Box className={styles.menuItemBox}>
-          <InputLabel id="timelineFilterByLabel" className={styles.inputLabel}>
-            <Typography variant="LabelLarge">Filter by: </Typography>
-          </InputLabel>
-          <Select
-            labelId="timelineFilterByLabel"
-            value={filter}
-            options={timelineOptions}
-            onChange={handleChangeFilter}
-            sx={{
-              '& .MuiSelect-select.MuiInputBase-input.MuiOutlinedInput-input': {
-                paddingLeft: 0,
-              },
-              '& .MuiOutlinedInput-notchedOutline': {
-                border: 'none',
-              },
-            }}
-          />
-        </Box>
+      <Typography variant="LabelLarge">Motions & Alerts</Typography>
+      <Box className={styles.filters}>
+        <InputLabel id="timelineFilterByLabel" className={styles.inputLabel}>
+          <Typography variant="LabelLarge">Filter by: </Typography>
+        </InputLabel>
+        <MultiSelect
+          labelId="timelineFilterByLabel"
+          options={timelineOptions}
+          value={filter}
+          onChange={handleChangeFilter}
+          sx={{
+            '& .MuiOutlinedInput-notchedOutline': {
+              border: 'none',
+            },
+          }}
+        />
         <Select
           labelId="movementsTimelinePeriodLabel"
           value={period}
@@ -91,7 +90,7 @@ const ToolBar = ({
             <Typography variant="LabelLarge">View all</Typography>
           </Link>
         )}
-      </div>
+      </Box>
     </nav>
   );
 };

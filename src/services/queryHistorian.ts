@@ -4,6 +4,7 @@ import {
   IRetrieveEventsRequestById,
   DetectionId,
   INotificationsRequest,
+  ICountEventsRequest,
 } from 'ts/types';
 
 export const getEventQuery = (detectionId: DetectionId) => {
@@ -18,7 +19,7 @@ export const getSearchQuery = (
   params: IRetrieveEventsRequest | IRetrieveEventsRequestById
 ) => {
   let query = '';
-  const { peripheralId, fromDate, toDate } =
+  const { peripheralId, fromDate, toDate, types, labels } =
     params as IRetrieveEventsRequestById;
   const queryObj: IQuery = {};
   if (peripheralId) {
@@ -30,6 +31,12 @@ export const getSearchQuery = (
   }
   if (toDate) {
     query = query + `to_date=${toDate.toISOString()}&`;
+  }
+  if (types) {
+    query = query + `types=${types.join()}&`;
+  }
+  if (labels) {
+    query = query + `labels=${labels.join()}&`;
   }
   return query;
 };
@@ -48,6 +55,18 @@ export const getSearchQueryNotifications = (params: INotificationsRequest) => {
   }
   if (limit) {
     query = query + `limit=${String(limit)}&`;
+  }
+  return query;
+};
+
+export const getSearchCountsEvents = (params: ICountEventsRequest) => {
+  let query = '';
+  const { collection, status } = params;
+  if (collection) {
+    query = query + `collection_name=${collection}&`;
+  }
+  if (status) {
+    query = query + `status=${status}`;
   }
   return query;
 };

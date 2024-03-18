@@ -5,7 +5,11 @@ import { detectionIdAccessor } from 'components/ChartUtilities/accessors';
 import { MovementsTimelinePeriod } from 'components/MovementsTimeline/enums';
 import Popover from 'components/MovementsTimelineComponents/Popover/Popover';
 import ToolBar from 'components/MovementsTimelineComponents/ToolBar/ToolBar';
-import { IEventDocumentWithPeripheral } from 'ts/types';
+import {
+  AlertTypes,
+  EventLabels,
+  IEventDocumentWithPeripheral,
+} from 'ts/types';
 import useMovementsTimelineData from 'hooks/useMovementsTimelineData';
 import AxisHorizontalScroll from './AxisHorizontalScroll/AxisHorizontalScroll';
 import GridLines from './GridLines/GridLines';
@@ -17,7 +21,7 @@ interface MovementsTimelineProps {
   dataMotions: IEventDocumentWithPeripheral[];
   dataAlerts: IEventDocumentWithPeripheral[];
   showToolbar?: boolean;
-  filter: string;
+  filter: (AlertTypes | EventLabels)[];
   handleChangeFilter: (e: SelectChangeEvent<unknown>) => void;
   period: MovementsTimelinePeriod;
   handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;

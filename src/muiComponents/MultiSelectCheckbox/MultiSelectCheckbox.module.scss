@@ -1,0 +1,12 @@
+@import 'enums/styleVariables.module';
+
+.menu {
+  background: $deepSpaceBlack;
+  width: 240px;
+  border-radius: 0;
+}
+
+.menuItem {
+  background: $deepSpaceBlack;
+  height: 40px;
+}

@@ -7,7 +7,12 @@ import { detectionIdAccessor } from 'components/ChartUtilities/accessors';
 import { peripheralIdAccessor } from 'components/ChartUtilities/accessors';
 import ToolBar from 'components/MovementsTimelineComponents/ToolBar/ToolBar';
 import { HomeContext } from 'context/HomeContext/HomeContext';
-import { IAlertEvent, IEventDocumentWithPeripheral } from 'ts/types';
+import {
+  AlertTypes,
+  EventLabels,
+  IAlertEvent,
+  IEventDocumentWithPeripheral,
+} from 'ts/types';
 import useMovementsTimelineDataVertical from 'hooks/useMovementsTimelineDataVertical';
 import AxisDetails from './AxisDetails/AxisDetails';
 import AxisLines from './AxisLines/AxisLines';
@@ -26,7 +31,7 @@ interface MovementsTimeLineParams {
   yAccessor: (d: object) => string;
   peripherals: Array<string>;
   ids: Array<string>;
-  filter: string;
+  filter: (AlertTypes | EventLabels)[];
   handleChangeFilter: (e: SelectChangeEvent<unknown>) => void;
   period: MovementsTimelinePeriod;
   handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;
@@ -44,23 +49,17 @@ export const MovementsTimelineVertical = ({
   handleChangePeriod,
   isLoading,
 }: MovementsTimeLineParams) => {
-  const {
-    dimensions,
-    ref,
-    scrollGroupRef,
-    yScale,
-    yAccessorScaled,
-    handlePopoverOpen,
-  } = useMovementsTimelineDataVertical({
-    startTime,
-    peripherals,
-    period,
-    initialDimensions: {
-      marginTop: 0,
-      marginLeft: 0,
-      marginRight: 0,
-    },
-  });
+  const { dimensions, ref, yScale, yAccessorScaled } =
+    useMovementsTimelineDataVertical({
+      startTime,
+      peripherals,
+      period,
+      initialDimensions: {
+        marginTop: 0,
+        marginLeft: 0,
+        marginRight: 0,
+      },
+    });
   const { setMainImageCarousel } = useContext(HomeContext);
   const numberOfTicks = period * 24 * 4; // 4 ticks per hour = 15 minutes per tick
 
@@ -77,7 +76,7 @@ export const MovementsTimelineVertical = ({
       <div className={styles.timeline} ref={ref}>
         <Chart dimensions={dimensions}>
           <GridLines xPos={xPos} />
-          <g ref={scrollGroupRef}>
+          <g>
             <AxisTimestamps
               scale={yScale}
               numberOfTicks={numberOfTicks}
@@ -112,7 +111,6 @@ export const MovementsTimelineVertical = ({
               onCircleClick={setMainImageCarousel}
               onClickAccessor={peripheralIdAccessor}
               className={styles.circleAlert}
-              onCircleHover={handlePopoverOpen}
             />
             <AxisDetails
               data={dataAlerts}

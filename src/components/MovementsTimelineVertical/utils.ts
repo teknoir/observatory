@@ -9,5 +9,5 @@ export const yScale = (startTime: Date, dimensions: ChartDimensions) => {
   return d3
     .scaleTime()
     .domain([startTime, moment().toDate()])
-    .range([0, dimensions.boundedScrollHeight]);
+    .range([dimensions.boundedScrollHeight, 0]);
 };

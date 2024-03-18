@@ -11,7 +11,12 @@ import CarouselArrows from 'components/MovementsTimelineComponents/CarouselArrow
 import ToolBar from 'components/MovementsTimelineComponents/ToolBar/ToolBar';
 import Popover from 'components/MovementsTimelineComponents/Popover/Popover';
 import { HomeContext } from 'context/HomeContext/HomeContext';
-import { IAlertEvent, IEventDocumentWithPeripheral } from 'ts/types';
+import {
+  AlertTypes,
+  EventLabels,
+  IAlertEvent,
+  IEventDocumentWithPeripheral,
+} from 'ts/types';
 import useMovementsTimelineData from 'hooks/useMovementsTimelineData';
 import AxisHorizontalScroll from './AxisHorizontalScroll/AxisHorizontalScroll';
 import AxisVerticalLeft from './AxisVerticalLeft/AxisVerticalLeft';
@@ -28,7 +33,7 @@ interface MovementsTimeLineParams {
   yAccessor: (d: object) => string;
   peripherals: Array<string>;
   ids: Array<string>;
-  filter: string;
+  filter: (AlertTypes | EventLabels)[];
   handleChangeFilter: (e: SelectChangeEvent<unknown>) => void;
   period: MovementsTimelinePeriod;
   handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;

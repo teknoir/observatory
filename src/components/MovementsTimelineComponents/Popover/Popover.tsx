@@ -49,11 +49,11 @@ const PopoverComponent = ({
     alertInfo[ALERT_INFO_KEYS.GROUND_TRUTH] || alertInfo[ALERT_INFO_KEYS.TYPE];
   const getTooltipText = useCallback(() => {
     switch (alertType) {
-      case AlertTypes.loitering:
+      case AlertTypes.Loitering:
         return 'Loitering';
-      case AlertTypes.theft:
+      case AlertTypes.Theft:
         return 'Theft';
-      case AlertTypes.on_ground:
+      case AlertTypes.OnGround:
         return 'Person Down';
       default:
         return '';
