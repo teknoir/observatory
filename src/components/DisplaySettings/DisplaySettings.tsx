@@ -53,7 +53,7 @@ const DisplaySettings = () => {
                 }
               />
             }
-            label="Boundary Boxes"
+            label="Bounding Boxes"
             labelPlacement={'start'}
             className={styles.displaySetting}
           />
