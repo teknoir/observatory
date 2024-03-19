@@ -20,7 +20,7 @@ const surveillanceCarouselComponentsByMode = {
 const SurveillanceCarousel = ({
   mode,
   sources,
-  parentSetMainImage,
+  parentSetMainImageResetDetections,
 }: SurveillanceCarouselProps) => {
   const [mainImage, setMainImage] = useState('');
   const { mainImageCarousel, setMainImageCarousel, peripheralIdNotified } =
@@ -59,6 +59,8 @@ const SurveillanceCarousel = ({
         } else {
           newIndex = ids[mainIdx + 1] || ids[0];
         }
+        parentSetMainImageResetDetections(newIndex);
+
         return newIndex;
       });
     }
@@ -69,7 +71,7 @@ const SurveillanceCarousel = ({
 
     // upon changing main camera source immediately update state in parent
     // and request changes on the cloud
-    parentSetMainImage(cameraId);
+    parentSetMainImageResetDetections(cameraId);
 
     const { peripheralId = '', device = '' } = sources.get(cameraId) ?? {};
     const messageObj = getStartRawImagesStreamMsg(peripheralId, device, 10);
