@@ -76,8 +76,12 @@ const Device = () => {
       switch (type) {
         case TYPES.MESSAGE: {
           const { topic, image, peripheral, device } = data;
-          if (topic === TOPICS.FRONT_END_VIDEO) {
-            // only front end video messages have frames with inferred data
+          if (
+            topic === TOPICS.FRONT_END_VIDEO &&
+            peripheralId === peripheral?.id
+          ) {
+            // only front end video messages have frames with inferred data, also update only with detections coming
+            // from the selected camera source
             setDetections(data.detections);
           }
 
