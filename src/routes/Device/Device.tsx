@@ -7,7 +7,7 @@ import ContentBar from 'components/ContentBar/ContentBar';
 import MainContent from 'components/MainContent/MainContent';
 import MovementsTimelineEmbed from 'components/MovementsTimelineEmbed/MovementsTimelineEmbed';
 import MovementsTimelineVertical from 'components/MovementsTimelineVertical/MovementsTimelineContainer';
-import { Source, SourceStatus } from 'ts/types';
+import { Detection, Source, SourceStatus } from 'ts/types';
 import { useMainLayoutContext } from 'context/mainLayoutContext';
 import { useWSSContext } from 'context/webSocketContext';
 import { wsSources } from 'enums/queryKeys';
@@ -29,6 +29,7 @@ const Device = () => {
     wsSources,
   ])!;
   const [source, setSource] = useState<Source>(sources?.[peripheralId]);
+  const [detections, setDetections] = useState<Array<Detection>>([]);
 
   const { lastMessage, sendMessage, isOpened } = useWSSContext();
   const { isSmall } = useMainLayoutContext();
@@ -71,9 +72,15 @@ const Device = () => {
     if (lastMessage) {
       const data = JSON.parse(lastMessage.data);
       const { type } = data;
+
       switch (type) {
         case TYPES.MESSAGE: {
-          const { topic, image, peripheral, device, detections } = data;
+          const { topic, image, peripheral, device } = data;
+          if (topic === TOPICS.FRONT_END_VIDEO) {
+            // only front end video messages have frames with inferred data
+            setDetections(data.detections);
+          }
+
           if (
             topic === TOPICS.RAW_FRONT_END_VIDEO &&
             peripheralId === peripheral?.id

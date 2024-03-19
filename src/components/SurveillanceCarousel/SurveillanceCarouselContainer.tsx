@@ -6,7 +6,13 @@ import { useWSSContext } from 'context/webSocketContext';
 import { wsSources } from 'enums/queryKeys';
 import { TOPICS, TYPES, CAROUSEL_REFRESH_RATE } from 'enums/wss';
 import { useTestImages } from 'enums/mockData';
-import { CarouselMode, HomeContextProps, Source, SourceStatus } from 'ts/types';
+import {
+  CarouselMode,
+  Detection,
+  HomeContextProps,
+  Source,
+  SourceStatus,
+} from 'ts/types';
 import {
   getStartImagesStreamMsg,
   getStartRawImagesStreamMsg,
@@ -29,6 +35,7 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
       : createRandomSources(0)
   );
   const [mainImage, setMainImage] = useState('');
+  const [detections, setDetections] = useState<Array<Detection>>([]);
   const { lastMessage, sendMessage } = useWSSContext();
   const { layout, setNumCameras } = useContext(HomeContext) as HomeContextProps;
 
@@ -82,10 +89,10 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
       const { type, meta } = data;
       switch (type) {
         case TYPES.MESSAGE: {
-          const { topic, image, peripheral, device, detections } = data;
+          const { topic, image, peripheral, device } = data;
           const peripheralId = peripheral?.id;
 
-          // prevent updates from slow source to interfer with the fast updates from raw video source
+          // prevent updates from slow source to interfere with the fast updates from raw video source
           if (topic === TOPICS.FRONT_END_VIDEO && mainImage !== peripheralId) {
             const source = {
               src: image,
@@ -93,10 +100,16 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
               peripheralName: peripheral?.name,
               device,
               status: SourceStatus.Active,
-              detections,
+              detections: data.detections,
             };
             updateSourceByCameraId(peripheralId, source);
           }
+
+          if (topic === TOPICS.FRONT_END_VIDEO && mainImage === peripheralId) {
+            // only front end video messages have frames with inferred data
+            setDetections(data.detections);
+          }
+
           if (
             topic === TOPICS.RAW_FRONT_END_VIDEO &&
             mainImage === peripheralId
@@ -145,6 +158,11 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
 
   const selectedLayout = mode || layout;
 
+  const setMainImageResetDetections = (cameraId: string) => {
+    setMainImage(cameraId);
+    setDetections([]);
+  };
+
   // TODO: remove in future when we have clear vision of this feature
   // const deleteSourcesByCameraIds = (cameraIds: string[]) => {
   //   const newSources = new Map(sources);
@@ -160,7 +178,7 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
     <SurveillanceCarousel
       mode={selectedLayout}
       sources={sources}
-      parentSetMainImage={setMainImage}
+      parentSetMainImageResetDetections={setMainImageResetDetections}
     />
   );
 };
