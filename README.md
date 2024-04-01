@@ -69,3 +69,4 @@ gcloud --project=teknoir-mgmt builds submit . \
 SHORT_SHA="1.0.0",\
 BRANCH_NAME="main"
 ```
+
