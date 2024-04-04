@@ -8,6 +8,7 @@ import { useMainLayoutContext } from 'context/mainLayoutContext';
 import Icon from 'components/Icon/Icon';
 import RightSideBarTabs from 'components/RightSideBarTabs/RightSideBarTabs';
 import DisplaySettings from 'components/DisplaySettings/DisplaySettings';
+import DisplayFilters from 'components/DisplayFilters/DisplayFilters';
 import styleVariables from 'enums/styleVariables.module.scss';
 import { IconSizes } from 'ts/types';
 import DrawerHeader from '../components/DrawerHeader';
@@ -47,6 +48,7 @@ const RightSideBar = () => {
         <RightSideBarTabs />
       </div>
       {isOpenedRightOverlay && <DisplaySettings />}
+      {isOpenedRightOverlay && <DisplayFilters />}
     </Drawer>
   );
 };
@@ -71,6 +73,7 @@ const RightSideBarMobile = () => {
       >
         <RightSideBarTabs />
         {isOpenedRightOverlay && <DisplaySettings />}
+        {isOpenedRightOverlay && <DisplayFilters />}
       </div>
       <div
         className={classNames(

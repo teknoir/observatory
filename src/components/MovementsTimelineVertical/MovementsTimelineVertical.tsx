@@ -7,6 +7,7 @@ import { detectionIdAccessor } from 'components/ChartUtilities/accessors';
 import { peripheralIdAccessor } from 'components/ChartUtilities/accessors';
 import ToolBar from 'components/MovementsTimelineComponents/ToolBar/ToolBar';
 import { HomeContext } from 'context/HomeContext/HomeContext';
+import { useMainLayoutContext } from 'context/mainLayoutContext';
 import {
   AlertTypes,
   EventLabels,
@@ -60,6 +61,8 @@ export const MovementsTimelineVertical = ({
         marginRight: 0,
       },
     });
+  const { isOpenedRightOverlay, openRightOverlay, closeRightOverlay } =
+    useMainLayoutContext();
   const { setMainImageCarousel } = useContext(HomeContext);
   const numberOfTicks = period * 24 * 4; // 4 ticks per hour = 15 minutes per tick
 
@@ -72,6 +75,11 @@ export const MovementsTimelineVertical = ({
         handleChangePeriod={handleChangePeriod}
         isViewAll={false}
       />
+      <button
+        onClick={isOpenedRightOverlay ? closeRightOverlay : openRightOverlay}
+      >
+        Open Toolbar in Sidebar
+      </button>
       <Divider variant="middle" />
       <div className={styles.timeline} ref={ref}>
         <Chart dimensions={dimensions}>
