@@ -32,8 +32,11 @@ const ToolBar = ({
   isViewAll = true,
   className,
 }: ToolBarProps) => {
-  const { isOpenedRightOverlay, openRightOverlay, closeRightOverlay } =
-    useMainLayoutContext();
+  const {
+    isOpenedRightOverlayFilters,
+    openRightOverlayFilters,
+    closeRightOverlayFilters,
+  } = useMainLayoutContext();
   return (
     <nav className={classNames(styles.menuLayout, className)}>
       <Box className={styles.filters}>
@@ -63,7 +66,11 @@ const ToolBar = ({
       </Box>
       <IconButton
         aria-label="filters"
-        onClick={isOpenedRightOverlay ? closeRightOverlay : openRightOverlay}
+        onClick={
+          isOpenedRightOverlayFilters
+            ? closeRightOverlayFilters
+            : openRightOverlayFilters
+        }
       >
         <FilterList />
       </IconButton>

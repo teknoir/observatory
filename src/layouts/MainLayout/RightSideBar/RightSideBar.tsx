@@ -58,6 +58,7 @@ const RightSideBarMobile = () => {
     openRight,
     closeRight,
     isOpenedRightOverlay,
+    isOpenedRightOverlayFilters,
     isOpenedRightBar,
   } = useMainLayoutContext();
   const sxIcon = { color: styleVariables.deepSpaceBlack };
@@ -67,19 +68,21 @@ const RightSideBarMobile = () => {
         className={classNames(
           styles.root,
           isOpenedRightBar ? styles.visible : styles.hidden,
-          isOpenedRightOverlay && styles.visibleRightOverlay
+          isOpenedRightOverlay && styles.visibleRightOverlay,
+          isOpenedRightOverlayFilters && styles.visibleRightOverlay
         )}
       >
         <RightSideBarTabs />
         {isOpenedRightOverlay && <DisplaySettings />}
-        {isOpenedRightOverlay && <DisplayFilters />}
+        {isOpenedRightOverlayFilters && <DisplayFilters />}
       </div>
       <div
         className={classNames(
           isOpenedRight
             ? styles.bottomIconWrapperOpened
             : styles.bottomIconWrapper,
-          isOpenedRightOverlay && styles.hidden
+          isOpenedRightOverlay && styles.hidden,
+          isOpenedRightOverlayFilters && styles.hidden
         )}
       >
         <div

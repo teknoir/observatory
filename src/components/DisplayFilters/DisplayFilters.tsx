@@ -23,7 +23,7 @@ const timelineOptions = [
 
 const DisplayFilters = () => {
   const { filters, setFilters } = useDisplayFiltersContext();
-  const { closeRightOverlay } = useMainLayoutContext();
+  const { closeRightOverlayFilters } = useMainLayoutContext();
 
   const defaultTypes = [
     AlertTypes.Theft,
@@ -52,7 +52,7 @@ const DisplayFilters = () => {
     <div className={styles.overlay}>
       <div className={styles.displayFiltersContainer}>
         <div className={classNames(styles.displayFilters, styles.title)}>
-          <IconButton onClick={closeRightOverlay}>
+          <IconButton onClick={closeRightOverlayFilters}>
             <CloseIcon />
           </IconButton>
         </div>
