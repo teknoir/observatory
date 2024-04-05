@@ -48,7 +48,6 @@ const RightSideBar = () => {
         <RightSideBarTabs />
       </div>
       {isOpenedRightOverlay && <DisplaySettings />}
-      {isOpenedRightOverlay && <DisplayFilters />}
     </Drawer>
   );
 };

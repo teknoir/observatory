@@ -6,7 +6,6 @@ import { Chart, Circles } from 'components/ChartUtilities';
 import { detectionIdAccessor } from 'components/ChartUtilities/accessors';
 import { peripheralIdAccessor } from 'components/ChartUtilities/accessors';
 import ToolBar from 'components/MovementsTimelineComponents/ToolBar/ToolBar';
-import { useDisplayFiltersContext } from 'context/DisplayFiltersContext/displayFiltersContext';
 import { HomeContext } from 'context/HomeContext/HomeContext';
 import { IAlertEvent, IEventDocumentWithPeripheral } from 'ts/types';
 import useMovementsTimelineDataVertical from 'hooks/useMovementsTimelineDataVertical';
@@ -52,8 +51,6 @@ export const MovementsTimelineVertical = ({
         marginRight: 0,
       },
     });
-  const { filters } = useDisplayFiltersContext();
-  console.log(filters);
 
   const { setMainImageCarousel } = useContext(HomeContext);
   const numberOfTicks = period * 24 * 4; // 4 ticks per hour = 15 minutes per tick
