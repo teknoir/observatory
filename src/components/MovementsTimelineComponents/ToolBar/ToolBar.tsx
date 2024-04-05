@@ -6,25 +6,25 @@ import Link from '@mui/material/Link';
 import { SelectChangeEvent } from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
 import Select from 'muiComponents/Select/Select';
-import MultiSelect from 'muiComponents/MultiSelectCheckbox/MultiSelectCheckbox';
-import carIcon from 'assets/icons/carIcon.svg';
-import loiteringIcon from 'assets/icons/loiteringIcon.svg';
-import peopleIcon from 'assets/icons/peopleIcon.svg';
-import personDownIcon from 'assets/icons/personDownIcon.svg';
-import theftIcon from 'assets/icons/theftIcon.svg';
+// import MultiSelect from 'muiComponents/MultiSelectCheckbox/MultiSelectCheckbox';
+// import carIcon from 'assets/icons/carIcon.svg';
+// import loiteringIcon from 'assets/icons/loiteringIcon.svg';
+// import peopleIcon from 'assets/icons/peopleIcon.svg';
+// import personDownIcon from 'assets/icons/personDownIcon.svg';
+// import theftIcon from 'assets/icons/theftIcon.svg';
 import { MovementsTimelinePeriod } from 'components/MovementsTimeline/enums';
-import { AlertTypes, EventLabels } from 'ts/types';
+// import { AlertTypes, EventLabels } from 'ts/types';
 import { generatePath } from 'utils/router';
 import APP_URLS from 'enums/urls';
 import styles from './ToolBar.module.scss';
 
-const timelineOptions = [
-  { value: AlertTypes.Theft, label: 'Theft', icon: theftIcon },
-  { value: AlertTypes.Loitering, label: 'Loitering', icon: loiteringIcon },
-  { value: AlertTypes.OnGround, label: 'Man down', icon: personDownIcon },
-  { value: EventLabels.Car, label: 'Cars', icon: carIcon },
-  { value: EventLabels.Person, label: 'People', icon: peopleIcon },
-];
+// const timelineOptions = [
+//   { value: AlertTypes.Theft, label: 'Theft', icon: theftIcon },
+//   { value: AlertTypes.Loitering, label: 'Loitering', icon: loiteringIcon },
+//   { value: AlertTypes.OnGround, label: 'Man down', icon: personDownIcon },
+//   { value: EventLabels.Car, label: 'Cars', icon: carIcon },
+//   { value: EventLabels.Person, label: 'People', icon: peopleIcon },
+// ];
 
 const periodOptions = [
   { value: MovementsTimelinePeriod.DAYS_1, label: 'Today' },
@@ -33,8 +33,8 @@ const periodOptions = [
 ];
 
 interface ToolBarProps {
-  filter: (AlertTypes | EventLabels)[];
-  handleChangeFilter: (e: SelectChangeEvent<unknown>) => void;
+  // filter: (AlertTypes | EventLabels)[];
+  // handleChangeFilter: (e: SelectChangeEvent<unknown>) => void;
   period: MovementsTimelinePeriod;
   handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;
   isViewAll?: boolean;
@@ -42,8 +42,8 @@ interface ToolBarProps {
 }
 
 const ToolBar = ({
-  filter,
-  handleChangeFilter,
+  // filter,
+  // handleChangeFilter,
   period,
   handleChangePeriod,
   isViewAll = true,
@@ -56,7 +56,7 @@ const ToolBar = ({
         <InputLabel id="timelineFilterByLabel" className={styles.inputLabel}>
           <Typography variant="LabelLarge">Filter by: </Typography>
         </InputLabel>
-        <MultiSelect
+        {/* <MultiSelect
           labelId="timelineFilterByLabel"
           options={timelineOptions}
           value={filter}
@@ -66,7 +66,7 @@ const ToolBar = ({
               border: 'none',
             },
           }}
-        />
+        /> */}
         <Select
           labelId="movementsTimelinePeriodLabel"
           value={period}

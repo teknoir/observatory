@@ -6,11 +6,12 @@ import { Chart, Circles } from 'components/ChartUtilities';
 import { detectionIdAccessor } from 'components/ChartUtilities/accessors';
 import { peripheralIdAccessor } from 'components/ChartUtilities/accessors';
 import ToolBar from 'components/MovementsTimelineComponents/ToolBar/ToolBar';
+import { useDisplayFiltersContext } from 'context/DisplayFiltersContext/displayFiltersContext';
 import { HomeContext } from 'context/HomeContext/HomeContext';
 import { useMainLayoutContext } from 'context/mainLayoutContext';
 import {
-  AlertTypes,
-  EventLabels,
+  // AlertTypes,
+  // EventLabels,
   IAlertEvent,
   IEventDocumentWithPeripheral,
 } from 'ts/types';
@@ -32,8 +33,8 @@ interface MovementsTimeLineParams {
   yAccessor: (d: object) => string;
   peripherals: Array<string>;
   ids: Array<string>;
-  filter: (AlertTypes | EventLabels)[];
-  handleChangeFilter: (e: SelectChangeEvent<unknown>) => void;
+  // filter: (AlertTypes | EventLabels)[];
+  // handleChangeFilter: (e: SelectChangeEvent<unknown>) => void;
   period: MovementsTimelinePeriod;
   handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;
   isLoading: boolean;
@@ -44,8 +45,8 @@ export const MovementsTimelineVertical = ({
   dataMotions,
   dataAlerts,
   peripherals,
-  filter,
-  handleChangeFilter,
+  // filter,
+  // handleChangeFilter,
   period,
   handleChangePeriod,
   isLoading,
@@ -63,14 +64,17 @@ export const MovementsTimelineVertical = ({
     });
   const { isOpenedRightOverlay, openRightOverlay, closeRightOverlay } =
     useMainLayoutContext();
+  const { filters } = useDisplayFiltersContext();
+  console.log(filters);
+
   const { setMainImageCarousel } = useContext(HomeContext);
   const numberOfTicks = period * 24 * 4; // 4 ticks per hour = 15 minutes per tick
 
   return (
     <div className={styles.root}>
       <ToolBar
-        filter={filter}
-        handleChangeFilter={handleChangeFilter}
+        // filter={filter}
+        // handleChangeFilter={handleChangeFilter}
         period={period}
         handleChangePeriod={handleChangePeriod}
         isViewAll={false}
