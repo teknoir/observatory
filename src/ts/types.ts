@@ -1,6 +1,7 @@
 import { Dispatch, MouseEvent, ReactNode, SetStateAction } from 'react';
 import { Moment } from 'moment/moment';
 import { NotificationStatus } from 'enums/notifications';
+import ReactPlayer from 'react-player';
 
 export enum CarouselMode {
   AllCamerasView = 'allCamerasView',
@@ -53,6 +54,11 @@ export interface ImageProps {
   detections: Array<Detection>;
 }
 
+export interface TimestampedDetection {
+  detection: DetectionDetail;
+  timestamp: Date;
+}
+
 export interface Detection {
   detection: DetectionDetail;
   lineage: Array<object>;
@@ -81,6 +87,12 @@ export interface AnnotationsCanvasProps {
   detections: Array<Detection>;
   stylesImage: string;
   labelFontSize?: number;
+}
+
+export interface AnnotationsVideoCanvasProps {
+  timestampedDetections: Array<TimestampedDetection>;
+  video: ReactPlayer | null;
+  className: string;
 }
 
 export interface ViewImagesProps {
