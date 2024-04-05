@@ -5,7 +5,6 @@ import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import { Chart, Circles } from 'components/ChartUtilities';
 import { detectionIdAccessor } from 'components/ChartUtilities/accessors';
 import { peripheralIdAccessor } from 'components/ChartUtilities/accessors';
-import ToolBar from 'components/MovementsTimelineComponents/ToolBar/ToolBar';
 import { HomeContext } from 'context/HomeContext/HomeContext';
 import { IAlertEvent, IEventDocumentWithPeripheral } from 'ts/types';
 import useMovementsTimelineDataVertical from 'hooks/useMovementsTimelineDataVertical';
@@ -13,6 +12,7 @@ import AxisDetails from './AxisDetails/AxisDetails';
 import AxisLines from './AxisLines/AxisLines';
 import AxisTimestamps from './AxisTimestamps/AxisTimestamps';
 import GridLines from './GridLines/GridLines';
+import ToolBar from './ToolBar/ToolBar';
 import { MovementsTimelinePeriod } from './enums';
 import styles from './MovementsTimelineVertical.module.scss';
 
