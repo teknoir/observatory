@@ -1,5 +1,4 @@
 import Checkbox from '@mui/material/Checkbox';
-import FilterList from '@mui/icons-material/FilterList';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import ListItemText from '@mui/material/ListItemText';
@@ -32,7 +31,6 @@ const SelectCheckbox = ({
   labelId,
   options,
   variant = 'outlined',
-  size = 'small',
   value,
   onChange,
   ...props
@@ -40,14 +38,9 @@ const SelectCheckbox = ({
   return (
     <FormControl
       variant={variant}
-      size={size}
+      fullWidth
       sx={{
-        '& .MuiSvgIcon-root': {
-          marginRight: '12px',
-        },
-        '& .MuiSelect-iconOpen': {
-          transform: 'none',
-        },
+        padding: '20px',
       }}
     >
       <InputLabel>{label}</InputLabel>
@@ -62,11 +55,10 @@ const SelectCheckbox = ({
         MenuProps={{
           transformOrigin: {
             vertical: 'top',
-            horizontal: 'right',
+            horizontal: 'center',
           },
           classes: { paper: styles.menu },
         }}
-        IconComponent={(props) => <FilterList fontSize="16" {...props} />}
         {...props}
       >
         {options &&

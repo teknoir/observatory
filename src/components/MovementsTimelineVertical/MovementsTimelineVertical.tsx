@@ -8,13 +8,7 @@ import { peripheralIdAccessor } from 'components/ChartUtilities/accessors';
 import ToolBar from 'components/MovementsTimelineComponents/ToolBar/ToolBar';
 import { useDisplayFiltersContext } from 'context/DisplayFiltersContext/displayFiltersContext';
 import { HomeContext } from 'context/HomeContext/HomeContext';
-import { useMainLayoutContext } from 'context/mainLayoutContext';
-import {
-  // AlertTypes,
-  // EventLabels,
-  IAlertEvent,
-  IEventDocumentWithPeripheral,
-} from 'ts/types';
+import { IAlertEvent, IEventDocumentWithPeripheral } from 'ts/types';
 import useMovementsTimelineDataVertical from 'hooks/useMovementsTimelineDataVertical';
 import AxisDetails from './AxisDetails/AxisDetails';
 import AxisLines from './AxisLines/AxisLines';
@@ -33,8 +27,6 @@ interface MovementsTimeLineParams {
   yAccessor: (d: object) => string;
   peripherals: Array<string>;
   ids: Array<string>;
-  // filter: (AlertTypes | EventLabels)[];
-  // handleChangeFilter: (e: SelectChangeEvent<unknown>) => void;
   period: MovementsTimelinePeriod;
   handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;
   isLoading: boolean;
@@ -45,8 +37,6 @@ export const MovementsTimelineVertical = ({
   dataMotions,
   dataAlerts,
   peripherals,
-  // filter,
-  // handleChangeFilter,
   period,
   handleChangePeriod,
   isLoading,
@@ -62,8 +52,6 @@ export const MovementsTimelineVertical = ({
         marginRight: 0,
       },
     });
-  const { isOpenedRightOverlay, openRightOverlay, closeRightOverlay } =
-    useMainLayoutContext();
   const { filters } = useDisplayFiltersContext();
   console.log(filters);
 
@@ -73,17 +61,10 @@ export const MovementsTimelineVertical = ({
   return (
     <div className={styles.root}>
       <ToolBar
-        // filter={filter}
-        // handleChangeFilter={handleChangeFilter}
         period={period}
         handleChangePeriod={handleChangePeriod}
         isViewAll={false}
       />
-      <button
-        onClick={isOpenedRightOverlay ? closeRightOverlay : openRightOverlay}
-      >
-        Open Toolbar in Sidebar
-      </button>
       <Divider variant="middle" />
       <div className={styles.timeline} ref={ref}>
         <Chart dimensions={dimensions}>

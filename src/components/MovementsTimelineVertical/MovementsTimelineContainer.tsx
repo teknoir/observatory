@@ -12,7 +12,6 @@ import {
 } from 'services/apiRequests';
 import { getFlattenDocuments } from 'utils/events';
 import { motionsById, alertsById } from 'enums/queryKeys';
-// import { AlertTypes, EventLabels } from 'ts/types';
 import { MovementsTimelineVertical } from './MovementsTimelineVertical';
 import { MovementsTimelinePeriod, TimelineRefetchInterval } from './enums';
 import { useDisplayFiltersContext } from 'context/DisplayFiltersContext/displayFiltersContext';
@@ -22,21 +21,10 @@ interface Props {
   peripheralName?: string;
 }
 
-// const defaultTypes = [
-//   AlertTypes.Theft,
-//   AlertTypes.Loitering,
-//   AlertTypes.OnGround,
-// ];
-// const defaultLabels = [EventLabels.Person, EventLabels.Car];
-
 function MovementsTimelineContainer({
   peripheralId = '',
   peripheralName: peripheralNameFromDevice = '',
 }: Props) {
-  // const [filter, setFilter] = useState({
-  //   types: defaultTypes,
-  //   labels: defaultLabels,
-  // });
   const { filters } = useDisplayFiltersContext();
   const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1);
 
@@ -98,26 +86,10 @@ function MovementsTimelineContainer({
     dataAlertsByPeripheralId
   );
 
-  // const handleChangeFilterBy = (e: SelectChangeEvent<unknown>) => {
-  //   const { value } = e.target as { value: (AlertTypes | EventLabels)[] };
-  //   const alertsFilter = value.filter((item) =>
-  //     defaultTypes.includes(item as AlertTypes)
-  //   );
-  //   const motionsFilter = value.filter((item) =>
-  //     defaultLabels.includes(item as EventLabels)
-  //   );
-  //   setFilter({
-  //     types: alertsFilter as AlertTypes[],
-  //     labels: motionsFilter as EventLabels[],
-  //   });
-  // };
-
   const handleChangePeriod = (e: SelectChangeEvent<unknown>) => {
     const periodValue = Number(e.target.value);
     setPeriod(periodValue);
   };
-
-  // const filterArr = [...filter.types, ...filter.labels];
 
   return (
     <MovementsTimelineVertical
@@ -128,8 +100,6 @@ function MovementsTimelineContainer({
       yAccessor={peripheralNameAccessor}
       peripherals={[peripheralName]}
       ids={[peripheralId]}
-      // filter={filterArr}
-      // handleChangeFilter={handleChangeFilterBy}
       period={period}
       handleChangePeriod={handleChangePeriod}
       isLoading={
