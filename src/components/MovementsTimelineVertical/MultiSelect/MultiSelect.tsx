@@ -1,5 +1,4 @@
 import Checkbox from '@mui/material/Checkbox';
-import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
@@ -43,15 +42,15 @@ const MultiSelect = ({
         padding: '20px',
       }}
     >
-      <InputLabel>{label}</InputLabel>
       <Select
-        label={label}
         labelId={labelId}
         multiple
         value={value}
         onChange={onChange}
         input={<OutlinedInput label={label} />}
-        renderValue={() => null}
+        renderValue={() => (
+          <Typography variant="BodyMedium">Filter by: </Typography>
+        )}
         MenuProps={{
           transformOrigin: {
             vertical: 'top',

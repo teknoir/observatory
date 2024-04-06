@@ -26,7 +26,6 @@ function MovementsTimelineContainer({
   peripheralName: peripheralNameFromDevice = '',
 }: Props) {
   const { filters } = useDisplayFiltersContext();
-  console.log(filters);
   const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1);
 
   const fromDate = useMemo(
