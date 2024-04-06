@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
 import { SelectChangeEvent } from '@mui/material/Select';
-import MultiSelect from 'muiComponents/MultiSelectCheckbox/MultiSelectCheckbox';
+import MultiSelect from 'components/MovementsTimelineVertical/MultiSelect/MultiSelect';
 import carIcon from 'assets/icons/carIcon.svg';
 import loiteringIcon from 'assets/icons/loiteringIcon.svg';
 import peopleIcon from 'assets/icons/peopleIcon.svg';

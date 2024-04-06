@@ -1,17 +1,30 @@
 import { NavLink as RouterLink } from 'react-router-dom';
 import classNames from 'classnames';
 import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
+import InputLabel from '@mui/material/InputLabel';
 import Link from '@mui/material/Link';
 import { SelectChangeEvent } from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
-import FilterList from '@mui/icons-material/FilterList';
 import Select from 'muiComponents/Select/Select';
+import MultiSelect from 'muiComponents/MultiSelectCheckbox/MultiSelectCheckbox';
+import carIcon from 'assets/icons/carIcon.svg';
+import loiteringIcon from 'assets/icons/loiteringIcon.svg';
+import peopleIcon from 'assets/icons/peopleIcon.svg';
+import personDownIcon from 'assets/icons/personDownIcon.svg';
+import theftIcon from 'assets/icons/theftIcon.svg';
 import { MovementsTimelinePeriod } from 'components/MovementsTimeline/enums';
-import { useMainLayoutContext } from 'context/mainLayoutContext';
+import { AlertTypes, EventLabels } from 'ts/types';
 import { generatePath } from 'utils/router';
 import APP_URLS from 'enums/urls';
 import styles from './ToolBar.module.scss';
+
+const timelineOptions = [
+  { value: AlertTypes.Theft, label: 'Theft', icon: theftIcon },
+  { value: AlertTypes.Loitering, label: 'Loitering', icon: loiteringIcon },
+  { value: AlertTypes.OnGround, label: 'Man down', icon: personDownIcon },
+  { value: EventLabels.Car, label: 'Cars', icon: carIcon },
+  { value: EventLabels.Person, label: 'People', icon: peopleIcon },
+];
 
 const periodOptions = [
   { value: MovementsTimelinePeriod.DAYS_1, label: 'Today' },
@@ -20,6 +33,8 @@ const periodOptions = [
 ];
 
 interface ToolBarProps {
+  filter: (AlertTypes | EventLabels)[];
+  handleChangeFilter: (e: SelectChangeEvent<unknown>) => void;
   period: MovementsTimelinePeriod;
   handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;
   isViewAll?: boolean;
@@ -27,19 +42,31 @@ interface ToolBarProps {
 }
 
 const ToolBar = ({
+  filter,
+  handleChangeFilter,
   period,
   handleChangePeriod,
   isViewAll = true,
   className,
 }: ToolBarProps) => {
-  const {
-    isOpenedRightOverlayFilters,
-    openRightOverlayFilters,
-    closeRightOverlayFilters,
-  } = useMainLayoutContext();
   return (
     <nav className={classNames(styles.menuLayout, className)}>
+      <Typography variant="LabelLarge">Motions & Alerts</Typography>
       <Box className={styles.filters}>
+        <InputLabel id="timelineFilterByLabel" className={styles.inputLabel}>
+          <Typography variant="LabelLarge">Filter by: </Typography>
+        </InputLabel>
+        <MultiSelect
+          labelId="timelineFilterByLabel"
+          options={timelineOptions}
+          value={filter}
+          onChange={handleChangeFilter}
+          sx={{
+            '& .MuiOutlinedInput-notchedOutline': {
+              border: 'none',
+            },
+          }}
+        />
         <Select
           labelId="movementsTimelinePeriodLabel"
           value={period}
@@ -64,16 +91,6 @@ const ToolBar = ({
           </Link>
         )}
       </Box>
-      <IconButton
-        aria-label="filters"
-        onClick={
-          isOpenedRightOverlayFilters
-            ? closeRightOverlayFilters
-            : openRightOverlayFilters
-        }
-      >
-        <FilterList />
-      </IconButton>
     </nav>
   );
 };
