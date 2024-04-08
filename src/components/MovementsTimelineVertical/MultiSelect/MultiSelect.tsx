@@ -24,7 +24,7 @@ interface MultiSelectProps {
   value: string[];
   onChange: (e: SelectChangeEvent<unknown>) => void;
 }
-// Test build process
+
 const MultiSelect = ({
   label,
   labelId,
