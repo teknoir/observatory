@@ -14,6 +14,7 @@ import {
 } from 'enums/queryKeys';
 import {
   fetchAlert,
+  fetchData,
   fetchFeedback,
   sendFeedback,
   sendNotificationSeen,
@@ -117,88 +118,33 @@ const Alert = () => {
     return new Date(timestamp);
   };
 
+  // Finds nearest records based on the target timestamp and time offset. The timestampedDetections array is already
+  // sorted by timestamp in ascending order. Time offset is in milliseconds.
   function findNearestRecords(
     targetTimestamp: Date,
     timeOffset: number
   ): TimestampedDetection[] {
-    let low = 0;
-    let high = timestampedDetections.length - 1;
-    let nearestRecords: TimestampedDetection[] = [];
-
-    if (high < 0) return nearestRecords;
-
-    while (low <= high) {
-      const mid = low + Math.floor((high - low) / 2);
-      const midRecord = timestampedDetections[mid];
-
-      if (midRecord.timestamp.getTime() === targetTimestamp.getTime()) {
-        nearestRecords.push(midRecord);
-        let left = mid - 1;
-        let right = mid + 1;
-
-        // Collect all records with the same timestamp
-        while (
-          left >= 0 &&
-          timestampedDetections[left].timestamp.getTime() ===
-            targetTimestamp.getTime()
-        ) {
-          nearestRecords.push(timestampedDetections[left]);
-          left--;
-        }
-
-        while (
-          right < timestampedDetections.length &&
-          timestampedDetections[right].timestamp.getTime() ===
-            targetTimestamp.getTime()
-        ) {
-          nearestRecords.push(timestampedDetections[right]);
-          right++;
-        }
-
-        // Filter out records outside the time offset
-        nearestRecords = nearestRecords.filter(
-          (record) =>
-            Math.abs(record.timestamp.getTime() - targetTimestamp.getTime()) <=
-            timeOffset
-        );
-
-        return nearestRecords;
-      } else if (midRecord.timestamp < targetTimestamp) {
-        low = mid + 1;
-      } else {
-        high = mid - 1;
-      }
-    }
-
-    if (high < 0) {
-      nearestRecords.push(timestampedDetections[low]);
-    } else if (low >= timestampedDetections.length) {
-      nearestRecords.push(timestampedDetections[high]);
-    } else {
-      const lowTimestamp = timestampedDetections[low].timestamp;
-      const highTimestamp = timestampedDetections[high].timestamp;
-      const lowDiff = Math.abs(
-        lowTimestamp.getTime() - targetTimestamp.getTime()
-      );
-      const highDiff = Math.abs(
-        highTimestamp.getTime() - targetTimestamp.getTime()
-      );
-
-      if (lowDiff < highDiff) {
-        nearestRecords.push(timestampedDetections[low]);
-      } else {
-        nearestRecords.push(timestampedDetections[high]);
-      }
-    }
-
-    // Filter out records outside the time offset
-    nearestRecords = nearestRecords.filter(
+    const filteredDetections = timestampedDetections.filter(
       (record) =>
         Math.abs(record.timestamp.getTime() - targetTimestamp.getTime()) <=
         timeOffset
     );
 
-    return nearestRecords;
+    // group filteredDetections by detection.id and then select the nearest detection to the target timestamp.
+    // this prevents multiple detections of the same object in the same frame
+    const groupedDetections = filteredDetections.reduce(
+      (acc, detection) => {
+        const { id } = detection.detection;
+        if (!acc[id] || acc[id].timestamp > detection.timestamp) {
+          acc[id] = detection;
+        }
+        return acc;
+      },
+      {} as Record<string, TimestampedDetection>
+    );
+
+    // return the values of the grouped detections
+    return Object.values(groupedDetections);
   }
 
   const {
@@ -229,11 +175,10 @@ const Alert = () => {
 
   useEffect(() => {
     if (hasVideo && annotationsUrl) {
-      fetch(annotationsUrl)
-        .then((response) => response.json())
-        .then((jsonData) => {
+      fetchData(annotationsUrl)
+        .then((data) => {
           // Step 1: Sort the array by timestamp in ascending order
-          const sortedData = jsonData.data.sort(
+          const sortedData = data.detections.sort(
             (a: { timestamp: string }, b: { timestamp: string }) => {
               return (
                 parseTimestamp(a.timestamp).getTime() -
@@ -255,8 +200,8 @@ const Alert = () => {
           // Step 3: Set the new array to timestampedDetections
           setTimestampedDetections(mappedData);
 
-          setStartTimestamp(parseTimestamp(jsonData.meta_data.start_time));
-          setEndTimestamp(parseTimestamp(jsonData.meta_data.end_time));
+          setStartTimestamp(parseTimestamp(data.metadata.start_time));
+          setEndTimestamp(parseTimestamp(data.metadata.end_time));
         })
         .catch(() => {
           resetAnnotationsData();
@@ -275,6 +220,22 @@ const Alert = () => {
     peripheralId,
     peripheralName,
   });
+  const onDuration = (duration: number) => {
+    // start timestamp from the annotations data can still differ compared to computed start timestamp
+    // compute start timestamp by subtracting the duration from the end timestamp
+    // and subtract 5.6 seconds as the start timestamp is still in advanced of the actual video frame
+    // todo (PRO-1979): improve by using the actual video frame timestamps in the annotations data
+    const newStartTimestamp = new Date(
+      endTimestamp.getTime() - duration * 1000 - 5.6 * 1000
+    );
+    setStartTimestamp(newStartTimestamp);
+  };
+  const onProgress = (progress: { playedSeconds: number }) => {
+    const timestamp = new Date(
+      startTimestamp.getTime() + progress.playedSeconds * 1000
+    );
+    setNearestDetections(findNearestRecords(timestamp, 500));
+  };
 
   return (
     <>
@@ -294,22 +255,8 @@ const Alert = () => {
               height="100%"
               className={styles.videoPlayer}
               progressInterval={100} // detections interval is min around ~100ms
-              onDuration={(duration) => {
-                // start timestamp from the annotations data can still differ compared to computed start timestamp
-                // compute start timestamp by subtracting the duration from the end timestamp
-                // and subtract 5.6 seconds as the start timestamp is still in advanced of the actual video frame
-                // todo (PRO-1979): improve by using the actual video frame timestamps in the annotations data
-                const newStartTimestamp = new Date(
-                  endTimestamp.getTime() - duration * 1000 - 5.6 * 1000
-                );
-                setStartTimestamp(newStartTimestamp);
-              }}
-              onProgress={(progress) => {
-                const timestamp = new Date(
-                  startTimestamp.getTime() + progress.playedSeconds * 1000
-                );
-                setNearestDetections(findNearestRecords(timestamp, 300));
-              }}
+              onDuration={onDuration}
+              onProgress={onProgress}
             />
             <AnnotationsVideoCanvas
               timestampedDetections={nearestDetections}

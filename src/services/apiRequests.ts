@@ -158,3 +158,7 @@ export const fetchCountEvents = (status: EventStatus, collection: string) => {
   const query = getSearchCountsEvents({ status, collection });
   return Fetch.get(API.countEvents(query)).then(({ count }) => count);
 };
+
+export const fetchData = (url: string) => {
+  return Fetch.get(url).then(({ data }) => data);
+};

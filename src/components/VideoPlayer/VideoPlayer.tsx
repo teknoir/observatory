@@ -1,16 +1,16 @@
 import ReactPlayer, { ReactPlayerProps } from 'react-player';
 import './VideoPlayer.scss';
-import { LegacyRef } from 'react';
+import { RefObject } from 'react';
 
 interface Props {
   posterUrl?: string;
-  playerRef: LegacyRef<ReactPlayer>;
+  playerRef?: RefObject<ReactPlayer>;
 }
 
 const VideoPlayer = ({
   url,
   posterUrl = '',
-  playerRef = null,
+  playerRef,
   autoPlay = false,
   ...rest
 }: ReactPlayerProps & Props) => (

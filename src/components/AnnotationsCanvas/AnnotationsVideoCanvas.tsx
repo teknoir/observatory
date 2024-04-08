@@ -1,5 +1,5 @@
 import { AnnotationsVideoCanvasProps, TimestampedDetection } from 'ts/types';
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDisplaySettingsContext } from 'context/DisplaySettingsContext/displaySettingsContext.tsx';
 import styleVariables from 'enums/styleVariables.module.scss';
 
@@ -11,30 +11,38 @@ function AnnotationsVideoCanvas({
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const { boundaryBoxesChecked, objectLabelsChecked, colorFillBoxesChecked } =
     useDisplaySettingsContext();
+  const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(
+    null
+  );
 
   // Sets the canvas size based on the size of the video playback area
-  function setCanvasSize(
-    videoElement: HTMLVideoElement,
-    canvas: HTMLCanvasElement
-  ) {
-    if (!videoElement) return;
+  const setCanvasSize = useCallback(
+    (canvas: HTMLCanvasElement) => {
+      if (!videoElement) return;
 
-    const aspectRatio = videoElement.videoWidth / videoElement.videoHeight;
-    let scaledWidth, scaledHeight;
+      const aspectRatio = videoElement.videoWidth / videoElement.videoHeight;
+      let scaledWidth, scaledHeight;
 
-    if (videoElement.clientWidth / aspectRatio <= videoElement.clientHeight) {
-      // If the width is the constraining factor
-      scaledWidth = videoElement.clientWidth;
-      scaledHeight = scaledWidth / aspectRatio;
-    } else {
-      // If the height is the constraining factor
-      scaledHeight = videoElement.clientHeight;
-      scaledWidth = scaledHeight * aspectRatio;
-    }
+      if (videoElement.clientWidth / aspectRatio <= videoElement.clientHeight) {
+        // If the width is the constraining factor
+        scaledWidth = videoElement.clientWidth;
+        scaledHeight = scaledWidth / aspectRatio;
+      } else {
+        // If the height is the constraining factor
+        scaledHeight = videoElement.clientHeight;
+        scaledWidth = scaledHeight * aspectRatio;
+      }
 
-    canvas.width = scaledWidth;
-    canvas.height = scaledHeight;
-  }
+      canvas.width = scaledWidth;
+      canvas.height = scaledHeight;
+    },
+    [
+      videoElement?.videoWidth,
+      videoElement?.videoHeight,
+      videoElement?.clientWidth,
+      videoElement?.clientHeight,
+    ]
+  );
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -47,7 +55,8 @@ function AnnotationsVideoCanvas({
 
     if (!video || !video.getInternalPlayer()) return;
 
-    setCanvasSize(video.getInternalPlayer() as HTMLVideoElement, canvas);
+    setVideoElement(video.getInternalPlayer() as HTMLVideoElement);
+    setCanvasSize(canvas);
     context.clearRect(0, 0, canvas.width, canvas.height);
 
     const fontSize = 12;
