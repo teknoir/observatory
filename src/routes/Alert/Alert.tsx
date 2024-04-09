@@ -225,6 +225,7 @@ const Alert = () => {
     // compute start timestamp by subtracting the duration from the end timestamp
     // and subtract 5.6 seconds as the start timestamp is still in advanced of the actual video frame
     // todo (PRO-1979): improve by using the actual video frame timestamps in the annotations data
+    // todo (PRO-1979): check if the start timestamp is still in advanced of the actual video frame on production
     const newStartTimestamp = new Date(
       endTimestamp.getTime() - duration * 1000 - 5.6 * 1000
     );
