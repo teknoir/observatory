@@ -18,6 +18,9 @@ export default defineConfig(({ mode }) => {
       'import.meta.env.VITE_MEDIA_JPEG_API': JSON.stringify(
         process.env.VITE_MEDIA_JPEG_API || env.VITE_MEDIA_JPEG_API
       ),
+      'import.meta.env.VITE_MEDIA_JSON_API': JSON.stringify(
+        process.env.VITE_MEDIA_JSON_API || env.VITE_MEDIA_JSON_API
+      ),
       'import.meta.env.VITE_USE_MOCK_HISTORIAN_DB':
         env.VITE_USE_MOCK_HISTORIAN_DB
           ? JSON.parse(env.VITE_USE_MOCK_HISTORIAN_DB)
