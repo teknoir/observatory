@@ -8,6 +8,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { MainLayoutProvider } from 'context/mainLayoutContext';
 import darkTheme from 'muiThemes/dark';
+import { DisplayFiltersProvider } from 'context/DisplayFiltersContext/displayFiltersContext';
 import { DisplaySettingsProvider } from 'context/DisplaySettingsContext/displaySettingsContext';
 import styles from './MainLayout.module.scss';
 
@@ -20,8 +21,10 @@ export default function MainLayout() {
           <AppBar />
           <NavigationBar />
           <DisplaySettingsProvider>
-            <Outlet />
-            <RightSideBar />
+            <DisplayFiltersProvider>
+              <Outlet />
+              <RightSideBar />
+            </DisplayFiltersProvider>
           </DisplaySettingsProvider>
         </Box>
       </MainLayoutProvider>

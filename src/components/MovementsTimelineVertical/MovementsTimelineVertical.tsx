@@ -5,19 +5,14 @@ import CircularProgress from 'muiComponents/CircularProgress/CircularProgress';
 import { Chart, Circles } from 'components/ChartUtilities';
 import { detectionIdAccessor } from 'components/ChartUtilities/accessors';
 import { peripheralIdAccessor } from 'components/ChartUtilities/accessors';
-import ToolBar from 'components/MovementsTimelineComponents/ToolBar/ToolBar';
 import { HomeContext } from 'context/HomeContext/HomeContext';
-import {
-  AlertTypes,
-  EventLabels,
-  IAlertEvent,
-  IEventDocumentWithPeripheral,
-} from 'ts/types';
+import { IAlertEvent, IEventDocumentWithPeripheral } from 'ts/types';
 import useMovementsTimelineDataVertical from 'hooks/useMovementsTimelineDataVertical';
 import AxisDetails from './AxisDetails/AxisDetails';
 import AxisLines from './AxisLines/AxisLines';
 import AxisTimestamps from './AxisTimestamps/AxisTimestamps';
 import GridLines from './GridLines/GridLines';
+import ToolBar from './ToolBar/ToolBar';
 import { MovementsTimelinePeriod } from './enums';
 import styles from './MovementsTimelineVertical.module.scss';
 
@@ -31,8 +26,6 @@ interface MovementsTimeLineParams {
   yAccessor: (d: object) => string;
   peripherals: Array<string>;
   ids: Array<string>;
-  filter: (AlertTypes | EventLabels)[];
-  handleChangeFilter: (e: SelectChangeEvent<unknown>) => void;
   period: MovementsTimelinePeriod;
   handleChangePeriod: (e: SelectChangeEvent<unknown>) => void;
   isLoading: boolean;
@@ -43,8 +36,6 @@ export const MovementsTimelineVertical = ({
   dataMotions,
   dataAlerts,
   peripherals,
-  filter,
-  handleChangeFilter,
   period,
   handleChangePeriod,
   isLoading,
@@ -60,14 +51,13 @@ export const MovementsTimelineVertical = ({
         marginRight: 0,
       },
     });
+
   const { setMainImageCarousel } = useContext(HomeContext);
   const numberOfTicks = period * 24 * 4; // 4 ticks per hour = 15 minutes per tick
 
   return (
     <div className={styles.root}>
       <ToolBar
-        filter={filter}
-        handleChangeFilter={handleChangeFilter}
         period={period}
         handleChangePeriod={handleChangePeriod}
         isViewAll={false}
