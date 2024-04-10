@@ -238,7 +238,7 @@ const Alert = () => {
     setNearestDetections(findNearestRecords(timestamp, 500));
   };
   // todo (PRO-1979): remove after release to production
-  const featureFlagAlertAnnotation = false;
+  const featureFlagAlertAnnotation = true;
 
   return (
     <>
