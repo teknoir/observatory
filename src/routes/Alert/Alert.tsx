@@ -237,6 +237,8 @@ const Alert = () => {
     );
     setNearestDetections(findNearestRecords(timestamp, 500));
   };
+  // todo (PRO-1979): remove after release to production
+  const featureFlagAlertAnnotation = false;
 
   return (
     <>
@@ -259,11 +261,13 @@ const Alert = () => {
               onDuration={onDuration}
               onProgress={onProgress}
             />
-            <AnnotationsVideoCanvas
-              timestampedDetections={nearestDetections}
-              video={playerRef.current}
-              className={styles.overlay}
-            />
+            {featureFlagAlertAnnotation && (
+              <AnnotationsVideoCanvas
+                timestampedDetections={nearestDetections}
+                video={playerRef.current}
+                className={styles.overlay}
+              />
+            )}
           </div>
         ) : (
           <div className={styles.videoStub}>
