@@ -1,0 +1,26 @@
+@import 'enums/styleVariables.module.scss';
+
+.menuLayout {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem;
+}
+
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.inputLabel {
+  color: $totalWhite;
+  margin-right: 6px;
+}
+
+@media (min-width: $smallSize) {
+  .title {
+    display: block;
+  }
+}

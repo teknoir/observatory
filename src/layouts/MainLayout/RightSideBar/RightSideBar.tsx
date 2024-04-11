@@ -8,6 +8,7 @@ import { useMainLayoutContext } from 'context/mainLayoutContext';
 import Icon from 'components/Icon/Icon';
 import RightSideBarTabs from 'components/RightSideBarTabs/RightSideBarTabs';
 import DisplaySettings from 'components/DisplaySettings/DisplaySettings';
+import DisplayFilters from 'components/DisplayFilters/DisplayFilters';
 import styleVariables from 'enums/styleVariables.module.scss';
 import { IconSizes } from 'ts/types';
 import DrawerHeader from '../components/DrawerHeader';
@@ -57,6 +58,7 @@ const RightSideBarMobile = () => {
     openRight,
     closeRight,
     isOpenedRightOverlay,
+    isOpenedRightOverlayFilters,
     isOpenedRightBar,
   } = useMainLayoutContext();
   const sxIcon = { color: styleVariables.deepSpaceBlack };
@@ -66,18 +68,21 @@ const RightSideBarMobile = () => {
         className={classNames(
           styles.root,
           isOpenedRightBar ? styles.visible : styles.hidden,
-          isOpenedRightOverlay && styles.visibleRightOverlay
+          isOpenedRightOverlay && styles.visibleRightOverlay,
+          isOpenedRightOverlayFilters && styles.visibleRightOverlay
         )}
       >
         <RightSideBarTabs />
         {isOpenedRightOverlay && <DisplaySettings />}
+        {isOpenedRightOverlayFilters && <DisplayFilters />}
       </div>
       <div
         className={classNames(
           isOpenedRight
             ? styles.bottomIconWrapperOpened
             : styles.bottomIconWrapper,
-          isOpenedRightOverlay && styles.hidden
+          isOpenedRightOverlay && styles.hidden,
+          isOpenedRightOverlayFilters && styles.hidden
         )}
       >
         <div

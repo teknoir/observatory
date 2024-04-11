@@ -6,6 +6,7 @@ type MainLayoutContextValue = {
   isOpenedLeft: boolean;
   isOpenedRight: boolean;
   isOpenedRightOverlay: boolean;
+  isOpenedRightOverlayFilters: boolean;
   isOpenedRightBar: boolean;
   isSmall: boolean;
   openLeft: () => void;
@@ -14,12 +15,15 @@ type MainLayoutContextValue = {
   closeRight: () => void;
   openRightOverlay: () => void;
   closeRightOverlay: () => void;
+  openRightOverlayFilters: () => void;
+  closeRightOverlayFilters: () => void;
 };
 
 const defaultValue: MainLayoutContextValue = {
   isOpenedLeft: true,
   isOpenedRight: true,
   isOpenedRightOverlay: false,
+  isOpenedRightOverlayFilters: false,
   isOpenedRightBar: true,
   isSmall: false,
   openLeft: () => {},
@@ -28,6 +32,8 @@ const defaultValue: MainLayoutContextValue = {
   closeRight: () => {},
   openRightOverlay: () => {},
   closeRightOverlay: () => {},
+  openRightOverlayFilters: () => {},
+  closeRightOverlayFilters: () => {},
 };
 
 const MainLayoutContext = createContext(defaultValue);
@@ -40,6 +46,8 @@ export const MainLayoutProvider = ({ children }: Props) => {
   const [isOpenedLeft, setIsOpenedLeft] = useState(true);
   const [isOpenedRight, setIsOpenedRight] = useState(true);
   const [isOpenedRightOverlay, setIsOpenedRightOverlay] = useState(false);
+  const [isOpenedRightOverlayFilters, setIsOpenedRightOverlayFilters] =
+    useState(false);
 
   const isSmall = width < parseInt(styleVariables.smallSize);
 
@@ -55,7 +63,12 @@ export const MainLayoutProvider = ({ children }: Props) => {
 
   const openRightOverlay = () => setIsOpenedRightOverlay(true);
 
-  const isOpenedRightBar = isOpenedRight || isOpenedRightOverlay;
+  const closeRightOverlayFilters = () => setIsOpenedRightOverlayFilters(false);
+
+  const openRightOverlayFilters = () => setIsOpenedRightOverlayFilters(true);
+
+  const isOpenedRightBar =
+    isOpenedRight || isOpenedRightOverlay || isOpenedRightOverlayFilters;
 
   useEffect(() => {
     if (isSmall) {
@@ -71,6 +84,7 @@ export const MainLayoutProvider = ({ children }: Props) => {
     isOpenedLeft,
     isOpenedRight,
     isOpenedRightOverlay,
+    isOpenedRightOverlayFilters,
     isOpenedRightBar,
     isSmall,
     openLeft,
@@ -79,6 +93,8 @@ export const MainLayoutProvider = ({ children }: Props) => {
     openRight,
     closeRightOverlay,
     openRightOverlay,
+    closeRightOverlayFilters,
+    openRightOverlayFilters,
   });
 
   return (
