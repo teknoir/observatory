@@ -352,6 +352,9 @@ export enum AlertTypes {
 export enum EventLabels {
   Person = 'person',
   Car = 'car',
+  Bicycle = 'bicycle',
+  Motorbike = 'motorbike',
+  Truck = 'truck',
 }
 
 export interface ICountEventsRequest {
