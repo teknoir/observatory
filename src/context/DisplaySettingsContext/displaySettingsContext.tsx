@@ -1,5 +1,6 @@
-import { createContext, ReactNode, useContext } from 'react';
+import { createContext, ReactNode, useContext, useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
+import { EventLabels } from 'ts/types.ts';
 
 type DisplaySettingsContextValue = {
   boundaryBoxesChecked: boolean;
@@ -14,6 +15,8 @@ type DisplaySettingsContextValue = {
   setColorFillBoxesChecked: (
     value: ((prevState: boolean) => boolean) | boolean
   ) => void;
+  objectsFilterChecked: Record<string, boolean>;
+  setObjectsFilterChecked: (value: { [key: string]: boolean }) => void;
 };
 
 const defaultValue: DisplaySettingsContextValue = {
@@ -23,6 +26,8 @@ const defaultValue: DisplaySettingsContextValue = {
   setObjectLabelsChecked: () => {},
   colorFillBoxesChecked: false,
   setColorFillBoxesChecked: () => {},
+  objectsFilterChecked: {},
+  setObjectsFilterChecked: () => {},
 };
 
 const localStorageNamespace = 'displaySettings';
@@ -46,6 +51,16 @@ export const DisplaySettingsProvider = ({ children }: Props) => {
     getLocalStorageKey('colorFillBoxesChecked'),
     false
   );
+  const [objectsFilterChecked, setObjectsFilterChecked] = useState(
+    Object.keys(EventLabels).reduce(
+      (acc, label) => {
+        // initial values true for all labels
+        acc[label] = true;
+        return acc;
+      },
+      {} as Record<string, boolean>
+    )
+  );
 
   const getContextValue = () => ({
     boundaryBoxesChecked,
@@ -54,6 +69,8 @@ export const DisplaySettingsProvider = ({ children }: Props) => {
     setObjectLabelsChecked,
     colorFillBoxesChecked,
     setColorFillBoxesChecked,
+    objectsFilterChecked,
+    setObjectsFilterChecked,
   });
 
   return (

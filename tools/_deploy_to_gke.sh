@@ -55,4 +55,5 @@ if [ "${BRANCH_NAME}" == "main" ]; then
     deploy_to_gke "teknoir-retail" "teknoir"
     deploy_to_gke "boxer-property" "teknoir"
     deploy_to_gke "prime-communications" "teknoir"
+    deploy_to_gke "surveillance-24hrsnetwork" "teknoir"
 fi

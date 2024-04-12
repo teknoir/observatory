@@ -25,9 +25,6 @@ const motionsAlertsItem = {
   iconSrc: aimIcon,
 };
 
-// TODO: PRO-1969/PRO-1970 remove this after ready to go to production
-const annotationsFlag = true;
-
 const getNavigationItems = (isSmall: boolean) => {
   const items = [homeItem];
   if (isSmall) return items;
@@ -68,23 +65,19 @@ const NavigationList = ({ onClickItem }: Props) => {
           </ListItemButton>
         </ListItem>
       ))}
-      {annotationsFlag && (
-        <ListItem disablePadding>
-          <ListItemButton
-            className={styles.navItem}
-            onClick={
-              isOpenedRightOverlay ? closeRightOverlay : openRightOverlay
-            }
-          >
-            <div className={styles.link}>
-              <img src={settingsIcon} alt={'Settings'} />
-              <div className={classNames({ [styles.textHide]: !isOpenedLeft })}>
-                {'Settings'}
-              </div>
+      <ListItem disablePadding>
+        <ListItemButton
+          className={styles.navItem}
+          onClick={isOpenedRightOverlay ? closeRightOverlay : openRightOverlay}
+        >
+          <div className={styles.link}>
+            <img src={settingsIcon} alt={'Settings'} />
+            <div className={classNames({ [styles.textHide]: !isOpenedLeft })}>
+              {'Settings'}
             </div>
-          </ListItemButton>
-        </ListItem>
-      )}
+          </div>
+        </ListItemButton>
+      </ListItem>
     </List>
   );
 };

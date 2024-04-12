@@ -22,6 +22,7 @@ steps:
           --build-arg VITE_HISTORIAN_MIDDLE_END_API="feTEKNOIR_HISTORIAN_MIDDLE_END_API" \
           --build-arg VITE_MEDIA_MP4_API="feTEKNOIR_MEDIA_MP4_API" \
           --build-arg VITE_MEDIA_JPEG_API="feTEKNOIR_MEDIA_JPEG_API" \
+          --build-arg VITE_MEDIA_JSON_API="feTEKNOIR_MEDIA_JSON_API" \
           --tag us-docker.pkg.dev/teknoir/$_NAMESPACE/sdmc:${BRANCH_NAME}-${SHORT_SHA}
     waitFor: [ '-' ]
 

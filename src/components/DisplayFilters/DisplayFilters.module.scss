@@ -1,0 +1,33 @@
+@import 'enums/styleVariables.module';
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: $fadedBlack;
+  z-index: 999;
+  display: block;
+}
+
+.displayFiltersContainer {
+  padding: 20px 0px 20px 0px;
+}
+
+.displayFilters {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0px 20px 0px 20px;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.displayFiltersOptions {
+  font-size: 0.8em;
+}
+
+.title {
+  margin-bottom: 20px;
+}

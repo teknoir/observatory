@@ -1,6 +1,7 @@
 import { Dispatch, MouseEvent, ReactNode, SetStateAction } from 'react';
 import { Moment } from 'moment/moment';
 import { NotificationStatus } from 'enums/notifications';
+import ReactPlayer from 'react-player';
 
 export enum CarouselMode {
   AllCamerasView = 'allCamerasView',
@@ -29,7 +30,7 @@ export type CameraId = string;
 export interface SurveillanceCarouselProps {
   mode: CarouselMode;
   sources: Map<CameraId, Source>;
-  parentSetMainImage: Dispatch<SetStateAction<string>>;
+  parentSetMainImageResetDetections: Dispatch<string>;
 }
 
 export interface CarouselProps {
@@ -51,6 +52,11 @@ export interface ImageProps {
   title: string;
   status: SourceStatus;
   detections: Array<Detection>;
+}
+
+export interface TimestampedDetection {
+  detection: DetectionDetail;
+  timestamp: Date;
 }
 
 export interface Detection {
@@ -81,6 +87,12 @@ export interface AnnotationsCanvasProps {
   detections: Array<Detection>;
   stylesImage: string;
   labelFontSize?: number;
+}
+
+export interface AnnotationsVideoCanvasProps {
+  timestampedDetections: Array<TimestampedDetection>;
+  video: ReactPlayer | null;
+  className: string;
 }
 
 export interface ViewImagesProps {
@@ -340,6 +352,9 @@ export enum AlertTypes {
 export enum EventLabels {
   Person = 'person',
   Car = 'car',
+  Bicycle = 'bicycle',
+  Motorbike = 'motorbike',
+  Truck = 'truck',
 }
 
 export interface ICountEventsRequest {

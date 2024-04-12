@@ -1,4 +1,4 @@
-import { AnnotationsCanvasProps } from 'ts/types';
+import { AnnotationsCanvasProps, EventLabels } from 'ts/types';
 import { useEffect, useRef } from 'react';
 import { useDisplaySettingsContext } from 'context/DisplaySettingsContext/displaySettingsContext.tsx';
 import styleVariables from 'enums/styleVariables.module.scss';
@@ -10,11 +10,12 @@ function AnnotationsCanvas({
   labelFontSize = 12,
 }: AnnotationsCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const { boundaryBoxesChecked, objectLabelsChecked, colorFillBoxesChecked } =
-    useDisplaySettingsContext();
-
-  // TODO: PRO-1969/PRO-1970 remove this after ready to go to production
-  const annotationsFlag = true;
+  const {
+    boundaryBoxesChecked,
+    objectLabelsChecked,
+    colorFillBoxesChecked,
+    objectsFilterChecked,
+  } = useDisplaySettingsContext();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -38,10 +39,19 @@ function AnnotationsCanvas({
       context.font = `bold ${fontSize}px Verdana`;
       context.lineWidth = 1;
 
-      if (detections && annotationsFlag) {
+      if (detections) {
         detections.forEach((detection) => {
           const { label, x1, y1, x_center, y_center, width, height } =
             detection.detection;
+
+          if (
+            !objectsFilterChecked[
+              Object.keys(EventLabels)[
+                Object.values(EventLabels).indexOf(label as EventLabels)
+              ]
+            ]
+          )
+            return;
 
           const x = x1 * canvas.width;
           const y = y1 * canvas.height;
@@ -81,6 +91,7 @@ function AnnotationsCanvas({
     boundaryBoxesChecked,
     objectLabelsChecked,
     colorFillBoxesChecked,
+    objectsFilterChecked,
   ]);
 
   return <canvas ref={canvasRef} className={stylesImage} />;

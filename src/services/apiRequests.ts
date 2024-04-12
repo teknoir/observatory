@@ -28,7 +28,7 @@ import {
   EventStatus,
 } from 'ts/types';
 import { useMockDb } from 'enums/mockData';
-import { getUrlJpeg, getUrlMp4 } from 'utils/media';
+import { getUrlJpeg, getUrlMp4, getUrlJson } from 'utils/media';
 
 // TODO: remove this function in future
 const shouldUseMockData = (): boolean =>
@@ -52,6 +52,9 @@ export const fetchAlert = (detectionId: DetectionId, type: string | null) => {
       }
       if (res.video_snapshot) {
         res.video_snapshot = getUrlJpeg(res.video_snapshot);
+      }
+      if (res.annotations_url) {
+        res.annotations_url = getUrlJson(res.annotations_url);
       }
     }
     return res;
@@ -154,4 +157,8 @@ export const fetchCountEvents = (status: EventStatus, collection: string) => {
   }
   const query = getSearchCountsEvents({ status, collection });
   return Fetch.get(API.countEvents(query)).then(({ count }) => count);
+};
+
+export const fetchData = (url: string) => {
+  return Fetch.get(url).then(({ data }) => data);
 };
