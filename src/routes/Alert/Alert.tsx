@@ -31,6 +31,9 @@ import Info from './Info/Info';
 import styles from './Alert.module.scss';
 import AnnotationsVideoCanvas from 'components/AnnotationsCanvas/AnnotationsVideoCanvas.tsx';
 import ReactPlayer from 'react-player';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import IconButton from '@mui/material/IconButton';
+import { useMainLayoutContext } from 'context/mainLayoutContext.tsx';
 
 const Alert = () => {
   const { detectionId = '' } = useParams();
@@ -49,6 +52,8 @@ const Alert = () => {
   const [startTimestamp, setStartTimestamp] = useState<Date>(new Date());
   const [endTimestamp, setEndTimestamp] = useState<Date>(new Date());
   const playerRef = useRef<ReactPlayer | null>(null);
+  const { isOpenedRightOverlay, openRightOverlay, closeRightOverlay } =
+    useMainLayoutContext();
 
   const [
     { data, isLoading, refetch },
@@ -262,11 +267,21 @@ const Alert = () => {
               onProgress={onProgress}
             />
             {featureFlagAlertAnnotation && (
-              <AnnotationsVideoCanvas
-                timestampedDetections={nearestDetections}
-                video={playerRef.current}
-                className={styles.overlay}
-              />
+              <>
+                <AnnotationsVideoCanvas
+                  timestampedDetections={nearestDetections}
+                  video={playerRef.current}
+                  className={styles.overlay}
+                />
+                <IconButton
+                  className={styles.settingsIcon}
+                  onClick={
+                    isOpenedRightOverlay ? closeRightOverlay : openRightOverlay
+                  }
+                >
+                  <SettingsOutlinedIcon />
+                </IconButton>
+              </>
             )}
           </div>
         ) : (
