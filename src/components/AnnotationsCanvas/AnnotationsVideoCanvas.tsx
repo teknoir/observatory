@@ -1,4 +1,8 @@
-import { AnnotationsVideoCanvasProps, TimestampedDetection } from 'ts/types';
+import {
+  AnnotationsVideoCanvasProps,
+  EventLabels,
+  TimestampedDetection,
+} from 'ts/types';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDisplaySettingsContext } from 'context/DisplaySettingsContext/displaySettingsContext.tsx';
 import styleVariables from 'enums/styleVariables.module.scss';
@@ -9,8 +13,12 @@ function AnnotationsVideoCanvas({
   className,
 }: AnnotationsVideoCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const { boundaryBoxesChecked, objectLabelsChecked, colorFillBoxesChecked } =
-    useDisplaySettingsContext();
+  const {
+    boundaryBoxesChecked,
+    objectLabelsChecked,
+    colorFillBoxesChecked,
+    objectsFilterChecked,
+  } = useDisplaySettingsContext();
   const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(
     null
   );
@@ -69,6 +77,15 @@ function AnnotationsVideoCanvas({
           const { label, x1, y1, x_center, y_center, width, height } =
             timestampedDetection.detection;
 
+          if (
+            !objectsFilterChecked[
+              Object.keys(EventLabels)[
+                Object.values(EventLabels).indexOf(label as EventLabels)
+              ]
+            ]
+          )
+            return;
+
           const x = x1 * canvas.width;
           const y = y1 * canvas.height;
           const xc = x_center * canvas.width;
@@ -106,6 +123,7 @@ function AnnotationsVideoCanvas({
     boundaryBoxesChecked,
     objectLabelsChecked,
     colorFillBoxesChecked,
+    objectsFilterChecked,
   ]);
 
   return (
