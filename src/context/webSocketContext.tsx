@@ -42,11 +42,15 @@ export const WSSProvider = ({ children }: Props) => {
 
   useEffect(() => {
     if (lastMessage) {
-      const data = JSON.parse(lastMessage.data);
-      const { type } = data;
+      const msg = JSON.parse(lastMessage.data);
+      const { type } = msg;
       switch (type) {
         case TYPES.MESSAGE: {
-          const { topic, image, peripheral, event, device } = data;
+          // Backward compatibility
+          const { topic, device } = msg;
+          const peripheral = msg.data?.peripheral || msg.peripheral;
+          const image = msg.data?.image || msg.image;
+          const event = msg.data?.event || msg.event; // Is this really used anywhere?
           const peripheralId = peripheral?.id;
           if (topic === TOPICS.FRONT_END_VIDEO) {
             const source = {

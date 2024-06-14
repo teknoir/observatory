@@ -6,13 +6,7 @@ import { useWSSContext } from 'context/webSocketContext';
 import { wsSources } from 'enums/queryKeys';
 import { TOPICS, TYPES, CAROUSEL_REFRESH_RATE } from 'enums/wss';
 import { useTestImages } from 'enums/mockData';
-import {
-  CarouselMode,
-  Detection,
-  HomeContextProps,
-  Source,
-  SourceStatus,
-} from 'ts/types';
+import { CarouselMode, HomeContextProps, Source, SourceStatus } from 'ts/types';
 import {
   getStartImagesStreamMsg,
   getStartRawImagesStreamMsg,
@@ -35,7 +29,6 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
       : createRandomSources(0)
   );
   const [mainImage, setMainImage] = useState('');
-  const [detections, setDetections] = useState<Array<Detection>>([]);
   const { lastMessage, sendMessage } = useWSSContext();
   const { layout, setNumCameras } = useContext(HomeContext) as HomeContextProps;
 
@@ -86,38 +79,21 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
   useEffect(() => {
     if (lastMessage) {
       const data = JSON.parse(lastMessage.data);
-      const { type, meta } = data;
-      switch (type) {
+      switch (data.type) {
         case TYPES.MESSAGE: {
-          const { topic, image, peripheral, device } = data;
+          // Backward compatibility
+          const { topic, device } = data;
+          const peripheral = data.data?.peripheral || data.peripheral;
+          const image = data.data?.image || data.image;
+          const detections = data.data?.detections || data.detections || [];
           const peripheralId = peripheral?.id;
+          const peripheralName = peripheral?.name;
 
-          // prevent updates from slow source to interfere with the fast updates from raw video source
-          if (topic === TOPICS.FRONT_END_VIDEO && mainImage !== peripheralId) {
+          if (topic === TOPICS.FRONT_END_VIDEO) {
             const source = {
               src: image,
               peripheralId,
-              peripheralName: peripheral?.name,
-              device,
-              status: SourceStatus.Active,
-              detections: data.detections,
-            };
-            updateSourceByCameraId(peripheralId, source);
-          }
-
-          if (topic === TOPICS.FRONT_END_VIDEO && mainImage === peripheralId) {
-            // only front end video messages have frames with inferred data
-            setDetections(data.detections);
-          }
-
-          if (
-            topic === TOPICS.RAW_FRONT_END_VIDEO &&
-            mainImage === peripheralId
-          ) {
-            const source = {
-              src: image,
-              peripheralId,
-              peripheralName: peripheral?.name,
+              peripheralName,
               device,
               status: SourceStatus.Active,
               detections,
@@ -127,7 +103,7 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
           break;
         }
         case TYPES.INACTIVE: {
-          const { ids } = meta;
+          const ids = data.meta?.ids || [];
           inactiveSourcesByCameraId(ids);
           break;
         }
@@ -160,7 +136,6 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
 
   const setMainImageResetDetections = (cameraId: string) => {
     setMainImage(cameraId);
-    setDetections([]);
   };
 
   // TODO: remove in future when we have clear vision of this feature
