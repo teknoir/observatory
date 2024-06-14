@@ -7,10 +7,7 @@ import { wsSources } from 'enums/queryKeys';
 import { TOPICS, TYPES, CAROUSEL_REFRESH_RATE } from 'enums/wss';
 import { useTestImages } from 'enums/mockData';
 import { CarouselMode, HomeContextProps, Source, SourceStatus } from 'ts/types';
-import {
-  getStartImagesStreamMsg,
-  getStartRawImagesStreamMsg,
-} from 'services/wsMessage';
+import { getStartImagesStreamMsg } from 'services/wsMessage';
 import SurveillanceCarousel from './SurveillanceCarousel';
 import Skeleton from './Skeleton/Skeleton';
 import { createRandomSources } from './utils';
@@ -45,27 +42,15 @@ const SurveillanceCarouselContainer = ({ mode }: Props) => {
   }, []);
 
   useInterval(() => {
-    if (sources.size > 0) {
+    if (sources.size > 0 && mainImage !== null) {
       sources.forEach((source) => {
         const messageObj = getStartImagesStreamMsg(
           source.peripheralId,
           source.device,
-          1
+          2 + CAROUSEL_REFRESH_RATE / 1000 // duration set to 10s + 2s(overlap) as we also send command to maintain rate every 10s
         );
         sendMessage(JSON.stringify(messageObj));
       });
-    }
-  }, CAROUSEL_REFRESH_RATE);
-
-  useInterval(() => {
-    if (mainImage !== null) {
-      const { peripheralId = '', device = '' } = sources.get(mainImage) ?? {};
-      const messageObj = getStartRawImagesStreamMsg(
-        peripheralId,
-        device,
-        CAROUSEL_REFRESH_RATE / 1000 // duration set to 10s as we also send command to maintain rate every 10s
-      );
-      sendMessage(JSON.stringify(messageObj));
     }
   }, CAROUSEL_REFRESH_RATE);
 
