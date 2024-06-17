@@ -7,15 +7,12 @@ import ContentBar from 'components/ContentBar/ContentBar';
 import MainContent from 'components/MainContent/MainContent';
 import MovementsTimelineEmbed from 'components/MovementsTimelineEmbed/MovementsTimelineEmbed';
 import MovementsTimelineVertical from 'components/MovementsTimelineVertical/MovementsTimelineContainer';
-import { Detection, Source, SourceStatus } from 'ts/types';
+import { Source, SourceStatus } from 'ts/types';
 import { useMainLayoutContext } from 'context/mainLayoutContext';
 import { useWSSContext } from 'context/webSocketContext';
 import { wsSources } from 'enums/queryKeys';
 import { TOPICS, TYPES } from 'enums/wss';
-import {
-  getStartImagesStreamMsg,
-  getStartRawImagesStreamMsg,
-} from 'services/wsMessage';
+import { getStartImagesStreamMsg } from 'services/wsMessage';
 import ImageViewer from './ImageViewer/ImageViewer';
 import styles from './Device.module.scss';
 
@@ -29,12 +26,10 @@ const Device = () => {
     wsSources,
   ])!;
   const [source, setSource] = useState<Source>(sources?.[peripheralId]);
-  const [detections, setDetections] = useState<Array<Detection>>([]);
-
   const { lastMessage, sendMessage, isOpened } = useWSSContext();
   const { isSmall } = useMainLayoutContext();
 
-  const fetchInferredData = useCallback(() => {
+  const playVideo = useCallback(() => {
     if (isOpened && peripheralId) {
       const messageObj = getStartImagesStreamMsg(
         peripheralId,
@@ -45,26 +40,13 @@ const Device = () => {
     }
   }, [isOpened, peripheralId, source]);
 
-  const playVideo = useCallback(() => {
-    if (isOpened && peripheralId) {
-      const messageObj = getStartRawImagesStreamMsg(
-        peripheralId,
-        source?.device,
-        DURATION
-      );
-      sendMessage(JSON.stringify(messageObj));
-    }
-  }, [isOpened, peripheralId, source]);
-
   useEffect(() => {
     if (isOpened) {
-      fetchInferredData();
       playVideo();
     }
   }, [isOpened]);
 
   useInterval(() => {
-    fetchInferredData();
     playVideo();
   }, INTERVAL);
 
@@ -72,27 +54,20 @@ const Device = () => {
     if (lastMessage) {
       const data = JSON.parse(lastMessage.data);
       const { type } = data;
-
       switch (type) {
         case TYPES.MESSAGE: {
-          const { topic, image, peripheral, device } = data;
-          if (
-            topic === TOPICS.FRONT_END_VIDEO &&
-            peripheralId === peripheral?.id
-          ) {
-            // only front end video messages have frames with inferred data, also update only with detections coming
-            // from the selected camera source
-            setDetections(data.detections);
-          }
+          const { topic, device } = data;
+          const peripheral = data.data?.peripheral || data.peripheral;
+          const image = data.data?.image || data.image;
+          const detections = data.data?.detections || data.detections || [];
+          const pId = peripheral?.id;
+          const peripheralName = peripheral?.name;
 
-          if (
-            topic === TOPICS.RAW_FRONT_END_VIDEO &&
-            peripheralId === peripheral?.id
-          ) {
+          if (topic === TOPICS.FRONT_END_VIDEO && peripheralId === pId) {
             setSource({
               src: image,
-              peripheralId: peripheral?.id,
-              peripheralName: peripheral?.name,
+              peripheralId,
+              peripheralName,
               device,
               status: SourceStatus.Active,
               detections,

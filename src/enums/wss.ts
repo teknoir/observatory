@@ -1,5 +1,4 @@
 export enum TOPICS {
-  RAW_FRONT_END_VIDEO = 'raw-front-end-video',
   FRONT_END_VIDEO = 'front-end-video',
   FRONT_END_ALERT = 'front-end-alert',
 }
