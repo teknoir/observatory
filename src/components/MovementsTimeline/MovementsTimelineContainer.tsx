@@ -15,18 +15,13 @@ import { AlertTypes, EventLabels, Source } from 'ts/types';
 import { getFlattenDocuments } from 'utils/events';
 import { MovementsTimeline } from './MovementsTimeline';
 import { MovementsTimelinePeriod, TimelineRefetchInterval } from './enums';
+import { useSettingsContext } from 'context/settingsContext';
+import { defaultLabels, defaultTypes } from 'constants/filters';
 
 interface MovementsTimelineContainerParams {
   isFullHeight?: boolean;
   isFixToolbar?: boolean;
 }
-
-const defaultTypes = [
-  AlertTypes.Theft,
-  AlertTypes.Loitering,
-  AlertTypes.OnGround,
-];
-const defaultLabels = [EventLabels.Person, EventLabels.Car];
 
 function MovementsTimelineContainer({
   isFullHeight,
@@ -45,10 +40,7 @@ function MovementsTimelineContainer({
     };
   });
 
-  const [filter, setFilter] = useState({
-    types: defaultTypes,
-    labels: defaultLabels,
-  });
+  const { filter, setFilter } = useSettingsContext();
   const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1);
   const fromDate = useMemo(
     () => moment().subtract(period, 'days').startOf('day'),

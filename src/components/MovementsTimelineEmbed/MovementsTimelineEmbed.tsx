@@ -17,6 +17,8 @@ import {
   TimelineRefetchInterval,
 } from '../MovementsTimeline/enums';
 import styles from './MovementsTimelineEmbed.module.scss';
+import { useSettingsContext } from 'context/settingsContext';
+import { defaultLabels, defaultTypes } from 'constants/filters';
 
 interface Props {
   peripheralId: string;
@@ -25,13 +27,6 @@ interface Props {
   showToolbar?: boolean;
   initiallyLoaded?: boolean;
 }
-
-const defaultTypes = [
-  AlertTypes.Theft,
-  AlertTypes.Loitering,
-  AlertTypes.OnGround,
-];
-const defaultLabels = [EventLabels.Person, EventLabels.Car];
 
 const MovementsTimelineEmbed = ({
   peripheralId,
@@ -42,10 +37,7 @@ const MovementsTimelineEmbed = ({
 }: Props) => {
   const [isShow, setIsShow] = useState(initiallyLoaded);
   const ref = useRef<HTMLDivElement>(null);
-  const [filter, setFilter] = useState({
-    types: defaultTypes,
-    labels: defaultLabels,
-  });
+  const { filter, setFilter } = useSettingsContext();
   const [period, setPeriod] = useState(MovementsTimelinePeriod.DAYS_1);
   const fromDate = useMemo(
     () => moment().subtract(period, 'days').startOf('day'),
