@@ -9,6 +9,7 @@ export feTEKNOIR_MEDIA_JPEG_API="${DOMAIN}/${NAMESPACE}/media-service/api/jpeg"
 export feTEKNOIR_MEDIA_JSON_API="${DOMAIN}/${NAMESPACE}/media-service/api/json"
 export NGINX_BASENAME="/${NAMESPACE}/sdmc"
 
+echo ">>> namespace: ${NAMESPACE}"
 echo ">>> basename: ${feTEKNOIR_APP_BASENAME}"
 echo ">>> websocket server: ${feTEKNOIR_WS_SERVER}"
 echo ">>> historian DB server: ${feTEKNOIR_HISTORIAN_DB_SERVER}"
