@@ -14,6 +14,7 @@ import LineCharts from 'routes/LineCharts/Linecharts';
 import MainLayout from 'layouts/MainLayout/MainLayout';
 import MotionsAlerts from 'routes/MotionsAlerts/MotionsAlerts';
 import './App.scss';
+import { SettingsProvider } from 'context/settingsContext';
 
 const basename = import.meta.env.VITE_APP_BASENAME || '/';
 
@@ -22,6 +23,7 @@ queryClient.setQueryDefaults([wsSources], {
   cacheTime: 1000 * 60,
 });
 
+console.log('NAMESPACE', import.meta.env.NAMESPACE);
 console.log('VITE_APP_BASENAME', import.meta.env.VITE_APP_BASENAME);
 console.log('VITE_WS_SERVER', import.meta.env.VITE_WS_SERVER);
 console.log(
@@ -44,25 +46,27 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <StyledEngineProvider injectFirst>
           <WSSProvider>
-            <BrowserRouter basename={basename}>
-              <Routes>
-                <Route element={<MainLayout />}>
-                  <Route path={APP_URLS.home} element={<Home />} />
-                  <Route
-                    path={APP_URLS.motionsAlerts}
-                    element={<MotionsAlerts />}
-                  />
-                  <Route path={APP_URLS.alerts} element={<Alert />} />
-                  <Route path={APP_URLS.devices} element={<Device />} />
-                  <Route
-                    path={APP_URLS.notifications}
-                    element={<Notifications />}
-                  />
-                </Route>
-                <Route path="/dark-theme" element={<DarkTheme />} />
-                <Route path="/linecharts" element={<LineCharts />} />
-              </Routes>
-            </BrowserRouter>
+            <SettingsProvider>
+              <BrowserRouter basename={basename}>
+                <Routes>
+                  <Route element={<MainLayout />}>
+                    <Route path={APP_URLS.home} element={<Home />} />
+                    <Route
+                      path={APP_URLS.motionsAlerts}
+                      element={<MotionsAlerts />}
+                    />
+                    <Route path={APP_URLS.alerts} element={<Alert />} />
+                    <Route path={APP_URLS.devices} element={<Device />} />
+                    <Route
+                      path={APP_URLS.notifications}
+                      element={<Notifications />}
+                    />
+                  </Route>
+                  <Route path="/dark-theme" element={<DarkTheme />} />
+                  <Route path="/linecharts" element={<LineCharts />} />
+                </Routes>
+              </BrowserRouter>
+            </SettingsProvider>
           </WSSProvider>
         </StyledEngineProvider>
         <ReactQueryDevtools initialIsOpen={false} />

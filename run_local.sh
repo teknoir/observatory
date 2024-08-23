@@ -28,9 +28,15 @@ case $key in
 esac
 done
 
+MEDIA_API_BASE_URL=$(kubectl get  --context ${CONTEXT} -n ${NAMESPACE}  pod -l app=sdmc-media-service -o jsonpath="{.items[*].spec.containers[?(@.name=='sdmc-media-service')].env[?(@.name=='BASE_URL')].value}{'\n'}")
+if [ -z "$MEDIA_API_BASE_URL" ]; then
+  MEDIA_API_BASE_URL="/api"
+fi
+
 trap "exit" INT TERM ERR
 trap "kill 0" EXIT
 
+export NAMESPACE=${NAMESPACE}
 export VITE_APP_BASENAME=/
 
 WS_PORT=$(jot -r 1  8000 65000)
@@ -39,13 +45,13 @@ export VITE_WS_SERVER=ws://localhost:${WS_PORT}
 
 
 MIDDLE_END_PORT=$(jot -r 1  8000 65000)
-kubectl --context ${CONTEXT} -n ${NAMESPACE} port-forward $(kubectl --context ${CONTEXT} -n ${NAMESPACE} get pod -l app=historian-middleend -o name) ${MIDDLE_END_PORT}:8080 &
-export VITE_HISTORIAN_MIDDLE_END_API=http://localhost:${MIDDLE_END_PORT}
+kubectl --context ${CONTEXT} -n ${NAMESPACE} port-forward $(kubectl --context ${CONTEXT} -n ${NAMESPACE} get pod -l app=historian-middleend -o name) ${MIDDLE_END_PORT}:8000 &
+export VITE_HISTORIAN_MIDDLE_END_API=localhost:${MIDDLE_END_PORT}
 
 MEDIA_SERVICE_PORT=$(jot -r 1  8000 65000)
 kubectl --context ${CONTEXT} -n ${NAMESPACE} port-forward $(kubectl --context ${CONTEXT} -n ${NAMESPACE} get pod -l app=sdmc-media-service -o name) ${MEDIA_SERVICE_PORT}:8000 &
-export VITE_MEDIA_MP4_API=http://localhost:${MEDIA_SERVICE_PORT}/api/mp4
-export VITE_MEDIA_JPEG_API=http://localhost:${MEDIA_SERVICE_PORT}/api/jpeg
-export VITE_MEDIA_JSON_API=http://localhost:${MEDIA_SERVICE_PORT}/api/json
+export VITE_MEDIA_MP4_API=localhost:${MEDIA_SERVICE_PORT}/${MEDIA_API_BASE_URL#/}/mp4
+export VITE_MEDIA_JPEG_API=localhost:${MEDIA_SERVICE_PORT}/${MEDIA_API_BASE_URL#/}/jpeg
+export VITE_MEDIA_JSON_API=localhost:${MEDIA_SERVICE_PORT}/${MEDIA_API_BASE_URL#/}/json
 
 npm run dev

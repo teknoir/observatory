@@ -2,6 +2,21 @@ import * as path from 'path';
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 
+const logPlugin = () => {
+  let config;
+
+  return {
+    name: 'read-config',
+
+    configResolved(resolvedConfig) {
+      // store the resolved config
+      config = resolvedConfig;
+      config.logger.info(`env: ${JSON.stringify(config.env, null, 2)}`);
+      config.logger.info(`define: ${JSON.stringify(config.define, null, 2)}`);
+    },
+  };
+};
+
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   return {
@@ -25,13 +40,17 @@ export default defineConfig(({ mode }) => {
         env.VITE_USE_MOCK_HISTORIAN_DB
           ? JSON.parse(env.VITE_USE_MOCK_HISTORIAN_DB)
           : false,
+      'import.meta.env.NAMESPACE': JSON.stringify(
+        process.env.NAMESPACE || env.NAMESPACE
+      ),
     },
     base: env.VITE_APP_BASENAME || '/',
-    plugins: [react()],
+    plugins: [react(), logPlugin()],
     resolve: {
       alias: {
         assets: path.resolve(__dirname, 'src/assets'),
         components: path.resolve(__dirname, 'src/components'),
+        constants: path.resolve(__dirname, 'src/constants'),
         context: path.resolve(__dirname, 'src/context'),
         enums: path.resolve(__dirname, 'src/enums'),
         hooks: path.resolve(__dirname, 'src/hooks'),
