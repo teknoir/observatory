@@ -17,6 +17,7 @@ echo ">>> media mp4 server: ${feTEKNOIR_MEDIA_MP4_API}"
 echo ">>> media jpeg server: ${feTEKNOIR_MEDIA_JPEG_API}"
 echo ">>> media json server: ${feTEKNOIR_MEDIA_JSON_API}"
 
+find /usr/share/nginx/html -type f -exec sed -i "s|feTEKNOIR_NAMESPACE|${NAMESPACE}|g" '{}' +
 find /usr/share/nginx/html -type f -exec sed -i "s|feTEKNOIR_APP_BASENAME|${feTEKNOIR_APP_BASENAME}|g" '{}' +
 find /usr/share/nginx/html -type f -exec sed -i "s|feTEKNOIR_WS_SERVER|${feTEKNOIR_WS_SERVER}|g" '{}' +
 find /usr/share/nginx/html -type f -exec sed -i "s|feTEKNOIR_HISTORIAN_DB_SERVER|${feTEKNOIR_HISTORIAN_DB_SERVER}|g" '{}' +

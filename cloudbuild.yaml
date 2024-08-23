@@ -18,6 +18,7 @@ steps:
         docker buildx build . \
           --push \
           --build-arg NODE_VERSION=$_NODE_VERSION \
+          --build-arg VITE_NAMESPACE="feTEKNOIR_NAMESPACE" \
           --build-arg VITE_APP_BASENAME="/feTEKNOIR_APP_BASENAME/" \
           --build-arg VITE_WS_SERVER="feTEKNOIR_WS_SERVER" \
           --build-arg VITE_HISTORIAN_DB_SERVER="feTEKNOIR_HISTORIAN_DB_SERVER" \
