@@ -36,7 +36,7 @@ fi
 trap "exit" INT TERM ERR
 trap "kill 0" EXIT
 
-export NAMESPACE=${NAMESPACE}
+export VITE_NAMESPACE=${NAMESPACE}
 export VITE_APP_BASENAME=/
 
 WS_PORT=$(jot -r 1  8000 65000)

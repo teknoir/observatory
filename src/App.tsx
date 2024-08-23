@@ -23,7 +23,7 @@ queryClient.setQueryDefaults([wsSources], {
   cacheTime: 1000 * 60,
 });
 
-console.log('NAMESPACE', import.meta.env.NAMESPACE);
+console.log('VITE_NAMESPACE', import.meta.env.VITE_NAMESPACE);
 console.log('VITE_APP_BASENAME', import.meta.env.VITE_APP_BASENAME);
 console.log('VITE_WS_SERVER', import.meta.env.VITE_WS_SERVER);
 console.log(

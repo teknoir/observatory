@@ -41,7 +41,7 @@ export default defineConfig(({ mode }) => {
           ? JSON.parse(env.VITE_USE_MOCK_HISTORIAN_DB)
           : false,
       'import.meta.env.VITE_NAMESPACE': JSON.stringify(
-        process.env.NAMESPACE || env.NAMESPACE
+        process.env.VITE_NAMESPACE || env.VITE_NAMESPACE
       ),
     },
     base: env.VITE_APP_BASENAME || '/',
