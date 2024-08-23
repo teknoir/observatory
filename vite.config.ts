@@ -40,7 +40,7 @@ export default defineConfig(({ mode }) => {
         env.VITE_USE_MOCK_HISTORIAN_DB
           ? JSON.parse(env.VITE_USE_MOCK_HISTORIAN_DB)
           : false,
-      'import.meta.env.NAMESPACE': JSON.stringify(
+      'import.meta.env.VITE_NAMESPACE': JSON.stringify(
         process.env.NAMESPACE || env.NAMESPACE
       ),
     },

@@ -7,7 +7,7 @@ import React, {
 import { useLocalStorage } from 'usehooks-ts';
 import { AlertTypes, EventLabels } from 'ts/types';
 
-const namespace = import.meta.env.NAMESPACE || 'default';
+const namespace = import.meta.env.VITE_NAMESPACE || 'default';
 
 const filterDefaultTypes: AlertTypes[] = [
   AlertTypes.Theft,
