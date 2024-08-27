@@ -17,7 +17,7 @@ const defaultTypes = [
   AlertTypes.OnGround,
 ];
 
-const defaultLabels = [EventLabels.Person, EventLabels.Car];
+const defaultLabels: EventLabels[] = [];
 
 const defaultValue: DisplayFiltersContextValue = {
   filters: {

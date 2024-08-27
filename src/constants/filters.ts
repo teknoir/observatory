@@ -6,4 +6,7 @@ export const defaultTypes = [
   AlertTypes.OnGround,
 ];
 
-export const defaultLabels: EventLabels[] = [];
+export const defaultLabels: EventLabels[] = [
+  EventLabels.Person,
+  EventLabels.Car,
+];
