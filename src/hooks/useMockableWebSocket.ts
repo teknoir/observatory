@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import useWebSocket from 'react-use-websocket';
 import { Options } from 'react-use-websocket/src/lib/types.ts';
 import { useProductionData } from 'enums/mockData.ts';
-import { TOPICS } from 'enums/wss';
 
 interface MockMessage {
   type: string;
@@ -59,11 +58,6 @@ const useMockableData = () => {
       );
       const message = mockMessagesJson[messageIndex];
 
-      // generate messages also for the device view
-      message['data'] = message['data'].replace(
-        TOPICS.FRONT_END_VIDEO,
-        TOPICS.RAW_FRONT_END_VIDEO
-      );
       await new Promise((r) => setTimeout(r, 200));
 
       setMockedLastMessage(new MessageEvent('', message));

@@ -3,11 +3,11 @@ import { useInterval } from 'usehooks-ts';
 import { HomeContext } from 'context/HomeContext/HomeContext';
 import { useWSSContext } from 'context/webSocketContext';
 import { CarouselMode, SurveillanceCarouselProps } from 'ts/types';
-import { getStartRawImagesStreamMsg } from 'services/wsMessage';
 import AllCamerasView from './AllCamerasView';
 import AlternativeView from './AlternativeView';
 import DetailView from './DetailView/DetailView';
 import GeneralView from './GeneralView';
+import { getStartImagesStreamMsg } from 'services/wsMessage.ts';
 
 const surveillanceCarouselComponentsByMode = {
   [CarouselMode.AllCamerasView]: AllCamerasView,
@@ -74,7 +74,7 @@ const SurveillanceCarousel = ({
     parentSetMainImageResetDetections(cameraId);
 
     const { peripheralId = '', device = '' } = sources.get(cameraId) ?? {};
-    const messageObj = getStartRawImagesStreamMsg(peripheralId, device, 10);
+    const messageObj = getStartImagesStreamMsg(peripheralId, device, 10);
     sendMessage(JSON.stringify(messageObj));
   };
 
