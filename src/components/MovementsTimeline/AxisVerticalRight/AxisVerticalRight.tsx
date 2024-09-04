@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { ScalePoint } from 'd3';
 import { generatePath } from 'utils/router';
 import { useChartDimensions } from 'components/ChartUtilities/Chart/ChartContext';
@@ -7,10 +9,10 @@ import styles from './AxisVerticalRight.module.scss';
 
 interface AxisVerticalRightProps {
   scale: ScalePoint<string>;
-  ids: string[];
+  idToNameMap: Map<string, string>;
 }
 
-const AxisVerticalRight = ({ scale, ids }: AxisVerticalRightProps) => {
+const AxisVerticalRight = ({ scale, idToNameMap }: AxisVerticalRightProps) => {
   const dimensions = useChartDimensions();
   const ticks = scale.domain();
 
@@ -21,25 +23,31 @@ const AxisVerticalRight = ({ scale, ids }: AxisVerticalRightProps) => {
         height="100%"
         className={styles.rectBackground}
       />
-      {ticks.map((tick, i) => (
-        <foreignObject
-          key={tick}
-          x={32}
-          y={(scale(tick) ?? 0) - 10.5}
-          width={1}
-          height={1}
-          className={styles.foreignObject}
-        >
-          {ids[i] && tick && (
-            <DeviceLink
-              link={generatePath(APP_URLS.devices, {
-                peripheralId: ids[i],
-                peripheralName: tick,
-              })}
-            />
-          )}
-        </foreignObject>
-      ))}
+      {ticks.map((tick) => {
+        const peripheralId = Array.from(idToNameMap.entries()).find(
+          ([_a, name]) => name === tick
+        )?.[0];
+
+        return (
+          <foreignObject
+            key={tick}
+            x={32}
+            y={(scale(tick) ?? 0) - 10.5}
+            width={1}
+            height={1}
+            className={styles.foreignObject}
+          >
+            {peripheralId && tick && (
+              <DeviceLink
+                link={generatePath(APP_URLS.devices, {
+                  peripheralId: peripheralId,
+                  peripheralName: tick,
+                })}
+              />
+            )}
+          </foreignObject>
+        );
+      })}
     </g>
   );
 };
