@@ -131,6 +131,19 @@ function MovementsTimelineContainer({
 
   const filterArr = [...filter.types, ...filter.labels];
 
+  const idToNameMap = useMemo(() => {
+    const map = new Map();
+    const allData = [
+      ...(dataAlerts ?? []),
+      ...(dataMotions ?? []),
+      ...(sourcesFromWS ?? []),
+    ];
+    allData.forEach((item) => {
+      map.set(item.peripheral_id, item.peripheral_name);
+    });
+    return map;
+  }, [dataAlerts, dataMotions, sourcesFromWS]);
+
   return (
     <MovementsTimeline
       startTime={startTime}
@@ -141,6 +154,7 @@ function MovementsTimelineContainer({
       peripherals={peripherals}
       ids={ids}
       filter={filterArr}
+      idToNameMap={idToNameMap}
       handleChangeFilter={handleChangeFilterBy}
       period={period}
       handleChangePeriod={handleChangePeriod}
