@@ -31,6 +31,7 @@ interface MovementsTimeLineParams {
   dataAlerts: IEventDocumentWithPeripheral[];
   xAccessor: (d: IAlertEvent) => Date | null;
   yAccessor: (d: object) => string;
+  idToNameMap: Map<string, string>;
   peripherals: Array<string>;
   ids: Array<string>;
   filter: (AlertTypes | EventLabels)[];
@@ -47,7 +48,7 @@ export const MovementsTimeline = ({
   dataMotions,
   dataAlerts,
   peripherals,
-  ids,
+  idToNameMap,
   filter,
   handleChangeFilter,
   period,
@@ -170,7 +171,7 @@ export const MovementsTimeline = ({
             clickHandler={handleCarouselArrows}
           />
           <AxisVerticalLeft scale={yScale} />
-          <AxisVerticalRight scale={yScale} ids={ids} />
+          <AxisVerticalRight scale={yScale} idToNameMap={idToNameMap} />
         </Chart>
       </div>
       {isLoading && <CircularProgress isAbsolute />}

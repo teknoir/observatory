@@ -50,7 +50,6 @@ const Alert = () => {
     TimestampedDetection[]
   >([]);
   const [startTimestamp, setStartTimestamp] = useState<Date>(new Date());
-  const [endTimestamp, setEndTimestamp] = useState<Date>(new Date());
   const playerRef = useRef<ReactPlayer | null>(null);
   const { isOpenedRightOverlay, openRightOverlay, closeRightOverlay } =
     useMainLayoutContext();
@@ -169,7 +168,6 @@ const Alert = () => {
   const resetAnnotationsData = () => {
     setTimestampedDetections([]);
     setStartTimestamp(new Date());
-    setEndTimestamp(new Date());
   };
 
   useEffect(() => {
@@ -204,9 +202,7 @@ const Alert = () => {
 
           // Step 3: Set the new array to timestampedDetections
           setTimestampedDetections(mappedData);
-
           setStartTimestamp(parseTimestamp(data.metadata.start_time));
-          setEndTimestamp(parseTimestamp(data.metadata.end_time));
         })
         .catch(() => {
           resetAnnotationsData();
@@ -225,22 +221,11 @@ const Alert = () => {
     peripheralId,
     peripheralName,
   });
-  const onDuration = (duration: number) => {
-    // start timestamp from the annotations data can still differ compared to computed start timestamp
-    // compute start timestamp by subtracting the duration from the end timestamp
-    // and subtract 5.6 seconds as the start timestamp is still in advanced of the actual video frame
-    // todo (PRO-1979): improve by using the actual video frame timestamps in the annotations data
-    // todo (PRO-1979): check if the start timestamp is still in advanced of the actual video frame on production
-    const newStartTimestamp = new Date(
-      endTimestamp.getTime() - duration * 1000 - 5.6 * 1000
-    );
-    setStartTimestamp(newStartTimestamp);
-  };
   const onProgress = (progress: { playedSeconds: number }) => {
     const timestamp = new Date(
       startTimestamp.getTime() + progress.playedSeconds * 1000
     );
-    setNearestDetections(findNearestRecords(timestamp, 500));
+    setNearestDetections(findNearestRecords(timestamp, 150));
   };
   // todo (PRO-1979): remove after release to production
   const featureFlagAlertAnnotation = true;
@@ -263,7 +248,6 @@ const Alert = () => {
               height="100%"
               className={styles.videoPlayer}
               progressInterval={100} // detections interval is min around ~100ms
-              onDuration={onDuration}
               onProgress={onProgress}
             />
             {featureFlagAlertAnnotation && (
