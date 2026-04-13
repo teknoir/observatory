@@ -1,7 +1,7 @@
 # Build 
-ARG NODE_VERSION
+ARG 18
 
-FROM node:${NODE_VERSION}-slim AS build
+FROM node:18-slim AS build
 
 WORKDIR /app
 
