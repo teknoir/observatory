@@ -11,7 +11,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "prepare": "husky install",
-    "test": "vitest run",
+    "test": "bash scripts/test.sh",
     "test-dev": "vitest dev",
     "test-coverage": "vitest run --coverage.enabled --coverage.all"
   },
