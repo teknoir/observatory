@@ -42,7 +42,7 @@
     "react-virtualized-auto-sizer": "^1.0.20",
     "react-window": "^1.8.9",
     "resize-observer-polyfill": "^1.5.1",
-    "zod": "^3.22.4"
+    "zod": "^4.6.6"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^7.2.1",
