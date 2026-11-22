@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Full test logs (scripts/test.sh under a coding agent)
+.test-logs/
