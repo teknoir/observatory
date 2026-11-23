@@ -28,7 +28,7 @@ RUN npm install && \
     npm run build
 
 # Runtime 
-FROM nginx:1.30.7-alpine@sha256:caf4e1e032a20f9c3c5e28fc7f25ffd768ad8677b4975c54193075997b3a97e3
+FROM nginx:1.31.9-alpine@sha256:fb4658584bd9a916ffb6f6e365f97c25cfdb2923801f551ea08356e695f14ff7
 
 COPY --from=build /app/dist /usr/share/nginx/html
 COPY nginx.conf .
